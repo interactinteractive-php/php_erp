@@ -1,0 +1,211 @@
+.appmarket-wrapper {
+    max-width: 1580px;
+    margin: auto;
+    background-color: #E5E5E5;
+    margin-top: -10px;
+}
+.appmarket_menu_wrapper li a {
+    color: #585858;
+    text-transform: none !important;
+    font-size: 12px;
+}
+.appmarket_menu_wrapper .nav-item-open>.nav-link, .appmarket_menu_wrapper .nav-item-selected {
+    background-color: #E2F4FF;
+    border-radius: 10px;
+}
+.appmarket_menu_wrapper {
+    flex: 0 0 300px;
+    background: #fff;
+    padding: 15px;    
+    overflow: hidden;
+    color: #585858;    
+    background-color: #F0F0F0;
+}
+.appmarket {
+    background-color: white;
+}
+.appmarket-body {    
+    width: 100%;
+    color: #585858;
+    font-size: 12px;
+}
+.appmarket-wrapper .full-header-info {
+    border-radius: 10px;
+    background: white;
+}
+.appmarket-wrapper .full-header-info img {
+    width: 100%;
+    background-size: cover;
+    height: 300px;
+    border-radius: 10px 10px 0px 0px;
+}
+.appmarket-wrapper .info-text-sub1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #585858;
+}
+.appmarket-wrapper .info-text {
+    padding: 20px;
+}
+.appmarket-wrapper .card-info {
+    padding: 10px;
+    background: #F2F2F2;
+    border-radius: 10px;    
+    min-width: 120px;
+    text-align: center;
+}
+.appmarket-wrapper .card-info p {
+}
+.appmarket-wrapper .card-info p:first-child {
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 0;
+    color: #585858;
+    font-weight: 700;
+}
+.appmarket-wrapper .card-info p:last-child {
+    line-height: 16px;
+    margin-bottom: 0;
+    margin-top: 6px;
+}
+.appmarket-wrapper .appmarket-content-section {
+    border-radius: 10px;
+    background: white;    
+    padding: 20px;
+}
+.appmarket-wrapper .appmarket-content-sidebar-section {
+    border-radius: 10px;
+    background: white;    
+    padding: 20px;
+}
+.appmarket-wrapper .appmarket-title {
+    color: #585858;
+    font-size: 16px;
+}
+.appmarket-wrapper .appmarket-partner {
+    gap: 10px;
+}
+.appmarket-wrapper .appmarket-partner img {
+    max-width: 130px;
+    background-size: cover;
+}
+.appmarket-wrapper .appmarket-partner-2 {
+    gap: 10px;
+}
+.appmarket-wrapper .appmarket-partner-2 div {
+    width: 190px;
+    gap: 10px;
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+}
+.appmarket-wrapper .appmarket-partner-2 div p.name {
+    color: #585858;
+}
+.appmarket-wrapper .appmarket-partner-2 div p.phone {
+    color: #585858;
+}
+.appmarket-wrapper .appmarket-partner-2 img {    
+    background-size: cover;
+}
+.appmarket-wrapper .appmarket-partner-3 div {
+    padding-top: 10px;
+}
+.appmarket-wrapper .appmarket-partner-3 img {    
+    border: 5px solid #E1E1E1;
+    width: 130px;
+    height: 130px;
+    border-radius: 100px;
+}
+#appmarket-dialog-change-logo input[type="file"] {
+    display: none;
+}
+#appmarket-dialog-change-logo .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+#appmarket-dialog-change-logo .custom-file-upload i {
+    font-size: 18px;
+}
+#appmarket-dialog-change-logo .appmarket-preview-image {
+    width: 200px;
+    height: 200px;
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    border-radius: 10px;    
+    background-image: url('//placehold.it/200?text=200x200');
+    background-size: cover;
+}
+.appmarket-wrapper .appmarket-activity {
+    gap: 10px;
+}
+.appmarket-wrapper .appmarket-activity > div {
+    width: 230px;
+}
+.appmarket-wrapper .content-wrapper {
+    overflow: hidden;
+}
+.appmarket-ipo img {
+    border-radius: 20px;
+}
+.appmarket-ipo {
+    gap: 10px;
+}
+.appmarket-logo > div {
+    position: absolute;
+    bottom: -13px;
+    margin-left: 76px;
+    margin-top: 13px;    
+}
+.appmarket-logo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    border-radius: 10px;
+    background-image: url('https://mongolia-mining.com/media/djcatalog2/images/item/0/msm-llc_f.png');
+    background-size: cover;
+    margin-top: -48px;
+}
+.fw-500{
+    font-weight:500 !important;
+}
+
+.fs-16 {
+    font-size:16px !important;
+}
+
+.title-color{
+    color:#585858;
+}
+
+.input-group-append {
+    z-index:10;
+    margin-left: -30px;
+    border: 1px solid #E1E1E1;
+    border-radius: 22px;
+}
+
+.nav-item >.nav-link.active{
+    color:#468CE2;
+    border-bottom: 2px solid#457B9D;
+}
+
+.card-style{
+    height:260px; 
+    width:224px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.12);
+    margin-bottom: 0;
+}
+.font-bold {
+    font-weight: bold;
+}
