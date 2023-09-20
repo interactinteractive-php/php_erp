@@ -4145,14 +4145,14 @@ function appMultiTab(param, elem, callback) {
                     Core.unblockUI();
                 });
                 
-            } else if (param.kpitypeid == '2006') {
-                
+            } else if (param.kpitypeid == '2006' || param.kpitypeid == '2009') {
+
                 if (typeof isKpiIndicatorScript === 'undefined') {
                     $.getScript('middleware/assets/js/addon/indicator.js').done(function() {
-                        manageKpiIndicatorValue(this, metaDataId, false);
+                        manageKpiIndicatorValue(this, param.kpitypeid, metaDataId, false, {isIgnoreRunButton: 1});
                     });
                 } else {
-                    manageKpiIndicatorValue(this, metaDataId, false);
+                    manageKpiIndicatorValue(this, param.kpitypeid, metaDataId, false, {isIgnoreRunButton: 1});
                 }
                 
                 Core.unblockUI();
