@@ -3877,6 +3877,10 @@ function appMultiTab(param, elem, callback) {
 
     metaDataId = metaDataId.replace(/,/g, '').replace(/\[/g, '').replace(/\]/g, '').replace(/&/g, '').replace(/=/g, '').replace(/\//g, '').replace(/\?/g, '').replace(' ', '');
     
+    if (metaDataId.indexOf('mdformindicatorlist') !== -1 || metaDataId.indexOf('mdformindicatordatalist') !== -1) {
+        metaDataId = metaDataId.replace(/\D/g, '');
+    }
+    
     var $tabElement = $tabMainContainer.find("a[href='#app_tab_" + metaDataId + "']");
     var tabElementLength = $tabElement.length;
     

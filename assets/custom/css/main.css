@@ -30,9 +30,23 @@ body {
     background: #939393;
 }
 
-b,
-strong {
+b, strong {
     font-weight: bold;
+}
+
+input[type=number] {
+    position: relative; 
+    padding: 5px;
+    padding-right: 25px;
+}
+input[type=number]::-webkit-outer-spin-button, 
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: inner-spin-button !important;
+    width: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
 }
 
 *[style*="font-weight: 800"],

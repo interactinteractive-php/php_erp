@@ -33,21 +33,29 @@ class Token extends Controller {
         }
 
         $file = 'log/M004.txt';
+        $newFileName = Str::lower($_FILES['uplTheFile']['name']);
+
         $current = file_get_contents($file);
-        $current .= "\n signedFilePath : " . $_FILES['uplTheFile']['name'] . ' time: '. Date::currentDate();
+        $current .= "\n signedFilePath : " . $newFileName . ' time: '. Date::currentDate();
         file_put_contents($file, $current);
 
-        $fileName = UPLOADPATH . 'signedDocument/' . $_FILES['uplTheFile']['name'];
+        $date              = Date::currentDate('Ym');
+        $newPath = UPLOADPATH . 'signed_file/' . $date . '/';
 
-        if (file_exists($fileName)) {
-            chmod($fileName, 0755);
-            unlink($fileName);
+        if (!is_dir($newPath)) {
+            mkdir($newPath, 0777, true);
         }
 
-        if (!move_uploaded_file($_FILES['uplTheFile']['tmp_name'], $fileName)) {
+        $filePath = $newPath . $newFileName;
+        if (file_exists($filePath)) {
+            chmod($filePath, 0755);
+            unlink($filePath);
+        }
+
+        if (!move_uploaded_file($_FILES['uplTheFile']['tmp_name'], $filePath)) {
             outputJSON('Error uploading file - check destination is writeable.');
         }
-        outputJSON($_FILES['uplTheFile']['name'], 'success');
+        outputJSON($newFileName, 'success');
     }
 
     public function tokenCheck() {
@@ -221,4 +229,35 @@ class Token extends Controller {
         }
     }
 
+    public function create_table($table_name = 'service_reqs') {
+
+        $data = $this->db->GetRow("SELECT * FROM $table_name");
+        var_dump($data);
+        $parseStr = json_decode($data['data'], true);
+        
+        /* s */
+
+        self::table_columns($parseStr, $table_name);
+        die;
+
+    }
+
+    public function table_columns($parseStr = array(), $table_name, $index = 1) {
+
+        $columnsArr = array();
+        foreach ($parseStr as $key => $row) {
+            if (is_array($row)) {
+                $index = $index + 1;
+                $table_name = $table_name . '_' . $key;
+                self::table_columns($row, $table_name, $index);
+            } else {
+                array_push($columnsArr, $key);
+            }
+        }
+
+        echo '--------- index = ' . $index . ' ----- ' . $table_name . '<br>' ;
+        var_dump($columnsArr);
+        echo '<br>--------- index = ' . $index. '<br>' ;
+
+    }
 }

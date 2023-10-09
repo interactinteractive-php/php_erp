@@ -38,6 +38,7 @@ class Login extends Controller {
         $this->view->isEFinger = Config::getFromCache('CONFIG_USE_EFINGER');
         $this->view->isFinger = Config::getFromCache('CONFIG_USE_FINGER');
         $this->view->isLDap = Config::getFromCache('CONFIG_USE_LDAP');
+        $this->view->isPhoneSign = Config::getFromCache('CONFIG_USE_PHONELOGIN');
         $this->view->isPasswordReset = true;
         $this->view->csrf_token = $this->model->getCsrfTokenModel();
         $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
@@ -55,7 +56,7 @@ class Login extends Controller {
         }
         
         $loginLayout    = Config::getFromCache('loginLayout'); 
-        $configMainLogo = Config::getFromCache('main_logo_path');
+        $configMainLogo = Config::get('main_logo_path');
         $configLogo     = Config::getFromCache('logo_path');
         
         if ($configMainLogo && file_exists($configMainLogo)) {
@@ -101,6 +102,10 @@ class Login extends Controller {
         
         Auth::isLogin();
         
+        if (Config::getFromCache('CONFIG_USE_PHONELOGIN') === '1' && Input::post('isPhoneSign') === '1') {
+            self::runPhoneNumber();
+        }
+
         $response = $this->model->runModel();
 
         if (Config::getFromCache('custom_login') == 'statebank') {
@@ -110,7 +115,143 @@ class Login extends Controller {
         
         $this->chooseUserKey($response);
     }
-    
+
+    public function runPhoneNumber() {
+        try {
+
+            if (Config::getFromCache('CONFIG_USE_PHONELOGIN') !== '1') {
+                throw new Exception("Буруу үйлдэл хийсэн байна."); 
+            }
+            
+            $postData = Input::postData();
+
+            $curl = curl_init();
+            $username = Config::getFromCacheDefault('MssSignatureUser', null, '5296722-ap');
+            $password = Config::getFromCacheDefault('MssSignaturePass', null, 'LiuIudOz4lbLolI886qd');
+            $userPass = base64_encode($username . ':' . $password);
+            $url = Config::getFromCacheDefault('MssSignatureUrl', null, 'https://10.10.50.163:9061/rest/service');
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS =>'{ 
+                "MSS_SignatureReq":{ 
+                    "AdditionalServices":[ 
+                        {
+                                "Description": "http://uri.etsi.org/TS102204/v1.1.2#validate"
+                            },
+                            {
+                                "Description": "http://www.methics.fi/KiuruMSSP/v5.0.0#signingCertificate"
+                            },
+                            {
+                                "Description": "http://mss.ficom.fi/TS102204/v1.0.0#userLang",
+                                "UserLang": {
+                                    "Value": "MN"
+                                }
+                            }
+                    ],
+                    "DataToBeDisplayed":{ 
+                        "Data":"Та гарын үсгээ оруулна уу",
+                        "Encoding":"UTF-8",
+                        "MimeType":"text/plain"
+                    },
+                    "DataToBeSigned":{ 
+                        "Data":"data",
+                        "Encoding":"UTF-8",
+                        "MimeType":"text/plain"
+                    },
+                    "MessagingMode":"synch",
+                    "MobileUser":{ 
+                        "MSISDN":"976'. $postData['user_phonenumber'] .'"
+                    },
+                    "SignatureProfile":"http://alauda.mobi/nonRepudiation",
+                    "MSS_Format": "http://www.methics.fi/KiuruMSSP/v3.2.0#PKCS1"
+                }
+                }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Basic ' . $userPass
+                ),
+            ));
+            
+            $response = curl_exec($curl);       
+            $err = curl_error($curl);
+            curl_close($curl);
+            
+            if (!is_dir(UPLOADPATH . 'temp')) {
+                mkdir(UPLOADPATH . 'temp', 0777, true);
+            }
+
+            $registerNumber = '';
+            if ($err) {
+                $response = array('status' => 'error', 'message' => $err);
+            } else {
+                $response = json_decode($response, true);
+                if (!issetParam($response['Fault'])) {
+                    $response['cert_data'] = array();
+                    if (issetParamArray($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'])) {
+                        $tmp = array();
+                        foreach ($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'] as $key => $row) {
+                            $filetPath = UPLOADPATH . 'temp/cert.crt';
+
+                            $cert_txt = '-----BEGIN CERTIFICATE-----' . "\n";
+                            $cert_txt .= $row . "\n";
+                            $cert_txt .= '-----END CERTIFICATE-----';
+
+                            $certFile = fopen($filetPath, "w");
+                            fwrite($certFile, $cert_txt);
+                            fclose($certFile);
+
+                            $ssl = openssl_x509_parse(file_get_contents($filetPath));
+                            array_push($tmp, issetParamArray($ssl['subject']));
+                            if (issetParam($ssl['subject']['UID']) !== '')
+                                $registerNumber = issetParam($ssl['subject']['UID']);
+                            
+                            @unlink($filetPath);
+                        }
+                        
+                        $response['cert_data'] = $tmp;
+                    }
+                }
+            }
+            
+            if (!$registerNumber) {
+                throw new Exception("Мэдээлэл олдсонгүй!"); 
+            }
+
+            includeLib('Utils/Functions');
+            $postsData = Functions::runProcess('crGsignLoginGet_004', array('registerednum' => $registerNumber));
+            if (!issetParam($postsData['result']['username'])) {
+                throw new Exception("Хэрэглэгчийн мэдээлэл олдсонгүй!"); 
+            }
+
+            unset($_POST);
+            $_POST['user_name'] = $postsData['result']['username'];
+            $_POST['pass_word'] = $postsData['result']['passwordhash'];
+            $_POST['isHash'] = '1';
+            $_POST['csrf_token'] = $this->model->getCsrfTokenModel();
+
+            $response = $this->model->runModel();
+            
+            if (Config::getFromCache('custom_login') == 'statebank') {
+                $this->chooseUserRoleCustomLogin($response);    
+                exit;
+            }    
+            $this->chooseUserKey($response);
+
+        } catch (Exception $e) {
+            Message::add('d', $e->getMessage(), AUTH_URL.'login');
+        }
+    }
+
     private function chooseUserKey($response, $isDeviceVerification = true) {
         
         if (isset($response['userkeys']) && is_array($response['userkeys'])) {
@@ -884,9 +1025,14 @@ class Login extends Controller {
     }
     
     public function runFinger() {
+
         $mddoc = &getInstance();
         $mddoc->load->model('mddoc', 'middleware/models/');
         $imagePath = $mddoc->model->bpTemplateUploadGetPath();
+        
+        if (!Config::getFromCache('CONFIG_USE_FINGER'))  {
+            echo json_encode(array('status' => 'error', 'message' => 'Буруу үйлдэл хийсэн байна.'));
+        }
         
         $postData = Input::postData();
         $filePath = base64_to_jpeg($postData['operatorFinger'], $imagePath . getUID() .'.jpg' );
@@ -932,19 +1078,14 @@ class Login extends Controller {
         }
         
     }
-    
-    public function stresstest() {
-        $param = array(
-            'itemid' => '1604918236601',
-            'storeid' => '1588663653085',
-            'cashregisterid' => '1588663683076'
-        );
-        pa($this->ws->runSerializeResponse(GF_SERVICE_ADDRESS, 'POS_ITEM_LIST_GET_004', $param));        
-    }
 
     public function runDan() {
-        $postData = Input::postData();
 
+        if (!Config::getFromCache('CONFIG_USE_DAN'))  {
+            echo json_encode(array('status' => 'error', 'message' => 'Буруу үйлдэл хийсэн байна.'));
+        }
+
+        $postData = Input::postData();
         if (issetParam($postData['code'])) {
             $code = $postData['code'];
             $url = 'https://sso.gov.mn/oauth2/token';
@@ -1039,8 +1180,11 @@ class Login extends Controller {
 
     public function runKhalamj() {
 
+        if (!Config::getFromCache('CONFIG_USE_KHALAMJ'))  {
+            echo json_encode(array('status' => 'error', 'message' => 'Буруу үйлдэл хийсэн байна.'));
+        }
+
         $postData = Input::postData();
-        
         if (issetParam($postData['code'])) {
 
             $code = $postData['code'];

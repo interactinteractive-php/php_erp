@@ -84,7 +84,7 @@
             
             <?php echo $this->selectMultiDbControl; ?>
             
-            <div class="form-group form-group-feedback form-group-feedback-left">
+            <div class="form-group form-group-feedback form-group-feedback-left sign-user">
                 <?php 
                 echo Form::text(array('name' => 'user_name', 'id' => 'user_name', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('user_name'), 'required' => 'required', 'autocomplete' => 'off')); 
                 echo ($this->isEFinger || $this->isDan) ? Form::hidden(array('name' => 'isHash', 'id' => 'isHash', 'value' => '0')) : ''; 
@@ -94,8 +94,15 @@
                 </div>
                 <span id="user_name-error" class="help-block" style="display: none;">This field is required.</span>
             </div>
-
-            <div class="form-group form-group-feedback form-group-feedback-left">
+            <div class="form-group form-group-feedback form-group-feedback-left sign-phone" style="display: none;">
+                <?php echo Form::text(array('name' => 'user_phonenumber', 'id' => 'user_phonenumber', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('user_phonenumber'), 'required' => 'required', 'autocomplete' => 'off')); ?>
+                <?php echo ($this->isEFinger OR $this->isDan) ? Form::hidden(array('name' => 'isHash', 'id' => 'isHash', 'value' => '0')) : ''; ?>
+                <div class="form-control-feedback">
+                    <i class="icon-phone text-muted"></i>
+                </div>
+                <span id="user_phonenumber-error" class="help-block" style="display: none;">This field is required.</span>
+            </div>
+            <div class="form-group form-group-feedback form-group-feedback-left sign-user">
                 <?php echo Form::password(array('name' => 'pass_word', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('pass_word'), 'required' => 'required', 'autocomplete' => 'off')); ?>
                 <div class="form-control-feedback">
                     <i class="icon-lock2 text-muted"></i>
@@ -108,6 +115,11 @@
                     <?php echo html_tag('a', array('href' => 'login/password_reset', 'class' => 'forget-password ml-auto'), $this->lang->line('onlineanket_forgotpass'), Config::getFromCache('hideLoginForgotPassword') == '1' ? false : true);?>
                 </div>
             </div>
+            <?php if ($this->isPhoneSign) { ?>
+                <div class="d-flex justify-content-between pl-3 pr-3">
+                    <label><span class="isLdapCheckBox"><input type="checkbox" name="isPhoneSign" value="1" onchange="ShowPhonenumberLoginWin(this)" class="notuniform mr-1"></span> <span><?php echo Lang::line('Phone sign') ?></span></label>
+                </div>
+            <?php } ?>
             <?php
             if (isset($this->isLoginCaptcha) && $this->isLoginCaptcha) {
             ?>
