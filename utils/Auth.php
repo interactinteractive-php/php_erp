@@ -2,7 +2,7 @@
 
 class Auth {
     
-    public function handleLogin()
+    public static function handleLogin()
     {
         Session::init();
         

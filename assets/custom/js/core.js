@@ -4080,6 +4080,34 @@ function appMultiTab(param, elem, callback) {
                 $a.tab("show");
                 Core.unblockUI();
             });
+        } else if (param.type == 'taskflow') {
+            $.getScript(URL_APP + 'assets/custom/addon/plugins/jsplumb/jsplumb.min.js', function() {
+                if ($("link[href='assets/custom/addon/plugins/jsplumb/css/style.v3.css']").length == 0) {
+                    $("head").append('<link rel="stylesheet" type="text/css" href="assets/custom/addon/plugins/jsplumb/css/style.v3.css"/>');
+                }            
+                $.getScript(URL_APP + 'middleware/assets/js/mdprocessflowview.js', function() {                   
+                    $.ajax({
+                        type: 'post',
+                        url: 'mdprocessflow/metaProcessWorkflow/'+metaDataId,
+                        data: {
+                            isViewTaskFlow: 1
+                        },
+                        beforeSend: function() {
+                            Core.blockUI({message: 'Loading...', boxed: true});
+                        },                        
+                        success: function(dataHtml) {
+                            $div.empty().append(dataHtml + '<div class="clearfix"/>');
+                            $div.find('.taskflow-bp-action-btn').addClass('hidden');
+                            $div.find('.heigh-editor').css({background: "none", border: "none"});
+                        }
+                    }).done(function() {
+                        $ul.append($li);
+                        $container.append($div);
+                        $a.tab("show");
+                        Core.unblockUI();
+                    });
+                });
+            });
             
         } else if (param.type == 'iframe') {
             

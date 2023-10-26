@@ -181,7 +181,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionPositionKeyId() {
+    public static function sessionPositionKeyId() {
         if ($empId = Ue::sessionEmployeeId()) {
 
             global $db;
@@ -196,7 +196,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionDepartmentId() {
+    public static function sessionDepartmentId() {
         if ($empId = Ue::sessionEmployeeId()) {
 
             global $db;
@@ -211,7 +211,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionDepartmentCode() {
+    public static function sessionDepartmentCode() {
         if ($empId = Ue::sessionEmployeeId()) {
 
             global $db;
@@ -233,7 +233,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionDepartmentName() {
+    public static function sessionDepartmentName() {
         if ($empId = Ue::sessionEmployeeId()) {
 
             global $db;
@@ -255,7 +255,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionUserKeyDepartmentName() {
+    public static function sessionUserKeyDepartmentName() {
         if ($userKeyId = Ue::sessionUserKeyId()) {
 
             global $db;
@@ -275,7 +275,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionUserKeyDepartmentId() {
+    public static function sessionUserKeyDepartmentId() {
         if (Session::isCheck(SESSION_PREFIX . 'departmentid')) {
 
             return Session::get(SESSION_PREFIX . 'departmentid');
@@ -293,7 +293,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionUserKeyDepartmentCode() {
+    public static function sessionUserKeyDepartmentCode() {
         if ($userKeyId = Ue::sessionUserKeyId()) {
 
             global $db;
@@ -313,7 +313,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function sessionStoreId() {
+    public static function sessionStoreId() {
         if ($departmentId = Ue::sessionUserKeyDepartmentId()) {
 
             global $db;
@@ -328,7 +328,7 @@ class Ue extends Model {
         return null;
     }
 
-    public function getSessionFiscalPeriodName() {
+    public static function getSessionFiscalPeriodName() {
         if ($fiscalPeriodId = Ue::sessionFiscalPeriodId()) {
 
             global $db;
@@ -375,7 +375,7 @@ class Ue extends Model {
         }
     }
 
-    public function loginCacheClear() {
+    public static function loginCacheClear() {
         $tmp_dir = Mdcommon::getCacheDirectory();
         $userId = Ue::sessionUserId();
         $userKeyId = Ue::sessionUserKeyId();
@@ -434,7 +434,7 @@ class Ue extends Model {
         return true;
     }
 
-    public function startFiscalPeriod() {
+    public static function startFiscalPeriod() {
         
         if (Config::getFromCache('CONFIG_FISCAL_PERIOD')) {
 
@@ -503,7 +503,7 @@ class Ue extends Model {
         return true;
     }
 
-    public function getFiscalPeriodYearId($parentId) {
+    public static function getFiscalPeriodYearId($parentId) {
         if (empty($parentId)) {
             return $parentId;
         }
@@ -521,7 +521,7 @@ class Ue extends Model {
         }
     }
 
-    public function createSessionInfo() {
+    public static function createSessionInfo() {
 
         $userId = Ue::sessionUserId();
 

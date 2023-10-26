@@ -2,7 +2,7 @@
 
 class SessionSetHandler extends Controller {
     
-    public function update() {
+    public static function update() {
         
         $isAjax   = is_ajax_request();
         $lastTime = Session::get(SESSION_PREFIX . 'lastTime');
@@ -95,7 +95,7 @@ class SessionSetHandler extends Controller {
         }
     }
 
-    public function destroy() {
+    public static function destroy() {
 
         $userKeyId = Ue::sessionUserKeyId();
 
@@ -111,7 +111,7 @@ class SessionSetHandler extends Controller {
         }
     }
 
-    public function initLogged($response) {
+    public static function initLogged($response) {
         
         Session::init();
         Session::set(SESSION_PREFIX . 'systemUserId', $response['id']);
@@ -147,7 +147,7 @@ class SessionSetHandler extends Controller {
             Session::set(SESSION_PREFIX . 'customerid', issetParam($response['customerid']));
             Session::set(SESSION_PREFIX . 'customercode', issetParam($response['customercode']));
             Session::set(SESSION_PREFIX . 'customername', issetParam($response['customername']));
-			Session::set(SESSION_PREFIX . 'picture', $response['emppicture']);
+            Session::set(SESSION_PREFIX . 'picture', $response['emppicture']);
         }
         
         if (!$response['sessionid']) {
@@ -157,7 +157,7 @@ class SessionSetHandler extends Controller {
         return true;
     }
     
-    public function checkLoginFromDb() {
+    public static function checkLoginFromDb() {
         global $db;
 
         $row = $db->GetRow("
@@ -190,7 +190,8 @@ class SessionSetHandler extends Controller {
         return false;
     }
     
-    public function writeSystemLog($userId = '', $requestName = '') {
+    public static function writeSystemLog($userId = '', $requestName = '') {
+        global $db;
         try {
             $data = array(
                 'ID' => getUID(),
@@ -198,12 +199,9 @@ class SessionSetHandler extends Controller {
                 'CREATED_DATE' => Date::currentDate(),
                 'REQUEST_NAME' => $requestName,
                 'USER_ID' => $userId 
-
             );
-            $this->db->AutoExecute('SYSTEM_WRITE_LOG', $data);
-        } catch (Exception $ex) {
-
-        }
+            $db->AutoExecute('SYSTEM_WRITE_LOG', $data);
+        } catch (Exception $ex) {}
     }
 
 }

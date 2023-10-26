@@ -194,11 +194,15 @@ span.iconText {
 .wfposition > a > span.iconText, 
 .wfdmart span.iconText {
     color: rgba(255,255,255,0.8) !important;
+    overflow: hidden;
 }
 .wfposition:hover a .wfIcon, 
 .wfdmart:hover .wfIcon {
     border: 2px solid rgba(36, 152, 233,0.8) !important;
     background: rgba(36, 152, 233,1) !important;
+}
+.wfposition:hover a .bp-name {
+    color: #fff !important;
 }
 .wfposition.disabled > a > div.wfIcon{
     border: 2px solid rgba(192,192,192,0.8) !important;
@@ -357,7 +361,35 @@ span.iconText {
     padding: 1px 2px 0 2px;
     z-index: 2;
 }
+.wf-tf-view-UI.wfposition span.is-complex-bp {
+    position: absolute;
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    top: 1px;
+    right: 1px;
+    color: #000;
+    padding: 2px 2px 0 2px;
+    z-index: 2;
+}
 .wf-tf-UI > a > .wfIcon {
     border: 2px solid rgba(71,71,71,0.3);
     background: #7E57C2;
+}
+.wf-tf-view-UI > a > .wfIcon {
+    border: 1px solid rgba(71,71,71,0.3);
+    background: #fff;
+    box-shadow: none;
+}
+.wf-tf-view-UI.wfposition > a > span.iconText .bp-name {
+    color:#333;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);    
+    width: 100%;
 }

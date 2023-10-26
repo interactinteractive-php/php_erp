@@ -265,6 +265,10 @@ class Appmenu extends Controller {
 
                     $redirect_url = URL.'mdobject/package/'.$defaultMenuRow['actionmetadataid'].'?mmid='.$defaultModuleId.'&mid='.$defaultModuleId.$clickMenuIdUrl;
 
+                } elseif ($defaultMenuRow['actionmetatypeid'] == Mdmetadata::$pageMetaTypeId) {
+
+                    $redirect_url = URL.'mdlayout/v2/'.$defaultMenuRow['actionmetadataid'].'?mmid='.$defaultModuleId.'&mid='.$defaultModuleId.$clickMenuIdUrl;
+
                 } elseif ($defaultMenuRow['weburl']) {
 
                     $redirect_url = URL.$defaultMenuRow['weburl'] . '?mmid='.$defaultModuleId.'&mid='.$defaultModuleId.$clickMenuIdUrl;
@@ -288,6 +292,10 @@ class Appmenu extends Controller {
                 } elseif ($appmenuRow['actionmetatypeid'] == Mdmetadata::$packageMetaTypeId) {
 
                     $redirect_url = URL.'mdobject/package/'.$appmenuRow['actionmetadataid'].'?mmid='.$appmenuRow['menuId'].'&mid='.$appmenuRow['menuId'];
+
+                } elseif ($appmenuRow['actionmetatypeid'] == Mdmetadata::$pageMetaTypeId) {
+
+                    $redirect_url = URL.'mdlayout/v2/'.$appmenuRow['actionmetadataid'].'?mmid='.$appmenuRow['menuId'].'&mid='.$appmenuRow['menuId'];
                 }
 
             } elseif (!empty($appmenuRow['weburl'])) {

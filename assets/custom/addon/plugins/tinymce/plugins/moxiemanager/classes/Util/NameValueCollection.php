@@ -115,6 +115,7 @@ class MOXMAN_Util_NameValueCollection implements IteratorAggregate {
 	 *
 	 * @reutrn ArrayIterator Iterator instance.
 	 */
+        #[\ReturnTypeWillChange]
 	public function getIterator() {
 		return new ArrayIterator($this->items);
 	}

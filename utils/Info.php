@@ -7,14 +7,14 @@ class Info extends Model {
     private static $scenarioName = null;
     private static $scenarioColor = null;
 
-    public function YesNoList() {
+    public static function YesNoList() {
         $array[] = array('value' => '1', 'name' => Lang::line('yes'));
         $array[] = array('value' => '0', 'name' => Lang::line('no'));
         
         return $array;
     }
     
-    public function showYesNoByNumber($val = '') {
+    public static function showYesNoByNumber($val = '') {
         if ($val == '1' || $val == 'true') {
             return Lang::line('yes');
         } else {
@@ -22,28 +22,28 @@ class Info extends Model {
         }
     }
     
-    static public function convertLetterToNumberBoolean($booleanValue) {
+    public static function convertLetterToNumberBoolean($booleanValue) {
         $value = (!is_array($booleanValue)) ? strtolower($booleanValue) : '';
         return strtr($value, array('true' => 1, 'false' => 0, 'yes' => 1, 'no' => 0));
     }
 
-    public function getStoreList() {
+    public static function getStoreList() {
         global $db;
         $data = $db->GetAll("SELECT STORE_ID, NAME FROM SM_STORE");
         return $data;
     }
     
-    public function getItemList() {
+    public static function getItemList() {
         global $db;
         $data = $db->GetAll("SELECT ITEM_ID, ITEM_CODE, ITEM_NAME FROM IM_ITEM");
         return $data;
     }
     
-    public function SequenceID() {
+    public static function SequenceID() {
         return getUID();
     }
     
-    public function getConnections() {
+    public static function getConnections() {
         
         $cache = phpFastCache();
         $data = $cache->get('getDbConnections');
@@ -78,7 +78,7 @@ class Info extends Model {
         return $data;
     }
     
-    public function getDefaultConnection() {
+    public static function getDefaultConnection() {
         
         global $db;
         
@@ -104,7 +104,7 @@ class Info extends Model {
         return $row;
     }
     
-    public function getConnectionById($dbId) {
+    public static function getConnectionById($dbId) {
         
         global $db;
         
@@ -129,7 +129,7 @@ class Info extends Model {
         return $row;
     }
     
-    public function criteriaCondition() {
+    public static function criteriaCondition() {
         
         $array[] = array('value' => '=', 'code' => '=', 'name' => Lang::lineDefault('META_00134', 'Тэнцүү'));
         $array[] = array('value' => '>', 'code' => '>', 'name' => Lang::lineDefault('META_filter_00135', 'Их'));
@@ -141,7 +141,7 @@ class Info extends Model {
         return $array;
     }
     
-    public function defaultCriteriaCondition($metaTypeCode = 'string') {
+    public static function defaultCriteriaCondition($metaTypeCode = 'string') {
         
         $array[] = array('value' => '=', 'code' => Lang::lineDefault('META_00134', 'Тэнцүү'), 'name' => Lang::lineDefault('META_00134', 'Тэнцүү'));
         $array[] = array('value' => '!=', 'code' => Lang::lineDefault('META_filter_00134', 'Ялгаатай'), 'name' => Lang::lineDefault('META_filter_00134', 'Ялгаатай'));
@@ -175,13 +175,13 @@ class Info extends Model {
         return $array;
     }
     
-    public function getRefTimeTypeList() {
+    public static function getRefTimeTypeList() {
         global $db;
         $result = $db->GetAll("SELECT TIME_TYPE_ID, TIME_TYPE_NAME FROM REF_TIME_TYPE");
         return $result; 
     }
     
-    public function getRefYearList($year = null) {
+    public static function getRefYearList($year = null) {
         
         global $db;
         
@@ -194,23 +194,23 @@ class Info extends Model {
         return $result;
     }
     
-    public function getRefMonthList() {
+    public static function getRefMonthList() {
         global $db;
         $result = $db->GetAll("SELECT MONTH_ID, MONTH_NAME, MONTH_CODE FROM REF_MONTH ORDER BY MONTH_CODE");
         return $result; 
     }
     
-    public function getDashboardType() {
+    public static function getDashboardType() {
         global $db;
         return $db->GetAll("SELECT CODE, NAME FROM META_DASHBOARD_TYPE WHERE PARENT_ID IS NULL ORDER BY NAME");
     }
     
-    public function getDiagramType($type = null, $isPivot = 0) {
+    public static function getDiagramType($type = null, $isPivot = 0) {
         global $db;
         return $db->GetAll("SELECT CODE, NAME FROM META_DASHBOARD_TYPE WHERE PARENT_ID = (SELECT ID FROM META_DASHBOARD_TYPE WHERE code = '$type') AND IS_PIVOT = $isPivot ORDER BY NAME");
     }
     
-    public function fiscalPeriod() {
+    public static function fiscalPeriod() {
         
         $html = '';
 
@@ -284,7 +284,7 @@ class Info extends Model {
         return $html;
     }
     
-    public function childFiscalPeriod($parentId, $depth = 0) {
+    public static function childFiscalPeriod($parentId, $depth = 0) {
         
         $html = '';
         
@@ -342,19 +342,19 @@ class Info extends Model {
         return $html;
     }
     
-    public function getUserKeyList() {
+    public static function getUserKeyList() {
         global $db;
         $data = $db->GetAll("SELECT USER_KEY_ID, DEPARTMENT_NAME, DEPARTMENT_ID FROM VW_USER_KEY WHERE SYSTEM_USER_ID = ".Ue::sessionUserId());
         return $data;
     }
     
-    public function getUserKeyRowById($userKeyId) {
+    public static function getUserKeyRowById($userKeyId) {
         global $db;
         $row = $db->GetRow("SELECT COMPANY_NAME FROM VW_USER_KEY WHERE USER_KEY_ID = $userKeyId");
         return $row;
     }
     
-    public function getEmployeeBalance() {
+    public static function getEmployeeBalance() {
       
       $array[] = array('value' => '0', 'name' => 'Бүгд');
       $array[] = array('value' => '1', 'name' => 'Хоцорсон');
@@ -363,7 +363,7 @@ class Info extends Model {
       return $array;
     }
     
-    public function getEmployeeBalanceVeri() {
+    public static function getEmployeeBalanceVeri() {
       
       $array[] = array('value' => '0', 'name' => 'Бүгд');
       $array[] = array('value' => '1', 'name' => 'Баталгаажсан');
@@ -372,7 +372,7 @@ class Info extends Model {
       return $array;
     }
     
-    public function getNotificationListForSelect() {
+    public static function getNotificationListForSelect() {
         global $db;
         $data = $db->GetAll("
             SELECT 
@@ -386,7 +386,7 @@ class Info extends Model {
         return $data;
     }
     
-    public function dashboardColorTheme() {
+    public static function dashboardColorTheme() {
         $array[] = array('value' => '1', 'name' => 'THEME 1', 'code' => '#22c3f5 #3faba4 #ff8d00 #95A5A6 #d05454 #f3c200 #8775a7 #009c02 #b1e10a #e25f9e #e7bda2 #0041c4 #ff8d00 #ff0000 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613');
         $array[] = array('value' => '2', 'name' => 'THEME 2', 'code' => '#67809F #1BBC9B #E08283 #95A5A6 #F7CA18 #8775A7 #796799 #C49F47 #E87E04 #f3c200 #8E44AD #009c02 #32c5d2 #2585ae #4e8539 #6ba6d4 #fdff00  #3faba4  #2585ae #4e8539 #6ba6d4 #fdff00  #00ff04 #0085ff  #d40a78 #b4c7f0 #da70d6 #edc613  #3faba4 #e7505a #e7bda2 #d05454 #5f00c3 #009c02 #3faba4 #4e8539 #d40a78 #f3c200 #edc613 #e7505a #6ba6d4 #00ff04');
         $array[] = array('value' => '3', 'name' => 'THEME 3', 'code' => '#2AB4C0 #EF4836 #26C281 #5C9BD1 #8775A7 #F2784B #BFBFBF #8E44AD #5E738B #f3c200 #8E44AD #009c02 #32c5d2 #2585ae #4e8539 #6ba6d4 #fdff00  #3faba4  #2585ae #4e8539 #6ba6d4 #fdff00  #00ff04 #0085ff  #d40a78 #b4c7f0 #da70d6 #edc613  #3faba4 #e7505a #e7bda2 #d05454 #5f00c3 #009c02 #3faba4 #4e8539 #d40a78 #f3c200 #edc613 #e7505a #6ba6d4 #00ff04');
@@ -396,7 +396,7 @@ class Info extends Model {
         return $array;
     }
     
-    public function dashboardLegendPosition() {
+    public static function dashboardLegendPosition() {
         $array[] = array('value' => 'top', 'name' => 'Дээр');
         $array[] = array('value' => 'bottom', 'name' => 'Доор');
         $array[] = array('value' => 'right', 'name' => 'Баруун');
@@ -405,7 +405,7 @@ class Info extends Model {
         return $array;
     }
     
-    public function getDashboardColorTheme($id) {
+    public static function getDashboardColorTheme($id) {
         $array[] = array('value' => '1', 'name' => 'THEME 1', 'code' => '#8E44AD #3faba4 #ff8d00 #95A5A6 #d05454 #f3c200 #8775a7 #009c02 #b1e10a #e25f9e #e7bda2 #0041c4 #ff8d00 #ff0000 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613 #8E44AD #3faba4 #ff8d00 #95A5A6 #d05454 #f3c200 #8775a7 #009c02 #b1e10a #e25f9e #e7bda2 #0041c4 #ff8d00 #ff0000 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613 #8E44AD #3faba4 #ff8d00 #95A5A6 #d05454 #f3c200 #8775a7 #009c02 #b1e10a #e25f9e #e7bda2 #0041c4 #ff8d00 #ff0000 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613');
         $array[] = array('value' => '2', 'name' => 'THEME 2', 'code' => '#67809F #1BBC9B #E08283 #95A5A6 #F7CA18 #8775A7 #796799 #C49F47 #E87E04 #f3c200 #8E44AD #009c02 #32c5d2 #2585ae #4e8539 #6ba6d4 #fdff00 #3faba4 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613 #3faba4 #e7505a #e7bda2 #d05454 #5f00c3 #009c02 #3faba4 #4e8539 #d40a78 #f3c200 #edc613 #e7505a #6ba6d4 #00ff04');
         $array[] = array('value' => '3', 'name' => 'THEME 3', 'code' => '#2AB4C0 #EF4836 #26C281 #5C9BD1 #8775A7 #F2784B #BFBFBF #8E44AD #5E738B #f3c200 #8E44AD #009c02 #32c5d2 #2585ae #4e8539 #6ba6d4 #fdff00 #3faba4 #2585ae #4e8539 #6ba6d4 #fdff00 #00ff04 #0085ff #d40a78 #b4c7f0 #da70d6 #edc613 #3faba4 #e7505a #e7bda2 #d05454 #5f00c3 #009c02 #3faba4 #4e8539 #d40a78 #f3c200 #edc613 #e7505a #6ba6d4 #00ff04');
@@ -422,7 +422,7 @@ class Info extends Model {
         return $return;
     }
     
-    public function searchType() {
+    public static function searchType() {
         
         $array[1] = array('value' => '1', 'name' => 'LEFT');
         $array[2] = array('value' => '2', 'name' => 'TOP');
@@ -436,7 +436,7 @@ class Info extends Model {
         return $array;
     }
     
-    public function getSearchType($id) {
+    public static function getSearchType($id) {
         
         $searchType = Info::searchType();
         
@@ -447,7 +447,7 @@ class Info extends Model {
         return '0';
     }
     
-    public function chooseEaScenario() {
+    public static function chooseEaScenario() {
         
         $html = '';
         $isEaScenario = Config::getFromCache('isEaScenario');
@@ -481,7 +481,7 @@ class Info extends Model {
         return $html;
     }
     
-    public function buildScenarioTree($result, $depth = 0) {
+    public static function buildScenarioTree($result, $depth = 0) {
         
         $list = '';
         $selectedScenarioId = Session::get(SESSION_PREFIX.'eaScenarioId');
@@ -528,7 +528,7 @@ class Info extends Model {
         return $list;
     }
     
-    public function getDbName() {
+    public static function getDbName() {
         
         if ($sdbnm = Session::get(SESSION_PREFIX . 'sdbnm')) {
             return '<li class="nav-item text-uppercase font-weight-bold mr-2 db-choose" title="Сонгосон бааз">
@@ -539,19 +539,19 @@ class Info extends Model {
         return '';
     }
     
-    public function formControlType() {
+    public static function formControlType() {
         
         $array[1] = array('value' => '1', 'name' => 'MIN');
         
         return $array;
     }
     
-    public function getSubjectData() {
+    public static function getSubjectData() {
         global $db;
         return $db->GetAll("SELECT  DISTINCT SUBJECT_ID, SUBJECT_NAME,  CONCAT(SUBJECT_CODE||' : ', SUBJECT_NAME) AS SUBJECT_CODE_NAME, SUBJECT_CODE FROM cam_subject WHERE IS_ACTIVE = 1 ORDER BY SUBJECT_NAME");
     }
 
-    public function getTeacherList() {
+    public static function getTeacherList() {
         global $db;
         return $db->GetAll("SELECT DISTINCT(ce.EMPLOYEE_ID), CONCAT(ce.EMPLOYEE_CODE||' : ' , bp.FIRST_NAME) AS TEACHER_CODE_NAME 
                                     FROM hrm_employee ce
@@ -559,7 +559,7 @@ class Info extends Model {
                                     INNER JOIN base_person bp ON ce.PERSON_ID = bp.PERSON_ID");
     }
     
-    public function getSemisterSubjectPlan($parentId, $currentSemisterYearId = null, $depth = 0) {
+    public static function getSemisterSubjectPlan($parentId, $currentSemisterYearId = null, $depth = 0) {
         
         $html = '';
         
@@ -607,7 +607,7 @@ class Info extends Model {
         return $html;
     }
     
-    public function getSemisterSubjectPlanDataById($currentSemisterYearId) {
+    public static function getSemisterSubjectPlanDataById($currentSemisterYearId) {
         
         $data = array();
 
@@ -623,14 +623,14 @@ class Info extends Model {
         return $data;
     }
     
-    public function subjectTimetableViewType() {
+    public static function subjectTimetableViewType() {
         $array[] = array('value' => '1', 'name' => Lang::line('grade_view_001'));
         $array[] = array('value' => '2', 'name' => Lang::line('teacher_view_001'));
         
         return $array;
     }
     
-    public function getLanguageShortName() {
+    public static function getLanguageShortName() {
         if (Session::isCheck(SESSION_PREFIX . 'langshortcode')) {
             return Session::get(SESSION_PREFIX . 'langshortcode');
         }
@@ -640,7 +640,7 @@ class Info extends Model {
         return 'mn';
     }
     
-    public function fiscalPeriodNewV2() {
+    public static function fiscalPeriodNewV2() {
         
         $html = '';        
 
@@ -667,7 +667,7 @@ class Info extends Model {
         return $html;
     }
     
-    public function childFiscalPeriodNewV2($parentId, $depth = 0, $parentYear = '', $currentYear) {
+    public static function childFiscalPeriodNewV2($parentId, $depth = 0, $parentYear = '', $currentYear) {
         
         $html = '';
         if (empty($parentId)) {
@@ -770,7 +770,7 @@ class Info extends Model {
         );
     }   
 
-    public function getPerformanceQualityGradeByLetter($grade, $classKeyId) {
+    public static function getPerformanceQualityGradeByLetter($grade, $classKeyId) {
 
         return $db->GetOne("SELECT CSG.GRADE
                 FROM CAM_SUBJECT_GRADE CSG
@@ -781,7 +781,7 @@ class Info extends Model {
                 AND $grade BETWEEN MARK_FROM AND MARK_TO");
     }
 
-    public function fiscalPeriodNew() {
+    public static function fiscalPeriodNew() {
 
         $html = '';
 
@@ -842,7 +842,7 @@ class Info extends Model {
         return $html;
     }
 
-    public function getSemisterAcademicPlan($isStyle = '') {
+    public static function getSemisterAcademicPlan($isStyle = '') {
 
         (String) $html = $currentSemisterYear = $listYear = '';
 
@@ -967,7 +967,7 @@ class Info extends Model {
         return $html;
     }
 
-    public function getSemisterSubjectPlanDataByChild($parentId, $depth = 0, $parentYear = '', $currentYear) {
+    public static function getSemisterSubjectPlanDataByChild($parentId, $depth = 0, $parentYear = '', $currentYear) {
 
         $html = '';
 
@@ -1037,7 +1037,7 @@ class Info extends Model {
         return $html;
     }
 
-    public function getCurrentSemisterYearId($academicYearId) {
+    public static function getCurrentSemisterYearId($academicYearId) {
 
         $currentSemisterYearId = $db->GetOne("SELECT P.SEMISTER_PLAN_ID
                                                     FROM CAM_SEMISTER_PLAN P
@@ -1061,7 +1061,7 @@ class Info extends Model {
         return $currentSemisterYearId;
     }
     
-    public function lastSemisterPlanId($academicYearId = null) {
+    public static function lastSemisterPlanId($academicYearId = null) {
         global $db;
         if (!$academicYearId) {
             $academicYearId = $db->GetOne("SELECT ACADEMIC_YEAR_ID
@@ -1088,7 +1088,7 @@ class Info extends Model {
         
     }
 
-	public function createLinks($list_class , $_limit = 1, $_page = 1, $_total = 1, $url = '/news', $jq_func = 'moto_url') {
+	public static function createLinks($list_class , $_limit = 1, $_page = 1, $_total = 1, $url = '/news', $jq_func = 'moto_url') {
         if ($_limit == 'all') {
             return '';
         }
@@ -1126,7 +1126,7 @@ class Info extends Model {
         return $html;
     }
 	
-    public function chartDefaultTheme () {
+    public static function chartDefaultTheme () {
         return array(
             array(
                 'code' => 'default',
@@ -1351,7 +1351,7 @@ class Info extends Model {
         );
     }
 
-    public function chartDefaultTypes () {
+    public static function chartDefaultTypes () {
         return array(
             array(
                 'id' => 'radar', 
@@ -1393,7 +1393,7 @@ class Info extends Model {
         );
     }
 
-    public function chartDefaultAggerates() {
+    public static function chartDefaultAggerates() {
         return array(
             array(
                 'id' => 'SUM', 
@@ -1418,7 +1418,7 @@ class Info extends Model {
         );
     }
 
-    public function chartTypesConfigration () {
+    public static function chartTypesConfigration () {
         return array (
             array (
                 'name' => Lang::line('Layout & positioning'),
@@ -1993,7 +1993,7 @@ class Info extends Model {
         );
     }
 
-    public function renderConfigControl($panel, $graphJsonConfig, $panelCode) {
+    public static function renderConfigControl($panel, $graphJsonConfig, $panelCode) {
         $html = '';
         
         if (issetParamArray($panel['children']) && $panel['children']) {
@@ -2051,7 +2051,7 @@ class Info extends Model {
         return $html;
     }
 
-    public function transformTypeDatas($chartTypesConfigration, $chartTypes, $tmpArray = array(), $tmpKey = '') {
+    public static function transformTypeDatas($chartTypesConfigration, $chartTypes, $tmpArray = array(), $tmpKey = '') {
         foreach ($chartTypes['children'] as $row) {
             $tmp = array (
                         'name' => Lang::line($row['code']),
@@ -2081,7 +2081,7 @@ class Info extends Model {
         return array('panels' => $chartTypesConfigration, 'tmpArray' => $tmpArray, 'tmpKey' => $tmpKey);
     }
 
-    public function transformTypeKeyDatas($chartTypesConfigration, $chartTypes, $tmpKey) {
+    public static function transformTypeKeyDatas($chartTypesConfigration, $chartTypes, $tmpKey) {
         if (issetParamArray($chartTypes['children'])) {
             foreach ($chartTypes['children'] as $row) {
                 $tmp = $tmpKey . '_' . $row['code'];
@@ -2096,7 +2096,7 @@ class Info extends Model {
         return $chartTypesConfigration;
     }
 
-    public function transformTypeKey($tmpKey, $chartTypes) {
+    public static function transformTypeKey($tmpKey, $chartTypes) {
         foreach ($chartTypes['children'] as $row) {
             $tmp = $tmpKey . '_' . $row['code'];
             if (issetParamArray($row['children'])) {

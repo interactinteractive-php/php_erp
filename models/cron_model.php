@@ -176,7 +176,7 @@ class Cron_Model extends Model {
         $mail->msgHTML($message);
         $mail->AltBody = 'Veritech - PosApi Auto SendData';
         
-        $mail->addAddress('ochoo0909@gmail.com');
+        $mail->addAddress('ulaankhuu@veritech.mn');
         
         if (!$mail->send()) {
             $message .= '<br />'.$mail->ErrorInfo;

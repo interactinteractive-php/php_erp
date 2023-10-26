@@ -704,17 +704,17 @@ class Login extends Controller {
         echo json_encode($response); exit;
     }
     
-    public function isCheckLoginFailed() {
+    public static function isCheckLoginFailed() {
         $is = Config::getFromCache('is_Check_Login_Failed');
         return $is;
     }
     
-    public function loginFailedTrackType() {
+    public static function loginFailedTrackType() {
         $trackType = Config::getFromCache('login_Failed_Track_Type');
         return $trackType;
     }
     
-    public function getClientFailLoginCount($defaultTrackType = null) {
+    public static function getClientFailLoginCount($defaultTrackType = null) {
         
         if (!$defaultTrackType) {
             $trackType = self::loginFailedTrackType();

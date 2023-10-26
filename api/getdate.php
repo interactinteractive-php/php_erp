@@ -7,7 +7,7 @@ if (isset($_POST['dateType'])) {
     require '../config/config.php';
     date_default_timezone_set(CONFIG_TIMEZONE);
 
-    $dateType = strtolower(filter_var($_POST['dateType'], FILTER_SANITIZE_STRING));
+    $dateType = strtolower(filter_var($_POST['dateType'], FILTER_UNSAFE_RAW));
     
     if ($dateType == 'sysdate') {
         $result = date('Y-m-d');
