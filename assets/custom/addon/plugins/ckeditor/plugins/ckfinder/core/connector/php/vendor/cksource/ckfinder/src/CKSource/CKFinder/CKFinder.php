@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -18,6 +18,8 @@ use CKSource\CKFinder\Acl\Acl;
 use CKSource\CKFinder\Acl\User\SessionRoleContext;
 use CKSource\CKFinder\Authentication\AuthenticationInterface;
 use CKSource\CKFinder\Authentication\CallableAuthentication;
+use CKSource\CKFinder\Backend\Adapter\Local;
+use CKSource\CKFinder\Backend\Backend;
 use CKSource\CKFinder\Backend\BackendFactory;
 use CKSource\CKFinder\Cache\Adapter\BackendAdapter;
 use CKSource\CKFinder\Cache\CacheManager;
@@ -31,13 +33,14 @@ use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\Operation\OperationManager;
 use CKSource\CKFinder\Plugin\PluginInterface;
 use CKSource\CKFinder\Request\Transformer\JsonTransformer;
+use CKSource\CKFinder\Request\Transformer\TransformerInterface;
 use CKSource\CKFinder\ResizedImage\ResizedImageRepository;
 use CKSource\CKFinder\ResourceType\ResourceTypeFactory;
 use CKSource\CKFinder\Response\JsonResponse;
 use CKSource\CKFinder\Security\Csrf\DoubleSubmitCookieTokenValidator;
 use CKSource\CKFinder\Security\Csrf\TokenValidatorInterface;
 use CKSource\CKFinder\Thumbnail\ThumbnailRepository;
-use League\Flysystem\Adapter\Local as LocalFSAdapter;
+use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\StreamHandler;
@@ -63,12 +66,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class CKFinder extends Container implements HttpKernelInterface
 {
-    const VERSION = '3.5.1.1';
+    public const VERSION = '3.6.1';
 
-    const COMMANDS_NAMESPACE = 'CKSource\\CKFinder\\Command\\';
-    const PLUGINS_NAMESPACE = 'CKSource\\CKFinder\\Plugin\\';
+    public const COMMANDS_NAMESPACE = 'CKSource\\CKFinder\\Command\\';
+    public const PLUGINS_NAMESPACE = 'CKSource\\CKFinder\\Plugin\\';
 
-    const CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    public const CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
     protected $plugins = [];
 
@@ -135,7 +138,8 @@ class CKFinder extends Container implements HttpKernelInterface
         };
 
         $this['working_folder'] = function () use ($app) {
-            $workingFolder = new WorkingFolder($app);
+            $detector = new FinfoMimeTypeDetector();
+            $workingFolder = new WorkingFolder($app, $detector);
 
             $this['dispatcher']->addSubscriber($workingFolder);
 
@@ -207,7 +211,7 @@ class CKFinder extends Container implements HttpKernelInterface
         if ($app['config']->get('csrfProtection')) {
             $config = $app['config'];
 
-            $this['csrf_token_validator'] = function () use ($config) {
+            $this['csrf_token_validator'] = function () {
                 return new DoubleSubmitCookieTokenValidator();
             };
         }
@@ -260,7 +264,7 @@ class CKFinder extends Container implements HttpKernelInterface
     public function handleOptionsRequest(RequestEvent $event)
     {
         if ($event->getRequest()->isMethod(Request::METHOD_OPTIONS)) {
-            $event->setResponse(Response::create('', Response::HTTP_OK, $this->getExtraHeaders()));
+            $event->setResponse(new Response('', Response::HTTP_OK, $this->getExtraHeaders()));
         }
     }
 
@@ -277,7 +281,7 @@ class CKFinder extends Container implements HttpKernelInterface
         $dispatcher->dispatch($event, $eventName);
 
         $controllerResult = $event->getControllerResult();
-        $event->setResponse(JsonResponse::create($controllerResult));
+        $event->setResponse(new JsonResponse($controllerResult));
     }
 
     /**
@@ -337,30 +341,24 @@ class CKFinder extends Container implements HttpKernelInterface
 
     /**
      * Returns the BackedFactory service.
-     *
-     * @return BackendFactory
      */
-    public function getBackendFactory()
+    public function getBackendFactory(): BackendFactory
     {
         return $this['backend_factory'];
     }
 
     /**
      * Returns the ACL service.
-     *
-     * @return Acl
      */
-    public function getAcl()
+    public function getAcl(): Acl
     {
         return $this['acl'];
     }
 
     /**
      * Returns the current WorkingFolder object.
-     *
-     * @return WorkingFolder
      */
-    public function getWorkingFolder()
+    public function getWorkingFolder(): WorkingFolder
     {
         return $this['working_folder'];
     }
@@ -412,10 +410,8 @@ class CKFinder extends Container implements HttpKernelInterface
      * Returns a plugin by the name.
      *
      * @param string $name plugin name
-     *
-     * @return null|PluginInterface
      */
-    public function getPlugin($name)
+    public function getPlugin($name): ?PluginInterface
     {
         if (isset($this->plugins[$name])) {
             return $this->plugins[$name];
@@ -468,17 +464,17 @@ class CKFinder extends Container implements HttpKernelInterface
     {
         $app = $this;
 
-        /** @var \CKSource\CKFinder\Backend\Backend $logsBackend */
+        /** @var Backend $logsBackend */
         $logsBackend = $app['backend_factory']->getPrivateDirBackend('logs');
 
         $adapter = $logsBackend->getBaseAdapter();
 
-        if ($adapter instanceof LocalFSAdapter) {
+        if ($adapter instanceof Local) {
             $logsDir = $app['config']->getPrivateDirPath('logs');
 
             $errorLogPath = Path::combine($logsDir, 'error.log');
 
-            $logPath = $adapter->applyPathPrefix($errorLogPath);
+            $logPath = $adapter->pathPrefixer->prefixPath($errorLogPath);
 
             $app['logger']->pushHandler(new StreamHandler($logPath));
         }
@@ -486,15 +482,13 @@ class CKFinder extends Container implements HttpKernelInterface
 
     /**
      * @throws \Exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, int $type = HttpKernelInterface::MASTER_REQUEST, bool $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true): Response
     {
         /** @var HttpKernel $kernel */
         $kernel = $this['kernel'];
 
-        /** @var \CKSource\CKFinder\Request\Transformer\TransformerInterface $requestTransformer */
+        /** @var TransformerInterface $requestTransformer */
         $requestTransformer = $this['request_transformer'];
 
         if ($requestTransformer) {
@@ -508,6 +502,7 @@ class CKFinder extends Container implements HttpKernelInterface
             } catch (\Exception $e) {
                 $this['request_stack']->push($request);
                 $kernel->terminateWithException($e);
+
                 exit;
             }
         }
@@ -517,10 +512,8 @@ class CKFinder extends Container implements HttpKernelInterface
 
     /**
      * Returns the current request object.
-     *
-     * @return Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         /** @var RequestStack $requestStack */
         $requestStack = $this['request_stack'];
@@ -530,10 +523,8 @@ class CKFinder extends Container implements HttpKernelInterface
 
     /**
      * Returns the resized image repository.
-     *
-     * @return ResizedImageRepository
      */
-    public function getResizedImageRepository()
+    public function getResizedImageRepository(): ResizedImageRepository
     {
         return $this['resized_image_repository'];
     }
@@ -542,10 +533,8 @@ class CKFinder extends Container implements HttpKernelInterface
      * Returns the connector URL based on the current request.
      *
      * @param bool|true $full if set to `true`, the returned URL contains the scheme and host
-     *
-     * @return string
      */
-    public function getConnectorUrl($full = true)
+    public function getConnectorUrl($full = true): string
     {
         $request = $this->getRequest();
 
@@ -557,7 +546,7 @@ class CKFinder extends Container implements HttpKernelInterface
      *
      * @return array an array of headers
      */
-    protected function getExtraHeaders()
+    protected function getExtraHeaders(): array
     {
         $headers = $this['config']->get('headers');
 

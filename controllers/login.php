@@ -15,7 +15,7 @@ class Login extends Controller {
     }
     
     public function index($redirect = '') {
-
+        
         Auth::isLogin();
         
         $callbackUrl = Config::getFromCache('CONFIG_OAUTH_REDIRECT_URL');
@@ -1451,7 +1451,7 @@ class Login extends Controller {
         $this->model->registerModel();
     }
 
-    public function chooseUserRoleCustomLogin($response) {        
+    public function chooseUserRoleCustomLogin($response) {
         if ($response && is_array($response)) {
             $this->view->responseData = Hash::encryption(json_encode($response, JSON_UNESCAPED_UNICODE));
             $this->view->roleList = json_decode(Hash::decryption($response['nesresponse']), true);
@@ -1460,9 +1460,9 @@ class Login extends Controller {
             $this->view->render('profile/userkey/rolelist');
             $this->view->render('profile/userkey/footer');   
         }
-    }    
+    }
 
-    public function customLoginRole($roleId, $response) {        
+    public function customLoginRole($roleId, $response) {
         if ($roleId && $response) {
             $response = Str::urlCharReplace($response, true);
             $responseData = json_decode(Hash::decryption($response), true);
@@ -1470,8 +1470,16 @@ class Login extends Controller {
             
             $response = $this->model->runModel($responseData);
             
-            $this->chooseUserKey($response);            
+            $this->chooseUserKey($response);
         }
-    }    
-	
+    }
+
+    public function sso () {
+        Auth::isLogin();
+        /* $_POST['hash'] = 'dXNlcm5hbWU9YmlsZ3V1biZsYXN0TmFtZT1iaWxndXVuJmZpcnN0TmFtZT1iaWxndXVuJnBhc3N3b3JkPTEyMyZpcEFkcmVzcz0xOTIuMTAwLjEwMC4xJnJlZ2lzdGVyTnVtYmVyPdCw0LAxMjM0NTY3OCZyb2xlSWQ9MSZpc0N1c3RvbWVyPTE='; */
+        $_POST['hash'] = 'dXNlcm5hbWU9YmlsZ3V1biZsYXN0TmFtZT1iaWxndXVuJmZpcnN0TmFtZT1iaWxndXVuJnBhc3N3b3JkPTEyMyZpcEFkcmVzcz0xOTIuMTAwLjEwMC4xJnJlZ2lzdGVyTnVtYmVyPdCw0LAxMjM0NTY3OCZyb2xlSWQ9MQ==';
+
+        $response = $this->model->ssoRunModel();
+        $this->chooseUserKey($response);  
+    }
 }

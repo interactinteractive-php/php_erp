@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -17,6 +17,8 @@ namespace CKSource\CKFinder\Filesystem\File;
 use CKSource\CKFinder\CKFinder;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\ResourceType\ResourceType;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToDeleteFile;
 
 /**
  * The MovedFile class.
@@ -41,9 +43,9 @@ class MovedFile extends CopiedFile
     /**
      * Moves the current file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the file was moved successfully
+     *
+     * @throws \Exception
      */
     public function doMove()
     {
@@ -56,7 +58,13 @@ class MovedFile extends CopiedFile
             $this->resourceType->getResizedImageRepository()->deleteResizedImages($this->resourceType, $this->folder, $originalFileName);
             $this->getCache()->delete(Path::combine($this->resourceType->getName(), $this->folder, $originalFileName));
 
-            return $this->resourceType->getBackend()->delete($originalFilePath);
+            try {
+                $this->resourceType->getBackend()->delete($originalFilePath);
+            } catch (FilesystemException $e) {
+                throw new UnableToDeleteFile("Couldn't delete old file after move.");
+            }
+
+            return true;
         }
 
         return false;

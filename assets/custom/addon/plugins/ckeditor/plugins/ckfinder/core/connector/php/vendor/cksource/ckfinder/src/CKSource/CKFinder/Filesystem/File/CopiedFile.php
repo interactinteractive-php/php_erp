@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -21,6 +21,7 @@ use CKSource\CKFinder\Exception\InvalidRequestException;
 use CKSource\CKFinder\Filesystem\Folder\WorkingFolder;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\ResourceType\ResourceType;
+use League\Flysystem\FilesystemException;
 
 /**
  * The CopiedFile class.
@@ -40,14 +41,12 @@ class CopiedFile extends ExistingFile
      *             - autorename - Renames the current file (see File::autorename()).
      *             - overwrite - Overwrites the existing file.
      */
-    protected $copyOptions;
+    protected string $copyOptions;
 
     /**
      * File name of the source file.
-     *
-     * @var string
      */
-    protected $sourceFileName;
+    protected string $sourceFileName;
 
     /**
      * Constructor.
@@ -68,15 +67,13 @@ class CopiedFile extends ExistingFile
 
     /**
      * Returns the target folder for a copied file.
-     *
-     * @return WorkingFolder
      */
-    public function getTargetFolder()
+    public function getTargetFolder(): WorkingFolder
     {
         return $this->targetFolder;
     }
 
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->sourceFileName;
     }
@@ -84,11 +81,9 @@ class CopiedFile extends ExistingFile
     /**
      * Sets copy options.
      *
-     * @param string $copyOptions
-     *
      * @see CopiedFile::$copyOptions
      */
-    public function setCopyOptions($copyOptions)
+    public function setCopyOptions(string $copyOptions)
     {
         $this->copyOptions = $copyOptions;
     }
@@ -98,20 +93,20 @@ class CopiedFile extends ExistingFile
      *
      * @return bool `true` if the file has an extension allowed in source and target directories
      */
-    public function hasAllowedExtension()
+    public function hasAllowedExtension(): bool
     {
         $extension = $this->getExtension();
 
-        return parent::hasAllowedExtension() &&
-               $this->targetFolder->getResourceType()->isAllowedExtension($extension);
+        return parent::hasAllowedExtension()
+               && $this->targetFolder->getResourceType()->isAllowedExtension($extension);
     }
 
     /**
      * Checks if the copied file size does not exceed the file size limit set for the target folder.
      *
-     * @return bool
+     * @throws FilesystemException
      */
-    public function hasAllowedSize()
+    public function hasAllowedSize(): bool
     {
         $filePath = $this->getFilePath();
         $backend = $this->resourceType->getBackend();
@@ -120,9 +115,7 @@ class CopiedFile extends ExistingFile
             return false;
         }
 
-        $fileMetadata = $backend->getMetadata($filePath);
-
-        $fileSize = $fileMetadata['size'];
+        $fileSize = $this->resourceType->getBackend()->fileSize($filePath);
 
         $maxSize = $this->targetFolder->getResourceType()->getMaxSize();
 
@@ -138,7 +131,7 @@ class CopiedFile extends ExistingFile
      *
      * @param mixed $path
      */
-    public function autorename(Backend $backend = null, $path = '')
+    public function autorename(Backend $backend = null, $path = ''): bool
     {
         return parent::autorename($this->targetFolder->getBackend(), $this->targetFolder->getPath());
     }
@@ -146,17 +139,17 @@ class CopiedFile extends ExistingFile
     /**
      * Copies the current file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the file was copied successfully
+     *
+     * @throws \Exception
      */
-    public function doCopy()
+    public function doCopy(): bool
     {
         $originalFileStream = $this->getContentsStream();
 
         // Don't copy file to itself
-        if ($this->targetFolder->getBackend() === $this->resourceType->getBackend() &&
-            $this->targetFolder->getPath() === $this->getPath()) {
+        if ($this->targetFolder->getBackend() === $this->resourceType->getBackend()
+            && $this->targetFolder->getPath() === $this->getPath()) {
             $this->addError(Error::SOURCE_AND_TARGET_PATH_EQUAL);
 
             return false;
@@ -200,9 +193,9 @@ class CopiedFile extends ExistingFile
      */
     public function getTargetFilename()
     {
-        if ($this->targetFolder->containsFile($this->getFilename()) &&
-            false === strpos($this->copyOptions, 'overwrite') &&
-            false !== strpos($this->copyOptions, 'autorename')) {
+        if ($this->targetFolder->containsFile($this->getFilename())
+            && false === strpos($this->copyOptions, 'overwrite')
+            && false !== strpos($this->copyOptions, 'autorename')) {
             $this->autorename();
         }
 
@@ -211,30 +204,24 @@ class CopiedFile extends ExistingFile
 
     /**
      * Returns the source file name of the copied file.
-     *
-     * @return string
      */
-    public function getSourceFilename()
+    public function getSourceFilename(): string
     {
         return $this->sourceFileName;
     }
 
     /**
      * Returns the target path of the copied file.
-     *
-     * @return string
      */
-    public function getTargetFilePath()
+    public function getTargetFilePath(): string
     {
         return Path::combine($this->getTargetFolder()->getPath(), $this->getTargetFilename());
     }
 
     /**
      * Returns the source file name of the copied file.
-     *
-     * @return string
      */
-    public function getSourceFilePath()
+    public function getSourceFilePath(): string
     {
         return Path::combine($this->getPath(), $this->sourceFileName);
     }
@@ -242,9 +229,10 @@ class CopiedFile extends ExistingFile
     /**
      * Validates the copied file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the copied file is valid and ready to be copied
+     *
+     * @throws FilesystemException
+     * @throws \Exception
      */
     public function isValid()
     {

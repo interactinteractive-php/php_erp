@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -19,6 +19,7 @@ use CKSource\CKFinder\Config;
 use CKSource\CKFinder\Event\CKFinderEvent;
 use CKSource\CKFinder\Event\ProxyDownloadEvent;
 use CKSource\CKFinder\Exception\AccessDeniedException;
+use CKSource\CKFinder\Exception\CKFinderException;
 use CKSource\CKFinder\Exception\FileNotFoundException;
 use CKSource\CKFinder\Exception\InvalidExtensionException;
 use CKSource\CKFinder\Exception\InvalidRequestException;
@@ -26,6 +27,7 @@ use CKSource\CKFinder\Filesystem\File\DownloadedFile;
 use CKSource\CKFinder\Filesystem\File\File;
 use CKSource\CKFinder\Filesystem\Folder\WorkingFolder;
 use CKSource\CKFinder\Utils;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -34,6 +36,14 @@ class Proxy extends CommandAbstract
 {
     protected $requires = [Permission::FILE_VIEW];
 
+    /**
+     * @throws FileNotFoundException
+     * @throws FilesystemException
+     * @throws CKFinderException
+     * @throws InvalidRequestException
+     * @throws InvalidExtensionException
+     * @throws AccessDeniedException
+     */
     public function execute(Request $request, WorkingFolder $workingFolder, EventDispatcher $dispatcher, Config $config)
     {
         $fileName = (string) $request->query->get('fileName');
@@ -55,7 +65,7 @@ class Proxy extends CommandAbstract
             }
 
             if (!$workingFolder->getResourceType()->isAllowedExtension(pathinfo($thumbnailFileName, PATHINFO_EXTENSION))) {
-                throw new InvalidExtensionException();
+                throw new InvalidExtensionException(sprintf('Invalid extension in filename: %s', $fileName));
             }
 
             $resizedImageRespository = $this->app->getResizedImageRepository();

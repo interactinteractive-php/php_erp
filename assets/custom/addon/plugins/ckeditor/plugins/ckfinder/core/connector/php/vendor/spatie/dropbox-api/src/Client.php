@@ -5,6 +5,7 @@ namespace Spatie\Dropbox;
 use Exception;
 use GrahamCampbell\GuzzleFactory\GuzzleFactory;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
@@ -16,52 +17,72 @@ use Spatie\Dropbox\Exceptions\BadRequest;
 
 class Client
 {
-    const THUMBNAIL_FORMAT_JPEG = 'jpeg';
-    const THUMBNAIL_FORMAT_PNG = 'png';
+    public const THUMBNAIL_FORMAT_JPEG = 'jpeg';
 
-    const THUMBNAIL_SIZE_XS = 'w32h32';
-    const THUMBNAIL_SIZE_S = 'w64h64';
-    const THUMBNAIL_SIZE_M = 'w128h128';
-    const THUMBNAIL_SIZE_L = 'w640h480';
-    const THUMBNAIL_SIZE_XL = 'w1024h768';
+    public const THUMBNAIL_FORMAT_PNG = 'png';
 
-    const MAX_CHUNK_SIZE = 1024 * 1024 * 150;
+    public const THUMBNAIL_SIZE_XS = 'w32h32';
 
-    const UPLOAD_SESSION_START = 0;
-    const UPLOAD_SESSION_APPEND = 1;
+    public const THUMBNAIL_SIZE_S = 'w64h64';
 
-    /** @var string */
-    protected $accessToken;
+    public const THUMBNAIL_SIZE_M = 'w128h128';
 
-    /** @var \GuzzleHttp\Client */
-    protected $client;
+    public const THUMBNAIL_SIZE_L = 'w640h480';
 
-    /** @var int */
-    protected $maxChunkSize;
+    public const THUMBNAIL_SIZE_XL = 'w1024h768';
 
-    /** @var int */
-    protected $maxUploadChunkRetries;
+    public const MAX_CHUNK_SIZE = 1024 * 1024 * 150;
+
+    public const UPLOAD_SESSION_START = 0;
+
+    public const UPLOAD_SESSION_APPEND = 1;
+
+    private ?TokenProvider $tokenProvider = null;
+
+    protected ?string $namespaceId = null;
+
+    protected ?string $appKey = null;
+
+    protected ?string $appSecret = null;
+
+    protected ClientInterface $client;
+
+    protected int $maxChunkSize;
 
     /**
-     * @param string $accessToken
-     * @param GuzzleClient|null $client
-     * @param int $maxChunkSize Set max chunk size per request (determines when to switch from "one shot upload" to upload session and defines chunk size for uploads via session).
-     * @param int $maxUploadChunkRetries How many times to retry an upload session start or append after RequestException.
+     * @param  string|array<string>|TokenProvider|null  $accessTokenOrAppCredentials
+     * @param  int  $maxChunkSize Set max chunk size per request (determines when to switch from "one shot upload" to upload session and defines chunk size for uploads via session).
+     * @param  int  $maxUploadChunkRetries How many times to retry an upload session start or append after RequestException.
+     * @param  ?string  $teamMemberId The team member ID to be specified for Dropbox business accounts
      */
-    public function __construct(string $accessToken, GuzzleClient $client = null, int $maxChunkSize = self::MAX_CHUNK_SIZE, int $maxUploadChunkRetries = 0)
-    {
-        $this->accessToken = $accessToken;
+    public function __construct(
+        string|array|TokenProvider|null $accessTokenOrAppCredentials = null,
+        ClientInterface $client = null,
+        int $maxChunkSize = self::MAX_CHUNK_SIZE,
+        protected int $maxUploadChunkRetries = 0,
+        protected ?string $teamMemberId = null,
+    ) {
+        if (is_array($accessTokenOrAppCredentials)) {
+            [$this->appKey, $this->appSecret] = $accessTokenOrAppCredentials;
+        }
+        if ($accessTokenOrAppCredentials instanceof TokenProvider) {
+            $this->tokenProvider = $accessTokenOrAppCredentials;
+        }
+        if (is_string($accessTokenOrAppCredentials)) {
+            $this->tokenProvider = new InMemoryTokenProvider($accessTokenOrAppCredentials);
+        }
 
         $this->client = $client ?? new GuzzleClient(['handler' => GuzzleFactory::handler()]);
 
-        $this->maxChunkSize = ($maxChunkSize < self::MAX_CHUNK_SIZE ? ($maxChunkSize > 1 ? $maxChunkSize : 1) : self::MAX_CHUNK_SIZE);
-        $this->maxUploadChunkRetries = $maxUploadChunkRetries;
+        $this->maxChunkSize = ($maxChunkSize < self::MAX_CHUNK_SIZE ? max($maxChunkSize, 1) : self::MAX_CHUNK_SIZE);
     }
 
     /**
      * Copy a file or folder to a different location in the user's Dropbox.
      *
      * If the source path is a folder all its contents will be copied.
+     *
+     * @return array<string, string>
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-copy_v2
      */
@@ -77,6 +98,8 @@ class Client
 
     /**
      * Create a folder at a given path.
+     *
+     * @return array<string, string>
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-create_folder
      */
@@ -100,9 +123,12 @@ class Client
      * The resolved visibility, though, may depend on other aspects such as team and
      * shared folder settings). Only for paid users.
      *
+     * @param  array<string, string>  $settings
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#sharing-create_shared_link_with_settings
      */
-    public function createSharedLinkWithSettings(string $path, array $settings = [])
+    public function createSharedLinkWithSettings(string $path, array $settings = []): array
     {
         $parameters = [
             'path' => $this->normalizePath($path),
@@ -118,9 +144,11 @@ class Client
     /**
      * Search a file or folder in the user's Dropbox.
      *
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-search
      */
-    public function search(string $query, bool $includeHighlights = false)
+    public function search(string $query, bool $includeHighlights = false): array
     {
         $parameters = [
             'query' => $query,
@@ -138,6 +166,8 @@ class Client
      *
      * If direct_only is set true, only direct links to the path will be returned, otherwise
      * it may return link to the path itself and parent folders as described on docs.
+     *
+     * @return array<mixed>
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#sharing-list_shared_links
      */
@@ -160,6 +190,8 @@ class Client
      * If the path is a folder, all its contents will be deleted too.
      * A successful response indicates that the file or folder was deleted.
      *
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-delete
      */
     public function delete(string $path): array
@@ -174,7 +206,6 @@ class Client
     /**
      * Download a file from a user's Dropbox.
      *
-     * @param string $path
      *
      * @return resource
      *
@@ -192,9 +223,32 @@ class Client
     }
 
     /**
+     * Download a folder from the user's Dropbox, as a zip file.
+     * The folder must be less than 20 GB in size and have fewer than 10,000 total files.
+     * The input cannot be a single file. Any single file must be less than 4GB in size.
+     *
+     *
+     * @return resource
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-download_zip
+     */
+    public function downloadZip(string $path)
+    {
+        $arguments = [
+            'path' => $this->normalizePath($path),
+        ];
+
+        $response = $this->contentEndpointRequest('files/download_zip', $arguments);
+
+        return StreamWrapper::getResource($response->getBody());
+    }
+
+    /**
      * Returns the metadata for a file or folder.
      *
      * Note: Metadata for the root folder is unsupported.
+     *
+     * @return array<mixed>
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-get_metadata
      */
@@ -259,6 +313,8 @@ class Client
      * with same parameters are made simultaneously by same API app for same user. If your app implements
      * retry logic, please hold off the retry until the previous request finishes.
      *
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-list_folder
      */
     public function listFolder(string $path = '', bool $recursive = false): array
@@ -275,6 +331,8 @@ class Client
      * Once a cursor has been retrieved from list_folder, use this to paginate through all files and
      * retrieve updates to the folder, following the same rules as documented for list_folder.
      *
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-list_folder-continue
      */
     public function listFolderContinue(string $cursor = ''): array
@@ -287,35 +345,32 @@ class Client
      *
      * If the source path is a folder all its contents will be moved.
      *
+     * @return array<mixed>
+     *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-move_v2
      */
-    public function move(string $fromPath, string $toPath): array
+    public function move(string $fromPath, string $toPath, bool $autorename = false): array
     {
         $parameters = [
             'from_path' => $this->normalizePath($fromPath),
             'to_path' => $this->normalizePath($toPath),
+            'autorename' => $autorename,
         ];
 
         return $this->rpcEndpointRequest('files/move_v2', $parameters);
     }
 
     /**
-     * The file should be uploaded in chunks if it size exceeds the 150 MB threshold
+     * The file should be uploaded in chunks if its size exceeds the 150 MB threshold
      * or if the resource size could not be determined (eg. a popen() stream).
      *
-     * @param string|resource $contents
-     *
-     * @return bool
+     * @param  string|resource  $contents
      */
-    protected function shouldUploadChunked($contents): bool
+    protected function shouldUploadChunked(mixed $contents): bool
     {
         $size = is_string($contents) ? strlen($contents) : fstat($contents)['size'];
 
         if ($this->isPipe($contents)) {
-            return true;
-        }
-
-        if ($size === null) {
             return true;
         }
 
@@ -325,13 +380,11 @@ class Client
     /**
      * Check if the contents is a pipe stream (not seekable, no size defined).
      *
-     * @param string|resource $contents
-     *
-     * @return bool
+     * @param  string|resource  $contents
      */
-    protected function isPipe($contents): bool
+    protected function isPipe(mixed $contents): bool
     {
-        return is_resource($contents) ? (fstat($contents)['mode'] & 010000) != 0 : false;
+        return is_resource($contents) && (fstat($contents)['mode'] & 010000) != 0;
     }
 
     /**
@@ -341,13 +394,10 @@ class Client
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload
      *
-     * @param string $path
-     * @param string|resource $contents
-     * @param string $mode
-     *
-     * @return array
+     * @param  string|resource  $contents
+     * @return array<mixed>
      */
-    public function upload(string $path, $contents, $mode = 'add'): array
+    public function upload(string $path, mixed $contents, string $mode = 'add', bool $autorename = false): array
     {
         if ($this->shouldUploadChunked($contents)) {
             return $this->uploadChunked($path, $contents, $mode);
@@ -356,6 +406,7 @@ class Client
         $arguments = [
             'path' => $this->normalizePath($path),
             'mode' => $mode,
+            'autorename' => $autorename,
         ];
 
         $response = $this->contentEndpointRequest('files/upload', $arguments, $contents);
@@ -374,14 +425,10 @@ class Client
      * The chunk size will affect directly the memory usage, so be careful.
      * Large chunks tends to speed up the upload, while smaller optimizes memory usage.
      *
-     * @param string $path
-     * @param string|resource $contents
-     * @param string $mode
-     * @param int $chunkSize
-     *
-     * @return array
+     * @param  string|resource  $contents
+     * @return array<mixed>
      */
-    public function uploadChunked(string $path, $contents, $mode = 'add', $chunkSize = null): array
+    public function uploadChunked(string $path, mixed $contents, string $mode = 'add', ?int $chunkSize = null): array
     {
         if ($chunkSize === null || $chunkSize > $this->maxChunkSize) {
             $chunkSize = $this->maxChunkSize;
@@ -399,14 +446,9 @@ class Client
     }
 
     /**
-     * @param int $type
-     * @param Psr7\Stream $stream
-     * @param int $chunkSize
-     * @param \Spatie\Dropbox\UploadSessionCursor|null $cursor
-     * @return \Spatie\Dropbox\UploadSessionCursor
      * @throws Exception
      */
-    protected function uploadChunk($type, &$stream, $chunkSize, $cursor = null): UploadSessionCursor
+    protected function uploadChunk(int $type, StreamInterface &$stream, int $chunkSize, ?UploadSessionCursor $cursor = null): UploadSessionCursor
     {
         $maximumTries = $stream->isSeekable() ? $this->maxUploadChunkRetries : 0;
         $pos = $stream->tell();
@@ -434,6 +476,7 @@ class Client
                 $stream->seek($pos, SEEK_SET);
                 goto tryUpload;
             }
+
             throw $exception;
         }
     }
@@ -445,12 +488,9 @@ class Client
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-start
      *
-     * @param string|StreamInterface $contents
-     * @param bool $close
-     *
-     * @return UploadSessionCursor
+     * @param  string|resource|StreamInterface  $contents
      */
-    public function uploadSessionStart($contents, bool $close = false): UploadSessionCursor
+    public function uploadSessionStart(mixed $contents, bool $close = false): UploadSessionCursor
     {
         $arguments = compact('close');
 
@@ -468,14 +508,8 @@ class Client
      * A single request should not upload more than 150 MB.
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-append_v2
-     *
-     * @param string|StreamInterface $contents
-     * @param UploadSessionCursor $cursor
-     * @param bool $close
-     *
-     * @return \Spatie\Dropbox\UploadSessionCursor
      */
-    public function uploadSessionAppend($contents, UploadSessionCursor $cursor, bool $close = false): UploadSessionCursor
+    public function uploadSessionAppend(string|StreamInterface $contents, UploadSessionCursor $cursor, bool $close = false): UploadSessionCursor
     {
         $arguments = compact('cursor', 'close');
 
@@ -493,16 +527,10 @@ class Client
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-upload_session-finish
      *
-     * @param string|StreamInterface $contents
-     * @param \Spatie\Dropbox\UploadSessionCursor $cursor
-     * @param string $path
-     * @param string|array $mode
-     * @param bool $autorename
-     * @param bool $mute
-     *
-     * @return array
+     * @param  string|resource|StreamInterface  $contents
+     * @return array<mixed>
      */
-    public function uploadSessionFinish($contents, UploadSessionCursor $cursor, string $path, $mode = 'add', $autorename = false, $mute = false): array
+    public function uploadSessionFinish(mixed $contents, UploadSessionCursor $cursor, string $path, string $mode = 'add', bool $autorename = false, bool $mute = false): array
     {
         $arguments = compact('cursor');
         $arguments['commit'] = compact('path', 'mode', 'autorename', 'mute');
@@ -523,9 +551,9 @@ class Client
     /**
      * Get Account Info for current authenticated user.
      *
-     * @link https://www.dropbox.com/developers/documentation/http/documentation#users-get_current_account
+     * @return array<mixed>
      *
-     * @return array
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#users-get_current_account
      */
     public function getAccountInfo(): array
     {
@@ -537,7 +565,7 @@ class Client
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#auth-token-revoke
      */
-    public function revokeToken()
+    public function revokeToken(): void
     {
         $this->rpcEndpointRequest('auth/token/revoke');
     }
@@ -563,15 +591,12 @@ class Client
     }
 
     /**
-     * @param string $endpoint
-     * @param array $arguments
-     * @param string|resource|StreamInterface $body
-     *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param  array<string, mixed>  $arguments
+     * @param  string|resource|StreamInterface  $body
      *
      * @throws \Exception
      */
-    public function contentEndpointRequest(string $endpoint, array $arguments, $body = ''): ResponseInterface
+    public function contentEndpointRequest(string $endpoint, array $arguments, mixed $body = '', bool $isRefreshed = false): ResponseInterface
     {
         $headers = ['Dropbox-API-Arg' => json_encode($arguments)];
 
@@ -580,18 +605,29 @@ class Client
         }
 
         try {
-            $response = $this->client->post($this->getEndpointUrl('content', $endpoint), [
+            $response = $this->client->request('POST', $this->getEndpointUrl('content', $endpoint), [
                 'headers' => $this->getHeaders($headers),
                 'body' => $body,
             ]);
         } catch (ClientException $exception) {
-            throw $this->determineException($exception);
+            if (
+                $isRefreshed
+                || ! $this->tokenProvider instanceof RefreshableTokenProvider
+                || ! $this->tokenProvider->refresh($exception)
+            ) {
+                throw $this->determineException($exception);
+            }
+            $response = $this->contentEndpointRequest($endpoint, $arguments, $body, true);
         }
 
         return $response;
     }
 
-    public function rpcEndpointRequest(string $endpoint, array $parameters = null): array
+    /**
+     * @param  array<string, string|bool|array<string>>|null  $parameters
+     * @return array<mixed>
+     */
+    public function rpcEndpointRequest(string $endpoint, array $parameters = null, bool $isRefreshed = false): array
     {
         try {
             $options = ['headers' => $this->getHeaders()];
@@ -600,14 +636,20 @@ class Client
                 $options['json'] = $parameters;
             }
 
-            $response = $this->client->post($this->getEndpointUrl('api', $endpoint), $options);
+            $response = $this->client->request('POST', $this->getEndpointUrl('api', $endpoint), $options);
         } catch (ClientException $exception) {
-            throw $this->determineException($exception);
+            if (
+                $isRefreshed
+                || ! $this->tokenProvider instanceof RefreshableTokenProvider
+                || ! $this->tokenProvider->refresh($exception)
+            ) {
+                throw $this->determineException($exception);
+            }
+
+            return $this->rpcEndpointRequest($endpoint, $parameters, true);
         }
 
-        $response = json_decode($response->getBody(), true);
-
-        return $response ?? [];
+        return json_decode($response->getBody(), true) ?? [];
     }
 
     protected function determineException(ClientException $exception): Exception
@@ -620,11 +662,9 @@ class Client
     }
 
     /**
-     * @param $contents
-     *
-     * @return \GuzzleHttp\Psr7\PumpStream|\GuzzleHttp\Psr7\Stream
+     * @param  string|resource  $contents
      */
-    protected function getStream($contents)
+    protected function getStream(mixed $contents): StreamInterface
     {
         if ($this->isPipe($contents)) {
             /* @var resource $contents */
@@ -638,7 +678,7 @@ class Client
             });
         }
 
-        return Psr7\stream_for($contents);
+        return Psr7\Utils::streamFor($contents);
     }
 
     /**
@@ -646,7 +686,7 @@ class Client
      */
     public function getAccessToken(): string
     {
-        return $this->accessToken;
+        return $this->tokenProvider->getToken();
     }
 
     /**
@@ -654,18 +694,77 @@ class Client
      */
     public function setAccessToken(string $accessToken): self
     {
-        $this->accessToken = $accessToken;
+        $this->tokenProvider = new InMemoryTokenProvider($accessToken);
+
+        return $this;
+    }
+
+    /**
+     * Set the namespace ID.
+     */
+    public function setNamespaceId(string $namespaceId): self
+    {
+        $this->namespaceId = $namespaceId;
 
         return $this;
     }
 
     /**
      * Get the HTTP headers.
+     *
+     * @param  array<string, string>  $headers
+     * @return array<string, string>
      */
     protected function getHeaders(array $headers = []): array
     {
-        return array_merge([
-            'Authorization' => "Bearer {$this->accessToken}",
-        ], $headers);
+        $auth = [];
+        if ($this->tokenProvider || ($this->appKey && $this->appSecret)) {
+            $auth = $this->tokenProvider
+                ? $this->getHeadersForBearerToken($this->tokenProvider->getToken())
+                : $this->getHeadersForCredentials();
+        }
+
+        if ($this->teamMemberId) {
+            $auth = array_merge(
+                $auth,
+                [
+                    'Dropbox-API-Select-User' => $this->teamMemberId,
+                ]
+            );
+        }
+
+        if ($this->namespaceId) {
+            $headers = array_merge(
+                $headers,
+                [
+                    'Dropbox-API-Path-Root' => json_encode([
+                        '.tag' => 'namespace_id',
+                        'namespace_id' => $this->namespaceId,
+                    ]),
+                ]
+            );
+        }
+
+        return array_merge($auth, $headers);
+    }
+
+    /**
+     * @return array{Authorization: string}
+     */
+    protected function getHeadersForBearerToken(string $token): array
+    {
+        return [
+            'Authorization' => "Bearer {$token}",
+        ];
+    }
+
+    /**
+     * @return array{Authorization: string}
+     */
+    protected function getHeadersForCredentials(): array
+    {
+        return [
+            'Authorization' => 'Basic '.base64_encode("{$this->appKey}:{$this->appSecret}"),
+        ];
     }
 }

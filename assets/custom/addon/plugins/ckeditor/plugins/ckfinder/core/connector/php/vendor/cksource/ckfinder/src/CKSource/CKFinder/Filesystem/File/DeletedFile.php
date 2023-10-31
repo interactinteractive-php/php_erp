@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -18,6 +18,7 @@ use CKSource\CKFinder\Error;
 use CKSource\CKFinder\Exception\InvalidExtensionException;
 use CKSource\CKFinder\Exception\InvalidRequestException;
 use CKSource\CKFinder\Filesystem\Path;
+use League\Flysystem\FilesystemException;
 
 /**
  * The DeletedFile class.
@@ -29,13 +30,20 @@ class DeletedFile extends ExistingFile
     /**
      * Deletes the current file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the file was deleted successfully
+     *
+     * @throws \Exception
      */
     public function doDelete()
     {
-        if ($this->resourceType->getBackend()->delete($this->getFilePath())) {
+        try {
+            $this->resourceType->getBackend()->delete($this->getFilePath());
+            $result = true;
+        } catch (FilesystemException $e) {
+            $result = false;
+        }
+
+        if ($result) {
             $this->deleteThumbnails();
             $this->deleteResizedImages();
             $this->getCache()->delete(Path::combine($this->resourceType->getName(), $this->folder, $this->getFilename()));

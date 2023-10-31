@@ -1578,13 +1578,13 @@ class Login_Model extends Model {
 
         $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
         if ($logged == false) {
-                Session::set(SESSION_PREFIX . 'LoggedIn', true);
+            Session::set(SESSION_PREFIX . 'LoggedIn', true);
         }
 
         unset($_POST); 
         $_POST['responseType'] = 'outputArray';
         $_POST['nult'] = true;
-        $_POST['methodId'] = Config::getFromCacheDefault('passwordMinLength', null, '16613343873889');
+        $_POST['methodId'] = Config::getFromCacheDefault('userRegisterProcessId', null, '16613343873889');
         $_POST['processSubType'] = 'internal';
         $_POST['create'] = '1';
         $_POST['isSystemProcess'] = 'true';
@@ -1600,6 +1600,138 @@ class Login_Model extends Model {
             $this->redirectLogin(Lang::line('registry_succes_msg'), AUTH_URL.'login', 's');
         } else {
             $this->redirectLogin(checkDefaultVal($result['message'], Lang::line('Бүртгэл хийх явцад алдаа гарлаа. Та дахин оролдоно уу.')), $passwordResetUrl);
+        }
+    }
+
+    public function ssoRunModel () {
+        
+        $postData = Input::postData();
+        $dataStr = base64_decode($postData['hash']);
+        parse_str($dataStr, $data);
+
+        $isCustomer = issetParam($data['isCustomer']);
+        $data['username'] = 'test123';
+
+        includeLib('Utils/Functions');
+        if (issetParam($data['deparmentCode']) === '') {
+            $dResult = Functions::runProcess('SSO_GET_UNIQUE_DEPARTMENT_CODE_004', array('filterId' => '1'));
+            $data['departmentCode'] = issetParam($dResult['result']['configvalue']);
+        }
+
+        switch ($isCustomer) {
+            case '1':
+                $result = Functions::runProcess('CHECK_CRM_USER_004', array('filterusername' => $data['username']));
+                if (issetParam($result['result']['id']) !== '') {
+                    unset($_POST);
+                    $_POST['isHash'] = '1';
+                    $_POST['user_name'] = issetParam($result['result']['username']);
+                    $_POST['pass_word'] = issetParam($result['result']['passwordhash']);
+                    $_POST['isCustomer'] = '1';
+                    $_POST['csrf_token'] = self::getCsrfTokenModel();
+                    
+                    self::runModel();
+                } else {
+                    $response = self::ssoRegisterModel($data, $isCustomer);
+                }
+                break;
+            default:
+                
+                $result = Functions::runProcess('CHECK_UM_USER_004', array('filterusername' => $data['username']));
+                if (issetParam($result['result']['id']) !== '') {
+                    unset($_POST);
+                    $_POST['isHash'] = '1';
+                    $_POST['user_name'] = issetParam($result['result']['username']);
+                    $_POST['pass_word'] = issetParam($result['result']['passwordhash']);
+                    $_POST['csrf_token'] = self::getCsrfTokenModel();
+                    
+                    self::runModel();
+                } else {
+                    $response = self::ssoRegisterModel($data);
+                }
+
+                break;
+        }
+        
+    }
+
+    public function ssoRegisterModel($data, $isCustomer = '') {
+        $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
+        if ($logged == false) {
+            Session::set(SESSION_PREFIX . 'LoggedIn', true);
+        }
+        
+        switch ($isCustomer) {
+            case '1':
+                unset($_POST); 
+                
+                $_POST['responseType'] = 'outputArray';
+                $_POST['nult'] = true;
+                $_POST['methodId'] = Config::getFromCacheDefault('crmUserRegisterProcessId', null, '1698053031807222'); /* SSO_CREATE_CRM_USER */
+                $_POST['processSubType'] = 'external';
+                $_POST['create'] = '0';
+                $_POST['isSystemProcess'] = 'true';
+                $_POST['param']['userName'] = $data['username'];
+                $_POST['param']['email'] = issetParam($data['email']);
+                $_POST['param']['phoneNumber'] = issetParam($data['phoneNumber']);
+                $_POST['param']['lastName'] = issetParam($data['lastName']);
+                $_POST['param']['firstName'] = issetParam($data['firstName']);
+                $_POST['param']['stateRegNumber'] = issetParam($data['registerNumber']);
+                $_POST['param']['departmentCode'] = issetParam($data['departmentCode']);
+                
+                $result = (new Mdwebservice())->runProcess();
+                if (issetParam($result['status']) === 'success') {
+                    $result = Functions::runProcess('CHECK_CRM_USER_004', array('filterusername' => $data['username']));
+                    unset($_POST);
+
+                    $_POST['isHash'] = '1';
+                    $_POST['user_name'] = issetParam($result['result']['username']);
+                    $_POST['pass_word'] = issetParam($result['result']['passwordhash']);
+                    $_POST['isCustomer'] = '1';
+                    $_POST['csrf_token'] = self::getCsrfTokenModel();
+                    
+                    self::runModel();
+
+                } else {
+                    /* $this->redirectLogin(checkDefaultVal($result['message'], Lang::line('Бүртгэл хийх явцад алдаа гарлаа. Та дахин оролдоно уу.')), $passwordResetUrl); */
+                    $this->redirectLogin('Дахин оролдоно уу.', AUTH_URL.'login', 'w'); 
+                }
+
+                break;
+            default:
+                unset($_POST); 
+                
+                $_POST['responseType'] = 'outputArray';
+                $_POST['nult'] = true;
+                $_POST['methodId'] = Config::getFromCacheDefault('crmUserRegisterProcessId', null, '1698053031807222'); /* SSO_CREATE_CRM_USER */
+                $_POST['processSubType'] = 'external';
+                $_POST['create'] = '0';
+                $_POST['isSystemProcess'] = 'true';
+                $_POST['param']['userName'] = $data['username'];
+                $_POST['param']['email'] = issetParam($data['email']);
+                $_POST['param']['phoneNumber'] = issetParam($data['phoneNumber']);
+                $_POST['param']['lastName'] = issetParam($data['lastName']);
+                $_POST['param']['firstName'] = issetParam($data['firstName']);
+                $_POST['param']['stateRegNumber'] = issetParam($data['registerNumber']);
+                $_POST['param']['departmentId'] = issetParam($data['departmentCode']);
+                
+                $result = (new Mdwebservice())->runProcess();
+                if (issetParam($result['status']) === 'success') {
+                    $result = Functions::runProcess('CHECK_UM_USER_004', array('filterusername' => $data['username']));
+                    
+                    unset($_POST);
+
+                    $_POST['isHash'] = '1';
+                    $_POST['user_name'] = issetParam($result['result']['username']);
+                    $_POST['pass_word'] = issetParam($result['result']['passwordhash']);
+                    $_POST['csrf_token'] = self::getCsrfTokenModel();
+                    
+                    self::runModel();
+
+                } else {
+                    /* $this->redirectLogin(checkDefaultVal($result['message'], Lang::line('Бүртгэл хийх явцад алдаа гарлаа. Та дахин оролдоно уу.')), $passwordResetUrl); */
+                    $this->redirectLogin('Дахин оролдоно уу.', AUTH_URL.'login', 'w'); 
+                }
+                break;
         }
     }
 }

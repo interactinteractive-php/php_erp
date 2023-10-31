@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -23,6 +23,8 @@ use CKSource\CKFinder\Exception\InvalidRequestException;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\ResourceType\ResourceType;
 use CKSource\CKFinder\Utils;
+use Exception;
+use League\Flysystem\FilesystemException;
 
 /**
  * The RenamedFile class.
@@ -33,10 +35,8 @@ class RenamedFile extends ExistingFile
 {
     /**
      * New file name.
-     *
-     * @var string
      */
-    protected $newFileName;
+    protected string $newFileName;
 
     /**
      * Constructor.
@@ -64,30 +64,24 @@ class RenamedFile extends ExistingFile
 
     /**
      * Returns the new file name of the renamed file.
-     *
-     * @return string
      */
-    public function getNewFileName()
+    public function getNewFileName(): string
     {
         return $this->newFileName;
     }
 
     /**
      * Returns the new path of the renamed file.
-     *
-     * @return string
      */
-    public function getNewFilePath()
+    public function getNewFilePath(): string
     {
         return Path::combine($this->getPath(), $this->getNewFileName());
     }
 
     /**
      * Sets the new file name of the renamed file.
-     *
-     * @param string $newFileName
      */
-    public function setNewFileName($newFileName)
+    public function setNewFileName(string $newFileName)
     {
         $this->newFileName = $newFileName;
     }
@@ -95,11 +89,12 @@ class RenamedFile extends ExistingFile
     /**
      * Renames the current file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the file was renamed successfully
+     *
+     * @throws Exception
+     * @throws FilesystemException
      */
-    public function doRename()
+    public function doRename(): bool
     {
         $oldPath = Path::combine($this->getPath(), $this->getFilename());
         $newPath = Path::combine($this->getPath(), $this->newFileName);
@@ -111,6 +106,7 @@ class RenamedFile extends ExistingFile
         }
 
         $this->deleteThumbnails();
+
         $this->resourceType->getResizedImageRepository()->renameResizedImages(
             $this->resourceType,
             $this->folder,
@@ -129,11 +125,10 @@ class RenamedFile extends ExistingFile
     /**
      * Validates the renamed file.
      *
-     * @throws \Exception
-     *
-     * @return bool
+     * @throws FilesystemException
+     * @throws Exception
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $newExtension = pathinfo($this->newFileName, PATHINFO_EXTENSION);
 
@@ -149,8 +144,8 @@ class RenamedFile extends ExistingFile
             throw new InvalidRequestException('Invalid source file name');
         }
 
-        if (!File::isValidName($this->newFileName, $this->config->get('disallowUnsafeCharacters')) ||
-            $this->resourceType->getBackend()->isHiddenFile($this->newFileName)) {
+        if (!File::isValidName($this->newFileName, $this->config->get('disallowUnsafeCharacters'))
+            || $this->resourceType->getBackend()->isHiddenFile($this->newFileName)) {
             throw new InvalidNameException('Invalid target file name');
         }
 

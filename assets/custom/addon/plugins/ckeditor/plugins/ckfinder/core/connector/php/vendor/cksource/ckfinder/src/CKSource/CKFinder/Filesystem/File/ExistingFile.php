@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -14,12 +14,14 @@
 
 namespace CKSource\CKFinder\Filesystem\File;
 
+use CKSource\CKFinder\Backend\Backend;
 use CKSource\CKFinder\CKFinder;
 use CKSource\CKFinder\Error;
 use CKSource\CKFinder\Exception\InvalidUploadException;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\Image;
 use CKSource\CKFinder\ResourceType\ResourceType;
+use League\Flysystem\FilesystemException;
 
 /**
  * The ExistingFile class.
@@ -58,6 +60,13 @@ abstract class ExistingFile extends File
     protected $metadata;
 
     /**
+     * Backed used by resource type.
+     *
+     * @var Backend
+     */
+    protected $backend;
+
+    /**
      * Constructor.
      *
      * @param string $fileName
@@ -67,6 +76,7 @@ abstract class ExistingFile extends File
     {
         $this->folder = $folder;
         $this->resourceType = $resourceType;
+        $this->backend = $this->resourceType->getBackend();
 
         parent::__construct($fileName, $app);
     }
@@ -76,7 +86,7 @@ abstract class ExistingFile extends File
      *
      * @return string backend-relative path
      */
-    public function getPath()
+    public function getPath(): string
     {
         return Path::combine($this->resourceType->getDirectory(), $this->folder);
     }
@@ -86,7 +96,7 @@ abstract class ExistingFile extends File
      *
      * @return string file path
      */
-    public function getFilePath()
+    public function getFilePath(): string
     {
         return Path::combine($this->getPath(), $this->getFilename());
     }
@@ -96,17 +106,15 @@ abstract class ExistingFile extends File
      *
      * @return bool `true` if the path is valid
      */
-    public function hasValidPath()
+    public function hasValidPath(): bool
     {
         return Path::isValid($this->getPath());
     }
 
     /**
      * Returns the resource type of the file.
-     *
-     * @return ResourceType
      */
-    public function getResourceType()
+    public function getResourceType(): ResourceType
     {
         return $this->resourceType;
     }
@@ -116,7 +124,7 @@ abstract class ExistingFile extends File
      *
      * @return bool `true` if the file has an allowed exception
      */
-    public function hasAllowedExtension()
+    public function hasAllowedExtension(): bool
     {
         $extension = $this->getExtension();
 
@@ -128,9 +136,9 @@ abstract class ExistingFile extends File
      *
      * @return bool `true` if the file is hidden
      */
-    public function isHidden()
+    public function isHidden(): bool
     {
-        return $this->resourceType->getBackend()->isHiddenFile($this->getFilename());
+        return $this->backend->isHiddenFile($this->getFilename());
     }
 
     /**
@@ -138,28 +146,27 @@ abstract class ExistingFile extends File
      *
      * @return bool `true` if the path is hidden
      */
-    public function hasHiddenPath()
+    public function hasHiddenPath(): bool
     {
-        return $this->resourceType->getBackend()->isHiddenPath($this->getPath());
+        return $this->backend->isHiddenPath($this->getPath());
     }
 
     /**
      * Checks if the current file exists.
      *
      * @return bool `true` if the file exists
+     *
+     * @throws FilesystemException
      */
-    public function exists()
+    public function exists(): bool
     {
         $filePath = $this->getFilePath();
-        $backend = $this->resourceType->getBackend();
 
-        if (!$backend->has($filePath)) {
+        if ($this->backend->hasDirectory($filePath)) {
             return false;
         }
 
-        $fileMetadata = $backend->getMetadata($filePath);
-
-        return isset($fileMetadata['type']) && 'file' === $fileMetadata['type'];
+        return $this->backend->fileExists($filePath);
     }
 
     /**
@@ -171,19 +178,21 @@ abstract class ExistingFile extends File
     {
         $filePath = $this->getFilePath();
 
-        return $this->resourceType->getBackend()->readStream($filePath);
+        return $this->backend->readStream($filePath);
     }
 
     /**
      * Returns file contents.
      *
-     * @return resource contents stream
+     * @return string contents stream
+     *
+     * @throws FilesystemException
      */
-    public function getContents()
+    public function getContents(): string
     {
         $filePath = $this->getFilePath();
 
-        return $this->resourceType->getBackend()->read($filePath);
+        return $this->backend->read($filePath);
     }
 
     /**
@@ -192,11 +201,11 @@ abstract class ExistingFile extends File
      * @param string $contents file contents
      * @param string $filePath path to save the file
      *
-     * @throws \Exception if content size is too big
-     *
      * @return bool `true` if saved successfully
+     *
+     * @throws \Exception if content size is too big
      */
-    public function save($contents, $filePath = null)
+    public function save($contents, $filePath = null): bool
     {
         $filePath = $filePath ?: $this->getFilePath();
 
@@ -208,13 +217,15 @@ abstract class ExistingFile extends File
             throw new InvalidUploadException('New file contents is too big for resource type limit', Error::UPLOADED_TOO_BIG);
         }
 
-        $saved = $this->resourceType->getBackend()->put($filePath, $contents);
-
-        if ($saved) {
-            $this->deleteThumbnails();
+        try {
+            $this->resourceType->getBackend()->write($filePath, $contents);
+        } catch (FilesystemException $e) {
+            return false;
         }
 
-        return $saved;
+        $this->deleteThumbnails();
+
+        return true;
     }
 
     /**
@@ -224,7 +235,7 @@ abstract class ExistingFile extends File
      *
      * @see Error
      */
-    public function addError($number)
+    public function addError(int $number)
     {
         $this->errors[] = [
             'number' => $number,
@@ -236,10 +247,8 @@ abstract class ExistingFile extends File
 
     /**
      * Returns an array of errors that occurred during file processing.
-     *
-     * @return array
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
@@ -247,9 +256,11 @@ abstract class ExistingFile extends File
     /**
      * Removes the thumbnail generated for the current file.
      *
-     * @return `true` if the thumbnail was found and deleted
+     * @return bool `true` if the thumbnail was found and deleted
+     *
+     * @throws FilesystemException
      */
-    public function deleteThumbnails()
+    public function deleteThumbnails(): bool
     {
         $extension = $this->getExtension();
 
@@ -265,9 +276,9 @@ abstract class ExistingFile extends File
     /**
      * Removes resized images generated for the current file.
      *
-     * @return `true` if resized images were found and deleted
+     * @return bool `true` if resized images were found and deleted
      */
-    public function deleteResizedImages()
+    public function deleteResizedImages(): bool
     {
         $extension = $this->getExtension();
 
@@ -284,51 +295,35 @@ abstract class ExistingFile extends File
      * Returns last modification time.
      *
      * @return int Unix timestamp
+     *
+     * @throws FilesystemException
      */
-    public function getTimestamp()
+    public function getTimestamp(): int
     {
-        $metadata = $this->getMetadata();
-
-        return $metadata['timestamp'];
+        return $this->backend->lastModified($this->getFilePath());
     }
 
     /**
      * Returns file MIME type.
      *
      * @return string file MIME type
+     *
+     * @throws FilesystemException
      */
-    public function getMimeType()
+    public function getMimeType(): string
     {
-        $metadata = $this->getMetadata();
-
-        return $metadata['mimetype'];
+        return $this->backend->mimeType($this->getFilePath());
     }
 
     /**
      * Returns file size.
      *
      * @return int size in bytes
-     */
-    public function getSize()
-    {
-        $metadata = $this->getMetadata();
-
-        return $metadata['size'];
-    }
-
-    /**
-     * Returns file metadata.
      *
-     * @return array
+     * @throws FilesystemException
      */
-    public function getMetadata()
+    public function getSize(): int
     {
-        if (null === $this->metadata) {
-            $filePath = $this->getFilePath();
-
-            $this->metadata = $this->resourceType->getBackend()->getWithMetadata($filePath, ['mimetype', 'timestamp']);
-        }
-
-        return $this->metadata;
+        return $this->backend->fileSize($this->getFilePath());
     }
 }

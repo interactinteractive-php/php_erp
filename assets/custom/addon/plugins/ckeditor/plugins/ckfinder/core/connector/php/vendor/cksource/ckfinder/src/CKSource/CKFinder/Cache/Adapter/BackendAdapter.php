@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -16,28 +16,21 @@ namespace CKSource\CKFinder\Cache\Adapter;
 
 use CKSource\CKFinder\Backend\Backend;
 use CKSource\CKFinder\Filesystem\Path;
+use League\Flysystem\FilesystemException;
 
 /**
  * The BackendAdapter class.
  */
 class BackendAdapter implements AdapterInterface
 {
-    /**
-     * @var Backend
-     */
-    protected $backend;
+    protected Backend $backend;
 
-    /**
-     * @var string
-     */
-    protected $cachePath;
+    protected ?string $cachePath;
 
     /**
      * Constructor.
-     *
-     * @param null|string $path
      */
-    public function __construct(Backend $backend, $path = null)
+    public function __construct(Backend $backend, ?string $path = null)
     {
         $this->backend = $backend;
         $this->cachePath = $path;
@@ -45,13 +38,8 @@ class BackendAdapter implements AdapterInterface
 
     /**
      * Creates backend-relative path for cache file for given key.
-     *
-     * @param string $key
-     * @param bool   $prefix
-     *
-     * @return string
      */
-    public function createCachePath($key, $prefix = false)
+    public function createCachePath(string $key, bool $prefix = false): string
     {
         return Path::combine($this->cachePath, trim($key, '/').($prefix ? '' : '.cache'));
     }
@@ -64,9 +52,15 @@ class BackendAdapter implements AdapterInterface
      *
      * @return bool true if successful
      */
-    public function set($key, $value)
+    public function set($key, $value): bool
     {
-        return $this->backend->put($this->createCachePath($key), serialize($value));
+        try {
+            $this->backend->write($this->createCachePath($key), serialize($value));
+        } catch (FilesystemException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -74,7 +68,7 @@ class BackendAdapter implements AdapterInterface
      *
      * @param string $key
      *
-     * @return null|array
+     * @throws FilesystemException
      */
     public function get($key)
     {
@@ -93,8 +87,10 @@ class BackendAdapter implements AdapterInterface
      * @param string $key
      *
      * @return bool true if successful
+     *
+     * @throws FilesystemException
      */
-    public function delete($key)
+    public function delete($key): bool
     {
         $cachePath = $this->createCachePath($key);
 
@@ -102,7 +98,11 @@ class BackendAdapter implements AdapterInterface
             return false;
         }
 
-        $this->backend->delete($cachePath);
+        try {
+            $this->backend->delete($cachePath);
+        } catch (FilesystemException $e) {
+            return false;
+        }
 
         $dirs = explode('/', \dirname($cachePath));
 
@@ -114,9 +114,16 @@ class BackendAdapter implements AdapterInterface
                 break;
             }
 
-            $this->backend->deleteDir($dirPath);
+            try {
+                $this->backend->deleteDirectory($dirPath);
+            } catch (FilesystemException $e) {
+                return false;
+            }
+
             array_pop($dirs);
         } while (!empty($dirs));
+
+        return true;
     }
 
     /**
@@ -126,14 +133,18 @@ class BackendAdapter implements AdapterInterface
      *
      * @return bool true if successful
      */
-    public function deleteByPrefix($keyPrefix)
+    public function deleteByPrefix($keyPrefix): bool
     {
         $cachePath = $this->createCachePath($keyPrefix, true);
         if ($this->backend->hasDirectory($cachePath)) {
-            return $this->backend->deleteDir($cachePath);
+            try {
+                $this->backend->deleteDirectory($cachePath);
+            } catch (FilesystemException $e) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -143,8 +154,10 @@ class BackendAdapter implements AdapterInterface
      * @param string $targetPrefix
      *
      * @return bool true if successful
+     *
+     * @throws FilesystemException
      */
-    public function changePrefix($sourcePrefix, $targetPrefix)
+    public function changePrefix($sourcePrefix, $targetPrefix): bool
     {
         $sourceCachePath = $this->createCachePath($sourcePrefix, true);
 

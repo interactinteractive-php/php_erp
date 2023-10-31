@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -57,9 +57,9 @@ class DownloadedFile extends ExistingFile
     /**
      * Validates the downloaded file.
      *
-     * @throws \Exception
-     *
      * @return bool `true` if the file passed validation
+     *
+     * @throws \Exception
      */
     public function isValid()
     {
@@ -83,7 +83,7 @@ class DownloadedFile extends ExistingFile
      *
      * @return bool `true` if an extension is allowed
      */
-    public function hasAllowedExtension()
+    public function hasAllowedExtension(): bool
     {
         $extension = $this->getExtension();
 
@@ -95,7 +95,7 @@ class DownloadedFile extends ExistingFile
      *
      * @return bool `true` if the file is hidden
      */
-    public function isHidden()
+    public function isHidden(): bool
     {
         return $this->workingFolder->getBackend()->isHiddenFile($this->fileName);
     }
@@ -105,7 +105,7 @@ class DownloadedFile extends ExistingFile
      *
      * @return bool `true` if the file exists
      */
-    public function exists()
+    public function exists(): bool
     {
         return $this->workingFolder->containsFile($this->fileName);
     }

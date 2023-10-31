@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -23,6 +23,7 @@ class ResourceTypeFactory extends Container
     protected $config;
     protected $backendFactory;
     protected $thumbnailRepository;
+    protected $resizedImageRepository;
 
     public function __construct(CKFinder $app)
     {
@@ -39,10 +40,8 @@ class ResourceTypeFactory extends Container
      * Returns the resource type object with a given name.
      *
      * @param string $name resource type name
-     *
-     * @return ResourceType
      */
-    public function getResourceType($name)
+    public function getResourceType(string $name): ResourceType
     {
         if (!$this->offsetExists($name)) {
             $resourceTypeConfig = $this->config->getResourceTypeNode($name);

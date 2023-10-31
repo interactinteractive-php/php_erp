@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -23,6 +23,7 @@ use CKSource\CKFinder\Exception\InvalidRequestException;
 use CKSource\CKFinder\Exception\UnauthorizedException;
 use CKSource\CKFinder\Filesystem\File\CopiedFile;
 use CKSource\CKFinder\ResourceType\ResourceTypeFactory;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,9 +37,15 @@ class CopyFiles extends CommandAbstract
         Permission::FILE_DELETE,
     ];
 
-    public function execute(Request $request, ResourceTypeFactory $resourceTypeFactory, Acl $acl, EventDispatcher $dispatcher)
+    /**
+     * @throws InvalidRequestException
+     * @throws UnauthorizedException
+     * @throws \Exception
+     * @throws FilesystemException
+     */
+    public function execute(Request $request, ResourceTypeFactory $resourceTypeFactory, Acl $acl, EventDispatcher $dispatcher): array
     {
-        $copiedFiles = (array) $request->request->get('files');
+        $copiedFiles = $request->request->all('files');
 
         $copied = 0;
 
@@ -68,7 +75,7 @@ class CopyFiles extends CommandAbstract
 
             $copiedFile = new CopiedFile($name, $folder, $resourceType, $this->app);
 
-            $options = isset($arr['options']) ? $arr['options'] : '';
+            $options = $arr['options'] ?? '';
 
             $copiedFile->setCopyOptions($options);
 

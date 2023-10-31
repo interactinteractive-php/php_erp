@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -19,6 +19,9 @@ use CKSource\CKFinder\Exception\CKFinderException;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\Image;
 use CKSource\CKFinder\ResourceType\ResourceType;
+use League\Flysystem\FilesystemException;
+use League\MimeTypeDetection\ExtensionMimeTypeDetector;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 abstract class ResizedImageAbstract
 {
@@ -101,19 +104,22 @@ abstract class ResizedImageAbstract
      */
     protected $timestamp;
 
-    /**
-     * @param string $sourceFileDir
-     * @param string $sourceFileName
-     * @param int    $requestedWidth
-     * @param int    $requestedHeight
-     */
-    public function __construct(ResourceType $sourceFileResourceType, $sourceFileDir, $sourceFileName, $requestedWidth, $requestedHeight)
-    {
+    protected ExtensionMimeTypeDetector $mimeTypeDetector;
+
+    public function __construct(
+        ResourceType $sourceFileResourceType,
+        string $sourceFileDir,
+        string $sourceFileName,
+        int $requestedWidth,
+        int $requestedHeight
+    ) {
         $this->sourceFileResourceType = $sourceFileResourceType;
         $this->sourceFileDir = $sourceFileDir;
         $this->sourceFileName = $sourceFileName;
         $this->requestedWidth = $requestedWidth;
         $this->requestedHeight = $requestedHeight;
+
+        $this->mimeTypeDetector = new ExtensionMimeTypeDetector();
 
         $this->backend = $sourceFileResourceType->getBackend();
     }
@@ -171,9 +177,9 @@ abstract class ResizedImageAbstract
     /**
      * Returns the resized image size in bytes.
      *
-     * @return int
+     * @throws FilesystemException
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->resizedImageSize;
     }
@@ -222,37 +228,40 @@ abstract class ResizedImageAbstract
     public function save()
     {
         if (!$this->backend->hasDirectory($this->getDirectory())) {
-            $this->backend->createDir($this->getDirectory());
+            $this->backend->createDirectory($this->getDirectory());
         }
 
-        $saved = $this->backend->put($this->getFilePath(), $this->resizedImageData, ['mimetype' => $this->getMimeType()]);
-
-        if ($saved) {
-            $this->timestamp = time();
+        try {
+            $this->backend->write($this->getFilePath(), $this->resizedImageData, ['mimetype' => $this->getMimeType()]);
+        } catch (FilesystemException $e) {
+            throw new FileException("Couldn't save resized image.");
         }
 
-        return $saved;
+        $this->timestamp = time();
+
+        return true;
     }
 
     /**
      * Loads an existing resized image from a backend.
+     *
+     * @throws FilesystemException
      */
     public function load()
     {
-        $thumbnailMetadata = $this->backend->getWithMetadata($this->getFilePath(), ['mimetype', 'timestamp']);
-        $this->timestamp = $thumbnailMetadata['timestamp'];
-        $this->resizedImageSize = $thumbnailMetadata['size'];
-        $this->resizedImageMimeType = $thumbnailMetadata['mimetype'];
-
+        $filePath = $this->getFilePath();
+        $this->timestamp = $this->backend->lastModified($filePath);
+        $this->resizedImageSize = $this->backend->fileSize($this->getFilePath());
+        $this->resizedImageMimeType = $this->mimeTypeDetector->detectMimeTypeFromFile($filePath);
         $this->resizedImageData = $this->backend->read($this->getFilePath());
     }
 
     /**
      * Returns image data stream.
      *
-     * @throws CKFinderException
-     *
      * @return bool|false|resource
+     *
+     * @throws CKFinderException
      */
     public function readStream()
     {

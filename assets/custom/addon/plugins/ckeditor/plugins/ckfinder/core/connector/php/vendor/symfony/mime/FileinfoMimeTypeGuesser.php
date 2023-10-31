@@ -24,7 +24,7 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
     private $magicFile;
 
     /**
-     * @param string $magicFile A magic file to use with the finfo instance
+     * @param string|null $magicFile A magic file to use with the finfo instance
      *
      * @see http://www.php.net/manual/en/function.finfo-open.php
      */
@@ -54,10 +54,16 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
             throw new LogicException(sprintf('The "%s" guesser is not supported.', __CLASS__));
         }
 
-        if (false === $finfo = new \finfo(FILEINFO_MIME_TYPE, $this->magicFile)) {
+        if (false === $finfo = new \finfo(\FILEINFO_MIME_TYPE, $this->magicFile)) {
             return null;
         }
+        $mimeType = $finfo->file($path);
 
-        return $finfo->file($path);
+        if ($mimeType && 0 === (\strlen($mimeType) % 2)) {
+            $mimeStart = substr($mimeType, 0, \strlen($mimeType) >> 1);
+            $mimeType = $mimeStart.$mimeStart === $mimeType ? $mimeStart : $mimeType;
+        }
+
+        return $mimeType;
     }
 }

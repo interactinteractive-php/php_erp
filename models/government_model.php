@@ -1079,7 +1079,7 @@ class Government_model extends Model {
                         'createdDate' => $currentDate,
                         'postId' => $postId,
                         'isRequired' => isset($postData['isrequired'][$key]) ? '1' : '0',
-                        'isOther' => isset($postData['questionType'][$key]) && $postData['questionType'][$key] == '3' ? '1' : isset($postData['isother'][$key]) ? '1' : '0',
+                        'isOther' => (isset($postData['questionType'][$key]) && $postData['questionType'][$key]) == '3' ? '1' : (isset($postData['isother'][$key]) ? '1' : '0'),
                         'limitCount' => isset($postData['limitCount'][$key]) ? $postData['limitCount'][$key] : '',
                         'createdUserId' => $sessionUserKeyId,
                     );

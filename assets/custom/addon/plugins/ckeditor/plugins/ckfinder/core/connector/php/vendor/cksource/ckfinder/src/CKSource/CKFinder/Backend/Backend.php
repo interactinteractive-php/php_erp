@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -18,16 +18,16 @@ use CKSource\CKFinder\Acl\AclInterface;
 use CKSource\CKFinder\Acl\Permission;
 use CKSource\CKFinder\Backend\Adapter\EmulateRenameDirectoryInterface;
 use CKSource\CKFinder\CKFinder;
-use CKSource\CKFinder\Config;
+use CKSource\CKFinder\Config as CKFinderConfig;
+use CKSource\CKFinder\Exception\AccessDeniedException;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\ResizedImage\ResizedImage;
 use CKSource\CKFinder\ResourceType\ResourceType;
 use CKSource\CKFinder\Utils;
-use League\Flysystem\Adapter\Ftp;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Plugin\GetWithMetadata;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\Ftp\FtpAdapter;
 
 /**
  * The Backend file system class.
@@ -54,7 +54,7 @@ class Backend extends Filesystem
     /**
      * Configuration.
      *
-     * @var Config
+     * @var CKFinderConfig
      */
     protected $ckConfig;
 
@@ -64,23 +64,27 @@ class Backend extends Filesystem
     protected $backendConfig;
 
     /**
+     * Filesystem adapter.
+     */
+    protected $adapter;
+
+    /**
      * Constructor.
      *
-     * @param array            $backendConfig    the backend configuration node
-     * @param CKFinder         $app              the CKFinder app container
-     * @param AdapterInterface $adapter          the adapter
-     * @param null|array       $filesystemConfig the configuration
+     * @param array             $backendConfig    the backend configuration node
+     * @param CKFinder          $app              the CKFinder app container
+     * @param FilesystemAdapter $adapter          the adapter
+     * @param array             $filesystemConfig the configuration
      */
-    public function __construct(array $backendConfig, CKFinder $app, AdapterInterface $adapter, $filesystemConfig = null)
+    public function __construct(array $backendConfig, CKFinder $app, FilesystemAdapter $adapter, array $filesystemConfig = [])
     {
         $this->app = $app;
         $this->backendConfig = $backendConfig;
         $this->acl = $app['acl'];
         $this->ckConfig = $app['config'];
+        $this->adapter = $adapter;
 
         parent::__construct($adapter, $filesystemConfig);
-
-        $this->addPlugin(new GetWithMetadata());
     }
 
     /**
@@ -95,10 +99,8 @@ class Backend extends Filesystem
 
     /**
      * Returns an array of commands that should use operation tracking.
-     *
-     * @return array
      */
-    public function getTrackedOperations()
+    public function getTrackedOperations(): array
     {
         return isset($this->backendConfig['trackedOperations']) ? $this->backendConfig['trackedOperations'] : [];
     }
@@ -111,7 +113,7 @@ class Backend extends Filesystem
      *
      * @return string path to be used with the backend adapter
      */
-    public function buildPath(ResourceType $resourceType, $path)
+    public function buildPath(ResourceType $resourceType, string $path): string
     {
         return Path::combine($resourceType->getDirectory(), $path);
     }
@@ -119,57 +121,71 @@ class Backend extends Filesystem
     /**
      * Returns a filtered list of directories for a given resource type and path.
      *
-     * @param string $path
-     * @param bool   $recursive
-     *
-     * @return array
+     * @throws FilesystemException
      */
-    public function directories(ResourceType $resourceType, $path = '', $recursive = false)
+    public function directories(ResourceType $resourceType, string $path = '', bool $recursive = false): array
     {
         $directoryPath = $this->buildPath($resourceType, $path);
-        $contents = $this->listContents($directoryPath, $recursive);
+        $contents = $this->listContents($directoryPath, $recursive)->toArray();
+
+        $acl = [];
 
         foreach ($contents as &$entry) {
-            $entry['acl'] = $this->acl->getComputedMask($resourceType->getName(), Path::combine($path, $entry['basename']));
+            $basename = pathinfo($entry['path'], PATHINFO_BASENAME);
+            $acl[$basename] = $this->acl->getComputedMask($resourceType->getName(), Path::combine($path, $basename));
         }
 
-        return array_filter($contents, function ($v) {
-            return isset($v['type']) &&
-                   'dir' === $v['type'] &&
-                   !$this->isHiddenFolder($v['basename']) &&
-                   $v['acl'] & Permission::FOLDER_VIEW;
+        $contentsFiltered = array_filter($contents, function ($v) use ($acl) {
+            $basename = pathinfo($v['path'], PATHINFO_BASENAME);
+
+            return isset($v['type'])
+                && 'dir' === $v['type']
+                && !$this->isHiddenFolder($basename)
+                && $acl[$basename] & Permission::FOLDER_VIEW;
         });
+
+        $outputArray = [];
+        $i = 0;
+        foreach ($contentsFiltered as $directory) {
+            $basename = pathinfo($directory['path'], PATHINFO_BASENAME);
+            $element = [];
+            $element['directory'] = $directory;
+            $element['acl'] = $acl[$basename];
+            $outputArray[$i] = $element;
+            ++$i;
+        }
+
+        return $outputArray;
     }
 
     /**
      * Returns a filtered list of files for a given resource type and path.
      *
-     * @param string $path
-     * @param bool   $recursive
-     *
-     * @return array
+     * @throws FilesystemException
      */
-    public function files(ResourceType $resourceType, $path = '', $recursive = false)
+    public function files(ResourceType $resourceType, string $path = '', bool $recursive = false): array
     {
         $directoryPath = $this->buildPath($resourceType, $path);
         $contents = $this->listContents($directoryPath, $recursive);
 
-        return array_filter($contents, function ($v) use ($resourceType) {
-            return isset($v['type']) &&
-                   'file' === $v['type'] &&
-                   !$this->isHiddenFile($v['basename']) &&
-                   $resourceType->isAllowedExtension(isset($v['extension']) ? $v['extension'] : '');
+        return array_filter($contents->toArray(), function ($v) use ($resourceType) {
+            $pathParts = pathinfo($v['path']);
+
+            return isset($v['type'])
+                   && 'file' === $v['type']
+                   && !$this->isHiddenFile($pathParts['basename'])
+                   && $resourceType->isAllowedExtension($pathParts['extension'] ?? '');
         });
     }
 
     /**
      * Check if the directory for a given path contains subdirectories.
      *
-     * @param string $path
-     *
      * @return bool `true` if the directory contains subdirectories
+     *
+     * @throws FilesystemException
      */
-    public function containsDirectories(ResourceType $resourceType, $path = '')
+    public function containsDirectories(ResourceType $resourceType, string $path = ''): bool
     {
         $baseAdapter = $this->getBaseAdapter();
         if (method_exists($baseAdapter, 'containsDirectories')) {
@@ -188,9 +204,10 @@ class Backend extends Filesystem
         }
 
         foreach ($contents as $entry) {
-            if ('dir' === $entry['type'] &&
-                !$this->isHiddenFolder($entry['basename']) &&
-                $this->acl->isAllowed($resourceType->getName(), Path::combine($path, $entry['basename']), Permission::FOLDER_VIEW)
+            $basename = pathinfo($entry['path'], PATHINFO_BASENAME);
+            if ('dir' === $entry['type']
+                && !$this->isHiddenFolder($basename)
+                && $this->acl->isAllowed($resourceType->getName(), Path::combine($path, $basename), Permission::FOLDER_VIEW)
             ) {
                 return true;
             }
@@ -206,7 +223,7 @@ class Backend extends Filesystem
      *
      * @return bool `true` if the file is hidden
      */
-    public function isHiddenFile($fileName)
+    public function isHiddenFile($fileName): bool
     {
         $hideFilesRegex = $this->ckConfig->getHideFilesRegex();
 
@@ -224,7 +241,7 @@ class Backend extends Filesystem
      *
      * @return bool `true` if the directory is hidden
      */
-    public function isHiddenFolder($folderName)
+    public function isHiddenFolder($folderName): bool
     {
         $hideFoldersRegex = $this->ckConfig->getHideFoldersRegex();
 
@@ -242,7 +259,7 @@ class Backend extends Filesystem
      *
      * @return bool `true` if the path is hidden
      */
-    public function isHiddenPath($path)
+    public function isHiddenPath($path): bool
     {
         $pathParts = explode('/', trim($path, '/'));
         if ($pathParts) {
@@ -259,26 +276,26 @@ class Backend extends Filesystem
     /**
      * Deletes a directory.
      *
-     * @param string $dirname
-     *
-     * @return bool
+     * @throws FilesystemException
      */
-    public function deleteDir($dirname)
+    public function deleteDirectory(string $dirname): void
     {
         $baseAdapter = $this->getBaseAdapter();
 
         // For FTP first remove recursively all directory contents
-        if ($baseAdapter instanceof Ftp) {
+        if ($baseAdapter instanceof FtpAdapter) {
             $this->deleteContents($dirname);
         }
 
-        return parent::deleteDir($dirname);
+        parent::deleteDirectory($dirname);
     }
 
     /**
      * Delete all contents of the given directory.
      *
      * @param string $dirname
+     *
+     * @throws FilesystemException
      */
     public function deleteContents($dirname)
     {
@@ -287,7 +304,7 @@ class Backend extends Filesystem
         foreach ($contents as $entry) {
             if ('dir' === $entry['type']) {
                 $this->deleteContents($entry['path']);
-                $this->deleteDir($entry['path']);
+                $this->deleteDirectory($entry['path']);
             } else {
                 $this->delete($entry['path']);
             }
@@ -300,27 +317,26 @@ class Backend extends Filesystem
      * The Backend::has() method is not always reliable and may
      * work differently for various adapters. Checking for directory
      * should be done with this method.
-     *
-     * @param string $directoryPath
-     *
-     * @return bool
      */
-    public function hasDirectory($directoryPath)
+    public function hasDirectory(string $directoryPath): bool
     {
         $pathParts = array_filter(explode('/', $directoryPath), 'strlen');
         $dirName = array_pop($pathParts);
 
         try {
-            $contents = $this->listContents(implode('/', $pathParts));
+            $contents = $this->listContents(implode('/', $pathParts))->toArray();
         } catch (\Exception $e) {
             return false;
         }
 
         foreach ($contents as $c) {
-            if (isset($c['type'], $c['basename']) && 'dir' === $c['type'] && $c['basename'] === $dirName) {
+            $pathParts = pathinfo($c['path']);
+            if (isset($c['type'], $pathParts['basename']) && 'dir' === $c['type'] && $pathParts['basename'] === $dirName) {
                 return true;
             }
         }
+
+        return false;
     }
 
     /**
@@ -336,8 +352,12 @@ class Backend extends Filesystem
      *
      * @return null|string URL to a file or `null` if the backend does not support it
      */
-    public function getFileUrl(ResourceType $resourceType, $folderPath, $fileName, $thumbnailFileName = null)
-    {
+    public function getFileUrl(
+        ResourceType $resourceType,
+        string $folderPath,
+        string $fileName,
+        string $thumbnailFileName = null
+    ): ?string {
         if ($this->usesProxyCommand()) {
             $connectorUrl = $this->app->getConnectorUrl();
 
@@ -385,7 +405,7 @@ class Backend extends Filesystem
      * @return null|string base URL or `null` if the base URL for a backend
      *                     was not defined
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): ?string
     {
         if (isset($this->backendConfig['baseUrl']) && !$this->usesProxyCommand()) {
             return $this->backendConfig['baseUrl'];
@@ -400,7 +420,7 @@ class Backend extends Filesystem
      * @return null|string root directory or `null` if the root directory
      *                     was not defined
      */
-    public function getRootDirectory()
+    public function getRootDirectory(): ?string
     {
         if (isset($this->backendConfig['root'])) {
             return $this->backendConfig['root'];
@@ -411,10 +431,8 @@ class Backend extends Filesystem
 
     /**
      * Returns a Boolean value telling if the backend uses the Proxy command.
-     *
-     * @return bool
      */
-    public function usesProxyCommand()
+    public function usesProxyCommand(): bool
     {
         return isset($this->backendConfig['useProxyCommand']) && $this->backendConfig['useProxyCommand'];
     }
@@ -427,7 +445,7 @@ class Backend extends Filesystem
      * @return null|resource a stream to a file or `null` if the backend does not
      *                       support writing streams
      */
-    public function createWriteStream($path)
+    public function createWriteStream(string $path)
     {
         $baseAdapter = $this->getBaseAdapter();
 
@@ -441,36 +459,35 @@ class Backend extends Filesystem
     /**
      * Renames the object for a given path.
      *
-     * @param string $path
-     * @param string $newpath
+     * @param mixed $path
+     * @param mixed $newPath
      *
-     * @return bool `true` on success, `false` on failure
+     * @return null|bool `true` on success, `false` on failure
+     *
+     * @throws AccessDeniedException
      */
-    public function rename($path, $newpath)
+    public function rename($path, $newPath): ?bool
     {
         $baseAdapter = $this->getBaseAdapter();
 
         if (($baseAdapter instanceof EmulateRenameDirectoryInterface) && $this->hasDirectory($path)) {
-            return $baseAdapter->renameDirectory($path, $newpath);
+            return $baseAdapter->renameDirectory($path, $newPath);
         }
 
-        return parent::rename($path, $newpath);
+        try {
+            parent::move($path, $newPath);
+        } catch (FilesystemException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Returns a base adapter used by this backend.
-     *
-     * The used adapter might be decorated with CachedAdapter. In this
-     * case the returned adapter is the internal one used by CachedAdapter.
-     *
-     * @return AdapterInterface
      */
-    public function getBaseAdapter()
+    public function getBaseAdapter(): FilesystemAdapter
     {
-        if ($this->adapter instanceof CachedAdapter) {
-            return $this->adapter->getAdapter();
-        }
-
         return $this->adapter;
     }
 }

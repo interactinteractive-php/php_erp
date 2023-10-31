@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -83,7 +83,8 @@ class ExceptionHandler implements EventSubscriberInterface
                 ? $throwable->getMessage()
                 : $this->translator->translateErrorMessage($exceptionCode, $replacements);
 
-        $response = JsonResponse::create()->withError($exceptionCode, $message);
+        $response = new JsonResponse();
+        $response->withError($exceptionCode, $message);
 
         $event->setThrowable(new HttpException($httpStatusCode));
 
@@ -93,7 +94,7 @@ class ExceptionHandler implements EventSubscriberInterface
             $this->logger->error($throwable);
         }
 
-        if (filter_var(ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var(\ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN)) {
             throw $throwable;
         }
     }
@@ -113,7 +114,7 @@ class ExceptionHandler implements EventSubscriberInterface
         $wrapperException = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
         $this->logger->warning($wrapperException);
 
-        if (filter_var(ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var(\ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN)) {
             throw $wrapperException;
         }
     }
