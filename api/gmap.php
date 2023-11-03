@@ -46,8 +46,24 @@ if ($method == 'what3words') {
 } elseif ($method == 'geocode') {
     
     $coordinate = Input::post('coordinate');
-    $coordinateArr = explode('|', $coordinate);
-    $coords = $coordinateArr[1].','.$coordinateArr[0];
+    if (strpos($coordinate, '|') !== false) {
+        $seperatorChar = '|';
+    } else {
+        $seperatorChar = ',';
+    }
+    
+    $coordinateArr = explode($seperatorChar, $coordinate);
+    
+    $latitude = trim($coordinateArr[0]);
+    $longitude = trim($coordinateArr[1]);
+    
+    if ((float) $latitude > (float) $longitude) {
+        $latitudeTmp = $latitude;
+        $latitude = $longitude;
+        $longitude = $latitudeTmp;
+    }
+            
+    $coords = $latitude.','.$longitude;
     $apiKey = Input::post('googleApiKey');
     
     $curl = curl_init();
@@ -69,7 +85,55 @@ if ($method == 'what3words') {
     curl_close($curl);
 
     if ($err) {
-        echo json_encode(array('status' => 'error', 'message' => 'Амжилтгүй боллоо. cURL Error #:' . $err));
+        echo json_encode(array('status' => 'error', 'message' => 'Амжилтгүй боллоо. cURL Error #:' . $err), JSON_UNESCAPED_UNICODE);
+    } else {
+        echo $response;
+    }
+    exit;
+    
+} elseif ($method == 'opencagedata') {
+    
+    $coordinate = Input::post('coordinate');
+    if (strpos($coordinate, '|') !== false) {
+        $seperatorChar = '|';
+    } else {
+        $seperatorChar = ',';
+    }
+    
+    $coordinateArr = explode($seperatorChar, $coordinate);
+    
+    $latitude = trim($coordinateArr[0]);
+    $longitude = trim($coordinateArr[1]);
+    
+    if ((float) $latitude > (float) $longitude) {
+        $latitudeTmp = $latitude;
+        $latitude = $longitude;
+        $longitude = $latitudeTmp;
+    }
+            
+    $coords = $latitude.','.$longitude;
+    $curl = curl_init();
+        
+    curl_setopt_array($curl, array(
+        CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1", 
+        CURLOPT_URL => "https://api.opencagedata.com/geocode/v1/json?q=$coords&key=03c48dae07364cabb7f121d8c1519492&no_annotations=1&language=en",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => 0
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+    $errNo = curl_errno($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo json_encode(array('status' => 'error', 'message' => 'Амжилтгүй боллоо. cURL Error #:' . $err), JSON_UNESCAPED_UNICODE);
     } else {
         echo $response;
     }

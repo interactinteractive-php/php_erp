@@ -4236,10 +4236,10 @@ class Government extends Controller {
         if (Config::getFromCache('noUseKhanbankApi') === '1') {
             $this->view->exchangeData = array();
         } else {
-            $url = "https://kbknew.khanbank.com/api/site/currency?lang=mn&site=personal&date";
+            /* $url = "https://kbknew.khanbank.com/api/site/currency?lang=mn&site=personal&date";
             $data = file_get_contents($url);
-            $xchange = json_decode($data, true);
-            $this->view->exchangeData = issetParamArray($xchange['data']);
+            $xchange = json_decode($data, true); */
+            $this->view->exchangeData = array(); /* issetParamArray($xchange['data']); */
         }
 
         $this->view->title = 'Хяналтын самбар';
