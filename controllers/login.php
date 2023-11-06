@@ -116,142 +116,6 @@ class Login extends Controller {
         $this->chooseUserKey($response);
     }
 
-    public function runPhoneNumber() {
-        try {
-
-            if (Config::getFromCache('CONFIG_USE_PHONELOGIN') !== '1') {
-                throw new Exception("Буруу үйлдэл хийсэн байна."); 
-            }
-            
-            $postData = Input::postData();
-
-            $curl = curl_init();
-            $username = Config::getFromCacheDefault('MssSignatureUser', null, '5296722-ap');
-            $password = Config::getFromCacheDefault('MssSignaturePass', null, 'LiuIudOz4lbLolI886qd');
-            $userPass = base64_encode($username . ':' . $password);
-            $url = Config::getFromCacheDefault('MssSignatureUrl', null, 'https://10.10.50.163:9061/rest/service');
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_SSL_VERIFYHOST => 0,
-                CURLOPT_SSL_VERIFYPEER => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{ 
-                "MSS_SignatureReq":{ 
-                    "AdditionalServices":[ 
-                        {
-                                "Description": "http://uri.etsi.org/TS102204/v1.1.2#validate"
-                            },
-                            {
-                                "Description": "http://www.methics.fi/KiuruMSSP/v5.0.0#signingCertificate"
-                            },
-                            {
-                                "Description": "http://mss.ficom.fi/TS102204/v1.0.0#userLang",
-                                "UserLang": {
-                                    "Value": "MN"
-                                }
-                            }
-                    ],
-                    "DataToBeDisplayed":{ 
-                        "Data":"Та гарын үсгээ оруулна уу",
-                        "Encoding":"UTF-8",
-                        "MimeType":"text/plain"
-                    },
-                    "DataToBeSigned":{ 
-                        "Data":"data",
-                        "Encoding":"UTF-8",
-                        "MimeType":"text/plain"
-                    },
-                    "MessagingMode":"synch",
-                    "MobileUser":{ 
-                        "MSISDN":"976'. $postData['user_phonenumber'] .'"
-                    },
-                    "SignatureProfile":"http://alauda.mobi/nonRepudiation",
-                    "MSS_Format": "http://www.methics.fi/KiuruMSSP/v3.2.0#PKCS1"
-                }
-                }',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Basic ' . $userPass
-                ),
-            ));
-            
-            $response = curl_exec($curl);       
-            $err = curl_error($curl);
-            curl_close($curl);
-            
-            if (!is_dir(UPLOADPATH . 'temp')) {
-                mkdir(UPLOADPATH . 'temp', 0777, true);
-            }
-
-            $registerNumber = '';
-            if ($err) {
-                $response = array('status' => 'error', 'message' => $err);
-            } else {
-                $response = json_decode($response, true);
-                if (!issetParam($response['Fault'])) {
-                    $response['cert_data'] = array();
-                    if (issetParamArray($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'])) {
-                        $tmp = array();
-                        foreach ($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'] as $key => $row) {
-                            $filetPath = UPLOADPATH . 'temp/cert.crt';
-
-                            $cert_txt = '-----BEGIN CERTIFICATE-----' . "\n";
-                            $cert_txt .= $row . "\n";
-                            $cert_txt .= '-----END CERTIFICATE-----';
-
-                            $certFile = fopen($filetPath, "w");
-                            fwrite($certFile, $cert_txt);
-                            fclose($certFile);
-
-                            $ssl = openssl_x509_parse(file_get_contents($filetPath));
-                            array_push($tmp, issetParamArray($ssl['subject']));
-                            if (issetParam($ssl['subject']['UID']) !== '')
-                                $registerNumber = issetParam($ssl['subject']['UID']);
-                            
-                            @unlink($filetPath);
-                        }
-                        
-                        $response['cert_data'] = $tmp;
-                    }
-                }
-            }
-            
-            if (!$registerNumber) {
-                throw new Exception("Мэдээлэл олдсонгүй!"); 
-            }
-
-            includeLib('Utils/Functions');
-            $postsData = Functions::runProcess('crGsignLoginGet_004', array('registerednum' => $registerNumber));
-            if (!issetParam($postsData['result']['username'])) {
-                throw new Exception("Хэрэглэгчийн мэдээлэл олдсонгүй!"); 
-            }
-
-            unset($_POST);
-            $_POST['user_name'] = $postsData['result']['username'];
-            $_POST['pass_word'] = $postsData['result']['passwordhash'];
-            $_POST['isHash'] = '1';
-            $_POST['csrf_token'] = $this->model->getCsrfTokenModel();
-
-            $response = $this->model->runModel();
-            
-            if (Config::getFromCache('custom_login') == 'statebank') {
-                $this->chooseUserRoleCustomLogin($response);    
-                exit;
-            }    
-            $this->chooseUserKey($response);
-
-        } catch (Exception $e) {
-            Message::add('d', $e->getMessage(), AUTH_URL.'login');
-        }
-    }
-
     private function chooseUserKey($response, $isDeviceVerification = true) {
         
         if (isset($response['userkeys']) && is_array($response['userkeys'])) {
@@ -1024,6 +888,194 @@ class Login extends Controller {
         }
     }
     
+    public function register() {
+        if (Config::getFromCache('showLoginRegister') !== '1') {
+            Message::add('s', '', URL . 'login');
+        }
+		
+        $this->view->title = $this->lang->line('register');
+        $this->view->csrf_token = $this->model->getCsrfTokenModel('ps');
+        
+        $configMainLogo   = Config::getFromCache('main_logo_path');
+        $configLogo       = Config::getFromCache('logo_path');
+        $configBackground = Config::getFromCache('login_background_image1');
+        $loginLayout      = Config::getFromCache('loginLayout'); 
+        
+        if ($configMainLogo && file_exists($configMainLogo)) {
+            $this->view->mainLogo = $configMainLogo;  
+        } 
+        
+        if ($configLogo && file_exists($configLogo)) {
+            $this->view->logo = $configLogo;
+        } 
+        
+        $this->view->mainLoginTitle   = Config::getFromCacheDefault('login_main_title', null, 'Business in the Cloud');
+        $this->view->loginTitle       = Config::getFromCacheDefault('login_title', null, 'Орчин үеийн стратеги төлөвлөлт, удирдлагын онлайн ERP цогц шийдэл');
+        $this->view->passwordByPhone  = Config::getFromCache('RECOVER_PASSWORD_BY_PHONE');
+        $this->view->loginFooterTitle = Config::getFromCacheDefault('loginFooterTitle', null, '<span>Powered by</span> <a href="http://veritech.mn/" target="_blank">Veritech ERP</a>');
+        $this->view->infoMessage      = Config::getFromCache('passwordResetInfoMessage');
+        
+        if ($configBackground && file_exists($configBackground)) {
+            $this->view->background = $configBackground;
+        } else {
+            $this->view->background = null;
+        }
+        
+        $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
+        
+        if ($loginLayout && file_exists('views/login/layout/'.$loginLayout.'/register.php')) {
+            
+            $this->view->background = $this->model->getBackgroundImagesModel();
+
+            $this->view->render('login/layout/'.$loginLayout.'/header');
+            $this->view->render('login/layout/'.$loginLayout.'/register');
+            $this->view->render('login/layout/'.$loginLayout.'/footer');
+            
+        } else {
+            Message::add('s', '', URL . 'login');
+        }
+    }
+	
+    public function runRegister() {
+        $this->model->registerModel();
+    }
+    
+    public function runPhoneNumber() {
+        try {
+
+            if (Config::getFromCache('CONFIG_USE_PHONELOGIN') !== '1') {
+                throw new Exception("Буруу үйлдэл хийсэн байна."); 
+            }
+            
+            $postData = Input::postData();
+
+            $curl = curl_init();
+            $username = Config::getFromCacheDefault('MssSignatureUser', null, '5296722-ap');
+            $password = Config::getFromCacheDefault('MssSignaturePass', null, 'LiuIudOz4lbLolI886qd');
+            $userPass = base64_encode($username . ':' . $password);
+            $url = Config::getFromCacheDefault('MssSignatureUrl', null, 'https://10.10.50.163:9061/rest/service');
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS =>'{ 
+                "MSS_SignatureReq":{ 
+                    "AdditionalServices":[ 
+                        {
+                                "Description": "http://uri.etsi.org/TS102204/v1.1.2#validate"
+                            },
+                            {
+                                "Description": "http://www.methics.fi/KiuruMSSP/v5.0.0#signingCertificate"
+                            },
+                            {
+                                "Description": "http://mss.ficom.fi/TS102204/v1.0.0#userLang",
+                                "UserLang": {
+                                    "Value": "MN"
+                                }
+                            }
+                    ],
+                    "DataToBeDisplayed":{ 
+                        "Data":"Та гарын үсгээ оруулна уу",
+                        "Encoding":"UTF-8",
+                        "MimeType":"text/plain"
+                    },
+                    "DataToBeSigned":{ 
+                        "Data":"data",
+                        "Encoding":"UTF-8",
+                        "MimeType":"text/plain"
+                    },
+                    "MessagingMode":"synch",
+                    "MobileUser":{ 
+                        "MSISDN":"976'. $postData['user_phonenumber'] .'"
+                    },
+                    "SignatureProfile":"http://alauda.mobi/nonRepudiation",
+                    "MSS_Format": "http://www.methics.fi/KiuruMSSP/v3.2.0#PKCS1"
+                }
+                }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Basic ' . $userPass
+                ),
+            ));
+            
+            $response = curl_exec($curl);       
+            $err = curl_error($curl);
+            curl_close($curl);
+            
+            if (!is_dir(UPLOADPATH . 'temp')) {
+                mkdir(UPLOADPATH . 'temp', 0777, true);
+            }
+
+            $registerNumber = '';
+            if ($err) {
+                $response = array('status' => 'error', 'message' => $err);
+            } else {
+                $response = json_decode($response, true);
+                if (!issetParam($response['Fault'])) {
+                    $response['cert_data'] = array();
+                    if (issetParamArray($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'])) {
+                        $tmp = array();
+                        foreach ($response['MSS_SignatureResp']['ServiceResponses'][0]['SigningCertificate']['Certificates'] as $key => $row) {
+                            $filetPath = UPLOADPATH . 'temp/cert.crt';
+
+                            $cert_txt = '-----BEGIN CERTIFICATE-----' . "\n";
+                            $cert_txt .= $row . "\n";
+                            $cert_txt .= '-----END CERTIFICATE-----';
+
+                            $certFile = fopen($filetPath, "w");
+                            fwrite($certFile, $cert_txt);
+                            fclose($certFile);
+
+                            $ssl = openssl_x509_parse(file_get_contents($filetPath));
+                            array_push($tmp, issetParamArray($ssl['subject']));
+                            if (issetParam($ssl['subject']['UID']) !== '')
+                                $registerNumber = issetParam($ssl['subject']['UID']);
+                            
+                            @unlink($filetPath);
+                        }
+                        
+                        $response['cert_data'] = $tmp;
+                    }
+                }
+            }
+            
+            if (!$registerNumber) {
+                throw new Exception("Мэдээлэл олдсонгүй!"); 
+            }
+
+            includeLib('Utils/Functions');
+            $postsData = Functions::runProcess('crGsignLoginGet_004', array('registerednum' => $registerNumber));
+            if (!issetParam($postsData['result']['username'])) {
+                throw new Exception("Хэрэглэгчийн мэдээлэл олдсонгүй!"); 
+            }
+
+            unset($_POST);
+            $_POST['user_name'] = $postsData['result']['username'];
+            $_POST['pass_word'] = $postsData['result']['passwordhash'];
+            $_POST['isHash'] = '1';
+            $_POST['csrf_token'] = $this->model->getCsrfTokenModel();
+
+            $response = $this->model->runModel();
+            
+            if (Config::getFromCache('custom_login') == 'statebank') {
+                $this->chooseUserRoleCustomLogin($response);    
+                exit;
+            }    
+            $this->chooseUserKey($response);
+
+        } catch (Exception $e) {
+            Message::add('d', $e->getMessage(), AUTH_URL.'login');
+        }
+    }
+    
     public function runFinger() {
 
         $mddoc = &getInstance();
@@ -1156,7 +1208,7 @@ class Login extends Controller {
         }
     }
     
-    public function runCustom () {
+    public function runCustom() {
         
         $registerNum = Input::post('registerNumber');
         if ($registerNum) {
@@ -1399,57 +1451,6 @@ class Login extends Controller {
             Message::add('e', 'Алдаатай хүсэлт', URL . 'login');
         }
     }
-	
-    public function register() {
-        if (Config::getFromCache('showLoginRegister') !== '1') {
-            Message::add('s', '', URL . 'login');
-        }
-		
-        $this->view->title = $this->lang->line('register');
-        $this->view->csrf_token = $this->model->getCsrfTokenModel('ps');
-        
-        $configMainLogo   = Config::getFromCache('main_logo_path');
-        $configLogo       = Config::getFromCache('logo_path');
-        $configBackground = Config::getFromCache('login_background_image1');
-		$loginLayout    = /* 'customer';  */Config::getFromCache('loginLayout'); 
-        if ($configMainLogo && file_exists($configMainLogo)) {
-            $this->view->mainLogo = $configMainLogo;  
-        } 
-        
-        if ($configLogo && file_exists($configLogo)) {
-            $this->view->logo = $configLogo;
-        } 
-        
-        $this->view->mainLoginTitle   = Config::getFromCacheDefault('login_main_title', null, 'Business in the Cloud');
-        $this->view->loginTitle       = Config::getFromCacheDefault('login_title', null, 'Орчин үеийн стратеги төлөвлөлт, удирдлагын онлайн ERP цогц шийдэл');
-        $this->view->passwordByPhone  = Config::getFromCache('RECOVER_PASSWORD_BY_PHONE');
-        $this->view->loginFooterTitle = Config::getFromCacheDefault('loginFooterTitle', null, '<span>Powered by</span> <a href="http://veritech.mn/" target="_blank">Veritech ERP</a>');
-        $this->view->infoMessage      = Config::getFromCache('passwordResetInfoMessage');
-        
-        if ($configBackground && file_exists($configBackground)) {
-            $this->view->background = $configBackground;
-        } else {
-            $this->view->background = null;
-        }
-        
-        $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
-        
-        if ($loginLayout && file_exists('views/login/layout/'.$loginLayout.'/register.php')) {
-            
-            $this->view->background = $this->model->getBackgroundImagesModel();
-
-            $this->view->render('login/layout/'.$loginLayout.'/header');
-            $this->view->render('login/layout/'.$loginLayout.'/register');
-            $this->view->render('login/layout/'.$loginLayout.'/footer');
-            
-        } else {
-            Message::add('s', '', URL . 'login');
-        }
-    }
-	
-    public function runRegister() {
-        $this->model->registerModel();
-    }
 
     public function chooseUserRoleCustomLogin($response) {
         if ($response && is_array($response)) {
@@ -1474,7 +1475,7 @@ class Login extends Controller {
         }
     }
 
-    public function sso () {
+    public function sso() {
         Auth::isLogin();
         /* $_POST['hash'] = 'dXNlcm5hbWU9YmlsZ3V1biZsYXN0TmFtZT1iaWxndXVuJmZpcnN0TmFtZT1iaWxndXVuJnBhc3N3b3JkPTEyMyZpcEFkcmVzcz0xOTIuMTAwLjEwMC4xJnJlZ2lzdGVyTnVtYmVyPdCw0LAxMjM0NTY3OCZyb2xlSWQ9MSZpc0N1c3RvbWVyPTE='; */
         $_POST['hash'] = 'dXNlcm5hbWU9YmlsZ3V1biZsYXN0TmFtZT1iaWxndXVuJmZpcnN0TmFtZT1iaWxndXVuJnBhc3N3b3JkPTEyMyZpcEFkcmVzcz0xOTIuMTAwLjEwMC4xJnJlZ2lzdGVyTnVtYmVyPdCw0LAxMjM0NTY3OCZyb2xlSWQ9MQ==';
