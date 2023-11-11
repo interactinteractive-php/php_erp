@@ -108,11 +108,8 @@ class Appmenu_Model extends Model {
 
     public function getMetaDataModel($metaDataId) {
         
-        $metaDataIdPh = $this->db->Param('metaDataId');
-
-        $bindVars = array(
-            'metaDataId' => $this->db->addQ($metaDataId)
-        );
+        $metaDataIdPh = $this->db->Param(0);
+        $bindVars = array($this->db->addQ($metaDataId));
         
         $row = $this->db->GetRow("
             SELECT 

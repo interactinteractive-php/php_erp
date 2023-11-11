@@ -11,13 +11,10 @@ class Chat_Model extends Model {
         $sessionUserId       = Ue::sessionUserId();
         $sessionDepartmentId = Ue::sessionDepartmentId();
         
-        $sessionUserIdPh       = $this->db->Param('sessionUserId');
-        $sessionDepartmentIdPh = $this->db->Param('sessionDepartmentId');
+        $sessionUserIdPh       = $this->db->Param(0);
+        $sessionDepartmentIdPh = $this->db->Param(1);
         
-        $bindVars = array(
-            'sessionUserId'       => $sessionUserId, 
-            'sessionDepartmentId' => $sessionDepartmentId 
-        );
+        $bindVars = array($sessionUserId, $sessionDepartmentId);
         
         $this->db->StartTrans(); 
         $this->db->Execute(Ue::createSessionInfo());
@@ -190,13 +187,10 @@ class Chat_Model extends Model {
         $offset = ($page - 1) * $rows;
         
         $sessionUserId   = Ue::sessionUserId();
-        $sessionUserIdPh = $this->db->Param('sessionUserId');
-        $toUserIdPh      = $this->db->Param('toUserId');
+        $sessionUserIdPh = $this->db->Param(0);
+        $toUserIdPh      = $this->db->Param(1);
         
-        $bindVars = array(
-            'sessionUserId' => $sessionUserId, 
-            'toUserId'      => Input::numeric('to')
-        );
+        $bindVars = array($sessionUserId, Input::numeric('to'));
                             
         $query = "
             SELECT 
@@ -841,11 +835,8 @@ class Chat_Model extends Model {
         $rows = Input::numeric('rows', 30);
         $offset = ($page - 1) * $rows;
         
-        $toUserIdPh = $this->db->Param('toUserId');
-        
-        $bindVars = array(
-            'toUserId' => Input::numeric('to')
-        );
+        $toUserIdPh = $this->db->Param(0);
+        $bindVars = array(Input::numeric('to'));
         
         $query = "
             SELECT 

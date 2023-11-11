@@ -247,13 +247,10 @@ class Login_Model extends Model {
         
         try {
             
-            $systemUserIdPh = $this->db->Param('systemUserId');
-            $userKeyIdPh    = $this->db->Param('userKeyId');
+            $systemUserIdPh = $this->db->Param(0);
+            $userKeyIdPh    = $this->db->Param(1);
 
-            $bindVars = array(
-                'systemUserId' => $this->db->addQ($systemUserId), 
-                'userKeyId'    => $this->db->addQ($userKeyId)
-            );
+            $bindVars = array($this->db->addQ($systemUserId), $this->db->addQ($userKeyId));
 
             $row = $this->db->GetRow(
                 "SELECT 
@@ -621,8 +618,8 @@ class Login_Model extends Model {
             
         } else {
         
-            $emailPh = $this->db->Param('email');
-            $bindVars = array('email' => $this->db->addQ($email));
+            $emailPh = $this->db->Param(0);
+            $bindVars = array($this->db->addQ($email));
 
             $row = $this->db->GetRow("
                 SELECT 
@@ -641,9 +638,8 @@ class Login_Model extends Model {
     
     public function getUserRowByPhoneNumber($phoneNumber) {
         
-        $phonePh = $this->db->Param('phone');
-        
-        $bindVars = array('phone' => $this->db->addQ($phoneNumber));
+        $phonePh = $this->db->Param(0);
+        $bindVars = array($this->db->addQ($phoneNumber));
         
         $row = $this->db->GetRow("
             SELECT 
@@ -680,9 +676,8 @@ class Login_Model extends Model {
         $userKeyId = Input::post('k');
         $password  = Input::post('pass');
         
-        $userIdPh = $this->db->Param('userId');
-        
-        $bindVars = array('userId' => $this->db->addQ($userId));
+        $userIdPh = $this->db->Param(0);
+        $bindVars = array($this->db->addQ($userId));
         
         if ($dbName = Input::post('cd97d6s8dg7sed4')) {
             $_POST['dbName'] = $dbName;

@@ -4714,6 +4714,15 @@ ul.dv-explorer5 > li:hover .first-title {
     max-height: 42px;
     word-break: break-word;
 }
+ .appmenu-table-cell-right .vr-menu-title .vr-menu-row-mcode .vr-menu-name {
+    color: #555;
+    font-weight: 600;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    max-height: 28px;
+    word-break: break-word;
+}
  .appmenu-table .appmenu-table-row .appmenu-table-cell-right {
     /* padding: 0 0 0 20px; */
 }

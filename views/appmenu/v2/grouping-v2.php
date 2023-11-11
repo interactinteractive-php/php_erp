@@ -139,7 +139,10 @@
                                     }
                                 $cards[] = '</div>';
                                 $cards[] = '<div class="vr-menu-title">';
-                                    $cards[] = '<div class="vr-menu-row">';
+                                    $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
+                                        if (issetParam($row['menucode'])) {
+                                            $cards[] = '<div class="vr-menu-code" data-app-code="true">' . $row['menucode'] . '</div>';
+                                        }
                                         $cards[] = '<div class="vr-menu-name" data-app-name="true">' . $this->lang->line($row['name']) . '</div>';
                                     $cards[] = '</div>';
                                 $cards[] = '</div>';
@@ -275,8 +278,9 @@ if (Config::getFromCache('isAppmenuBigCard')) {
                 
                 for (i = 0; i < cardsLength; i++) {
                     var $card = $(cards[i]);
-                    title = $card.find(".vr-menu-name");
-                    if (title.length && (title.text()).toLowerCase().indexOf(filter) > -1) {
+                    title = $card.find(".vr-menu-name"),
+                    code = $card.find(".vr-menu-code");
+                    if ((title.length && (title.text()).toLowerCase().indexOf(filter) > -1) || (code.length && (code.text()).toLowerCase().indexOf(filter) > -1)) {
                         $card.css({'display': 'block', 'opacity': '1'});
                     } else {
                         $card.css('display', 'none');

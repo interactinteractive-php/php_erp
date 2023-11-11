@@ -301,6 +301,13 @@ body  {
     font-size: 12px;
     line-height: normal;
 }
+.appmenu-table-cell-right .vr-menu-title .vr-menu-row .vr-menu-code {
+    color: #555555bf;
+    font-weight: 600;
+    overflow: hidden;
+    height: 18px;
+    line-height: 1;
+}
  .white-card-menu .vr-menu-tile,
  .appmenu-table-cell-right .vr-menu-tile {
     padding: 15px;

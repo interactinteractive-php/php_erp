@@ -74,6 +74,41 @@
                     </div>
                 </div>
             </div>
+            <div class="bg-white">
+                <div class="content-wrapper">
+                    <div class="content  justify-content-center align-items-center">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav px-3 pt-3 pb-0" style="width:fit-content">
+                                    <li class="nav-item">
+                                        <a class="nav-link title-color fs-16 active" id="link-menu-detail-active1" data-toggle="tab" href="#menu-active-detail1" aria-current="page" aria-controls="menu-active-detail1" role="tab" aria-selected="true">Ерөнхий</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link title-color fs-16 " id="link-menu-detail-active2"  data-toggle="tab" href="#menu-active-detail2" aria-current="page" aria-controls="menu-active-detail2" role="tab" aria-selected="false">Системийн боломж, онцлогууд</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content px-1 pt-1">
+                                    <div class="tab-pane active" id="menu-active-detail1" aria-labelledby="link-menu-detail-active1" role="tabpanel">
+                                        <div class="row" style="gap:20px;padding:1.5rem!important">
+                                            <p>“Veritech CMS” Гэрээний удирдлагын систем нь байгууллагын гэрээ контракт болон түүнтэй холбоотой аливаа асуудлыг програм хангамжийн шийдлээр механик ажиллагааг хөнгөвчлөх, цаасан хэлбэрээс татгалзаж захиалагч, 
+                                                гүйцэтгэгч гэх мэт бүх харилцагчийг өөрийн эрх үүргийн хэмжээнд ашиглах боломжоор хангах, бүх төрлийн гэрээ контрактыг нэгдсэн удирдлагаар хянах боломжоор хангахад чиглэнэ.</p>
+                                            <p>Гэрээнүүдээ зөв удирдасанаар бүхнийг алдаагүй гүйцэтгэх боломжтой. Танай байгууллага шүүх хяналтын байгууллагын өмнө ч асуудалгүй байж чадна.</p>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="menu-active-detail2" aria-labelledby="link-menu-detail-active2" role="tabpanel">
+                                        <div class="row" style="gap:20px;padding:1.5rem!important">
+                                            <p>““Veritech CMS” Гэрээний удирдлагын систем нь байгууллагын гэрээ контракт болон түүнтэй холбоотой аливаа асуудлыг програм хангамжийн шийдлээр
+                                                 механик ажиллагааг хөнгөвчлөх, цаасан хэлбэрээс татгалзаж захиалагч, гүйцэтгэгч гэх мэт бүх харилцагчийг өөрийн эрх үүргийн хэмжээнд ашиглах боломжоор хангах, 
+                                                 бүх төрлийн гэрээ контрактыг нэгдсэн удирдлагаар хянах боломжоор хангахад чиглэнэ.</p>
+                                            <p>Гэрээнүүдээ зөв удирдасанаар бүхнийг алдаагүй гүйцэтгэх боломжтой. Танай байгууллага шүүх хяналтын байгууллагын өмнө ч асуудалгүй байж чадна.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
         </div>
     </div>
 </div>
@@ -125,6 +160,14 @@
         background-repeat: no-repeat; /* Do not repeat the image */
         background-size: cover;
     }    
+
+    .card-style{
+        height:260px; 
+        width:224px;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.12);
+    }
 </style>
 
 <script type="text/javascript">

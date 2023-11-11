@@ -1322,8 +1322,13 @@ var Core = function() {
         },
         initTinymceEditor: function(element) {
             element = (typeof element === 'undefined') ? $('body') : element;
+            var textEditorDefaultStyleString = '';
+            if (typeof textEditorDefaultStyle !== 'undefined' && textEditorDefaultStyle) {
+                textEditorDefaultStyleString = textEditorDefaultStyle;
+            }                        
             
             if (element.find('textarea.text_editorInit').length) {
+                var $textarea = element.find('textarea.text_editorInit');
                 $.cachedScript('assets/custom/addon/plugins/tinymce/tinymce.min.js').done(function() { 
                     $('.mce-menu, .mce-widget, .mce-tinymce.mce-tinymce-inline.mce-arrow.mce-container.mce-panel.mce-floatpanel[hidefocus="1"]').remove();
                     tinymce.dom.Event.domLoaded = true;
@@ -1409,6 +1414,14 @@ var Core = function() {
                         },
                         setup: function(editor) {
                             editor.on('init', function() {
+                                
+                                var textEdata = $textarea.val();
+                                if (!textEdata.startsWith('<div class="append-textstyle') && textEditorDefaultStyleString) {
+                                    editor.setContent('<div class="append-textstyle" style="'+textEditorDefaultStyleString+'">'+textEdata+'</div>');
+                                } else {
+                                    editor.setContent(textEdata);
+                                }                                
+                                
                                 $(document).on('focusin', function(e) {
                                     if ($(e.target).closest(".mce-window, .moxman-window").length) {
                                         e.stopImmediatePropagation();
@@ -1444,7 +1457,17 @@ var Core = function() {
                     $.cachedScript('assets/custom/addon/plugins/ckeditor/ckeditor.js?v=9').done(function() { 
                         CKEDITOR.timestamp = 'ABCD17';
                         CKEDITOR.disableAutoInline = true;
-                        CKEDITOR.replaceAll('text_editor_ckedtorInit');
+                        
+                        CKEDITOR.replaceAll(function(textarea, config) {
+                            if(textarea.className == "text_editor_ckedtorInit") {
+                                if (!textarea.value.startsWith('<div class="append-textstyle') && textEditorDefaultStyleString) {
+                                    textarea.value = '<div class="append-textstyle" style="'+textEditorDefaultStyleString+'">'+textarea.value+'</div>';
+                                }                                
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });                        
                     });
                 } else {
                     CKEDITOR.disableAutoInline = true;
