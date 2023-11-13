@@ -10,8 +10,9 @@
             <div class="login_center_body p15">
 
                 <?php 
-                    echo $this->loginTitle === '&nbsp;' ? '' : '<p class="line-height-normal mb15">' .$this->loginTitle. '</p>';
-                    echo $this->selectMultiDbControl;
+                echo ($this->loginTitle == '&nbsp;' || $this->loginTitle == '') ? '' : '<p class="line-height-normal mb15">' .$this->loginTitle. '</p>';
+                echo '<span class="d-block text-muted display-message">'.Message::display().'</span>';
+                echo $this->selectMultiDbControl;
                 ?>
            
                 <div class="form-group form-group-feedback form-group-feedback-left">
@@ -23,12 +24,22 @@
                 </div>
 
                 <div class="form-group form-group-feedback form-group-feedback-left">
-                    <?php echo Form::password(array('name' => 'pass_word', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('pass_word'), 'required' => 'required', 'autocomplete' => 'off')); ?>
+                    <?php echo Form::password(array('name' => 'pass_word', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('pass_word'), 'required' => 'required', 'autocomplete' => ($this->isLoginSaveUsername ? 'new-password' : 'off'))); ?>
                     <div class="form-control-feedback">
                         <i class="icon-lock2 text-muted"></i>
                     </div>
                     <span id="pass_word-error" class="help-block" style="display: none;">This field is required.</span>
                 </div>
+                <div>
+                    <?php 
+                    echo html_tag('div', 
+                        array('class' => 'ldap activedir mt-2'), 
+                        '<label><span class="isLdapCheckBox"><input type="checkbox" name="isSaveUsername" value="1" class="notuniform mr-1"></span> <span>'.Lang::line('PF_SAVE_USERNAME').'</span></label>', 
+                        $this->isLoginSaveUsername
+                    ); 
+                    echo html_tag('div', array('class' => 'ldap activedir mt-2'), $this->ldapControl, $this->isLDap); 
+                    ?>
+                </div>    
                 <?php
                 if (isset($this->isLoginCaptcha) && $this->isLoginCaptcha) {
                 ?>
@@ -53,8 +64,6 @@
                         <?php echo html_tag('a', array('href' => 'login/password_reset', 'class' => 'forget-password ml-auto'), $this->lang->line('onlineanket_forgotpass'), Config::getFromCache('hideLoginForgotPassword') == '1' ? false : true);?>
                     </div>
                 </div>
-                <?php echo html_tag('div', array('class' => 'ldap float-left activedir mt-3'), $this->ldapControl, $this->isLDap); ?>
-                <span class="d-block text-muted display-message"><?php echo Message::display(); ?></span>
             </div>
             <div class="copyright">
                 <span>Powered by <a href="http://www.veritech.mn" target="_blank" rel="noopener noreferrer">Veritech ERP</a></span>

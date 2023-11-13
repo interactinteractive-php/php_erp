@@ -109,6 +109,8 @@ class Login_Model extends Model {
             if ($connectionId = issetParam($result['result']['connectionid'])) {
                 $this->setSessionDatabaseConnection(null, $connectionId);
             }
+            
+            $this->setLocalStorageUsername($result['status'], $param['username']);
 
             if ($isCheckLoginFailed) {
                 
@@ -1482,6 +1484,17 @@ class Login_Model extends Model {
             
         } else {
             $this->redirectLogin('Error', 'back');
+        }
+    }
+    
+    public function setLocalStorageUsername($status, $username) {
+        
+        if ($status == 'success' && Config::getFromCache('PF_IS_LOGIN_SAVE_USERNAME')) {
+            if (Input::numeric('isSaveUsername')) {
+                Session::set(SESSION_PREFIX.'saveUsernameLocalStorage', base64_encode($username));
+            } else {
+                Session::set(SESSION_PREFIX.'saveUsernameLocalStorage', '_pf_no_value'); 
+            }
         }
     }
     

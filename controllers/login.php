@@ -39,6 +39,7 @@ class Login extends Controller {
         $this->view->isFinger = Config::getFromCache('CONFIG_USE_FINGER');
         $this->view->isLDap = Config::getFromCache('CONFIG_USE_LDAP');
         $this->view->isPhoneSign = Config::getFromCache('CONFIG_USE_PHONELOGIN');
+        $this->view->isLoginSaveUsername = Config::getFromCache('PF_IS_LOGIN_SAVE_USERNAME');
         $this->view->isPasswordReset = true;
         $this->view->csrf_token = $this->model->getCsrfTokenModel();
         $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
@@ -56,7 +57,7 @@ class Login extends Controller {
         }
         
         $loginLayout    = Config::getFromCache('loginLayout'); 
-        $configMainLogo = Config::get('main_logo_path');
+        $configMainLogo = Config::getFromCache('main_logo_path');
         $configLogo     = Config::getFromCache('logo_path');
         
         if ($configMainLogo && file_exists($configMainLogo)) {

@@ -197,7 +197,17 @@ if (Config::getFromCache('isVersionCheck') === '1') { ?>
             sticker: false
         });
     }
-<?php }
+<?php 
+}
+if (Session::get(SESSION_PREFIX . 'saveUsernameLocalStorage') != '') { 
+    $saveUsernameLocalStorage = Session::get(SESSION_PREFIX . 'saveUsernameLocalStorage');
+    if ($saveUsernameLocalStorage == '_pf_no_value') {
+        echo "window.localStorage.removeItem('_pf_u');"; 
+    } else {
+        echo "window.localStorage.setItem('_pf_u', '".$saveUsernameLocalStorage."');"; 
+    }
+    Session::delete(SESSION_PREFIX . 'saveUsernameLocalStorage');
+}
 ?>
 </script>
 </body>
