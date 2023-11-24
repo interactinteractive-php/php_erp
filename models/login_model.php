@@ -522,7 +522,7 @@ class Login_Model extends Model {
                             $this->db->AutoExecute('UM_META_BLOCK', array('ID' => getUID(), 'CREATED_DATE' => Date::currentDate(), 'IS_CHANGE_PASSWORD' => '1', 'USER_ID' => $userId));
                         }
 
-                        $this->redirectLogin(Lang::line('onlineanket_resetPassS'), AUTH_URL.'login', 's');
+                        $this->redirectLogin(Lang::lineDefault('onlineanket_resetPassS', 'И-мэйл хаягаар шинэ нууц үг амжилттай илгээгдлээ. Та и-мэйл хаягаа шалгана уу.'), AUTH_URL.'login', 's');
                     }
                 }
                 
@@ -586,7 +586,7 @@ class Login_Model extends Model {
                         $this->db->AutoExecute('UM_META_BLOCK', array('ID' => getUID(), 'CREATED_DATE' => Date::currentDate(), 'IS_CHANGE_PASSWORD' => '1', 'USER_ID' => $userId));
                     }
                     
-                    $this->redirectLogin(Lang::line('onlineanket_resetPassS'), AUTH_URL.'login', 's');
+                    $this->redirectLogin(Lang::lineDefault('PF_SENT_SMS_NEW_PASS_SUCCESS_MSG', 'Таны утасны дугаар руу шинэ нууц үг амжилттай илгээлээ. Та утасаа шалгана уу.'), AUTH_URL.'login', 's');
                 }
                 
             } else {
