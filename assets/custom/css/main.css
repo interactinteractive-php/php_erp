@@ -17235,7 +17235,10 @@ th span.secondLangText {
 .fa-word-color {
     color: #2D559A;
 }
-
+ul.dropdown-menu.fiscal-period-child:has(li) {
+    max-height: 90vh;
+    overflow: auto;
+}
 .fiscal-period-child-container .fiscalPeriodList-jtree .jstree-default .jstree-disabled {
     color: #FFF;
 }
@@ -23951,7 +23954,21 @@ ul.lookup-ac-render .lookup-ac-highlight {
     border-top-left-radius: .1875rem;
     border-bottom-left-radius: .1875rem;
 }
-
+.dv-process-buttons .btn-group-only-left-right-radius>.btn{
+    border-radius: 0;
+}
+.dv-process-buttons .btn-group-only-left-right-radius>.btn:first-child  {
+    border-top-left-radius: 100px!important;
+    border-bottom-left-radius: 100px!important;
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+.dv-process-buttons .btn-group-only-left-right-radius>.btn:last-child  {
+    border-top-right-radius: 100px!important;
+    border-bottom-right-radius: 100px!important;
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+}
 .ui-dialog-content .xs-form .navbar-nav {
     flex-direction: inherit;
 }

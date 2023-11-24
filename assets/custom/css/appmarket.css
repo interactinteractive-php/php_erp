@@ -1,13 +1,14 @@
 .appmarket-wrapper {
     max-width: 1580px;
     margin: auto;
-    background-color: #E5E5E5;
+    background-color: #F0F0F0;
     margin-top: -10px;
 }
 .appmarket_menu_wrapper li a {
-    color: #585858;
+    color: #3C3C3C;
     text-transform: none !important;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
 }
 .appmarket_menu_wrapper .nav-item-open>.nav-link, .appmarket_menu_wrapper .nav-item-selected {
     background-color: #E2F4FF;
@@ -18,17 +19,19 @@
     background: #fff;
     padding: 15px;    
     overflow: hidden;
-    color: #585858;    
-    background-color: #F0F0F0;
+    color: #585858;        
+}
+.appmarket_menu_wrapper .nav-link {
+    padding-left: 3px;      
 }
 
-.appmarket {
-    background-color: white;
+.appmarket {    
 }
 .appmarket-body {    
     width: 100%;
-    color: #585858;
+    color: #3C3C3C;
     font-size: 12px;
+    min-height: 750px;
 }
 .appmarket-wrapper .full-header-info {
     border-radius: 10px;
@@ -56,6 +59,10 @@
     text-align: center;
 }
 .appmarket-wrapper .card-info p {
+}
+.appmarket-wrapper .appmarket-menu-title {
+    color: #3C3C3C;
+    font-size: 17px;
 }
 .appmarket-wrapper .card-info p:first-child {
     font-size: 16px;
@@ -209,13 +216,38 @@
     margin-left: -5px;
 }
 
-.card-style{
+.appmarket-wrapper .card-style .card-text {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-height: 100px;
+    word-break: break-word;    
+    font-size: 15px;
+    line-height: 20px;    
+}
+
+.appmarket-wrapper .card-style a {
+    color: #3C3C3C;
+}
+
+.appmarket-wrapper .card-style .card-text-description {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-height: 80px;
+    word-break: break-word;    
+}
+
+.appmarket-wrapper .card-style{
     height:260px; 
-    /* width:224px; */
+    width:224px;
     border-radius: 10px;
     background: #FFF;
-    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.12);
-    margin: 0 0.3em;
+    margin: 0.3em 0.3em;
+}
+
+.appmarket-wrapper .card-style:hover {
+    border: 1px solid rgb(0 0 0 / 71%);
 }
 
 .font-bold {
@@ -257,6 +289,11 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.appmarket-wrapper .module-img {
+    width: 80px;
+    height: 80px;
 }
 
 .color1{

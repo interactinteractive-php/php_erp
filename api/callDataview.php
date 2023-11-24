@@ -52,6 +52,7 @@ if (isset($_POST['dataviewId']) && !empty($_POST['dataviewId'])) {
 
     $dataviewId = Input::post('dataviewId');
     $treeGrid = Input::post('treeGrid');
+    $pageSize = Input::post('pageSize', 1000);
     $pagingWithoutAggregate = Input::post('pagingWithoutAggregate');
     $criteriaData = Input::post('criteriaData');
 
@@ -61,7 +62,7 @@ if (isset($_POST['dataviewId']) && !empty($_POST['dataviewId'])) {
         'ignorePermission' => 1,
         'paging' => array(
             'offset' => 1,
-            'pageSize' => 1000
+            'pageSize' => $pageSize
         ),         
         'criteria' => $criteriaData
     );    
