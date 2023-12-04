@@ -12,7 +12,7 @@ $(document).ready(function(){
     ?>
     var sU = localStorage.getItem('_pf_u');  
     if (sU != '' && sU != null && /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$/.test(sU)) {
-        $('form#login-form #user_name').val(atob(sU));
+        $('form#login-form #user_name').val(decodeURIComponent(escape(atob(sU))));
         $('form#login-form input[name=pass_word]').focus();
         $('form#login-form input[name=isSaveUsername]').prop('checked', true);
     }

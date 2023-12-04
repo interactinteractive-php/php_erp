@@ -19,6 +19,11 @@ $(document.body).on('click', '#appmarket-delete-file-upload', function() {
     $('#appmarket-file-upload').val('');
 });    
 
+if (selectedModuleId) {
+    getUsingModule(selectedModuleId);
+    getRecommendedModule(selectedModuleId);    
+}
+
 $(document.body).on('click', '.appmarket-filter-typemenu', function() {
     var $self = $(this);
     getUsingModule($self.data('id'));
@@ -101,7 +106,9 @@ function getUsingModule(criteria) {
         }
     });    
 };
-getUsingModule();
+if (!selectedModuleId) {
+    getUsingModule();
+}
 
 function getRecommendedModule(criteria) {
     var requestParam = {
@@ -151,4 +158,6 @@ function getRecommendedModule(criteria) {
         }
     });    
 };
-getRecommendedModule();
+if (!selectedModuleId) {
+    getRecommendedModule();
+}

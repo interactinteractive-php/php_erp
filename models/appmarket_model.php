@@ -60,5 +60,180 @@ class Appmarket_Model extends Model {
             return null;
         }
     }    
+    
+    public function getModuleInfoModel($id) {
+
+        $prm = array(
+            'id' => $id,
+            'filterUserId' => Ue::sessionUserKeyId(),
+        );
+        $data = $this->ws->runSerializeResponse(self::$gfServiceAddress, 'appMarketProductDetailGet_004', $prm);
+        
+        if (isset($data['result'])) {
+            return $data['result'];
+        } else {
+            return null;
+        }
+    }    
+    
+    public function saveToBasketModel($id, $itemId, $basketTotalAmount, $price) {
+
+        $prm = array(
+            'id' => $id,
+            'total' => ($basketTotalAmount + $price),
+            'smBasketDtl' => [[
+                'itemId' => $itemId,
+                'unitPrice' => $price,
+                'lineTotalPrice' => $price,
+            ]],
+        );
+        $data = $this->ws->runSerializeResponse(self::$gfServiceAddress, 'smBasketBook_001', $prm);
+        
+        return $data;
+    }    
+    
+    public function getTreeDataByValue($dataViewId, $structureMetaDataId, $parentId, $criteria) {
+        
+        $this->load->model('mddatamodel', 'middleware/models/');
+
+        $result = $noOrderdvids = array();
+        
+        $getCodeNameFieldName = $this->model->getCodeNameFieldNameModel($dataViewId);
+        
+        $idField     = $getCodeNameFieldName['id'];
+        $codeField   = $getCodeNameFieldName['code'];
+        $nameField   = $getCodeNameFieldName['name'];
+        $parentField = $getCodeNameFieldName['parent'];
+        
+        $param = array(
+            'systemMetaGroupId' => $dataViewId,
+            'showQuery'         => 0,
+            'isShowAggregate'   => 0,
+            'ignorePermission'  => 1, 
+            'treeGrid'          => 1
+        );
+        
+        if (Config::isCode('isTreeNoOrderDvids')) {
+            $noOrderdvids = explode(',', Config::getFromCache('isTreeNoOrderDvids'));
+        } 
+        
+        if ($parentId == '#') {
+            $param['criteria'][$parentField][] = array(
+                'operator' => 'IS NULL',
+                'operand' => ''
+            );
+        } else {
+            $param['criteria'][$parentField][] = array(
+                'operator' => '=',
+                'operand' => $parentId
+            );
+        }
+        
+        if ($criteria) {
+            $param['criteria'] = [];
+            $param['criteria'][$criteria['path']][] = array(
+                'operator' => '=',
+                'operand' => $criteria['value'] 
+            );
+        }
+
+        $data = $this->ws->runArrayResponse(self::$gfServiceAddress, Mddatamodel::$getDataViewCommand, $param);
+        
+        if ($data['status'] == 'success' && isset($data['result'])) {
+
+            unset($data['result']['paging']);
+            unset($data['result']['aggregatecolumns']);
+
+            $treeData = $data['result'];
+            
+            if ($treeData) {
+                
+                $k = 0;
+
+                foreach ($treeData as $tree) {
+                    
+                    $isChildRecordCount = (issetParam($tree['children']) ? true : false);
+
+                    $result[$k]['id'] = $tree[$idField];
+                    $result[$k]['text'] = $tree[$nameField];
+                    $result[$k]['rowdata'] = $tree;
+                    $result[$k]['children'] = $isChildRecordCount;
+
+                    if (issetParam($tree['icon'])) {
+                        $result[$k]['icon'] = $tree['icon'];
+                    }
+
+                    if ($isChildRecordCount) {
+                        $result[$k]['state']['opened'] = false;
+                        $result[$k]['children'] = $this->getTreeDataByDeepValue($dataViewId, $structureMetaDataId, $tree['children']);
+                    }
+                    
+                    if (issetParam($tree['isselected']) == '1') {
+                        $result[$k]['state']['selected'] = true;
+                    }
+                    
+                    $k++;
+                }
+            }
+        } 
+        
+        return $result;
+    }    
+    
+    public function getTreeDataByDeepValue($dataViewId, $structureMetaDataId, $treeData) {
+        
+        $this->load->model('mddatamodel', 'middleware/models/');
+
+        $result = $noOrderdvids = array();
+        
+        $getCodeNameFieldName = $this->model->getCodeNameFieldNameModel($dataViewId);
+        
+        $idField     = $getCodeNameFieldName['id'];
+        $codeField   = $getCodeNameFieldName['code'];
+        $nameField   = $getCodeNameFieldName['name'];
+        $parentField = $getCodeNameFieldName['parent'];
+        $k = 0;
+        
+        foreach ($treeData as $tree) {
+
+            $isChildRecordCount = (issetParam($tree['children']) ? true : false);
+
+            $result[$k]['id'] = $tree[$idField];
+            $result[$k]['text'] = $tree[$nameField];
+            $result[$k]['rowdata'] = $tree;
+            $result[$k]['children'] = $isChildRecordCount;
+
+            if (issetParam($tree['icon'])) {
+                $result[$k]['icon'] = $tree['icon'];
+            }
+
+            if ($isChildRecordCount) {
+                $result[$k]['state']['opened'] = false;
+                $result[$k]['children'] = $this->getTreeDataByDeepValue($dataViewId, $structureMetaDataId, $tree['children']);
+            }
+
+            if (issetParam($tree['isselected']) == '1') {
+                $result[$k]['state']['selected'] = true;
+            }
+
+            $k++;
+        }
+        
+        return $result;
+    }
+
+    public function getBasketModel() {
+
+        $prm = array(
+            'filterUserId' => Ue::sessionUserKeyId(),
+        );
+        $data = $this->ws->runSerializeResponse(self::$gfServiceAddress, 'smBasketBookGet_004', $prm);
+        
+        if (isset($data['result'])) {
+            return $data['result'];
+        } else {
+            return null;
+        }
+    }     
 
 }

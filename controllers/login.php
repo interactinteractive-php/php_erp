@@ -402,6 +402,11 @@ class Login extends Controller {
         }
     }
     
+    public function send_password() {
+        Auth::isLogin();
+        $this->model->sendPasswordModel();
+    }
+    
     public function activeAccountByPass($hash = '') {
         Auth::isLogin();
         
@@ -452,11 +457,6 @@ class Login extends Controller {
     public function activeAccountByPassSubmit() {
         Auth::isLogin();
         $this->model->activeAccountByPassModel();
-    }
-    
-    public function send_password() {
-        Auth::isLogin();
-        $this->model->sendPasswordModel();
     }
     
     public function cloud($data) {

@@ -26,7 +26,7 @@ class Appmarket extends Controller {
         Auth::handleLogin();
     }
     
-    public function index() 
+    public function index($id = '') 
     {   
         $this->view->title = 'App market'; 
         
@@ -36,6 +36,7 @@ class Appmarket extends Controller {
         $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
         $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);
         $this->view->standartColors = self::$standartColors;
+        $this->view->moduleId = $id;
         
         $this->view->render('header');
         $this->view->render('appmarket/appmarket');
@@ -45,12 +46,15 @@ class Appmarket extends Controller {
     public function detail($id) 
     {   
         $this->view->title = 'App market detail'; 
+        $this->view->uniqId = getUID();
         
         $this->view->css = array_unique(array_merge(array('custom/css/appmarket.css'), AssetNew::metaCss()));
         $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
         
         $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
         $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);
+        $this->view->getModuleInfo = $this->model->getModuleInfoModel($id);
+        $this->view->sessionUserKeyId = Ue::sessionUserKeyId();
 
         $this->view->render('header');
         $this->view->render('appmarket/appmarket-detail');
@@ -58,12 +62,18 @@ class Appmarket extends Controller {
     }    
     
     
-    public function basket($menuCode = null) 
+    public function basket() 
     {   
         $this->view->title = 'App market basket'; 
+        $this->view->uniqId = getUID();
         
         $this->view->css = array_unique(array_merge(array('custom/css/appmarket.css'), AssetNew::metaCss()));
         $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
+        
+        $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
+        $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);        
+        $this->view->getBasket = $this->model->getBasketModel();        
+//        pa($this->view->getBasket);
 
         $this->view->render('header');
         $this->view->render('appmarket/appmarket-basket');
@@ -81,5 +91,25 @@ class Appmarket extends Controller {
         $this->view->render('appmarket/appmarket-basket1');
         $this->view->render('footer');
     }
+    
+    public function getAjaxTree() {
+        $dataViewId = Input::param($_REQUEST['dataViewId']);
+        $structureMetaDataId = Input::param($_REQUEST['structureMetaDataId']);
+        $parent = Input::param($_REQUEST['parent']);
+        $criteria = Input::param(issetParam($_REQUEST['criteria']));
+        
+        $folderList = $this->model->getTreeDataByValue($dataViewId, $structureMetaDataId, $parent, $criteria);
+        
+        jsonResponse($folderList);
+    }        
+    
+    public function saveToBasket() {
+        $id = Input::post('id');
+        $itemId = Input::post('itemId');
+        $basketTotalAmount = Input::post('basketTotalAmount');
+        $price = Input::post('price');
+        
+        jsonResponse($this->model->saveToBasketModel($id, $itemId, $basketTotalAmount, $price));
+    }        
     
 }
