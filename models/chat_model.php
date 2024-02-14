@@ -69,8 +69,29 @@ class Chat_Model extends Model {
                     LEFT JOIN HRM_POSITION_KEY PK ON PK.POSITION_KEY_ID = EMPK.POSITION_KEY_ID 
                     LEFT JOIN HRM_POSITION HP ON HP.POSITION_ID = PK.POSITION_ID 
                     LEFT JOIN VW_ZZ_DEPARTMENT ORG ON ORG.DEPARTMENT_ID = EMPK.DEPARTMENT_ID 
-                    LEFT JOIN ZZCHAT CH ON (CH.FROM_ID = $sessionUserIdPh AND CH.TO_ID = UM.USER_ID AND CH.DELETED_BY_FROM IS NULL) 
-                        OR (CH.TO_ID = $sessionUserIdPh AND CH.FROM_ID = UM.USER_ID AND CH.DELETED_BY_TO IS NULL) 
+                    LEFT JOIN (
+                        SELECT
+                            MAX(ID) AS ID,
+                            TO_ID AS USER_ID
+                        FROM
+                            ZZCHAT
+                        WHERE FROM_ID = $sessionUserIdPh 
+                            AND DELETED_BY_FROM IS NULL
+                        GROUP BY
+                            TO_ID
+                            
+                        UNION ALL
+                        
+                        SELECT
+                            MAX(ID) AS ID,
+                            FROM_ID AS USER_ID
+                        FROM
+                            ZZCHAT
+                        WHERE TO_ID = $sessionUserIdPh 
+                            AND DELETED_BY_TO IS NULL
+                        GROUP BY
+                            FROM_ID
+                    ) CH ON CH.USER_ID = UM.USER_ID
                     LEFT JOIN ZZCHAT_STATUS ZS ON ZS.USER_ID = UM.USER_ID 
                         AND ZS.IS_ACTIVE = 1 
                 WHERE (UM.INACTIVE = 0 OR UM.INACTIVE IS NULL) 
@@ -211,9 +232,59 @@ class Chat_Model extends Model {
             FROM ZZCHAT T0 
                 INNER JOIN UM_SYSTEM_USER T1 ON T1.USER_ID = T0.CREATED_USER_ID 
                 LEFT JOIN BASE_PERSON BP ON BP.PERSON_ID = T1.PERSON_ID 
+            WHERE T0.FROM_ID = $sessionUserIdPh 
+                AND T0.TO_ID = $toUserIdPh 
+                AND T0.DELETED_BY_FROM IS NULL 
+                
+            UNION ALL 
+            
+            SELECT
+                T0.ID, 
+                T0.FROM_ID, 
+                T0.TO_ID, 
+                T0.MESSAGE, 
+                T0.CREATED_DATE, 
+                T0.IS_FILE, 
+                T0.READ, 
+                T0.IS_FILE_DOWNLOADED, 
+                T0.HEADER_ID, 
+                T0.FORWARD_MESSAGE, 
+                T0.FORWARD_DATE, 
+                CASE WHEN BP.FIRST_NAME IS NULL  
+                    THEN T1.USERNAME  
+                ELSE SUBSTR(BP.LAST_NAME, 0, 1) || '.' || BP.FIRST_NAME END AS FORWARD_USER_NAME 
+            FROM ZZCHAT T0 
+                INNER JOIN UM_SYSTEM_USER T1 ON T1.USER_ID = T0.CREATED_USER_ID 
+                LEFT JOIN BASE_PERSON BP ON BP.PERSON_ID = T1.PERSON_ID 
+            WHERE T0.TO_ID = $sessionUserIdPh  
+                AND T0.FROM_ID = $toUserIdPh  
+                AND T0.DELETED_BY_TO IS NULL 
+            ORDER BY 
+                CREATED_DATE DESC";
+        
+        /*
+        SELECT 
+                T0.ID, 
+                T0.FROM_ID, 
+                T0.TO_ID, 
+                T0.MESSAGE, 
+                T0.CREATED_DATE, 
+                T0.IS_FILE, 
+                T0.READ, 
+                T0.IS_FILE_DOWNLOADED, 
+                T0.HEADER_ID, 
+                T0.FORWARD_MESSAGE, 
+                T0.FORWARD_DATE, 
+                CASE WHEN BP.FIRST_NAME IS NULL  
+                    THEN T1.USERNAME  
+                ELSE SUBSTR(BP.LAST_NAME, 0, 1) || '.' || BP.FIRST_NAME END AS FORWARD_USER_NAME 
+            FROM ZZCHAT T0 
+                INNER JOIN UM_SYSTEM_USER T1 ON T1.USER_ID = T0.CREATED_USER_ID 
+                LEFT JOIN BASE_PERSON BP ON BP.PERSON_ID = T1.PERSON_ID 
             WHERE (T0.FROM_ID = $sessionUserIdPh AND T0.TO_ID = $toUserIdPh AND T0.DELETED_BY_FROM IS NULL) 
                 OR (T0.TO_ID = $sessionUserIdPh AND T0.FROM_ID = $toUserIdPh AND T0.DELETED_BY_TO IS NULL) 
-            ORDER BY T0.CREATED_DATE DESC";
+            ORDER BY T0.CREATED_DATE DESC
+         */
 
         $rs = $this->db->SelectLimit($query, $rows, $offset, $bindVars);
 

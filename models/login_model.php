@@ -861,7 +861,7 @@ class Login_Model extends Model {
         
         $lowerMessage = Str::lower($message);
                     
-        if ($lowerMessage == 'user_name_or_password_wrong' || strpos($lowerMessage, 'нууц үг буруу') !== false) {
+        if ($lowerMessage == 'user_name_or_password_wrong' || $lowerMessage == 'user_name_not_found' || strpos($lowerMessage, 'нууц үг буруу') !== false) {
             
             $ipAddress   = Login::$ipAddress;
             $currentDate = Date::currentDate();
@@ -991,7 +991,7 @@ class Login_Model extends Model {
             $totp = new \OTPHP\TOTP('base32secret3232', array('interval' => 1));
             $otp = $totp->now();
             
-            $email = Session::get(SESSION_PREFIX . 'email');
+            $email = trim(Session::get(SESSION_PREFIX . 'email'));
             
             $body = 'Сайн байна уу?<br /><br />';
             $body .= 'Таны баталгаажуулах код: <span style="font-family: monospace">'.$otp.'</span>';
@@ -1019,7 +1019,7 @@ class Login_Model extends Model {
             $totp = new \OTPHP\TOTP('base32secret3232', array('interval' => 1));
             $otp = $totp->now();
             
-            $mobileNumber = Session::get(SESSION_PREFIX . 'mobile');
+            $mobileNumber = trim(Session::get(SESSION_PREFIX . 'mobile'));
             $smsBodyContent = 'Sain baina uu? Tanii batalgaajuulah code: '.$otp;
             
             $param = array(
@@ -1224,6 +1224,9 @@ class Login_Model extends Model {
                 Session::set(SESSION_PREFIX . 'sdbid', $connectionInfo['ID']);
                 Session::set(SESSION_PREFIX . 'sdbnm', $connectionInfo['DB_NAME']);
                 Session::set(SESSION_PREFIX . 'sdb', $secondDb);
+                
+                Config::$configArr = array();
+                Config::$allConfigCodeArr = array();
             }
         }
         

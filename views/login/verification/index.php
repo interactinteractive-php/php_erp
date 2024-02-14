@@ -3,7 +3,7 @@
         <i class="icon-lock2"></i>
     </div>
     <h3 class="font-weight-bold line-height-normal text-uppercase font-size-14">Хэрэглэгчийг баталгаажуулах</h3>
-    <p class="font-size-13 text-grey">Таны нэвтрэлт өмнөх түүхээсээ өөр байгаа тул аюулгүй байдлыг хангах үүднээс, таныг мөн эсэхийг нууцлалын кодоор баталгаажуулах цонх!</p>
+    <p class="font-size-13 text-grey">Таны нэвтрэлт өмнөх түүхээсээ өөр байгаа тул аюулгүй байдлыг хангах үүднээс, таныг мөн эсэхийг нууцлалын кодоор баталгаажуулах хэсэг!</p>
     
     <div class="wizard blue">
         <div class="steps clearfix">

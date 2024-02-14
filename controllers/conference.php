@@ -8,7 +8,7 @@ class Conference extends Controller {
     private $viewName = "government";
     public static $heleltsegTypeId = array('typeid' => array(array('operator' => '=', 'operand' => "1561974650875")));
     public static $taniltsahTypeId = array('typeid' => array(array('operator' => '=', 'operand' => "1561974650898")));
-    
+    private static $viewPath = "projects/views";
     public function __construct() {
         parent::__construct();
         Auth::handleLogin();
@@ -21,6 +21,14 @@ class Conference extends Controller {
         $err = Controller::loadController('Err');
         $err->index();
         exit;
+    }
+
+    public function detail($id = '1') {
+        if ($id !== '1') {
+            self::conferencedetail_v1();
+        } else {
+            self::conferencedetail();
+        }
     }
  
     public function conferencedetail($id = null) {
@@ -45,9 +53,10 @@ class Conference extends Controller {
         $this->view->conferenceDataArr = $dataRow; // $this->model->getConferenceDataModel($this->view->selectedRow['id']);
         
         $this->view->conferenceData = isset($this->view->conferenceDataArr[0]) ? $this->view->conferenceDataArr[0] : array();
+
         $this->view->rowJson = json_encode($this->view->selectedRow);
         $this->view->id = $this->view->selectedRow['id'];
-        
+
         if ($this->view->conferenceData['action']) {
             
             $this->view->selectedRow['startime'] = $this->view->conferenceData['starttime'];
@@ -69,16 +78,14 @@ class Conference extends Controller {
             $this->view->selectedRow['duration'] = $this->view->conferenceData['duration'];
             $this->view->selectedRow['totalbreaktime'] = $this->view->conferenceData['totalbreaktime'];
         }
-        
+       
         $this->view->member = $this->model->fncRunDataview("1562563260729012", "bookid", $this->view->selectedRow['id'], "=");
         $this->view->othermember = $this->model->fncRunDataview("1562316364962", "bookid", $this->view->selectedRow['id'], "=");
         $this->view->allmember = $this->model->fncRunDataview("1565833906233063", "bookid", $this->view->selectedRow['id'], "=");
         $this->view->issuelist = $this->model->fncRunDataview("1564710579741", "meetingbookid", $this->view->selectedRow['id'], "=", self::$heleltsegTypeId);
         $this->view->reviewgov = $this->model->fncRunDataview("1564710579741", "meetingbookid", $this->view->selectedRow['id'], "=", self::$taniltsahTypeId);
-        
         $this->view->issuelist = Arr::sortBy('ordernum', $this->view->issuelist, 'asc');
         $this->view->reviewgov = Arr::sortBy('ordernum', $this->view->reviewgov, 'asc');
-        
         $this->view->protocolList = $this->view->employeeList = array();
         
         if (issetParam($this->view->memberRole['readonly']) !== '1') {
@@ -102,6 +109,95 @@ class Conference extends Controller {
         } 
 
         $this->view->render($this->viewName . '/conference');
+    }
+
+    public function conferencedetail_v1($id = null) {
+
+        $this->view->title = 'Хурлын Дэлгэрэнгүй';
+        $this->view->uniqId = getUID();
+        
+        $selectedRow = Input::post('selectedRow');
+        $this->view->id = ($id) ? $id : $selectedRow['id'];
+        
+        $dataRow = $this->model->fncRunDataview("16879201172319", "id", $this->view->id, "=");
+        $this->view->selectedRow = (isset($dataRow[0]) && $dataRow[0]) ? $dataRow[0] : $selectedRow;
+        $this->view->selectedRowid = $this->view->selectedRow['id'];
+        $this->view->metaDataId = '16879201172319';
+        $this->view->metaDataCode = 'CMS_MEETING_LIST';
+        $this->view->refStructureId = '1553696503515026';
+        
+        $this->view->kheleltsekhTypeId =  self::$heleltsegTypeId['typeid'][0]['operand'];
+        $this->view->taniltsakhTypeId =  self::$taniltsahTypeId['typeid'][0]['operand'];
+        
+        $this->view->memberRole = $this->model->memberRoleModel(array('id' => Ue::sessionUserKeyId(), 'meetingbookid' => $this->view->selectedRow['id']));
+        $this->view->conferenceDataArr = $dataRow; // $this->model->getConferenceDataModel($this->view->selectedRow['id']);
+        
+        $this->view->conferenceData = isset($this->view->conferenceDataArr[0]) ? $this->view->conferenceDataArr[0] : array();
+
+        $this->view->rowJson = json_encode($this->view->selectedRow);
+        $this->view->id = $this->view->selectedRow['id'];
+
+        if ($this->view->conferenceData['action']) {
+            
+            $this->view->selectedRow['startime'] = $this->view->conferenceData['starttime'];
+            $this->view->selectedRow['endtime'] = $this->view->conferenceData['endtime'];
+            
+            $durationTimeInt = $this->view->conferenceData['diffsysdate'];
+            $breakTimeInt = $this->view->conferenceData['diffbreaksysdate'];
+            
+            if ($this->view->conferenceData['action'] == '2') {
+                $this->view->selectedRow['totalbreaktime'] = floor($breakTimeInt/3600) .':' . (floor(($breakTimeInt - floor($breakTimeInt/3600)*3600)/60)) . ':' . ($breakTimeInt - floor($breakTimeInt/3600)*3600)%60;
+            } else {
+                $this->view->selectedRow['totalbreaktime'] = $this->view->conferenceData['totalbreaktime'];
+            }
+            
+            $this->view->selectedRow['duration'] = floor($durationTimeInt/3600) .':' . (floor(($durationTimeInt - floor($durationTimeInt/3600)*3600)/60)) . ':' . ($durationTimeInt - floor($durationTimeInt/3600)*3600)%60;
+        }
+        
+        if ($this->view->conferenceData['action'] === '3') {
+            $this->view->selectedRow['duration'] = $this->view->conferenceData['duration'];
+            $this->view->selectedRow['totalbreaktime'] = $this->view->conferenceData['totalbreaktime'];
+        }
+
+        $paramMeeting = array(
+            'id' => $this->view->id,
+            'privacyType' => '',
+        );
+      
+        $dataMeeting = Functions::runProcess('CMS_MEETING_FIRST_SAVE_GET_LIST_004', $paramMeeting);
+        $privacytype = $dataMeeting['result']['privacytype'];
+        $privacytypeId = array('participantroleid' => array(array('operator' => '=', 'operand' => $privacytype)));
+        $this->view->member = $this->model->fncRunDataview("1562563260729012", "bookid", $this->view->selectedRow['id'], "=", $privacytypeId);
+       
+        $this->view->othermember = $this->model->fncRunDataview("1562316364962", "bookid", $this->view->selectedRow['id'], "=");
+        $this->view->allmember = $this->model->fncRunDataview("1565833906233063", "bookid", $this->view->selectedRow['id'], "=");
+        $this->view->issuelistdata = $this->model->fncRunDataview("1564710579741", "meetingbookid", $this->view->selectedRow['id'], "=", self::$heleltsegTypeId);
+        $this->view->reviewgovdata= $this->model->fncRunDataview("1564710579741", "meetingbookid", $this->view->selectedRow['id'], "=", self::$taniltsahTypeId);
+        $this->view->issuelist = Arr::sortBy('ordernum', $this->view->issuelistdata, 'asc');
+        $this->view->reviewgov = Arr::sortBy('ordernum', $this->view->reviewgovdata, 'asc');
+        $this->view->protocolList = $this->view->employeeList = array();
+       
+        if (issetParam($this->view->memberRole['readonly']) !== '1') {
+            $employeeList = $this->model->getConferencingEmployeeModel();
+            
+            if (isset($employeeList['empList'])) {
+                $this->view->employeeList = $employeeList['empList'];
+            }
+
+            if (isset($this->view->issuelist[0]['id']) && $this->view->issuelist[0]['id']) {
+                $this->view->protocolList = $this->model->fncRunDataview("1565780715693831", "subjectid", $this->view->issuelist[0]['id'], "=");
+            }
+        }
+       
+        $this->view->defaultCss = $this->view->renderPrint('defaultCssDistrict', 'views/government/bzd/');
+        $this->view->defaultJs = $this->view->renderPrint('defaultJsDistrict', 'views/government/bzd/');
+        
+        if (!is_ajax_request()) {
+            $this->view->isAjax = false;
+            $this->view->render('header');
+        } 
+
+        $this->view->render($this->viewName . '/bzd/conferenceDistrict');
     }
 
     public function memberpercent() {
@@ -813,6 +909,158 @@ class Conference extends Controller {
         }
         echo json_encode(array('xHtml' => $xHtml, 'tHtml' => $tHtml));
     }
+
+    public function reloadConferenceIssue_1() {
+        
+        $postData = Input::postData();
+        $xHtml = $tHtml = '';
+        $this->view->issuelist = $this->model->fncRunDataview("1564710579741", "meetingbookid", $postData['id'], "=", self::$heleltsegTypeId);
+        $this->view->reviewgov = $this->model->fncRunDataview("1564710579741", "meetingbookid", $postData['id'], "=", self::$taniltsahTypeId);
+       
+        if ($this->view->issuelist) {
+            $this->view->issuelist = Arr::sortBy('ordernum', $this->view->issuelist, 'asc');
+            
+            foreach ($this->view->issuelist as $row => $issuelist) {
+
+                $rowJson = htmlentities(json_encode($issuelist), ENT_QUOTES, 'UTF-8');
+                $isFinished = ($issuelist['endtime'] && $issuelist['starttime']) ? '1' : '0';
+                $class = ($issuelist['endtime'] && $issuelist['starttime']) ? 'issue-stop' : (($issuelist['starttime']) ? 'issue-start' : '');
+
+                $issuelist['starttime'] = $starttime = Date::formatter($issuelist['starttime'], 'H:i:s');
+                $issuelist['endtime'] = $endtime = Date::formatter($issuelist['endtime'], 'H:i:s'); 
+
+                $tempRow = $issuelist;
+                $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
+
+                $more =  ' onclick="gridDrillDownLink(this, \'CMS_HELELTSEH_LIST\', \'bookmark\', \'1\', \'cmsSubjectWeblink\', \'1564710579741\', \'subjectname\', \'1564385570445960\', \'id='. $issuelist['id'] .'\', true, true)"';
+
+                $xHtml.= '<li data-id="'. $issuelist['id'] .'" '; 
+                    $xHtml.= 'data-row ="'. $tempRowJson .'"';
+                    $xHtml.= 'id="subject_'. $issuelist['id'] .'" data-ordernum="'. $issuelist['ordernum'] .'"';
+                    $xHtml.= 'class="c-issue-list media isitem d-flex justify-content-center align-items-center '. (($postData['role'] != '1') ? 'tiktok-'.$postData['uniqId'] . ' ' : '') . $class .' media align-items-stretch">';
+                    $xHtml.= '<div class="p-1">';
+                        $xHtml.= '<p style="height:100%; border:3px solid '. $issuelist['rowcolor'] .'"></p>';
+                    $xHtml.= '</div>';
+                    $xHtml.= '<div class="media-body">';
+                        $xHtml.= '<div class="font-weight-bold number" row-number="'. $issuelist['ordernum'] .'">';
+                        $xHtml.= '<p class="line-height-normal mb-0 conf-issuelist-name w-75">';
+                            $xHtml.= '<a style="color: #000;" href="javascript:;" data-row="'. $tempRowJson .'" '. (($postData['role'] != '1') ? $more : '') . '>'. $issuelist['ordernum'] .'. '. $issuelist['subjectname'] .'</a>';
+                        $xHtml.= '</p>';
+                        $xHtml.= '</div>';
+                        $xHtml.= '<ul class="media-title list-inline list-inline-dotted">';
+                            $xHtml.= '<li class="list-inline-item w-75">';
+                                $xHtml.= '<span class="memberposition font-weight-bold">'. $issuelist['saidname'] .' - </span>';
+                                $xHtml.= '<span class="memberposition1 font-weight-bold">'. $issuelist['departmentname'] .' - </span>';
+                                $xHtml.= '<span class="memberposition2 font-weight-bold">'. $issuelist['referentname'] .'</span>';
+                                $xHtml.= '<span class="memberpic hidden">'. $issuelist['saidphoto'] .'</span>';
+                            $xHtml.= '</li>';
+                        $xHtml.= '</ul>';
+                        
+                        $addinStyle = ($isFinished) ? '' : 'display:none;';
+                        
+                        $xHtml.= '<p class="font-weight-bold line-height-normal mb-0 conf-issuelist-start timestart conf-issuelist-timer "  style="text-align: right; '. $addinStyle .'">';
+                            $xHtml.= '<span class="timestart timer-start"></span>';
+                            $xHtml.= $starttime . ' - ' . $endtime;
+                            $xHtml.= '<span class="icon-p"  data-toggle="tooltip" data-placement="bottom" title="Товлосон цагт засвар хийх" onclick="changeConferenceTimer_'. $postData['uniqId'] .'(this)"> ';
+                                $xHtml.= '<i class="icon-alarm"></i>';
+                            $xHtml.= '</span>';
+                        $xHtml.= '</p>';
+                        $xHtml.= '<div class="w-100 participants align-self-center d-flex mt-1">';
+                            $xHtml.= '<span>Ажлын хэсэг: '. ( ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0' ).'</span>';
+                            if ($isFinished) { 
+                                $xHtml.= '<span class="huraldaan-total ml-auto">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                            } 
+                        $xHtml.= '</div>';
+                    $xHtml.= '</div>';
+                    $xHtml.= '<div class="fissue align-self-center ml-3">';
+                        if ($isFinished) { 
+                            $xHtml.= ' <span class="badge badge-success">'. ( ($issuelist['count']) ? $issuelist['count'] : '' ).'</span>';
+                            $xHtml.= '<button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_'. $postData['uniqId'] .'(this, \''. $issuelist['id'] .'\')"><i class="fa fa-gavel"></i></button>';
+                        } elseif ($class === 'issue-start') {
+                            $xHtml.= ' <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_'. $postData['uniqId'] .'(this, \''. $issuelist['id'] .'\', \''. $issuelist['meetingbookid'] .'\' )"><i class="fa icon-quill4"></i></button>';
+                            $xHtml.= ' <button type="button"';
+                            $xHtml.= 'data-row ="'. $tempRowJson .'"';
+                            $xHtml.= 'class="btn font-weight-bold finishFeedback" finishFeedback" onclick="totalProtocol(this, \''. $issuelist['id'] .'\', \''. $issuelist['mapid'] .'\', \''. $issuelist['meetingbookid'] .'\' )"">';
+                                $xHtml.= ' <span>Санал өгөх</span>';
+                            $xHtml.= ' </button>';
+                        }
+                    $xHtml.= '</div>';
+                $xHtml.= '</li>';
+            }
+        }
+        
+        if ($this->view->reviewgov) {
+            $this->view->reviewgov = Arr::sortBy('ordernum', $this->view->reviewgov, 'asc');
+            foreach ($this->view->reviewgov as $row => $issuelist) {
+
+                $rowJson = htmlentities(json_encode($issuelist), ENT_QUOTES, 'UTF-8');
+                $isFinished = ($issuelist['endtime'] && $issuelist['starttime']) ? '1' : '0';
+                $class = ($issuelist['endtime'] && $issuelist['starttime']) ? 'issue-stop' : (($issuelist['starttime']) ? 'issue-start' : '');
+
+                $issuelist['starttime'] = $starttime = Date::formatter($issuelist['starttime'], 'H:i:s');
+                $issuelist['endtime'] = $endtime = Date::formatter($issuelist['endtime'], 'H:i:s'); 
+
+                $tempRow = $issuelist;
+                $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
+
+                $more =  ' onclick="gridDrillDownLink(this, \'CMS_HELELTSEH_LIST\', \'bookmark\', \'1\', \'cmsSubjectWeblink\', \'1564710579741\', \'subjectname\', \'1564385570445960\', \'id='. $issuelist['id'] .'\', true, true)"';
+
+                $tHtml.= '<li data-id="'. $issuelist['id'] .'" '; 
+                    $tHtml.= 'data-row ="'. $tempRowJson .'"';
+                    $tHtml.= 'id="subject_'. $issuelist['id'] .'" data-ordernum="'. $issuelist['ordernum'] .'"';
+                    $tHtml.= 'class="c-issue-list media isitem d-flex justify-content-center align-items-center '. (($postData['role'] != '1') ? 'tiktok-'.$postData['uniqId'] . ' ' : '') . $class .' media align-items-stretch">';
+                    $tHtml.= '<div class="p-1">';
+                        $tHtml.= '<p style="height:100%; border:3px solid '. $issuelist['rowcolor']  .'"></p>';
+                    $tHtml.= '</div>';
+                    $tHtml.= '<div class="media-body">';
+                        $tHtml.= '<div class="font-weight-bold number" row-number="'. $issuelist['ordernum'] .'">';
+                            $tHtml.= '<p class="line-height-normal mb-0 conf-issuelist-name w-75">';
+                                $tHtml.= '<a style="color: #000;" href="javascript:;" data-row="'. $tempRowJson .'" '. (($postData['role'] != '1') ? $more : '') . '>'. $issuelist['ordernum'] .'. '. $issuelist['subjectname'] .'</a>';
+                            $tHtml.= '</p>';
+                        $tHtml.= '</div>';
+                        $tHtml.= '<ul class="media-title list-inline list-inline-dotted">';
+                            $tHtml.= '<li class="list-inline-item w-75">';
+                                $tHtml.= '<span class="memberposition font-weight-bold">'. $issuelist['saidname'] .' - </span>';
+                                $tHtml.= '<span class="memberposition1 font-weight-bold">'. $issuelist['departmentname'] .' - </span>';
+                                $tHtml.= '<span class="memberposition2 font-weight-bold">'. $issuelist['referentname'] .'</span>';
+                                $tHtml.= '<span class="memberpic hidden">'. $issuelist['saidphoto'] .'</span>';
+                            $tHtml.= '</li>';
+                        $tHtml.= '</ul>';
+
+                        $addinStyle = ($isFinished) ? '' : 'display:none;';
+                        
+                        $tHtml.= '<p class="font-weight-bold line-height-normal mb-0 conf-issuelist-start timestart conf-issuelist-timer"  style="text-align: right; '. $addinStyle .'">';
+                            $tHtml.= '<span class="timestart timer-start"> </span>';
+                            $tHtml.= $starttime . ' - ' . $endtime;
+                            $tHtml.= '<span class="icon-p"  data-toggle="tooltip" data-placement="bottom" title="Товлосон цагт засвар хийх" onclick="changeConferenceTimer_'. $postData['uniqId'] .'(this)"> ';
+                                $tHtml.= '<i class="icon-alarm"></i>';
+                            $tHtml.= '</span>';
+                        $tHtml.= '</p>';
+                        $tHtml.= '<div class="w-100 participants align-self-center d-flex mt-1">';
+                            $tHtml.= '<span>Ажлын хэсэг: '. ( ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0' ).'</span>';
+                            if ($isFinished) { 
+                                $tHtml.= '<span class="huraldaan-total ml-auto">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                            } 
+                        $tHtml.= '</div>';
+                    $tHtml.= '</div>';
+                    $tHtml.= '<div class="fissue align-self-center ml-3">';
+                        if ($isFinished) { 
+                            $tHtml.= ' <span class="badge badge-success">'. ( ($issuelist['count']) ? $issuelist['count'] : '' ).'</span>';
+                            $tHtml.= '<button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_'. $postData['uniqId'] .'(this, \''. $issuelist['id'] .'\')"><i class="fa fa-gavel"></i></button>';
+                        } elseif ($class === 'issue-start') {
+                            $tHtml.= ' <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_'. $postData['uniqId'] .'(this, \''. $issuelist['id'] .'\', \''. $issuelist['meetingbookid'] .'\' )"><i class="fa icon-quill4"></i></button>';
+                            $tHtml.= ' <button type="button"';
+                            $tHtml.= 'data-row ="'. $tempRowJson .'"';
+                            $tHtml.= 'class="btn font-weight-bold finishFeedback" onclick="totalProtocol(this, \''. $issuelist['id'] .'\', \''. $issuelist['mapid'] .'\', \''. $issuelist['meetingbookid'] .'\' )"">';
+                                $tHtml.= ' <span>Санал өгөх</span>';
+                            $tHtml.= ' </button>';
+                        }
+                    $tHtml.= '</div>';
+                $tHtml.= '</li>';
+            }
+        }
+        echo json_encode(array('xHtml' => $xHtml, 'tHtml' => $tHtml));
+    }
    
     public function saveConferenceMember() {
         $response = $this->model->saveConferenceMember();
@@ -891,6 +1139,10 @@ class Conference extends Controller {
                         $type = 'start';
                         $paramData = array('DURATION' => $saveTime, 'ACTION' => '1');
                         break;
+                    case 'startData':
+                        $type = 'startData';
+                        $paramData = array('DURATION' => $saveTime, 'ACTION' => '1');
+                        break;
                     case 'pause':
                         $paramData = array('TOTAL_BREAK_TIME' => $saveTime, 'ACTION' => '2');
                         break;
@@ -913,7 +1165,7 @@ class Conference extends Controller {
         $response = array('status' => 'error', 'text' => Lang::line('msg_error'));
         includeLib('Utils/Functions');
         $result = Functions::runProcess('CMS_ATTENDANCE_STATUS_GET_LIST_004', array ('id' => $postData['id'], 'bookId' => $postData['bookid']));
-        
+       
         if (isset($result['result'])) {
             $response = array('status' => 'success', 'config' => $result['result']);
         }
@@ -1040,6 +1292,305 @@ class Conference extends Controller {
     public function closeprotocol() {
         $response = $this->model->endprotocolModel();
         echo json_encode($response);
+    }
+
+    public function previewattenData() {
+        $postData = Input::postData();
+        $this->view->id = issetParam($postData['id']);
+        includeLib('Utils/Functions');
+        $data = Functions::runProcess('CMS_MEETING_ATTENDANCE_SUBJECT_LIST_004', array('id' => $this->view->id));
+
+        $meetingConference_1 = $this->model->fncRunDataview("1564710579741", "meetingBookId", $this->view->id, "=", self::$heleltsegTypeId);
+        $meetingConference_2 = $this->model->fncRunDataview("1564710579741", "meetingBookId", $this->view->id, "=", self::$taniltsahTypeId);
+        $this->view->$meeting = array_merge($meetingConference_1, $meetingConference_2);
+       
+        $this->view->gov_meeting = issetParamArray($data['result']);
+        $scheduledtime = $this->view->gov_meeting['scheduledtime'];
+        $starttime = $this->view->gov_meeting['starttime'];
+        $endtime = $this->view->gov_meeting['endtime'];
+        $totalbreaktime = explode(':', $this->view->gov_meeting['totalbreaktime']);
+        $duration = explode(':', $this->view->gov_meeting['duration']);
+        $response = array(
+            'scheduledtime' => $scheduledtime,
+            'starttime' => $starttime,
+            'endtime' => $endtime,
+            'totalbreaktime' => $totalbreaktime,
+            'duration' => $duration,
+            'data'=> $this->view->$meeting,
+        );
+        
+        echo json_encode($response);
+    }
+
+    public function reviewTotal($id = '', $uniqId="", $mapid="", $meetingBookId="") {
+        $this->view->langCode = 'mn';
+        $postData = Input::postData();
+        $this->view->title = 'Санал хураалтын дүн';
+        $this->load->model('contentui', 'projects/models/');
+        $this->view->id = checkDefaultVal($postData['id'], $id);
+        $this->view->name = issetParam($postData['name']);
+        $this->view->selectedId = issetParam($postData['selectedId']);
+        $this->view->selectedRow = issetParam($postData['id']);
+        $this->view->subjectId = checkDefaultVal($this->view->selectedRow, $id);
+        $this->view->modulId = '1';
+        includeLib('Utils/Functions');
+        $mainData = Functions::runProcess('CMS_MEETING_ATTENDANCE_SUBJECT_LIST_004', array('id' => $this->view->id));
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => issetParam($postData['id'])));
+        $this->view->data = issetParamArray($data['result']);
+        $this->view->uniqId = checkDefaultVal($postData['uniqid'], $uniqId);
+
+        $criteria = array(
+            'meetingBookId' => array(
+                array(
+                    'operator' => '=',
+                    'operand' => issetParam($postData['meetingBookid']),
+                )
+            )
+        );
+
+        $districtresult = $this->model->fncRunDataview("1564710579741", "id", issetParam($postData['id']), "=", $criteria);
+        $this->view->mapDuration = $districtresult[0]['mapduration'];
+        
+        $this->view->defaultCss = $this->view->renderPrint('defaultCssDistrict', 'views/government/bzd/');
+        $this->view->defaultJs = $this->view->renderPrint('defaultJsDistrict', 'views/government/bzd/');
+       
+        $this->view->isAjax = is_ajax_request();
+        
+        if ($this->view->isAjax) {
+            (Array) $response = array(
+                'Title' => '',
+                'Width' => '1200',
+                'data' => $this->view->data,
+                'id' => $this->view->id,
+                'time' => $this->view->mapDuration,
+                'uniqId' => $this->view->uniqId,
+                'Html' => $this->view->renderPrint('reviewModal', 'views/government/bzd/'),
+                'save_btn' => Lang::line('finish_btn'), 
+                'close_btn' => Lang::line('close_btn')
+            );
+    
+            convJson($response);
+        }
+    }
+
+    public function reviewTotalSum() {
+        $this->view->langCode = 'mn';
+        $this->view->modulId = '2';
+        $postData = Input::postData();
+        includeLib('Utils/Functions');
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => issetParam($postData['id'])));
+        $this->view->data = issetParamArray($data['result']);
+        $this->view->defaultCss = $this->view->renderPrint('defaultCss_1', 'views/government/bzd/');
+        $this->view->isAjax = is_ajax_request();
+        
+        $response = array(
+                'Html' => $this->view->renderPrint('reviewModal', 'views/government/bzd/'),
+            );
+        
+        convJson($response);
+    }
+
+    public function protocalTalk() {
+        $postData = Input::postData();
+        includeLib('Utils/Functions');
+        if (issetParam($postData['dataid']) == '1') {
+            $data = Functions::runProcess('cmsSubjectMainParticipantTimeGetList_004',array ('id' => issetParam($postData['id']), 'subjectid' => issetParam($postData['subjectid'])));
+        }else{
+            $data = Functions::runProcess('cmsSubjectParticipantTimeGetList_004',array ('id' => issetParam($postData['id'])));
+        }
+
+        $this->view->data = issetParamArray($data['result']);
+        
+        $response = array(
+                'Html' => $this->view->data
+            );
+        
+        convJson($response);
+    }
+
+    public function protocalTalkEnd() {
+        $postData = Input::postData();
+        includeLib('Utils/Functions');
+       
+        if (issetParam($postData['dataid']) == '1') {
+            $data = Functions::runProcess('cmsSubjectMainParticipantTimeGetList_004',array ('id' => issetParam($postData['id']), 'subjectid' => issetParam($postData['subjectid'])));
+            $this->view->data = issetParamArray($data['result']);
+
+            $params = array(
+                'id' => '',
+                'meetingParticipantId' => issetParam($this->view->data['id']),
+                'positionName' => $this->view->data['positionname'],
+                'time1' => issetParam($postData['time1']),
+                'subjectId' => $this->view->data['subjectid'],
+                'firstName' => $this->view->data['firstname'],
+                'orderNum' => '',
+                'time2' => issetParam($postData['time2']),
+            );
+
+            $data = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'cmsSubjectParticipantAddDv_001', $params);
+
+        }else{
+            $params = array(
+                'id' => issetParam($postData['id']),
+                'time1' => issetParam($postData['time1']),
+                'time2' => issetParam($postData['time2']),
+            );
+
+            $data = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'cmsSubjectParticipantTimeDv_002', $params);
+        }
+
+        $response = array(
+            'data' =>  $data,
+            );
+        
+        convJson($response);
+    }
+
+    public function reviewTotalEnd($id = '') {
+        $this->view->langCode = 'mn';
+        $postData = Input::postData();
+        $this->view->selectedRow = issetParam($postData['subjectid']);
+        $this->view->subjectId = checkDefaultVal($this->view->selectedRow, $id);
+        includeLib('Utils/Functions');
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => $this->view->subjectId));
+        $this->view->data = issetParamArray($data['result']);
+        $this->view->uniqId = issetParam($postData['uniqid']);
+
+        $params = array(
+            'id' => $this->view->data['mapid'],
+            'subjectId' => $this->view->data['id'],
+            'meetingBookId' =>  $this->view->data['meetingbookid'],
+            'endtime' => Date::currentDate('H:i:s'),
+        );
+
+        $data = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_SUBJECT_MAP_END_002', $params);
+        $response = array(
+            'data' =>  $data,
+            'uniqId' => $this->view->uniqId,
+        );
+        echo json_encode($response);
+    }
+
+    public function reviewTotalData() {
+        $this->view->langCode = 'mn';
+        $postData = Input::postData();
+       
+        $this->view->title = 'Санал хураалтын дүн';
+        $this->view->text = checkDefaultVal(issetParam($postData['text']),'');
+        $this->load->model('contentui', 'projects/models/');
+
+        includeLib('Utils/Functions');
+        
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => issetParam($postData['id'])));
+        $this->view->data = issetParamArray($data['result']);
+
+        $criteria = array(
+            'meetingBookId' => array(
+                array(
+                    'operator' => '=',
+                    'operand' => issetParam($postData['selectedId']),
+                )
+            )
+        );
+
+        $districtresult = $this->model->fncRunDataview("1564710579741", "id", issetParam($postData['id']), "=", $criteria);
+        $this->view->mapDuration = $districtresult[0]['mapduration'];
+        $eneArr = explode(':', $this->view->mapDuration);
+        $response = array(
+            'data' =>  $this->view->data,
+            'time' => $eneArr,
+        );
+        
+        echo json_encode($response);
+    }
+
+    public function itemReviewTotal() {
+        $this->view->langCode = 'mn';
+        $postData = Input::postData();
+        $this->view->title = 'Санал хураалтын дүн';
+        $this->load->model('contentui', 'projects/models/');
+        $this->view->id = issetParam($postData['id']);
+        $this->view->subjectId = issetParam($postData['subjectid']);
+        $this->view->uniqId = issetParam($postData['uniqId']);
+        $this->view->currentTime = Date::currentDate('H:i');
+        $this->view->currentDate = Date::currentDate();
+        includeLib('Utils/Functions');
+
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => $this->view->id));
+        $this->view->data = issetParamArray($data['result']);
+        $this->view->mapid = $this->view->data['mapid'];
+
+        $criteria = array(
+            'id' => array(
+                array(
+                    'operator' => '=',
+                    'operand' => issetParam($postData['id']),
+                )
+            )
+        );
+
+        $districtresult = $this->model->fncRunDataview("1564710579741", "meetingBookId", issetParam($postData['subjectid']), "=", $criteria);
+        $this->view->mapDurationIndex = $districtresult[0]['mapduration'];
+       
+        $this->view->defaultCss = $this->view->renderPrint('defaultCss_1', 'views/government/bzd/');
+        $this->view->isAjax = is_ajax_request();
+        
+        if ($this->view->isAjax) {
+        (Array) $response = array(
+            'Title' => '',
+            'Width' => '1200',
+            'data' => $this->view->data,
+            'id' => $this->view->id,
+            'time' => $this->view->mapDurationIndex,
+            'uniqId' => $this->view->uniqId,
+            'Html2' => $this->view->renderPrint('header', 'views/government/bzd/new/'),
+            'Html3' => $this->view->renderPrint('index', 'views/government/bzd/new/'),
+            'Html4' => $this->view->renderPrint('footer', 'views/government/bzd/new/'),
+            'save_btn' => Lang::line('finish_btn'),
+            'close_btn' => Lang::line('close_btn')
+           
+        );
+        convJson($response);
+        }
+    }
+
+    public function startDistrictTime() {
+        $postData = Input::postData();
+        $this->view->id = issetParam($postData['id']);
+        $this->view->selectedId = issetParam($postData['selectedId']);
+        $reviewData = array('status' => 'error', 'text' => Lang::line('msg_error'));
+
+        includeLib('Utils/Functions');
+        $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => issetParam($postData['id'])));
+        $this->view->data = issetParamArray($data['result']);
+
+        $criteria = array(
+            'meetingBookId' => array(
+                array(
+                    'operator' => '=',
+                    'operand' => issetParam($postData['meetingBookid']),
+                )
+            )
+        );
+
+        $districtresult = $this->model->fncRunDataview("1564710579741", "id", issetParam($postData['id']), "=", $criteria);
+        $this->view->mapDuration = $districtresult[0]['mapduration'];
+
+        if (issetParam($districtresult[0]['mapcheck']) !== '1') {
+            $paramReview = array(
+                'id' => $this->view->data['mapid'],
+                'subjectId' => $this->view->data['id'],
+                'meetingBookId' =>  $this->view->data['meetingbookid'],
+                'starttime' => Date::currentDate('H:i:s'),
+                'CMS_MEETING_SUBJECT' => array(
+                    'id' => '',
+                    'isReview' => '1',
+                )
+            );
+
+            $reviewData = $this->ws->runResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_SUBJECT_MAP_002', $paramReview);
+        }
+        convJson($reviewData);
     }
 }
 

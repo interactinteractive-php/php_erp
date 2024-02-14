@@ -109,6 +109,12 @@ class Cron_Model extends Model {
                         if ($sendDataArray['status'] == 'success') {
                             $successStatus = 'true';
                             $message .= '(<strong>'.$row['POS_CODE'].' - '.$row['POS_NAME'].'</strong>) касс амжилттай илгээгдлээ.<br />';
+                            $param = array(
+                                'filterDepartmentId' => $departmentId, 
+                                'vatspNumber' => $organizationId
+                            );
+                            WebService::$isDefaultSessionId = true;
+                            $this->ws->runResponse(GF_SERVICE_ADDRESS, 'TTDnumberGetExternalProcess', $param);                            
                         } else {
                             $successStatus = 'false';
                             $successMsg = $sendDataArray['errorcode'].' '.$sendDataArray['message'];

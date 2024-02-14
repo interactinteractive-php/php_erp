@@ -20,6 +20,9 @@ class Appmenu extends Controller {
         
         $this->view->css = array_unique(array_merge(array('custom/css/vr-card-menu.css'), AssetNew::metaCss()));
         $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
+        $this->view->isAppmenuNewDesign = Config::getFromCacheDefault('IS_APPMENU_NEWDESIGN', null, 0);
+        $this->view->colorSet = '#FF7E79,#9370DB,#00B9F6,#00C9CC,#FF986E,#4169E1,#FFA07A,#98CF5D,#EC87C0,#EB735B,#A88BF1,#29C88F,#FDB600';
+        $this->view->isAppmenuPage = true;
 
         $this->view->menuList = $this->model->getMenuListModel($menuCode, true);
         
@@ -50,6 +53,67 @@ class Appmenu extends Controller {
             if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
                 Session::set(SESSION_PREFIX.'startupMeta', '1');
             }
+            
+        } else {
+            $this->view->render('header');
+            $this->view->render('appmenu/message');
+            $this->view->render('footer');
+        }
+    }
+    
+    public function indexNew($menuCode = null) 
+    {   
+        //$defaultModuleId = Session::get(SESSION_PREFIX . 'defaultModuleId');
+        $redirectUrl = $this->redirectModule();
+        
+        if ($redirectUrl) {
+            Message::add('s', '', $redirectUrl);
+        }
+        
+        $this->view->title = 'APP MENU'; 
+        
+        $this->view->css = array_unique(array_merge(array('custom/css/vr-card-menu.css'), AssetNew::metaCss()));
+        $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
+        $this->view->isAppmenuNewDesign = Config::getFromCacheDefault('IS_APPMENU_NEWDESIGN', null, 0);
+        $this->view->colorSet = '#FF7E79,#9370DB,#00B9F6,#00C9CC,#FF986E,#4169E1,#FFA07A,#98CF5D,#EC87C0,#EB735B,#A88BF1,#29C88F,#FDB600';
+        $this->view->isAppmenuPage = true;
+
+        $this->view->menuList = $this->model->getDataviewResultModel(1700449463973796, 100);
+        $this->view->moduleList = $this->model->getDataviewResultModel(1700116960752470, 1000);
+        
+        if ($this->view->menuList) {
+            
+            $this->view->getStartupMeta = $this->model->startupMeta();
+            $this->view->getStartupMeta2 = $this->model->startupMeta2();
+            $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
+            $appmenuGroupingCount = Config::getFromCacheDefault('appmenuGroupingCount', null, 10);
+            
+            $this->view->js = array_unique(array_merge(array('custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'), $this->view->js));
+
+            $this->view->render('header');
+            $this->view->render('appmenu/v3/grouping-v3');
+            $this->view->render('footer');
+            
+//            if (array_key_exists('tagcode', $this->view->menuList['menuData'][0]) && count($this->view->menuList['menuData']) > $appmenuGroupingCount) {
+//                
+//                $this->view->js = array_unique(array_merge(array('custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'), $this->view->js));
+//                                
+//                $this->view->menuList = Arr::groupByArrayByNullKey($this->view->menuList['menuData'], 'tagcode');
+//                ksort($this->view->menuList, SORT_NATURAL);
+//                
+//                $this->view->render('header');
+//                $this->view->render('appmenu/v2/grouping-v2');
+//                $this->view->render('footer');
+//                
+//            } else {
+//                $this->view->render('header');
+//                $this->view->render('appmenu/v2/index');
+//                $this->view->render('footer');
+//            }
+//            
+//            if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
+//                Session::set(SESSION_PREFIX.'startupMeta', '1');
+//            }
             
         } else {
             $this->view->render('header');
@@ -148,7 +212,7 @@ class Appmenu extends Controller {
             $err = Controller::loadController('Err');
             $err->index();
             exit;
-        }
+        }        
         
         if (Input::isEmptyGet('omid') == false) {
             

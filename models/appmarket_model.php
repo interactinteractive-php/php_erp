@@ -235,5 +235,60 @@ class Appmarket_Model extends Model {
             return null;
         }
     }     
+    
+    public function getQrCodeImg($data, $height = '150px') {
+        
+        if($data == ''){return '';}
+        
+//        includeLib('QRCode/qrlib');
+//        
+//        ob_start();
+//            
+//        QRcode::png($data, false, 'L', 6, 0);
+//        $imageData = ob_get_contents();
+//
+//        ob_end_clean();        
+        
+        return '<img src="data:image/png;base64,'.$data.'" style="height: '.$height.'">';
+    }    
+    
+    public function qPayGetInvoiceQrModel($params) {
+        $result = $this->ws->runSerializeResponse(self::$gfServiceAddress, 'qpay_v2_createInvoice_simple', $params);
+
+        if ($result['status'] == 'success') {
+            return array('status' => 'success', 'qrcode' => self::getQrCodeImg($result['result']['qr_image'], '250px'), 'traceNo' => $result['result']['invoice_id']);
+        } else {
+            return array('status' => 'error', 'message' => $this->ws->getResponseMessage($result));
+        }
+    }    
+    
+    public function getPosInvoiceNumber($objectId, $attr = array()) {
+        
+        $param = array(
+            'objectId' => $objectId
+        );
+        
+        if ($attr) {
+            $param = array_merge($param, $attr);
+        }
+
+        $result = $this->ws->runResponse(self::$gfServiceAddress, 'CRM_AUTONUMBER_BP', $param);
+        
+        return $this->ws->getValue($result['result']);
+    }    
+    
+    public function qpayCheckQrCodeModel($params) {
+        $result = $this->ws->runSerializeResponse(self::$gfServiceAddress, 'qpay_v2_checkPayment', $params);
+
+        if ($result['status'] == 'success') {
+            if ($result['result']['count']) {
+                return array('status' => 'success', 'message' => 'Successfully');
+            } else {
+                return array('status' => 'error', 'message' => 'Waiting');
+            }
+        } else {
+            return array('status' => 'error', 'message' => $this->ws->getResponseMessage($result));
+        }
+    }    
 
 }

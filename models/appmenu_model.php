@@ -173,6 +173,29 @@ class Appmenu_Model extends Model {
         }
         
         return false;
-    }    
+    }
+
+    public function getDataviewResultModel($dvId, $limit = 15) {
+
+        $param = array(
+            'systemMetaGroupId' => $dvId,
+            'showQuery' => 0,
+            'ignorePermission' => 1,
+            'paging' => array (
+                'offset' => 1,
+                'pageSize' => $limit
+            )            
+        );
+
+        $data = $this->ws->runSerializeResponse(self::$gfServiceAddress, Mddatamodel::$getDataViewCommand, $param);
+
+        if (isset($data['result']) && isset($data['result'][0])) {
+            unset($data['result']['aggregatecolumns']);
+            unset($data['result']['paging']);
+            return $data['result'];
+        } else {
+            return null;
+        }
+    }      
 
 }

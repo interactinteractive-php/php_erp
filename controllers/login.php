@@ -192,11 +192,11 @@ class Login extends Controller {
             $check = $this->model->isDeviceCertifiedModel();
             
             if ($isDeviceVerificationByEmail) {
-                $this->view->email = Session::get(SESSION_PREFIX . 'email');
+                $this->view->email = trim(Session::get(SESSION_PREFIX . 'email'));
             }
             
             if ($isDeviceVerificationByPhone) {
-                $this->view->phoneNumber = Session::get(SESSION_PREFIX . 'mobile');
+                $this->view->phoneNumber = trim(Session::get(SESSION_PREFIX . 'mobile'));
             }
 
             if (!$check && ($this->view->email || $this->view->phoneNumber)) {
@@ -814,11 +814,11 @@ class Login extends Controller {
         $this->view->phoneNumber = null;
 
         if ($isDeviceVerificationByEmail) {
-            $this->view->email = Session::get(SESSION_PREFIX . 'email');
+            $this->view->email = trim(Session::get(SESSION_PREFIX . 'email'));
         }
 
         if ($isDeviceVerificationByPhone) {
-            $this->view->phoneNumber = Session::get(SESSION_PREFIX . 'mobile');
+            $this->view->phoneNumber = trim(Session::get(SESSION_PREFIX . 'mobile'));
         }
                 
         $this->view->render('login/verification/step1');

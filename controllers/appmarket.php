@@ -29,36 +29,35 @@ class Appmarket extends Controller {
     public function index($id = '') 
     {   
         $this->view->title = 'App market'; 
-        
-        $this->view->css = array_unique(array_merge(array('custom/css/appmarket.css'), AssetNew::metaCss()));
-        $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
-        
+
+        $this->view->css = AssetNew::metaCss();
+        $this->view->js = AssetNew::metaOtherJs();        
         $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
         $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);
         $this->view->standartColors = self::$standartColors;
         $this->view->moduleId = $id;
+        $this->view->uniqId = getUID();
         
-        $this->view->render('header');
-        $this->view->render('appmarket/appmarket');
-        $this->view->render('footer');
+        if (!is_ajax_request()) {
+            $this->view->render('header');
+            $this->view->render('appmarket/appmarket');
+            $this->view->render('footer');
+        } else {
+            $response['html'] = $this->view->renderPrint('appmarket/appmarket');
+            $response['uniqId'] = $this->view->uniqId;
+            echo json_encode($response); exit;        
+        }        
     }        
 
     public function detail($id) 
     {   
         $this->view->title = 'App market detail'; 
-        $this->view->uniqId = getUID();
+        $this->view->uniqId = getUID();        
         
-        $this->view->css = array_unique(array_merge(array('custom/css/appmarket.css'), AssetNew::metaCss()));
-        $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
-        
-        $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
-        $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);
         $this->view->getModuleInfo = $this->model->getModuleInfoModel($id);
         $this->view->sessionUserKeyId = Ue::sessionUserKeyId();
 
-        $this->view->render('header');
-        $this->view->render('appmarket/appmarket-detail');
-        $this->view->render('footer');
+        echo $this->view->renderPrint('appmarket/appmarket-detail');
     }    
     
     
@@ -67,17 +66,21 @@ class Appmarket extends Controller {
         $this->view->title = 'App market basket'; 
         $this->view->uniqId = getUID();
         
-        $this->view->css = array_unique(array_merge(array('custom/css/appmarket.css'), AssetNew::metaCss()));
-        $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
+        $this->view->css = AssetNew::metaCss();
+        $this->view->js = AssetNew::metaOtherJs();   
         
         $this->view->leftMenuData = $this->model->getDataviewResultModel(1700449463973796, 100);
         $this->view->leftIndustryMenuData = $this->model->getDataviewResultModel(1700453026051099, 100);        
-        $this->view->getBasket = $this->model->getBasketModel();        
-//        pa($this->view->getBasket);
+        $this->view->getBasket = $this->model->getBasketModel();    
+        $this->view->standartColors = self::$standartColors;
 
-        $this->view->render('header');
-        $this->view->render('appmarket/appmarket-basket');
-        $this->view->render('footer');
+        if (!is_ajax_request()) {
+            $this->view->render('header');
+            $this->view->render('appmarket/appmarket-basket');
+            $this->view->render('footer');
+        } else {
+            echo $this->view->renderPrint('appmarket/appmarket-basket');
+        }           
     }
 
     public function basketOther($menuCode = null) 
@@ -110,6 +113,50 @@ class Appmarket extends Controller {
         $price = Input::post('price');
         
         jsonResponse($this->model->saveToBasketModel($id, $itemId, $basketTotalAmount, $price));
+    }        
+    
+    public function qpayGenerateQrCode() {
+        
+        $bill_no = getUID();
+        $params = [
+            'clientId' => 'COZY_MN',
+            'clientSecret' => '7IOkZyjk',
+            'amount' => Input::post('amount'),
+            'invoice_code' => 'COZY_MN_INVOICE',
+            'sender_invoice_no' => $bill_no,
+            'invoice_receiver_code' => $bill_no,
+            'invoice_description' => 'Veritech App Market',
+            'callback_url' => 'https://dev.veritech.mn/mdintegration/qpaywebhook2'
+        ];
+        $response = $this->model->qPayGetInvoiceQrModel($params);
+        
+        if ($response['status'] == 'success') {
+            
+            $this->view->base64QrCodeImg = $response['qrcode'];
+            
+            $response = array( 
+                'status' => 'success', 
+                'html'   => $this->view->renderPrint('candy/qpayQrCode', 'middleware/views/pos/'), 
+                'traceNo'=> $response['traceNo'], 
+                'bill_no' => $bill_no,
+                'title'  => 'QPAY QR', 
+                'close_btn' => $this->lang->line('close_btn')
+            );
+        } 
+        
+        echo json_encode($response); exit;
+    }    
+    
+    public function qpayCheckQrCode() {
+        
+        $params = [
+            'clientId' => 'COZY_MN',
+            'clientSecret' => '7IOkZyjk',
+            'object_type' => 'INVOICE',
+            'object_id' => Input::post('uuid')
+        ];        
+        $response = $this->model->qpayCheckQrCodeModel($params);
+        echo json_encode($response); exit;
     }        
     
 }

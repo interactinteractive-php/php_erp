@@ -29,7 +29,6 @@
 
 .panel-body-eui {
   overflow: auto;
-  /*border-top-width: 0;*/
   padding: 0;
 }
 
@@ -2901,10 +2900,6 @@ a.datagrid-filter-btn {
   font-size: 12px;
 }
 
-/*.jeasyuiTheme2 .datagrid-header-row, .jeasyuiTheme2 .datagrid-row {
-    height: 34px;
-}*/
-
 .jeasyuiTheme2 .datagrid-header td,
 .jeasyuiTheme2 .datagrid-body td,
 .jeasyuiTheme2 .datagrid-footer td {
@@ -3054,9 +3049,6 @@ a.datagrid-filter-btn {
   border: 1px solid #ddd;
   height: 20px !important;
 }
-/*.jeasyuiTheme3 .datagrid-header-rownumber, .jeasyuiTheme3 .datagrid-cell-rownumber {
-  width: 30px;
-}*/
 
 .jeasyuiTheme4 .datagrid-header .datagrid-cell {
   white-space: nowrap;
@@ -3351,7 +3343,6 @@ a.datagrid-filter-btn {
   padding: 5px 10px 10px 10px;
   margin: 6px 0 6px 16px;
   border: 1px solid #f3f3f3;
-  /* height: 188px; */
   width: 170px;
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), -1px 0 0 rgba(0, 0, 0, 0.03),
@@ -3436,8 +3427,6 @@ a.datagrid-filter-btn {
 
 /* ====== card_business ====== */
 .jeasyuiThemebusinessView .panel-body-eui {
-  /*background-image: url('images/texture_grain_200x200_v2.png');
-    background-repeat: repeat;*/
   background-color: #eceff4;
 }
 .jeasyuiThemebusinessView .datagrid-header {
@@ -3565,12 +3554,9 @@ a.datagrid-filter-btn {
 }
 /* ====== card_business ====== */
 
-/* ====== card_business ====== */
-
 /* ====== card_business_collateria ====== */
 .jeasyuiThemebusiness_collaterialView .panel-body-eui {
-  /*background-image: url('images/texture_grain_200x200_v2.png');
-    background-repeat: repeat;*/
+
   background-color: #eceff4;
 }
 .jeasyuiThemebusiness_collaterialView .datagrid-header {
@@ -3702,8 +3688,6 @@ a.datagrid-filter-btn {
 /* ====== card_business_collateria ====== */
 
 .jeasyuiThemedetailView .panel-body-eui {
-  /*background-image: url('images/texture_grain_200x200_v2.png');
-    background-repeat: repeat;*/
   background-color: #eceff4;
 }
 .jeasyuiThemedetailView .datagrid-header {
@@ -4265,10 +4249,6 @@ a.datagrid-filter-btn {
 .jeasyuiPivotTheme2 .datagrid-view1 .datagrid-footer .tree-icon {
   display: none !important;
 }
-
-.datagrid-header .datagrid-header-row > td {
-  /* height: 100%; */
-}
 .jeasyuiTheme8 .datagrid-body td,
 .jeasyuiTheme8 .datagrid-footer td {
   border-style: none !important;
@@ -4562,13 +4542,6 @@ body:not(.body-top-menu-style) .web-dataview .business-card-wrapper-eui {
   border: none;
   border-bottom: 1px solid #eee !important;
 }
-/*.jeasyuiTheme10 .datagrid-btable .datagrid-cell,
-.jeasyuiTheme10 .datagrid-btable .datagrid-cell,
-.jeasyuiTheme10 .datagrid-btable .datagrid-cell-group,
-.jeasyuiTheme10 .datagrid-btable .datagrid-header-rownumber,
-.jeasyuiTheme10 .datagrid-btable .datagrid-cell-rownumber {
-  min-height: 40px;
-}*/
 .jeasyuiTheme10 .datagrid-cell-rownumber,
 .jeasyuiTheme10 .datagrid-header-rownumber {
   text-align: center;
@@ -4742,11 +4715,6 @@ body:not(.body-top-menu-style) .web-dataview .business-card-wrapper-eui {
   padding: 4px;
   height: inherit !important;
 }
-/* .jeasyuiTheme12 .datagrid .datagrid-pager,
-.jeasyuiTheme12 .datagrid-header,
-.jeasyuiTheme12 .panel-body-eui {
-    border: none;
-} */
 .jeasyuiTheme12 .pagination-info {
   float: left;
   margin: 0 0 0 15px;
@@ -4995,10 +4963,6 @@ web-dataview.jeasyuiTheme12 .datagrid-view1 .datagrid-body {
 .jeasyuiTheme10 .tree-title {
   line-height: 20px;
 }
-/*.jeasyuiTheme10 .datagrid-header-rownumber, 
-.jeasyuiTheme10 .datagrid-cell-rownumber {
-  width: 37px;
-}*/
 .jeasyuiTheme10 .datagrid-td-merged {
     border-left: 1px #eee solid!important;
     border-right: 1px #eee solid!important;
@@ -5424,9 +5388,6 @@ web-dataview.jeasyuiTheme12 .datagrid-view1 .datagrid-body {
 .jeasyuiThemehtmlstylerView .panel-body-eui {
   border: none;
 }
-/*.jeasyuiThemehtmlstylerView .datagrid .datagrid-pager {
-  border: none;
-}*/
 .jeasyuiThemehtmlstylerView tr.datagrid-row {
   height: auto !important;
 }

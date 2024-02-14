@@ -3,6 +3,11 @@ $(document.body).on('click', '.appmarket_menu_wrapper .nav-link', function() {
     $(this).addClass('nav-item-selected');
 });
 
+$(document.body).on('click', '.appmarket-back-btn', function() {
+    $('.appmarket-body').find('.appmarket-home-page').removeClass('d-none');
+    $('.appmarket-body').find('.appmarket-single-page').empty();
+});
+
 $(document.body).on('change', '#appmarket-file-upload', function() {
     var input = $(this)[0];
     if (input.files && input.files[0]) {
@@ -26,6 +31,10 @@ if (selectedModuleId) {
 
 $(document.body).on('click', '.appmarket-filter-typemenu', function() {
     var $self = $(this);
+    if ($('.appmarket-single-page').length) {
+        $('.appmarket-single-page').empty();
+    }
+    $('.appmarket-home-page').removeClass('d-none');
     getUsingModule($self.data('id'));
     getRecommendedModule($self.data('id'));
 });    
@@ -42,7 +51,7 @@ $('a[href="#menu-active2"]').on('shown.bs.tab', function(e) {
         nextArrow:'<div style="flex-shrink: 0;width: 40px;height: 40px;background: transparent;border-radius: 40px;text-align: center;box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12); cursor:pointer;position: absolute;margin-top: -135px;right: -14px;z-index: 10;" class=""><i class="far fa-angle-right" style="font-size:22px;margin: 9px;"></i></div>'       
     });   
     setTimeout(function() {
-        $(".appmarket-slick-carousel4").css("width", $(window).width() - 360);
+        $(".appmarket-slick-carousel4").css("width", $(window).width() - 470);
     }, 10);  
 
     $('.appmarket-slick-carousel5').slick({
@@ -56,7 +65,7 @@ $('a[href="#menu-active2"]').on('shown.bs.tab', function(e) {
         nextArrow:'<div style="flex-shrink: 0;width: 40px;height: 40px;background: transparent;border-radius: 40px;text-align: center;box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12); cursor:pointer;position: absolute;margin-top: -135px;right: -14px;z-index: 10;" class=""><i class="far fa-angle-right" style="font-size:22px;margin: 9px;"></i></div>'       
     });   
     setTimeout(function() {
-        $(".appmarket-slick-carousel5").css("width", $(window).width() - 360);
+        $(".appmarket-slick-carousel5").css("width", $(window).width() - 470);
     }, 10);          
 });       
 
@@ -88,7 +97,7 @@ function getUsingModule(criteria) {
                 var htmlData = '';
 
                 for (var i = 0; i < data.result.length; i++) {
-                    htmlData += '<div class="card card-style"><a href="appmarket/detail/'+data.result[i]['id']+'">'+
+                    htmlData += '<div class="card card-style"><a onclick="appMarketGetProduct(\''+data.result[i]['id']+'\')" href="javascript:;">'+
                         '<div class="card-body p-3">'+
                             '<div class="d-flex justify-content-between">'+
                                 '<div class="rounded-circle module-img" style="background-color:'+standartColors[i]+'"><img style="padding: 16px;" src="https://process.veritech.mn/'+(data.result[i]['profilephoto'] ? data.result[i]['profilephoto'] : 'assets/core/global/img/veritech-erp.png')+'" class="module-img mr-1 img-fluid my-auto" alt="img"></div>'+
@@ -139,7 +148,7 @@ function getRecommendedModule(criteria) {
 
                 for (var i = 0; i < data.result.length; i++) {
                     htmlData += '<div class="">'+
-                        '<div class="card card-style"><a href="appmarket/detail/'+data.result[i]['id']+'">'+
+                        '<div class="card card-style"><a onclick="appMarketGetProduct(\''+data.result[i]['id']+'\')" href="javascript:;">'+
                             '<div class="card-body p-3">'+
                                 '<div class="d-flex justify-content-between">'+
                                     '<div class="rounded-circle module-img" style="background-color:'+standartColors[i]+'"><img style="padding: 16px;" src="https://process.veritech.mn/'+(data.result[i]['profilephoto'] ? data.result[i]['profilephoto'] : 'assets/core/global/img/veritech-erp.png')+'" class="module-img mr-1 img-fluid my-auto" alt="img"></div>'+
@@ -152,6 +161,7 @@ function getRecommendedModule(criteria) {
                 }
 
                 $('.appmarket-slick-carousel4').html(htmlData);
+                $('.appmarket-slick-carousel4').slick('refresh');
             } else {
                 $('.appmarket-slick-carousel4').html(plang.get('msg_no_record_found'));                
             }
@@ -160,4 +170,23 @@ function getRecommendedModule(criteria) {
 };
 if (!selectedModuleId) {
     getRecommendedModule();
+}
+
+function appMarketGetProduct(id) {
+    $.ajax({
+        type: "post",
+        url: "appmarket/detail/"+id,
+        beforeSend: function () {
+          Core.blockUI({
+            message: "Loading...",
+            boxed: true
+          });
+        },            
+        success: function (data) {
+            $('.appmarket-body').find('.appmarket-home-page').addClass('d-none');
+            $('.appmarket-body').find('.appmarket-single-page').empty().append(data);
+            Core.unblockUI();
+            $('html, body').animate({scrollTop: 0}, 'fast');
+        }
+    });        
 }

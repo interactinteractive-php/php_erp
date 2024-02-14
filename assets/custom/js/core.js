@@ -1328,7 +1328,6 @@ var Core = function() {
             }                        
             
             if (element.find('textarea.text_editorInit').length) {
-                var $textarea = element.find('textarea.text_editorInit');
                 $.cachedScript('assets/custom/addon/plugins/tinymce/tinymce.min.js').done(function() { 
                     $('.mce-menu, .mce-widget, .mce-tinymce.mce-tinymce-inline.mce-arrow.mce-container.mce-panel.mce-floatpanel[hidefocus="1"]').remove();
                     tinymce.dom.Event.domLoaded = true;
@@ -1415,12 +1414,10 @@ var Core = function() {
                         setup: function(editor) {
                             editor.on('init', function() {
                                 
-                                var textEdata = $textarea.val();
+                                var textEdata = $(editor.getElement()).val();
                                 if (!textEdata.startsWith('<div class="append-textstyle') && textEditorDefaultStyleString) {
                                     editor.setContent('<div class="append-textstyle" style="'+textEditorDefaultStyleString+'">'+textEdata+'</div>');
-                                } else {
-                                    editor.setContent(textEdata);
-                                }                                
+                                }                              
                                 
                                 $(document).on('focusin', function(e) {
                                     if ($(e.target).closest(".mce-window, .moxman-window").length) {
@@ -1597,11 +1594,11 @@ var Core = function() {
                             viewportMargin: 50
                         });
 						
-                        $this.find(".CodeMirror").css("max-height", '800px');
+                        $this.find(".CodeMirror").css({'min-height': '40px', 'max-height': '800px'});
 
                         setTimeout(function() {
                             codeViewer.refresh();
-                        }, 5);
+                        }, 50);
                     });
                 });
             }
@@ -1637,7 +1634,7 @@ var Core = function() {
         initBpToolbarSticky: function(element) {
             element = (typeof element === 'undefined') ? $(document.body) : element;
             
-            var $sidebars = element.find('> form > .meta-toolbar:not(.is-bp-open-1)');
+            var $sidebars = element.find('> form > .meta-toolbar:not(.is-bp-open-1, .not-sticky)');
             
             if ($sidebars.length && ($sidebars.closest('.workspace-part').length == 0 
                 && $sidebars.closest('.package-meta').length == 0 
@@ -2169,25 +2166,33 @@ var getLeftMenuCount = function(isParentIgnore, element) {
 
     if ($countMetas.length > 0) {
 
-        var countMetaIds = '-';
+        var countMetaIds = '-', listCriteria = '-', metaRecordIds = '-';
 
         $.each($countMetas, function(idx, lmcm) {
             var countMetaId = $(lmcm).attr('data-counmetadataid');
+            var criteriaMetaId = $(lmcm).attr('data-listmetadatacriteria');
+            var recordMetaId = $(lmcm).attr('data-id');
             if (countMetaId) {
                 countMetaIds += countMetaId + '-';
+                listCriteria += (typeof criteriaMetaId !== 'undefined' ? criteriaMetaId : '') + '-';
+                metaRecordIds += (typeof recordMetaId !== 'undefined' ? recordMetaId : '') + '-';
             }
         });
-
-        getLeftMenuCountAjax(countMetaIds, $element);
+        
+        getLeftMenuCountAjax(countMetaIds, $element, listCriteria, metaRecordIds);
     }
 };
 
-var getLeftMenuCountAjax = function(ids, element) {
+var getLeftMenuCountAjax = function(ids, element, criteria, metaRecordIds) {
 
     var idsMatches = ids.match(/\-(.*?)\-/);
+    var criteriaMatches = criteria.match(/\-(.*?)\-/);
+    var recordMetaIdMatches = metaRecordIds.match(/\-(.*?)\-/);
 
     if (idsMatches) {
-        var countMetaId = idsMatches[1];
+        var countMetaId = idsMatches[1],
+            criMetaId = '',
+            recordMetaId = '';
 
         if (countMetaId) {
             
@@ -2201,6 +2206,12 @@ var getLeftMenuCountAjax = function(ids, element) {
                 postData.workSpaceId = workSpaceId;
                 postData.workSpaceParams = workSpaceParams;
             }
+            
+            if (criteriaMatches) {
+                criMetaId = criteriaMatches[1];
+                recordMetaId = recordMetaIdMatches[1];
+                postData.listmetadatacriteria = criMetaId;
+            }
 
             $.ajax({
                 type: 'post',
@@ -2212,7 +2223,11 @@ var getLeftMenuCountAjax = function(ids, element) {
                     $.each(data, function(countMetaDataId, count) {
                         if (count != '0') {
                             var beforeCount = element.find('span[data-counmetadataid=' + countMetaDataId + ']').html();
-                            element.find('span[data-counmetadataid=' + countMetaDataId + ']').html(count);
+                            if (recordMetaId) {                                
+                                element.find('span[data-id=' + recordMetaId + ']').html(count);
+                            } else {
+                                element.find('span[data-counmetadataid=' + countMetaDataId + ']').html(count);
+                            }
                             
                             if (usePushNotification && parseInt(beforeCount) < parseInt(count)) {
                                 
@@ -2248,11 +2263,15 @@ var getLeftMenuCountAjax = function(ids, element) {
                                 
                             }
                         } else {
-                            element.find('span[data-counmetadataid=' + countMetaDataId + ']').html('');
+                            if (recordMetaId) {                                
+                                element.find('span[data-id=' + recordMetaId + ']').html('');
+                            } else {
+                                element.find('span[data-counmetadataid=' + countMetaDataId + ']').html('');
+                            }                            
                         }
                     });
 
-                    getLeftMenuCountAjax(ids.replace('-' + countMetaId, ''), element);
+                    getLeftMenuCountAjax(ids.replace('-' + countMetaId, ''), element, criteria.replace('-' + criMetaId, ''), metaRecordIds.replace('-' + recordMetaId, ''))
                 }
             });
         }
@@ -4011,10 +4030,15 @@ function appMultiTab(param, elem, callback) {
                 Core.unblockUI();
             });
         } else if (param.type == 'workspace') {
+            var selectedRow;
+            if (param.hasOwnProperty('recordId')) {
+                selectedRow = {id : param.recordId};
+            }
+
             $.ajax({
                 type: 'post',
                 url: 'mdworkspace/index/' + metaDataId,
-                data: { param: param },
+                data: { param: param, selectedRow: selectedRow },
                 beforeSend: function() {
                     Core.blockUI({message: 'Loading...', boxed: true});
                 },
@@ -4253,6 +4277,24 @@ function appMultiTab(param, elem, callback) {
                 $.ajax({
                     type: 'post',
                     url: 'mdform/indicatorProcessWidget/' + metaDataId,
+                    beforeSend: function() {
+                        Core.blockUI({message: 'Loading...', boxed: true});
+                    },
+                    success: function(data) {
+                        $div.empty().append(data + '<div class="clearfix"/>');
+                    }
+                }).done(function() {
+                    $ul.append($li);
+                    $container.append($div);
+                    $a.tab('show');
+                    Core.unblockUI();
+                });
+                
+            } else if (param.kpitypeid == '13') { 
+                
+                $.ajax({
+                    type: 'post',
+                    url: 'mdform/indicatorRender/' + metaDataId,
                     beforeSend: function() {
                         Core.blockUI({message: 'Loading...', boxed: true});
                     },
@@ -5743,4 +5785,32 @@ function bytesReadableFileSize(bytes, decimals) {
        sizes = ['bytes', 'kb', 'mb', 'gb'],
        i = Math.floor(Math.log(bytes) / Math.log(k));
    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+function encodeEmojis(str) {
+    var rex = /[\u{1f300}-\u{1f5ff}\u{1f900}-\u{1f9ff}\u{1f600}-\u{1f64f}\u{1f680}-\u{1f6ff}\u{2600}-\u{26ff}\u{2700}-\u{27bf}\u{1f1e6}-\u{1f1ff}\u{1f191}-\u{1f251}\u{1f004}\u{1f0cf}\u{1f170}-\u{1f171}\u{1f17e}-\u{1f17f}\u{1f18e}\u{3030}\u{2b50}\u{2b55}\u{2934}-\u{2935}\u{2b05}-\u{2b07}\u{2b1b}-\u{2b1c}\u{3297}\u{3299}\u{303d}\u{00a9}\u{00ae}\u{2122}\u{23f3}\u{24c2}\u{23e9}-\u{23ef}\u{25b6}\u{23f8}-\u{23fa}]/ug;
+    var updated = str.replace(rex, match => '<emoji>&#x'+match.codePointAt(0).toString(16)+';</emoji>');
+    
+    var emoticons = {
+        ':D': '<emoji>&#x1F603;</emoji>',
+        ':d': '<emoji>&#x1F603;</emoji>',
+        ':P': '<emoji>&#x1F60B;</emoji>',
+        ':p': '<emoji>&#x1F60B;</emoji>',
+        ':)': '<emoji>&#x1F642;</emoji>',
+        '<3': '<emoji>&#x2764;&#xFE0F;</emoji>',
+        '(Y)': '<emoji>&#x1F44D;</emoji>',
+        '(y)': '<emoji>&#x1F44D;</emoji>',
+        ':(': '<emoji>&#x1F641;</emoji>',
+        ':O': '<emoji>&#x1F632;</emoji>',
+        ':o': '<emoji>&#x1F632;</emoji>',
+        ':*': '<emoji>&#x1F618;</emoji>',
+        ';)': '<emoji>&#x1F609;</emoji>',
+        ';(': '<emoji>&#x1F625;</emoji>',
+        '(n)': '<emoji>&#x1F44E;</emoji>',
+    };
+    
+    for (var smile in emoticons) {
+        updated = updated.replace(smile, emoticons[smile]);
+    }
+  
+    return updated;
 }

@@ -1923,43 +1923,36 @@ function evisamore (element, datavieId, selectedRow) {
                 Core.unblockUI();
                 return;
             }
-
-            var $dialogName = 'dialog-popup-'+data.uniqId;
             
-            $('<div class="modal fade modal-after-save-close private-group" id="'+ $dialogName +'"  tabindex="-1">' +
-                    '<div class="modal-dialog modal-lg">' +
-                        '<div class="modal-content">' +
-                            '<div class="modal-header">' +
-                                '<h5 class="modal-title">' + data.Title + '</h5>' +
-                                '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-                            '</div>' +
-                            '<div class="modal-body" style="min-height: 350px;">'+ data.Html + '</div>' +
-                            '<div class="modal-footer">' +
-                                '<button type="button" class="btn btn-primary" data-dismiss="modal">'+ data.close_btn + '</button>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>').appendTo('body');
-        
-            var $dialog   = $('#' + $dialogName);
+            var $dialogName = 'dialog-preview-more';
+            if (!$("#" + $dialogName).length) {
+                $('<div id="' + $dialogName + '"></div>').appendTo('body');
+            }
             
-            $dialog.modal();
-            
-            $dialog.on('shown.bs.modal', function () {
-                setTimeout(function(){
-                    Core.unblockUI();
-                }, 10);    
-                disableScrolling();
-            });   
-            
-            $dialog.draggable({
-                handle: ".modal-header"
+            $("#" + $dialogName).empty().append(data.Html);
+            $("#" + $dialogName).dialog({
+                cache: false,
+                resizable: false,
+                bgiframe: true,
+                autoOpen: false,
+                title: data.Title,
+                width: 1000,
+                height: "auto",
+                modal: true,
+                close: function() {
+                    $("#" + $dialogName).empty().dialog('close');
+                },
+                buttons: [
+                    {
+                        text: plang.get('close_btn'),
+                        class: 'btn blue-madison btn-sm',
+                        click: function() {
+                            $("#" + $dialogName).dialog('close');
+                        }
+                    }
+                ]
             });
-
-            $dialog.on('hidden.bs.modal', function () {
-                $dialog.remove();
-                enableScrolling();
-            });   
+            $("#" + $dialogName).dialog('open');
 
             Core.unblockUI();
         },

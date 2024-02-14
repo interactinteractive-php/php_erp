@@ -2819,7 +2819,9 @@ div.vr-card-menu {
 .navbar-expand-md .navbar-collapse .navbar-nav.topnav .username {
     text-align: right;
 }
-
+.navbar-expand-md.appmenu-newdesign-header-1 .navbar-collapse .navbar-nav.topnav .username .company .companyname {
+    font-weight: 500;
+}
 .navbar-expand-md .navbar-collapse .navbar-nav.topnav .username .company .companyname {
     font-weight: 100;
     font-weight: bold;
@@ -2828,6 +2830,8 @@ div.vr-card-menu {
     max-width: 100px;
     max-height: 24px;
     line-height: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .navbar-expand-md .navbar-collapse .navbar-nav.topnav .username .company .companyname:after {
     /* content: '\A';
@@ -4142,10 +4146,10 @@ span.page-topbar-menu-title a.btn>i {
     float: left;
     position: static;
 }
-.white-card-menu .vr-menu-tile:hover, 
+/*.white-card-menu .vr-menu-tile:hover, 
 .appmenu-table-cell-right .vr-menu-tile:hover {
     background-color: rgba(140, 183, 87, 0.89);
-}
+}*/
 .white-card-menu .vr-menu-tile:hover .vr-menu-img, 
 .appmenu-table-cell-right .vr-menu-tile:hover .vr-menu-img {
     -webkit-filter: brightness(0) invert(1);
@@ -4249,11 +4253,52 @@ span.page-topbar-menu-title a.btn>i {
 .appmenu-table-cell-left ul.mix-filter > li:hover {
     background-color: var(--root-color01);
 }
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter:hover,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter:focus,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter:active,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter.active,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li.active,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #F3F4F6;    
+}
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter:hover,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #f3f4f61f;    
+}
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter.active span.title,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover span.title,
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li.active span.title {
+    color:#2F306A !important;
+}
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li:hover span.title {
+    color:#fff !important;
+}
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.mix-filter > li {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-left: 5px;
+    margin-right: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;    
+}
 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter span.title {
     padding: 10px 15px 10px 30px;
     display: block;
     color: #555;
     font-weight: bold;
+}
+.appmenu-newdesign-1 .appmenu-table-cell-left ul.sub-mix-filter .sub-filter span.title {
+    padding: 10px 15px 10px 30px;
+    display: block;
+    color: #3C3C3C !important;
+    font-weight: normal;
+    font-size: 14px !important;
 }
 .appmenu-table-cell-left ul.mix-filter > li {
     list-style: none;
@@ -4652,6 +4697,9 @@ ul.dv-explorer5 > li:hover .first-title {
     margin-left: 20px;
     margin-top: -5px;
 }
+.navbar.appmenu-newdesign-header-1 .header-logo {
+    justify-content: left;
+}
 .navbar .header-logo {
     display: flex;
     align-items: center;
@@ -4713,6 +4761,17 @@ ul.dv-explorer5 > li:hover .first-title {
     overflow: hidden;
     max-height: 42px;
     word-break: break-word;
+}
+ .appmenu-newdesign-1 .white-card-menu .vr-menu-title .vr-menu-row .vr-menu-name, 
+ .appmenu-newdesign-1 .appmenu-table-cell-right .vr-menu-title .vr-menu-row .vr-menu-name {
+    color: #555;
+    font-weight: 600;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-height: 41px;
+    word-break: break-word;
+    line-height: 20px;
 }
  .appmenu-table-cell-right .vr-menu-title .vr-menu-row-mcode .vr-menu-name {
     color: #555;
@@ -4870,4 +4929,20 @@ ul.dv-explorer5 > li:hover .first-title {
 }
 .tree-indent + .tree-indent + .tree-file + .tree-title {
     padding-left: 5px!important;
+}
+.new-vlogo-link {
+    position: absolute;
+    left: 0;
+    background: #2F306A;
+    width: 280px;
+    padding-top: 45px; /*padding-top: 5px;*/
+    padding-left: 12px;
+    transition: all .3s ease-in-out;
+}
+.new-vlogo-link.new-vlogo-link-backpage {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.new-vlogo-link.new-vlogo-link-backpage img {
+    max-height: 34px !important;
 }

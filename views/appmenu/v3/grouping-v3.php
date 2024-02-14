@@ -10,57 +10,64 @@
                 $colorSet = explode(',', $this->colorSet);
                 
                 foreach ($cloneMenuList as $k => $groupRow) {
-                    if (empty($groupRow['row']['ptagcode'])) {
-                        $firstIndex = true;
-                        $activeClass = '';
-                        
-                        if ($k == 'яяяrow') {
-                            $k = 'other';
-                            $title = $this->lang->line('othermenu_title');
-                        } else {
-                            $title = $this->lang->line($groupRow['row']['tagname']);
-                        }
+                    $firstIndex = true;
+                    $activeClass = '';
 
-                        if ($i == 0) {
-                            $activeClass = ''; //' active';
-                            $firstModule = $title;
-                            $firstModuleCode = $k;
-                        }
+//                    if ($k == 'яяяrow') {
+//                        $k = 'other';
+//                        $title = $this->lang->line('othermenu_title');
+//                    } else {
+//                        $title = $this->lang->line($groupRow['name']);
+//                    }
+                    $title = $this->lang->line($groupRow['name']);
 
-                        $subAppmenu = '<ul class="sub-mix-filter" style="display:none">';
-                        if (!empty($groupRow['row']['tagcode'])) {
-                            
-                            foreach ($cloneMenuList as $ck => $childRow) { 
-
-                                if ($groupRow['row']['tagcode'] == $childRow['row']['ptagcode']) {    
-                                    
-                                    $ctitle = $this->lang->line($childRow['row']['tagname']);
-
-                                    $subAppmenu .= '<li class="filter sub-filter" data-filter="' . $ck . '">';
-                                    $subAppmenu .= '<span class="title">' . Str::firstUpper(Str::lower($ctitle)) . '</span>';
-                                    $subAppmenu .= '</li>';
-                                    $firstIndex = false;
-                                    
-                                    unset($cloneMenuList[$ck]);
-                                }
-                            }
-                        }
-                        
-                        $subAppmenu .= '</ul>';
-
-                        echo '<li class="filter' . $activeClass . '" data-filter="' . $k . '">';
-                        echo !$firstIndex ? '<span class="title arrow">' . Str::firstUpper(Str::lower($title)) . '</span>' . $subAppmenu : '<span class="title">' . Str::firstUpper(Str::lower($title)) . '</span>';                    
-                        echo '</li>';
+                    if ($i == 0) {
+                        $activeClass = ''; //' active';
+                        $firstModule = $title;
+                        $firstModuleCode = $k;
                     }
+
+                    $subAppmenu = '';
+//                        $subAppmenu = '<ul class="sub-mix-filter" style="display:none">';
+//                        if (!empty($groupRow['row']['tagcode'])) {
+//                            
+//                            foreach ($cloneMenuList as $ck => $childRow) { 
+//
+//                                if ($groupRow['row']['tagcode'] == $childRow['row']['ptagcode']) {    
+//                                    
+//                                    $ctitle = $this->lang->line($childRow['row']['tagname']);
+//
+//                                    $subAppmenu .= '<li class="filter sub-filter" data-filter="' . $ck . '">';
+//                                    $subAppmenu .= '<span class="title">' . Str::firstUpper(Str::lower($ctitle)) . '</span>';
+//                                    $subAppmenu .= '</li>';
+//                                    $firstIndex = false;
+//                                    
+//                                    unset($cloneMenuList[$ck]);
+//                                }
+//                            }
+//                        }
+//                        
+//                        $subAppmenu .= '</ul>';
+
+                    echo '<li class="filter' . $activeClass . '" data-filter="' . $k . '">';
+                    echo !$firstIndex ? '<span class="title arrow">' . Str::firstUpper(Str::lower($title)) . '</span>' . $subAppmenu : '<span class="title">' . Str::firstUpper(Str::lower($title)) . '</span>';                    
+                    echo '</li>';
 
                     $i++;
 
-                    foreach ($groupRow['rows'] as $row) {
+                    foreach ($this->moduleList as $row) {
                         
-                        if ($row['code'] == 'ERP_MENU_MOBILE') {
+                        if ($groupRow['id'] != $row['categoryid']) {
                             continue;
                         }
                         $colorSetIndex = array_rand($colorSet);
+                        
+                        $row['menucolor'] = '';
+                        $row['isshowcard'] = '';
+                        $row['weburl'] = '';
+                        $row['actionmetadataid'] = '';
+                        $row['actionmetatypeid'] = '';
+                        $row['photoname'] = '';
                         
                         $linkHref = 'javascript:;';
                         $linkTarget = '_self';
@@ -92,24 +99,22 @@
                             $linkTarget = $row['urltrg'];
                             $linkOnClick = '';
                             
-                        } elseif (empty($row['weburl']) && empty($row['actionmetadataid'])) {
-
-                            $linkHref = 'appmenu/module/' . $row['metadataid'] . '?mmid=' . $row['metadataid'];
-                            $linkTarget = '_self';
-                            $linkOnClick = '';
+                        } elseif (!empty($row['menuindicatorid'])) {
                             
-                        } else {
+                            $linkHref = 'appmenu/module/'.$row['menuindicatorid'].'?kmid='.$row['menuindicatorid'];
+                            $linkTarget = '_self';
+                            $linkOnClick = '';                            
 
-                            if ($row['actionmetatypeid'] == Mdmetadata::$contentMetaTypeId) {
-                                $linkHref = 'appmenu/module/' . $row['metadataid'] . '/' . $row['actionmetadataid'] . '?mmid=' . $row['metadataid'];
-                                $linkTarget = '_self';
-                                $linkOnClick = '';
-                            } else {
-                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['metadataid'], $row['metadataid']);
-                                $linkHref = $linkMeta['linkHref'];
-                                $linkTarget = $linkMeta['linkTarget'];
-                                $linkOnClick = $linkMeta['linkOnClick'];
-                            }
+//                            if ($row['actionmetatypeid'] == Mdmetadata::$contentMetaTypeId) {
+//                                $linkHref = 'appmenu/module/' . $row['metadataid'] . '/' . $row['actionmetadataid'] . '?mmid=' . $row['metadataid'];
+//                                $linkTarget = '_self';
+//                                $linkOnClick = '';
+//                            } else {
+//                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['metadataid'], $row['metadataid']);
+//                                $linkHref = $linkMeta['linkHref'];
+//                                $linkTarget = $linkMeta['linkTarget'];
+//                                $linkOnClick = $linkMeta['linkOnClick'];
+//                            }
                         }
 
                         if (isset($row['licensestatus'])) {
@@ -174,16 +179,143 @@
                         $cards[] = '</a>';
                     }
                     
-                    if (Config::getFromCache('is_dev')) {
-                        $cards[] = '<a href="javascript:;" onclick="moduleMetaAddByUser(this);" data-code="' . $k . '" class="vr-menu-tile mix ' . $k . '" style="">';
-                            $cards[] = '<div class="d-flex align-items-center">';
-                                $cards[] = '<div class="vr-menu-cell">';
-                                    $cards[] = '<div class="vr-menu-img"><i style="font-size: 18px;" class="fa fa-plus"></i></div>';
+//                    if (Config::getFromCache('is_dev')) {
+//                        $cards[] = '<a href="javascript:;" onclick="moduleMetaAddByUser(this);" data-code="' . $k . '" class="vr-menu-tile mix ' . $k . '" style="background-color: rgb(255, 152, 110);">';
+//                            $cards[] = '<div class="d-flex align-items-center">';
+//                                $cards[] = '<div class="vr-menu-cell">';
+//                                    $cards[] = '<div class="vr-menu-img"><i style="font-size: 18px;" class="fa fa-plus"></i></div>';
+//                                $cards[] = '</div>';
+//                            $cards[] = '</div>';
+//                        $cards[] = '</a>';
+//                    }                                  
+                }
+                foreach ($this->moduleList as $row) {
+
+                    if (!empty($row['categoryid'])) {
+                        continue;
+                    }
+                    $k = 999999;
+                    $colorSetIndex = array_rand($colorSet);
+
+                    $row['menucolor'] = '';
+                    $row['isshowcard'] = '';
+                    $row['weburl'] = '';
+                    $row['actionmetadataid'] = '';
+                    $row['actionmetatypeid'] = '';
+                    $row['photoname'] = '';
+
+                    $linkHref = 'javascript:;';
+                    $linkTarget = '_self';
+                    $linkOnClick = '';
+                    $class = ' random-border-radius'.mt_rand(1,3);
+                    $cartbgColor = '';
+
+                    if ($this->isAppmenuNewDesign) {
+                        if ($row['menucolor']) {
+                            $cartbgColor = 'background-color:'.$row['menucolor'].';';
+                        } else {
+                            $cartbgColor = 'background-color:'.$colorSet[$colorSetIndex].';';
+                        }
+                    }
+
+                    if ($row['isshowcard'] == 'true') {
+                        $linkHref = 'appmenu/sub/' . $row['code'];
+                        $linkTarget = '_self';
+                        $linkOnClick = '';
+
+                    } elseif (!empty($row['weburl'])) {
+
+                        if (strtolower(substr($row['weburl'], 0, 4)) == 'http' || $row['weburl'] == 'appmenu/kpi') {
+                            $linkHref = $row['weburl'];
+                        } else {
+                            $linkHref = $row['weburl'] . '&mmid=' . $row['metadataid'];
+                        }
+
+                        $linkTarget = $row['urltrg'];
+                        $linkOnClick = '';
+
+                    } elseif (!empty($row['menuindicatorid'])) {
+
+                        $linkHref = 'appmenu/module/'.$row['menuindicatorid'].'?kmid='.$row['menuindicatorid'];
+                        $linkTarget = '_self';
+                        $linkOnClick = '';                            
+
+//                            if ($row['actionmetatypeid'] == Mdmetadata::$contentMetaTypeId) {
+//                                $linkHref = 'appmenu/module/' . $row['metadataid'] . '/' . $row['actionmetadataid'] . '?mmid=' . $row['metadataid'];
+//                                $linkTarget = '_self';
+//                                $linkOnClick = '';
+//                            } else {
+//                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['metadataid'], $row['metadataid']);
+//                                $linkHref = $linkMeta['linkHref'];
+//                                $linkTarget = $linkMeta['linkTarget'];
+//                                $linkOnClick = $linkMeta['linkOnClick'];
+//                            }
+                    }
+
+                    if (isset($row['licensestatus'])) {
+
+                        if ($row['licensestatus'] == '2') {
+                            $linkOnClick = "appLicenseExpireBefore(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
+                            $linkHref = 'javascript:;';
+                            $linkTarget = '_self';
+                        } elseif ($row['licensestatus'] == '3') {
+                            $linkOnClick = "appLicenseExpireWait(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
+                            $linkHref = 'javascript:;';
+                            $linkTarget = '_self';
+                        } elseif ($row['licensestatus'] == '4') {
+                            $linkHref = 'javascript:;';
+                            $linkTarget = '_self';
+                            $linkOnClick = "appLicenseExpired(this, '" . $row['licenseenddate'] . "');";
+                            $class = ' disabled';
+                        }
+                    }
+
+                    if ($row['metadataid'] == '1668505983686113') {
+                        $linkOnClick = 'mvFlowChartExecuteInit(this, \''.$linkHref.'\', \'166848750564710\', true);';
+                        $linkHref = 'javascript:;';
+                    }
+
+                    if ($row['photoname'] != '' && file_exists($row['photoname'])) {
+                        $imgSrc = $row['photoname'];
+                    } else {
+                        $imgSrc = 'assets/custom/img/appmenu.png';
+                    }
+
+                    $bgImageStyle = '';
+                    if (issetParam($row['bgphotoname']) != '' && file_exists($row['bgphotoname'])) {
+                        $bgImageStyle = 'background-image: url('.$row['bgphotoname'].');background-size: cover;';
+                    }                
+
+                    $appInfoTextStyle = '';
+                    if ($bgImageStyle) {
+                        $appInfoTextStyle = 'text-shadow: 2px 2px 2px rgba(0,0,0,0.6);';
+                    }
+
+                    $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['name']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['metadataid'] . '" data-pfgotometa="1">';
+                        $cards[] = '<div class="d-flex align-items-center">';
+                            $cards[] = '<div class="vr-menu-cell">';
+                                  if (!$this->isAppmenuNewDesign) {
+                                    if ($imgSrc == 'assets/custom/img/appmenu.png' && $row['icon']) {
+                                        $cards[] = '<div class="vr-menu-img"><i style="font-size: 18px;" class="fa '.$row['icon'].'"></i></div>';
+                                    } else {
+                                        $cards[] = '<div class="vr-menu-img"><img src="' . $imgSrc . '"></div>';
+                                    }                                          
+                                  }
+                            $cards[] = '</div>';
+                            $cards[] = '<div class="vr-menu-title">';
+                                $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
+                                    $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['name']) . '</div>';
+                                    if (issetParam($row['menucode'])) {
+                                        $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true">' . issetParam($row['menucode']) . '</div>';
+                                    }   
                                 $cards[] = '</div>';
                             $cards[] = '</div>';
-                        $cards[] = '</a>';
-                    }
-                }
+                        $cards[] = '</div>';
+                    $cards[] = '</a>';
+                }                
+                echo '<li class="filter' . $activeClass . '" data-filter="' . 999999 . '">';
+                echo '<span class="title">Бусад</span>';                    
+                echo '</li>';                      
                 ?>
             </ul>
         </div>

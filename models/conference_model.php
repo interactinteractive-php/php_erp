@@ -107,8 +107,7 @@ class Conference_model extends Model {
             'wfmstatusid'=>$statusid,
             'bookid' => $bookid,
         );
-
-        
+       
         $data = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_PARTICIPANT_DV_002', $dparam);
         
         if (isset($data['result']) && $data['result']) {
@@ -242,23 +241,24 @@ class Conference_model extends Model {
 
     public function meetingstartModel($postData) {
 
-        $currentDate = Date::currentDate('H:i');
+        $currentDateId = Date::currentDate('H:i');
+        $currentDate = Date::currentDate();
         parse_str($postData['customdata'], $data);
         
         $param = array(
             'id' => $data['bookid'],
             'startTime' => $currentDate
         );
-        
+       
         $result = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_BOOK_HEADER_START_SAVE_DV_002', $param);
-        
+       
         if (isset($result['status']) && $result['status'] === 'success') {
-            $this->db->AutoExecute('MMS_MEETING_BOOK', array('END_TIME' => '00:00', 'ACTION' => '1'), 'UPDATE', "ID = '". $data['bookid'] ."'");
+            $this->db->AutoExecute('MMS_MEETING_BOOK', array('END_TIME' => '', 'ACTION' => '1'), 'UPDATE', "ID = '". $data['bookid'] ."'");
             
             return array(
                 'status' => 'success', 
                 'response' => $result['result'],
-                'currentDate' => $currentDate
+                'currentDate' => $currentDateId
             );
         } else {
             $message = (isset($result['text']) && $result['text']) ? $result['text'] : 'Error олдсонгүй';
@@ -528,8 +528,8 @@ class Conference_model extends Model {
 
     public function endMeetingModel($postData) {
 
-        $currentDate = Date::currentDate('H:i');
-
+        $currentDate = Date::currentDate();
+        $currentDateEnd = Date::currentDate('H:i');
         parse_str($postData['meetingData'], $Data);
 
         (Array) $interrupt = array();
@@ -611,7 +611,7 @@ class Conference_model extends Model {
                 return array(
                     'status' => 'success', 
                     'response' => $data['result'],
-                    'currentDate' => $currentDate
+                    'currentDate' => $currentDateEnd
                 );
     
             } 

@@ -79,6 +79,11 @@ input[type=number]::-webkit-inner-spin-button {
     margin-left: 86px;
 }
 
+.primary-top.appmenu-newdesign-header-1 {
+    border-bottom: none;
+    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.08);
+}
+
 .primary-top,
 .content-wrapper .content {
     padding: 0 15px;
@@ -1849,7 +1854,7 @@ table.bprocess-theme1>tfoot>tr>td.bigdecimalInit {
     font-size: 12px;
 }
 
-table.bprocess-theme1>tbody>tr>td .dateElement {
+table.bprocess-theme1>tbody>tr>td>.dateElement {
     max-width: 100% !important;
 }
 
@@ -22547,6 +22552,12 @@ form#editGroupForm>.form-group .input-group {
 .appmenusearch {
     display: none;
 }
+.modname.justify-content-end {
+    justify-content: space-between !important;
+}
+.without-left-iconbar .modname.justify-content-end {
+    justify-content: flex-end !important;
+}
 
 @media (min-width: 768px) {
     .navbar-expand-md .navbar-brand {
@@ -23032,6 +23043,12 @@ input.lookup-name-autocomplete.error:focus {
 .without-left-iconbar .navbar .navbar-nav.topnav>li>a:focus,
 .without-left-iconbar .navbar .navbar-nav.topnav>li>a:active {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:hover,
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:focus,
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:active {
+    background-color: transparent;
 }
 
 .dropdown-menu.fiscal-period-child>li>a>i {
@@ -27187,7 +27204,9 @@ label {
 .header-tab .tabbable-line>.nav-tabs>li {
     margin-right: 1px;
 }
-
+.navbar.appmenu-newdesign-header-1 .topnav.navbar-nav>li>a {
+    font-weight: 500;
+}
 .navbar .topnav.navbar-nav>li>a {
     display: flex;
     align-items: center;
@@ -27265,6 +27284,10 @@ label {
     max-height: 40px;
 }
 
+.navbar.appmenu-newdesign-header-1 .header-logo img {
+    max-height: 50px;
+}
+
 .double-between-input>.input-group-btn {
     display: flex;
 }
@@ -27311,6 +27334,11 @@ label {
     margin: 10px 0;
 }
 
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:hover,
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:focus,
+.without-left-iconbar .navbar.appmenu-newdesign-header-1 .navbar-nav.topnav>li>a:active {
+    color: #333;
+}
 .without-left-iconbar .navbar .navbar-nav.topnav>li>a:hover,
 .without-left-iconbar .navbar .navbar-nav.topnav>li>a:focus,
 .without-left-iconbar .navbar .navbar-nav.topnav>li>a:active {
@@ -27330,6 +27358,15 @@ label {
     margin-left: 0;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.without-left-iconbar .primary-top.appmenu-newdesign-header-1 {
+    background: #fff !important;
+    margin-left: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color:#67748E;
+    font-family: 'Rubik', Arial;
 }
 
 .without-left-iconbar .content-wrapper .content {
@@ -27917,6 +27954,17 @@ label {
 .bp-view-process .badge {
     font-size: inherit;
     white-space: inherit;
+}
+.bp-detail-title {
+    color: #000;
+    font-size: 14px;
+    border-bottom: 1px #ddd solid;
+    margin-bottom: 13px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+}
+.bp-detail-body {
+    margin-bottom: 15px;
 }
 
 /********************************* BP Skin END *********************************/
@@ -28517,3 +28565,150 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     right: 14px;
     padding: 2px 6px 2px;    
 }
+.veri-app-engage {
+    position: fixed;
+    right: 0;
+    top: 165px;
+    /*transform: translateY(-50%);*/
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 5;
+    padding-right: 15px;
+}
+.veri-app-engage .veri-app-engage-btn.veri-app-engage-btn-toggle-off {
+    width: 35px;
+    height: 35px;
+}
+.veri-app-engage .veri-app-engage-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    width: 35px;
+    height: 35px;
+    border-color: transparent;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.20);
+    background-color: #fff;
+}
+.veri-app-engage.veri-app-engage-hide .veri-app-engage-btn {
+    display: none;
+}
+.veri-app-engage.veri-app-engage-hide .veri-app-engage-btn.veri-app-engage-btn-toggle-off {
+    visibility: visible;
+    display: flex;
+}
+/* Start - Metaverse header control style */
+.mv-hdr-label-control {
+    display: table;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-spacing: 2px;
+    border-collapse: collapse;
+    color: #333;
+}
+.mv-hdr-label-control-row {
+    display: table-row;
+    width: auto;
+}
+.mv-hdr-label-control-label, .mv-hdr-label-control-input {
+    display: table-cell;
+    border: 1px #ddd solid;
+    padding: 8px;
+    line-height: normal;
+    vertical-align: middle;
+}
+.mv-hdr-right-label-control .mv-hdr-label-control-label, 
+.mv-hdr-right-label-control .mv-hdr-label-control-input {
+    vertical-align: inherit;
+}
+.mv-hdr-label-control-label {
+    width: 180px;
+    text-align: right;
+    background-color: #f5f5f5;
+}
+.mv-hdr-right-label-control .mv-hdr-label-control-label {
+    text-align: left;
+    width: auto;
+}
+.mv-hdr-label-control-label label {
+    margin-bottom: 0;
+}
+.mv-hdr-label-control-input {
+    padding: 0;
+}
+.mv-hdr-label-control-input input[type="text"]:not(.select2-input) {
+    border: 1px transparent solid;
+    margin: 0 !important;
+    padding: 0 3px !important;
+    outline: none;
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+.mv-hdr-label-control-input textarea {
+    border: 1px transparent solid;
+    margin: 0 !important;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+.mv-hdr-label-control-input input[type="text"]:not(.select2-input):not(.error):focus {
+    border: 1px solid #666 !important;
+    outline: none;
+}
+.mv-hdr-label-control-input input.lookup-code-autocomplete:not([readonly]):focus,
+.mv-hdr-label-control-input input.lookup-name-autocomplete:not([readonly]):focus {
+    background-color: #fff !important;
+}
+.mv-hdr-label-control-input div.checker {
+    margin-top: 2px !important;
+}
+.mv-hdr-label-control-input .btn.input-sm {
+    height: 25px;
+}
+.mv-hdr-label-control-input .btn-xs {
+    padding: 0px 5px !important;
+}
+.mv-hdr-label-control-input .select2-container-multi .select2-choices {
+    border: 1px transparent solid;
+}
+.mv-hdr-label-control-input .select2-container-multi .select2-choices .select2-search-field input {
+    width: 100%!important;
+}
+.mv-hdr-label-control-input .default.btn-bordered {
+    border: 0;
+}
+.mv-hdr-label-control-input div.double-input {
+    min-width: 250px !important;
+}
+.mv-hdr-label-control-input div.double-input input.form-control[type="text"]:last-of-type {
+    border-left-width: 1px !important;
+    border-left-color: #ddd;
+}
+.mv-hdr-label-control-input div.double-between-input input.form-control[type="text"]:last-of-type {
+    border-radius: 0 !important;
+}
+.mv-hdr-label-control-input .form-control .select2-choice,
+.mv-hdr-label-control-input .form-control.select2-container-active .select2-choice,
+.mv-hdr-label-control-input .form-control.select2-container-active .select2-choices {
+    border-color: transparent;
+}
+.mv-hdr-label-control-label .mv-hdr-label-control-descr {
+    color: #999; 
+    font-size: 11px; 
+    font-weight: normal;
+    margin-top: 5px;
+}
+/* End - Metaverse header control style */

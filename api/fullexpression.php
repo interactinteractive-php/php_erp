@@ -22,7 +22,7 @@ if ($expCode == 'pagerDetailAllRowsSum') {
         return $tmp_dir;
     }
     
-    $cacheId   = Input::numeric('cacheId');
+    $cacheId   = Input::post('cacheId');
     $groupPath = Input::post('groupPath');
     $fieldPath = Input::post('fieldPath');
     $aggregate = Input::post('aggregate');

@@ -1,98 +1,94 @@
-<div class="appmarket-wrapper" id="window-id-<?php echo $this->uniqId; ?>">
-    <div class="appmarket d-flex">
-        
-        <?php include_once 'leftMenu.php'; ?>
-        
-        <div class="appmarket-body">
-            <div class="d-flex p-3">
-                <div class="rounded-circle module-img" style="background-color:#FF7E79;width:150px;height: 150px">
-                    <img style="padding: 30px;width:150px;height: 150px" src="https://process.veritech.mn/<?php echo (isset($this->getModuleInfo['logo']) ? $this->getModuleInfo['logo'] : 'assets/core/global/img/veritech-erp.png') ?>" class="module-img mr-1 img-fluid my-auto" alt="img">
-                </div>
-                <div class="pl-3">
-                    <h3><?php echo $this->getModuleInfo['productname'] ?></h3>
-                    <p style="color:#67748E"><?php echo $this->getModuleInfo['description'] ?></p>
-                    <div class="d-flex" style="gap:20px">
-                        <div class="d-inline-block p-1 px-2 mt-1" style="background-color:#377CD626;border-radius:10px;height: 30px;"><a href="javascript:;" data-price="<?php echo $this->getModuleInfo['unitprice'] ?>" data-basketbookid="<?php echo $this->getModuleInfo['basketbookid'] ?>" onclick="appMarketItemToBasket_<?php echo $this->uniqId; ?>('<?php echo $this->getModuleInfo['itemid'] ?>', this)" style="color:#468CE2;font-weight: bold;"><?php echo $this->getModuleInfo['isbasket'] ? 'Сагсанд хийсэн' : 'Сагсанд хийх'; ?></a></div>
-                        <div style="background-color: #A0A0A0;width: 1px;"></div>
-                        <div style="text-align: center;">
-                            <div class="am-fs-13" style="color:#67748E;">Үнэлгээ</div>
-                            <div class="line-height-0 mt-1">
-                                <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 1 ? '#FFBB00' : '#C4C4C4' ?>"></i>
-                                <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 2 ? '#FFBB00' : '#C4C4C4' ?>"></i>
-                                <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 3 ? '#FFBB00' : '#C4C4C4' ?>"></i>
-                                <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 4 ? '#FFBB00' : '#C4C4C4' ?>"></i>
-                                <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 5 ? '#FFBB00' : '#C4C4C4' ?>"></i>
-                            </div>                        
-                        </div>                        
-                        <div style="background-color: #A0A0A0;width: 1px;"></div>
-                        <div style="text-align: center;">
-                            <div class="am-fs-13" style="color:#67748E;">Хэрэглэгч</div>
-                            <div style="font-size: 15px;font-weight: bold;"><?php echo $this->getModuleInfo['usercount'] ?></div>                       
-                        </div>                        
-                        <div style="background-color: #A0A0A0;width: 1px;"></div>
-                        <div style="text-align: center;">
-                            <div class="am-fs-13" style="color:#67748E;">Ангилал</div>
-                            <div style="font-size: 15px;font-weight: bold;"><?php echo $this->getModuleInfo['categoryname'] ?></div>                       
-                        </div>                        
-                    </div>
-                </div>
+<div id="window-id-<?php echo $this->uniqId; ?>">
+    <div class="pl-3">
+        <a href="javascript:;" class="appmarket-back-btn"><i class="fas fa-arrow-left font-size-18" title="Буцах"></i></a>
+    </div>
+    <div class="d-flex p-3">
+        <div class="rounded-circle module-img" style="background-color:#FF7E79;width:150px;height: 150px">
+            <img style="padding: 30px;width:150px;height: 150px" src="https://process.veritech.mn/<?php echo (isset($this->getModuleInfo['logo']) ? $this->getModuleInfo['logo'] : 'assets/core/global/img/veritech-erp.png') ?>" class="module-img mr-1 img-fluid my-auto" alt="img">
+        </div>
+        <div class="pl-3">
+            <h3><?php echo $this->getModuleInfo['productname'] ?></h3>
+            <p style="color:#67748E"><?php echo $this->getModuleInfo['description'] ?></p>
+            <div class="d-flex" style="gap:20px">
+                <div class="d-inline-block p-1 px-2 mt-1" style="background-color:#377CD626;border-radius:10px;height: 30px;"><a href="javascript:;" data-basketprice="<?php echo $this->getModuleInfo['basketamount'] ?>" data-price="<?php echo $this->getModuleInfo['unitprice'] ?>" data-basketbookid="<?php echo $this->getModuleInfo['basketbookid'] ?>" onclick="appMarketItemToBasket_<?php echo $this->uniqId; ?>('<?php echo $this->getModuleInfo['itemid'] ?>', this)" style="color:#468CE2;font-weight: bold;"><?php echo $this->getModuleInfo['isbasket'] ? 'Сагсанд хийсэн' : 'Сагсанд хийх'; ?></a></div>
+                <div style="background-color: #A0A0A0;width: 1px;"></div>
+                <div style="text-align: center;">
+                    <div class="am-fs-13" style="color:#67748E;">Үнэлгээ</div>
+                    <div class="line-height-0 mt-1">
+                        <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 1 ? '#FFBB00' : '#C4C4C4' ?>"></i>
+                        <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 2 ? '#FFBB00' : '#C4C4C4' ?>"></i>
+                        <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 3 ? '#FFBB00' : '#C4C4C4' ?>"></i>
+                        <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 4 ? '#FFBB00' : '#C4C4C4' ?>"></i>
+                        <i class="icon-star-full2 font-size-12" style="color:<?php echo $this->getModuleInfo['rating'] >= 5 ? '#FFBB00' : '#C4C4C4' ?>"></i>
+                    </div>                        
+                </div>                        
+                <div style="background-color: #A0A0A0;width: 1px;"></div>
+                <div style="text-align: center;">
+                    <div class="am-fs-13" style="color:#67748E;">Хэрэглэгч</div>
+                    <div style="font-size: 15px;font-weight: bold;"><?php echo $this->getModuleInfo['usercount'] ?></div>                       
+                </div>                        
+                <div style="background-color: #A0A0A0;width: 1px;"></div>
+                <div style="text-align: center;">
+                    <div class="am-fs-13" style="color:#67748E;">Ангилал</div>
+                    <div style="font-size: 15px;font-weight: bold;"><?php echo $this->getModuleInfo['categoryname'] ?></div>                       
+                </div>                        
             </div>
-            <div class="pt-3">
-                <div class="content-wrapper">
-                    <div class="content  justify-content-center align-items-center">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul class="nav px-3 pt-3 pb-0" style="width:fit-content">
-                                    <li class="nav-item">
-                                        <a class="nav-link title-color fs-16 active" id="link-menu-detail-active1" data-toggle="tab" href="#menu-active-detail1" aria-current="page" aria-controls="menu-active-detail1" role="tab" aria-selected="true">Ерөнхий</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link title-color fs-16 " id="link-menu-detail-active2"  data-toggle="tab" href="#menu-active-detail2" aria-current="page" aria-controls="menu-active-detail2" role="tab" aria-selected="false">Системийн боломж, онцлогууд</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content px-1 pt-1">
-                                    <div class="tab-pane active" id="menu-active-detail1" aria-labelledby="link-menu-detail-active1" role="tabpanel">
-                                        <div class="row" style="gap:20px;padding:1.5rem!important">
-                                            <?php 
-                                            if ($this->getModuleInfo['general']) {
-                                                foreach ($this->getModuleInfo['general'] as $row) {
-                                                    echo '<p>'.$row['description'].'</p>';
-                                                }
-                                            } ?>
+        </div>
+    </div>
+    <div class="pt-3">
+        <div class="content-wrapper">
+            <div class="content  justify-content-center align-items-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav px-3 pt-3 pb-0" style="width:fit-content">
+                            <li class="nav-item">
+                                <a class="nav-link title-color fs-16 active" id="link-menu-detail-active1" data-toggle="tab" href="#menu-active-detail1" aria-current="page" aria-controls="menu-active-detail1" role="tab" aria-selected="true">Ерөнхий</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link title-color fs-16 " id="link-menu-detail-active2"  data-toggle="tab" href="#menu-active-detail2" aria-current="page" aria-controls="menu-active-detail2" role="tab" aria-selected="false">Системийн боломж, онцлогууд</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content px-1 pt-1">
+                            <div class="tab-pane active" id="menu-active-detail1" aria-labelledby="link-menu-detail-active1" role="tabpanel">
+                                <div class="row" style="gap:20px;padding:1.5rem!important">
+                                    <?php 
+                                    if ($this->getModuleInfo['general']) {
+                                        foreach ($this->getModuleInfo['general'] as $row) {
+                                            echo '<p>'.$row['description'].'</p>';
+                                        }
+                                    } ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="menu-active-detail2" aria-labelledby="link-menu-detail-active2" role="tabpanel">
+                                <div class="row" style="padding:1.5rem !important; padding-left:1rem !important">
+                                    <div class="col-md-4">
+                                        <div id="treeContainer">
+                                            <div id="dataViewStructureTreeView_<?php echo $this->uniqId; ?>" class="tree-demo"></div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="menu-active-detail2" aria-labelledby="link-menu-detail-active2" role="tabpanel">
-                                        <div class="row" style="padding:1.5rem !important; padding-left:1rem !important">
-                                            <div class="col-md-4">
-                                                <div id="treeContainer">
-                                                    <div id="dataViewStructureTreeView_<?php echo $this->uniqId; ?>" class="tree-demo"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8 appmarket-module-feature-description">
-                                                <h5 style="color:#a7a7a7">Системийн боломж, онцлогуудыг сонгож дэлгэрэнгүй тайлбар харна уу</h5>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-8 appmarket-module-feature-description">
+                                        <h5 style="color:#a7a7a7">Системийн боломж, онцлогуудыг сонгож дэлгэрэнгүй тайлбар харна уу</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>  
-            <div>
-                <div class="overflow-hidden relative  box  rounded-xl slickwidget py-4" style="background-color:#F0F0F0">
-                    <div class="appmarket-slick-carousel3">
-                        <?php 
-                        if ($this->getModuleInfo['picture']) {
-                            foreach ($this->getModuleInfo['picture'] as $row) {
-                                echo '<div class="relative rounded-xl bg-image" style="height:330px; width:100%; background-image:url(https://process.veritech.mn/'.$row['picture'].');"></div>';
-                            }
-                        } ?>                        
-                    </div>
-                </div>
-            </div>            
+            </div>
         </div>
-    </div>
+    </div>  
+    <div>
+        <div class="overflow-hidden relative  box  rounded-xl slickwidget py-4" style="background-color:#F0F0F0">
+            <div class="appmarket-slick-carousel3">
+                <?php 
+                if ($this->getModuleInfo['picture']) {
+                    foreach ($this->getModuleInfo['picture'] as $row) {
+                        echo '<div class="relative rounded-xl bg-image" style="height:330px; width:100%; background-image:url(https://process.veritech.mn/'.$row['picture'].');"></div>';
+                    }
+                } ?>                        
+            </div>
+        </div>
+    </div>            
 </div>
 
 <style>
@@ -154,12 +150,6 @@
 <script type="text/javascript">
     var windowId_<?php echo $this->uniqId; ?> = 'div#window-id-<?php echo $this->uniqId; ?>';
     
-    $('.appmarket_menu_wrapper').on('click', '.nav-link', function() {
-        $('.appmarket_menu_wrapper').find('.nav-item-selected').removeClass('nav-item-selected');
-        $(this).addClass('nav-item-selected');
-        window.location.href = URL_APP+'appmarket/index/'+$(this).data('id');
-    });   
-    
     if ($("#treeContainer", windowId_<?php echo $this->uniqId; ?>).length) {
         $("#treeContainer", windowId_<?php echo $this->uniqId; ?>).css({
             'max-height': $(window).height() - $("#treeContainer", windowId_<?php echo $this->uniqId; ?>).offset().top - 370,
@@ -179,7 +169,7 @@
         nextArrow:'<div style="flex-shrink: 0;width: 40px;height: 40px;background: #fff;border-radius: 40px;text-align: center;box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12); cursor:pointer;position: absolute;margin-top: -180px;right: 0;z-index: 10;" class=""><i class="far fa-angle-right" style="font-size:22px;margin: 9px;"></i></div>'       
     });   
     setTimeout(function() {
-        $(".appmarket-slick-carousel3").css("width", $(window).width() - 310);
+        $(".appmarket-slick-carousel3").css("width", $(window).width() - 470);
     }, 10);    
     
     function drawTree_<?php echo $this->uniqId; ?>() {
@@ -255,7 +245,7 @@
 //          async: false
 //        });
 //        var responseParam = response.responseJSON;        
-        var basketTotalAmount = 0;
+        var basketTotalAmount = $(elem).data('basketprice');
         var price = $(elem).data('price');
         var basketbookid = $(elem).data('basketbookid');
         var headerId = basketbookid;

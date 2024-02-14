@@ -12,12 +12,12 @@
 }
 .appmarket_menu_wrapper .nav-item-open>.nav-link, .appmarket_menu_wrapper .nav-item-selected {
     background-color: #E2F4FF;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 .appmarket_menu_wrapper {
     flex: 0 0 300px;
     background: #fff;
-    padding: 15px;    
+    padding: 7px 15px 15px 0px;    
     overflow: hidden;
     color: #585858;        
 }
@@ -32,6 +32,7 @@
     color: #3C3C3C;
     font-size: 12px;
     min-height: 750px;
+    overflow: hidden;
 }
 .appmarket-wrapper .full-header-info {
     border-radius: 10px;
@@ -294,9 +295,43 @@
     line-height: normal;
 }
 
+.appmarket-wrapper .appmarket-search i {
+    font-size: 16px;
+    color: #606060;    
+    position: absolute;
+    margin-left: -25px;
+    margin-top: 8px;    
+}
+.appmarket-wrapper .appmarket-search input {
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;
+    height: 32px;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+}
+
 .appmarket-wrapper .module-img {
     width: 80px;
     height: 80px;
+}
+
+.appmarket-wrapper .appmarket_menu_wrapper .appmarket-filter-typemenu {
+    padding-left: 0px;
+}
+
+#dialog-pos-qpayqr .payment-success-icon {
+    border: 1px solid green;
+    border-radius: 100px;
+    padding: 10px;
+    margin: auto;
+    width: 61.6px;
+    margin-top: 20px;
+}
+
+#dialog-pos-qpayqr .payment-success-icon i {
+    color: green;
+    font-size: 40px;
 }
 
 .color1{
@@ -327,4 +362,16 @@ color: #585858;
 .appmarket-basket-minus-month, 
 .appmarket-basket-plus-month {
     cursor: pointer;
+}
+.appmarket_menu_wrapper > ul {
+    overflow: hidden;
+}
+.appmarket_menu_wrapper > ul:hover {
+    overflow: auto;
+}
+.appmarket-back-btn {
+    color: #3c3c3c;
+    font-size: 12px;
+    position: absolute;
+    margin-top: 10px;    
 }
