@@ -2111,7 +2111,7 @@ class Government_model extends Model {
         }
     }
 
-    public function decisionDetailModel($id) {
+    public function decisionDetailModel_1($id) {
         $criteria = array(
             'id' => array(
                 array(
@@ -2132,13 +2132,20 @@ class Government_model extends Model {
         }
 
         $data = $this->ws->run('serialize', self::$getDataViewCommand, $param, self::$gfServiceAddress);
-        // var_dump($data); die;
+       
         if (isset($data['result']) && $data['result']) {
             unset($data['result']['aggregatecolumns']);
             return $data['result'];
         } else {
             return array();
         }
+    }
+
+    public function decisionDetailModel($id) {
+        includeLib('Utils/Functions');
+        $result = Functions::runProcess('CMS_DECISION_WITH_FILE_LIST_004', array('id' => $id));
+       
+        return isset($result['result']) ? $result['result'] : array();
     }
 
     public function legalFrameworkModel($id) {

@@ -499,10 +499,15 @@ body {
     display: none;
 }*/
 
-input[type="text"]:not([readonly]):focus,
-input[type="password"]:not([readonly]):focus,
-textarea:not([readonly]):focus,
-textarea:not([disabled]):focus {
+.pos-wrap input[type="text"]:not([readonly]):focus,
+.pos-wrap input[type="password"]:not([readonly]):focus,
+.pos-wrap textarea:not([readonly]):focus,
+.pos-wrap textarea:not([disabled]):focus, 
+
+#pos-payment-form input[type="text"]:not([readonly]):focus,
+#pos-payment-form input[type="password"]:not([readonly]):focus,
+#pos-payment-form textarea:not([readonly]):focus,
+#pos-payment-form textarea:not([disabled]):focus {
     border: 1px #000 solid !important;
     background-color: #98dcce !important;
     color: #000 !important;

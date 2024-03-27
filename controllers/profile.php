@@ -34,12 +34,12 @@ class Profile extends Controller {
             'save_btn' => $this->lang->line('save_btn'),
             'close_btn' => $this->lang->line('close_btn')
         );
-        echo json_encode($response); exit;
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
     public function changePassword() {
         $response = $this->model->changePasswordModel();
-        echo json_encode($response);
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
     public function changelang($langCode) {

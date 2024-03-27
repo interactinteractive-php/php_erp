@@ -5540,7 +5540,9 @@ function qryStrToObj(str) {
             }
         });
         return (result);
-    } catch (e) {}
+    } catch (e) {
+        return null;
+    }
 }
 function initfocusTextarea(elem) {
     var $this = $(elem);

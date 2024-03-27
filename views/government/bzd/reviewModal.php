@@ -78,7 +78,7 @@
         <div class="col-lg-8 col-md-8 member m-auto">
             <div class="ml0 memeber-list">
                 <div class="row mx-auto my-0 justify-content-center">
-                    <div class="col-md-6 col-sm-6 max-w-20">
+                    <div class="col-md-6 col-sm-6">
                         <div class="row">
                             <div class="col">
                                 <div class="d-grid align-items-center">
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 max-w-20">
+                    <div class="col-md-6 col-sm-6">
                         <div class="row">
                             <div class="col">
                                 <div class="d-grid align-items-center">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="row mx-auto my-0 justify-content-center" style="overflow-y:auto; overflow-x:hidden; max-height:450px;" >
-                    <div class="col-md-6 col-sm-6 max-w-20 col-6">
+                    <div class="col-md-6 col-sm-6 col-6">
                         <div class="row">
                             <div class="col">
                                 <div class="d-grid align-items-center">
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 max-w-20 col-6">
+                    <div class="col-md-6 col-sm-6 col-6">
                         <div class="row">
                             <div class="col">
                                 <div class="d-grid align-items-center">

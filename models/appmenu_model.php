@@ -89,16 +89,6 @@ class Appmenu_Model extends Model {
         } else {
             return array('status' => 'error', 'message' => $this->ws->getResponseMessage($data));
         }
-    }
-    
-    public function startupMeta() {
-        $get = $this->db->GetRow("SELECT * FROM UM_META_BLOCK WHERE USER_ID = ".$this->db->Param(0), array(Ue::sessionUserKeyId()));
-        return $get;
-    }    
-    
-    public function startupMeta2() {
-        $get = $this->db->GetRow("SELECT * FROM UM_META_BLOCK WHERE IS_ALL_USER = ".$this->db->Param(0), array(1));
-        return $get;
     }    
     
     public function startupUser() {
@@ -174,28 +164,92 @@ class Appmenu_Model extends Model {
         
         return false;
     }
+    
+    public function getMetaVerseCategoryListModel($parentId) {
+        
+        $data = $this->db->GetAll("
+            SELECT 
+                ID,
+                CODE,
+                NAME,
+                ICON
+            FROM KPI_INDICATOR 
+            WHERE PARENT_ID = ".$this->db->Param(0)." 
+            ORDER BY ORDER_NUMBER ASC", [$parentId]);
+        
+        return $data;
+    }
+    
+    public function getMetaVerseModuleListModel() {
+        
+        $sessionUserKeyId = Ue::sessionUserKeyId();
+        $idPh = $this->db->Param(0);
+        
+        $data = $this->db->GetAll("
+            SELECT 
+                KI.ID, 
+                PP.META_DATA_ID, 
+                MM.ACTION_META_DATA_ID, 
+                MD.META_TYPE_ID AS ACTION_META_TYPE_ID, 
+                PP.BPA_CODE AS CODE, 
+                PP.BPA_NAME AS NAME, 
+                PP.DESCRIPTION, 
+                PP.CREATED_DATE, 
+                PP.CREATED_USER_ID,
+                PP.PROFILE_PHOTO,
+                PP.WFM_STATUS_ID,
+                PP.WFM_DESCRIPTION,
+                PP.PRODUCT_TYPE_ID,
+                PP.PRODUCT_CATEGORY_ID,
+                PP.MANAGER_ID,
+                PP.DEVELOPER_TEAM_ID,
+                KC.CATEGORY_ID,
+                KI.NAME AS CATEGORY_NAME,
+                'Онцлох' AS GROUP_NAME,
+                PP.MENU_INDICATOR_ID,
+                PP.LANDING_PAGE_INDICATOR_ID,
+                PP.ONBOARDING_CHECKLIST_INDICATOR_ID  
+            FROM KPI_INDICATOR KI 
+                INNER JOIN PLM_PRODUCT PP ON PP.SRC_RECORD_ID = KI.ID 
+                LEFT JOIN KPI_INDICATOR_CATEGORY KC ON KC.INDICATOR_ID = KI.ID 
+                LEFT JOIN META_MENU_LINK MM ON MM.META_DATA_ID = PP.META_DATA_ID 
+                LEFT JOIN META_DATA MD ON MD.META_DATA_ID = MM.ACTION_META_DATA_ID 
+            WHERE KI.KPI_TYPE_ID = 16818054066154 
+                AND PP.BPA_NAME IS NOT NULL 
+                AND KI.ID IN (
+                    SELECT 
+                        ID
+                    FROM KPI_INDICATOR
+                    START WITH ID IN (
+                        SELECT 
+                            ID 
+                        FROM KPI_INDICATOR
+                        WHERE KPI_TYPE_ID = 16818054066154 
+                            AND 
+                            CASE WHEN $idPh = (SELECT USER_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh AND ROLE_ID = 1)
+                                THEN 1
+                            WHEN $idPh = 1
+                                THEN 1
+                            ELSE 0
+                            END = 1
 
-    public function getDataviewResultModel($dvId, $limit = 15) {
+                        UNION 
 
-        $param = array(
-            'systemMetaGroupId' => $dvId,
-            'showQuery' => 0,
-            'ignorePermission' => 1,
-            'paging' => array (
-                'offset' => 1,
-                'pageSize' => $limit
-            )            
-        );
-
-        $data = $this->ws->runSerializeResponse(self::$gfServiceAddress, Mddatamodel::$getDataViewCommand, $param);
-
-        if (isset($data['result']) && isset($data['result'][0])) {
-            unset($data['result']['aggregatecolumns']);
-            unset($data['result']['paging']);
-            return $data['result'];
-        } else {
-            return null;
-        }
-    }      
+                        SELECT  
+                            INDICATOR_ID 
+                        FROM UM_PERMISSION_KEY 
+                        WHERE (
+                            USER_ID = $idPh
+                                OR
+                            ROLE_ID IN (SELECT ROLE_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh)
+                        ) 
+                        GROUP BY INDICATOR_ID     
+                    )
+                    CONNECT BY NOCYCLE PRIOR PARENT_ID = ID
+                ) 
+                ORDER BY KI.ORDER_NUMBER ASC", [$sessionUserKeyId]);
+        
+        return $data;
+    }     
 
 }

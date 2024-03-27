@@ -8,7 +8,7 @@ class Appmenu extends Controller {
     }
     
     public function index($menuCode = null) 
-    {   
+    {                     
         //$defaultModuleId = Session::get(SESSION_PREFIX . 'defaultModuleId');
         $redirectUrl = $this->redirectModule();
         
@@ -28,8 +28,6 @@ class Appmenu extends Controller {
         
         if ($this->view->menuList['status'] == 'success' && isset($this->view->menuList['menuData'])) {
             
-            $this->view->getStartupMeta = $this->model->startupMeta();
-            $this->view->getStartupMeta2 = $this->model->startupMeta2();
             $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
             $appmenuGroupingCount = Config::getFromCacheDefault('appmenuGroupingCount', null, 10);
             
@@ -50,10 +48,6 @@ class Appmenu extends Controller {
                 $this->view->render('footer');
             }
             
-            if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
-                Session::set(SESSION_PREFIX.'startupMeta', '1');
-            }
-            
         } else {
             $this->view->render('header');
             $this->view->render('appmenu/message');
@@ -61,9 +55,8 @@ class Appmenu extends Controller {
         }
     }
     
-    public function indexNew($menuCode = null) 
+    public function indexNew() 
     {   
-        //$defaultModuleId = Session::get(SESSION_PREFIX . 'defaultModuleId');
         $redirectUrl = $this->redirectModule();
         
         if ($redirectUrl) {
@@ -72,48 +65,24 @@ class Appmenu extends Controller {
         
         $this->view->title = 'APP MENU'; 
         
-        $this->view->css = array_unique(array_merge(array('custom/css/vr-card-menu.css'), AssetNew::metaCss()));
-        $this->view->js = array_unique(array_merge(array('custom/addon/admin/pages/scripts/app.js'), AssetNew::metaOtherJs()));
+        $this->view->css = array_unique(array_merge(['custom/css/vr-card-menu.css'], AssetNew::metaCss()));
+        $this->view->js = array_unique(array_merge(['custom/addon/admin/pages/scripts/app.js'], AssetNew::metaOtherJs()));
+        $this->view->fullUrlJs = AssetNew::amChartJs();
         $this->view->isAppmenuNewDesign = Config::getFromCacheDefault('IS_APPMENU_NEWDESIGN', null, 0);
         $this->view->colorSet = '#FF7E79,#9370DB,#00B9F6,#00C9CC,#FF986E,#4169E1,#FFA07A,#98CF5D,#EC87C0,#EB735B,#A88BF1,#29C88F,#FDB600';
         $this->view->isAppmenuPage = true;
 
-        $this->view->menuList = $this->model->getDataviewResultModel(1700449463973796, 100);
-        $this->view->moduleList = $this->model->getDataviewResultModel(1700116960752470, 1000);
+        $this->view->menuList = $this->model->getMetaVerseCategoryListModel(16745325116973);
+        $this->view->moduleList = $this->model->getMetaVerseModuleListModel();
         
         if ($this->view->menuList) {
             
-            $this->view->getStartupMeta = $this->model->startupMeta();
-            $this->view->getStartupMeta2 = $this->model->startupMeta2();
             $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
-            $appmenuGroupingCount = Config::getFromCacheDefault('appmenuGroupingCount', null, 10);
-            
-            $this->view->js = array_unique(array_merge(array('custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'), $this->view->js));
+            $this->view->js = array_unique(array_merge(['custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'], $this->view->js));
 
             $this->view->render('header');
             $this->view->render('appmenu/v3/grouping-v3');
             $this->view->render('footer');
-            
-//            if (array_key_exists('tagcode', $this->view->menuList['menuData'][0]) && count($this->view->menuList['menuData']) > $appmenuGroupingCount) {
-//                
-//                $this->view->js = array_unique(array_merge(array('custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'), $this->view->js));
-//                                
-//                $this->view->menuList = Arr::groupByArrayByNullKey($this->view->menuList['menuData'], 'tagcode');
-//                ksort($this->view->menuList, SORT_NATURAL);
-//                
-//                $this->view->render('header');
-//                $this->view->render('appmenu/v2/grouping-v2');
-//                $this->view->render('footer');
-//                
-//            } else {
-//                $this->view->render('header');
-//                $this->view->render('appmenu/v2/index');
-//                $this->view->render('footer');
-//            }
-//            
-//            if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
-//                Session::set(SESSION_PREFIX.'startupMeta', '1');
-//            }
             
         } else {
             $this->view->render('header');
@@ -154,9 +123,6 @@ class Appmenu extends Controller {
             $this->view->metaDataId = Input::post('metaDataId');
         }
         
-        $this->view->getStartupMeta = $this->model->startupMeta();
-        $this->view->getStartupMeta2 = $this->model->startupMeta2();                         
-        
         $this->view->menuList = $this->model->getMenuListModel($menuCode);
         
         $this->load->model('mdmeta', 'middleware/models/');
@@ -176,11 +142,7 @@ class Appmenu extends Controller {
             $this->view->render('header');
         }
         
-        $this->view->render('appmenu/sub');
-        
-        if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
-            Session::set(SESSION_PREFIX.'startupMeta', '1');
-        }           
+        $this->view->render('appmenu/sub');         
         
         if (!$this->view->isAjax) {
             $this->view->render('footer');      
@@ -257,10 +219,7 @@ class Appmenu extends Controller {
             $this->view->openMenuId = Input::get('openmenuid');
         }
 
-        $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;        
-        
-        $this->view->getStartupMeta = $this->model->startupMeta();
-        $this->view->getStartupMeta2 = $this->model->startupMeta2();            
+        $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;                  
         
         if (Config::getFromCache('iscontentVideo') == '1' && Session::get(SESSION_PREFIX.'isViewed') !== '1') {
             
@@ -285,10 +244,6 @@ class Appmenu extends Controller {
         $this->view->render('header');
         $this->view->render('appmenu/module');
         $this->view->render('footer');     
-        
-        if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
-            Session::set(SESSION_PREFIX.'startupMeta', '1');
-        }
     }
     
     public function redirectModule($redirect_url = null, $defaultModuleId = null, $clickMenuId = null)
@@ -509,18 +464,11 @@ class Appmenu extends Controller {
         if ($this->view->menuList) {
             
             $this->load->model('appmenu');
-            
-            $this->view->getStartupMeta = $this->model->startupMeta();
-            $this->view->getStartupMeta2 = $this->model->startupMeta2();
             $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
             
             $this->view->render('header');
             $this->view->render('appmenu/kpi/index');
             $this->view->render('footer');
-            
-            if ($this->view->getStartupMeta || $this->view->getStartupMeta2) {
-                Session::set(SESSION_PREFIX.'startupMeta', '1');
-            }
             
         } else {
             $this->view->render('header');

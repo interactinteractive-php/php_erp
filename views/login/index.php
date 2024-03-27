@@ -149,6 +149,7 @@
             <div class="form-actions mt-4">
                 <?php 
                 echo Form::submit(array('class' => 'btn btn-primary btn-block', 'value' => $this->lang->line('login_btn'))); 
+                echo html_tag('a', ['href' => 'login/supplier_register', 'class' => 'forget-password btn btn-primary btn-block', 'style' => 'background:#555;'], 'Нийлүүлэгчээр бүртгүүлэх', $this->isSupplierRegister); 
                 echo Form::button(array('style' => 'background:#555;', 'class' => 'btn btn-primary btn-block', 'value' => 'E TOKEN', 'onclick' => 'ShowTokenLoginWin();'), $this->isEToken);
                 echo Form::button(array('style' => 'background: #4caf50 !important; color: #FFF;', 'class' => 'btn btn-primary btn-block', 'value' => 'Хурууны хээ', 'onclick' => 'ShowFingerLogin();'), $this->isEFinger);
                 echo Form::button(array('style' => 'background:#555;', 'class' => 'btn btn-primary btn-block', 'value' => 'Finger sign', 'onclick' => 'ShowFingerLoginWin(this);'), $this->isFinger);

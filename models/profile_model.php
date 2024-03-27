@@ -157,26 +157,34 @@ class Profile_Model extends Model {
             if (Input::postCheck('no_nowpassword') || $row['PASSWORD_HASH'] == $md5Hash || $row['PASSWORD_HASH'] == $sha256Hash) {
 
                 if ($newPassword == $confirmPassword) {
-
-                    $data = array(
-                        'PASSWORD_HASH' => Hash::create('sha256', $confirmPassword)
-                    );
-                    $result = self::updateUserPassword($data);
-
-                    if ($result) {
-
-                        if (Config::getFromCache('passwordSuggest') == '1') {
-                            $this->db->Execute("DELETE FROM UM_META_BLOCK WHERE USER_ID = ".$this->db->Param(0), array(Ue::sessionUserKeyId()));
-                        }
-
-                        if (Config::getFromCache('defaultPasswordCheckGet') !== '') {
-                            Session::set(SESSION_PREFIX . 'password', $data['PASSWORD_HASH']);
-                        }
-
-                        $response = array('status' => 'success', 'message' => $this->lang->line('msg_edit_success'));
+                    
+                    $newPasswordOldHash = Hash::createMD5reverse($confirmPassword);
+                    $newPasswordNewHash = Hash::create('sha256', $confirmPassword);
+                    
+                    if ($row['PASSWORD_HASH'] == $newPasswordOldHash || $row['PASSWORD_HASH'] == $newPasswordNewHash) {
+                        
+                        $response = array('status' => 'error', 'message' => $this->lang->line('checkNewPasswordOld'));
                         
                     } else {
-                        $response = array('status' => 'error', 'message' => $this->lang->line('msg_save_error'));
+                        
+                        $data = array('PASSWORD_HASH' => $newPasswordNewHash);
+                        $result = self::updateUserPassword($data);
+
+                        if ($result) {
+
+                            if (Config::getFromCache('passwordSuggest') == '1') {
+                                $this->db->Execute("DELETE FROM UM_META_BLOCK WHERE USER_ID = ".$this->db->Param(0), array(Ue::sessionUserKeyId()));
+                            }
+
+                            if (Config::getFromCache('defaultPasswordCheckGet') !== '') {
+                                Session::set(SESSION_PREFIX . 'password', $data['PASSWORD_HASH']);
+                            }
+
+                            $response = array('status' => 'success', 'message' => $this->lang->line('msg_edit_success'));
+
+                        } else {
+                            $response = array('status' => 'error', 'message' => $this->lang->line('msg_save_error'));
+                        }
                     }
                     
                 } else {

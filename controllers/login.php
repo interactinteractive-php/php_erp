@@ -40,6 +40,7 @@ class Login extends Controller {
         $this->view->isLDap = Config::getFromCache('CONFIG_USE_LDAP');
         $this->view->isPhoneSign = Config::getFromCache('CONFIG_USE_PHONELOGIN');
         $this->view->isLoginSaveUsername = Config::getFromCache('PF_IS_LOGIN_SAVE_USERNAME');
+        $this->view->isSupplierRegister = Config::getFromCache('PF_SUPPLIER_REGISTER_INDICATOR_ID');
         $this->view->isPasswordReset = true;
         $this->view->csrf_token = $this->model->getCsrfTokenModel();
         $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
@@ -78,7 +79,7 @@ class Login extends Controller {
         if (Login::isCheckLoginFailed()) {
             
             $captchFailedCount = Config::getFromCache('captch_Login_Failed_Count');
-            $failedCount       = (int) self::getClientFailLoginCount();
+            $failedCount       = (int) (new self())->getClientFailLoginCount();
             
             if ($failedCount > 0 && $failedCount >= $captchFailedCount) { /* Captcha failed */
                 $this->view->isLoginCaptcha = true;
@@ -589,8 +590,11 @@ class Login extends Controller {
         
         if ($trackType == 'ipaddress') {
             
+            $loginIns = &getInstance();
+            $loginIns->load->model('login');
+            
             $ipAddress   = get_client_ip();
-            $failedRow = $this->model->getFailedLoginCountModel($ipAddress);
+            $failedRow   = $loginIns->model->getFailedLoginCountModel($ipAddress);
             $failedCount = $failedRow['count'];
             
         } elseif ($trackType == 'cookie') {
@@ -1484,4 +1488,100 @@ class Login extends Controller {
         $response = $this->model->ssoRunModel();
         $this->chooseUserKey($response);  
     }
+    
+    public function supplier_register() {
+        
+        Auth::isLogin();
+        
+        $this->view->indicatorId = Config::getFromCache('PF_SUPPLIER_REGISTER_INDICATOR_ID');
+        
+        if (!$this->view->indicatorId) {
+            Message::add('s', '', URL . 'login');
+        }
+        
+        $this->view->title = $this->lang->line('Нийлүүлэгчээр бүртгүүлэх');
+        
+        $this->view->fullUrlCss = [
+            'assets/core/js/plugins/select2/select2.css', 
+            'assets/core/js/plugins/addon/uniform/css/uniform.default.css',
+            'assets/custom/css/login/supplier.css'
+        ];
+        
+        $this->view->fullUrlJs = [
+            'lang/mn/main_lang.js', 
+            'assets/core/js/plugins/addon/phpjs/phpjs.min.js', 
+            'assets/custom/js/plugins.min.js', 
+            'middleware/assets/js/mdmetadata.js', 
+            'middleware/assets/js/mdbp.js',
+            'middleware/assets/js/mdexpression.js'
+        ];
+        
+        loadPhpQuery();
+        
+        $configMainLogo   = Config::getFromCache('main_logo_path');
+        $configLogo       = Config::getFromCache('logo_path');
+        $configBackground = Config::getFromCache('login_background_image1');
+
+        if ($configMainLogo && file_exists($configMainLogo)) {
+            $this->view->mainLogo = $configMainLogo;  
+        } 
+        
+        if ($configLogo && file_exists($configLogo)) {
+            $this->view->logo = $configLogo;
+        } 
+        
+        $this->view->mainLoginTitle   = Config::getFromCacheDefault('login_main_title', null, 'Business in the Cloud');
+        $this->view->loginTitle       = Config::getFromCacheDefault('login_title', null, 'Орчин үеийн стратеги төлөвлөлт, удирдлагын онлайн ERP цогц шийдэл');
+        $this->view->passwordByPhone  = Config::getFromCache('RECOVER_PASSWORD_BY_PHONE');
+        $this->view->loginFooterTitle = Config::getFromCacheDefault('loginFooterTitle', null, '<span>Powered by</span> <a href="http://veritech.mn/" target="_blank">Veritech ERP</a>');
+        $this->view->infoMessage      = Config::getFromCache('passwordResetInfoMessage');
+        
+        if ($configBackground && file_exists($configBackground)) {
+            $this->view->background = $configBackground;
+        } else {
+            $this->view->background = null;
+        }
+        
+        $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
+                    
+        if ($logged == false) {
+            Session::set(SESSION_PREFIX . 'LoggedIn', true);
+        }
+
+        $_POST['nult'] = true;
+        
+        $this->view->actionType = 'create';
+                    
+        $_POST['isResponseArray'] = 1;
+        $_POST['param']['indicatorId'] = $this->view->indicatorId;
+        $_POST['param']['actionType'] = $this->view->actionType;
+
+        $indicatorContent = (new Mdform())->kpiIndicatorTemplateRender();
+        $contentHtml = $indicatorContent['html'];
+        $bpContentHtml = phpQuery::newDocumentHTML($contentHtml);
+        
+        $captchaInput = '<div class="form-group form-group-feedback form-group-feedback-left mt-3">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <img src="api/captcha?fDownload=1" id="captcha"><br />
+                    <a href="javascript:;" onclick="new_captcha();" class="captcha-refresh">'.$this->lang->line('captcha_new_code').'</a>
+                </span>
+                '.Form::text(['name' => 'security_code', 'id' => 'security_code', 'class' => 'form-control pl-2', 'placeholder' => $this->lang->line('captcha_typing_code'), 'required' => 'required', 'autocomplete' => 'off', 'tabindex' => 2]).'
+            </div>
+        </div>';
+                    
+        $bpContentHtml->find('.kpi-ind-tmplt-section > .row:last')->after($captchaInput);
+        
+        $this->view->contentHtml = $bpContentHtml->html();
+        
+        $this->view->render('login/header');
+        $this->view->render('login/supplierRegister/index');
+        $this->view->render('login/supplierRegister/footer'); 
+    }
+    
+    public function supplierRegisterSave() {
+        $response = $this->model->supplierRegisterSaveModel();
+        convJson($response);
+    }
+    
 }

@@ -1745,4 +1745,40 @@ class Login_Model extends Model {
                 break;
         }
     }
+    
+    public function supplierRegisterSaveModel() {
+        
+        try {
+            
+            $captcha = Input::post('security_code'); 
+        
+            if (empty($captcha)) {
+                throw new Exception(Lang::line('msg_fill_required_fields'));
+            }
+
+            if (Session::get(SESSION_PREFIX.'security_code') != md5(sha1($captcha))) {
+                throw new Exception(Lang::line('Зурган дээрх код буруу байна'));
+            }
+            
+            $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
+                    
+            if ($logged == false) {
+                Session::set(SESSION_PREFIX . 'LoggedIn', true);
+            }
+
+            $_POST['nult'] = true;
+            
+            $response = (new Mdform())->saveKpiDynamicData();
+            
+            if ($response['status'] == 'success') {
+                $response['message'] = 'Баталгаажуулалт хийгдэхээр и-мейл очих болно.';
+            }
+            
+        } catch (Exception $ex) {
+            $response = ['status' => 'error', 'message' => $ex->getMessage()];
+        }
+        
+        return $response;
+    }
+    
 }

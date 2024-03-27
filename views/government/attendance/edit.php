@@ -2,11 +2,12 @@
     <?php echo Form::create(array('class' => 'form-horizontal', 'id' => 'saveform_' . $this->uniqId, 'method' => 'post', 'enctype' => 'multipart/form-data','action' => 'javascript:void(0)')); ?>
         <input type="hidden" class="" name="name" value="<?php echo $this->data['name']; ?>">
         <input type="hidden" name="mainData" value="<?php echo $this->mainData; ?>">
+        <input type="hidden" name="startTime" value="<?php echo $this->data['starttime']; ?>">
 
         <div class="top-background v2">
             <div class="row">
                 <div class="col-9">
-                    <span class="first text-uppercase">Эхэлсэн:</span> <span class="second"><input type="text" class="timeInit" id="startTime" name="startTime" value="<?php echo $this->data['starttime']; ?>"></span>
+                    <span class="first text-uppercase">Эхэлсэн:</span> <span class="second"><input type="text" class="timeInit" id="startTime" value="<?php echo $this->data['starttime']; ?>"></span>
                     <span class="first text-uppercase">Завсарласан:</span> <span class="second"><input type="text" class="timeInits" name="totalBreakTime" value="<?php echo $this->data['totalbreaktime']; ?>"></span>
                     <span class="first text-uppercase">Үргэлжилсэн:</span> <span class="second"><input type="text" class="timeInits" id="duration" name="duration" value="<?php echo $this->data['duration']; ?>"></span>
                     <span class="first text-uppercase">Дууссан:</span> <span class="second"><input type="text" class="timeInit" id="endTime" name="endTime" onchange="calculateTime();" value="<?php echo $this->data['endtime']; ?>"></span>
@@ -33,7 +34,7 @@
                     <thead>
                         <tr>
                             <th>Дугаар</th>
-                            <th>Засгийн газрын гишүүд</th>
+                            <th>ИТХ-Н ТӨЛӨӨЛӨГЧ</th>
                             <th><span class="mr70">Ирсэн</span><span>Завсарлаад ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
@@ -57,10 +58,10 @@
                                         <input type="hidden" class="" name="bookId[]"  value="<?php echo $participant['bookid']; ?>">
                                         <input type="hidden" class="" name="participantRoleId[]"  value="<?php echo $participant['participantroleid']; ?>">
                                         <input type="hidden" class="" name="orderNum[]"  value="<?php echo $participant['ordernum']; ?>">
-                                        <?php echo $participant['employeename']; ?>
+                                        <?php echo $participant['employeename']; ?>  
                                     </td>
                                     <td>
-                                        <input type="text" class="timeInit" name="time1[]"  value="<?php echo $participant['time1']; ?>">
+                                        <input type="text" class="timeInit" name="time1[]" value="<?php echo $participant['time1']; ?>">
                                         <input type="text" class="timeInit" name="time9[]" value="<?php echo $participant['time9']; ?>">
                                     </td>
                                     <td>
@@ -101,7 +102,7 @@
                     <thead>
                         <tr>
                             <th>Дугаар</th>
-                            <th>Засгийн газрын гишүүд</th>
+                            <th>ИТХ-Н ТӨЛӨӨЛӨГЧ</th>
                             <th><span class="mr70">Ирсэн</span><span>Завсарлаад ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
@@ -388,7 +389,7 @@
     }
     
     function calculateTime() {
-        var stime = $("#startTime").val();
+        var stime = $("#startTimeDistrict").val();
         var etime = $("#endTime").val();
         
         $("#duration").val(diff(stime, etime) + ':00');

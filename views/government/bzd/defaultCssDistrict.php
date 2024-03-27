@@ -836,7 +836,7 @@
         display: flex;
         justify-content: center;
         font-weight: bold;
-        margin-right: 20px;
+        margin-right: 5px;
     }
 
     .br-10{

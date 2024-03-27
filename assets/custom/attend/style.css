@@ -449,6 +449,7 @@ span.icon-lock {
     
     .member .card .description {
         height: 80px;
+        overflow: auto;
     }
     
     .member .mt30.mb30 {

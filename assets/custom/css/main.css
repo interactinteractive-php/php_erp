@@ -14318,7 +14318,7 @@ table#externalContent thead td ul,
 
 .report-preview .report-preview-container page p {
     margin-top: 0 !important;
-    /*margin-bottom: 0 !important;*/
+    margin-bottom: 0 !important;
 }
 
 .report-preview-container span[contenteditable="true"] {
@@ -17717,7 +17717,10 @@ ul.bp-icon-selection li.active>.item-icon-selection:before {
 }
 
 ul.bp-icon-selection li>.item-icon-selection:hover {
-    background-color: #e0e0e0;
+    background-color: #1B84FF !important;
+}
+ul.bp-icon-selection li>.item-icon-selection:hover p {
+    color:#fff !important;
 }
 
 .leftweb-accordion-btn .dataview-default-filter-reset-btn {
@@ -28267,7 +28270,7 @@ tr.bplog-removed-row>td {
 }
 
 .bp-header-param ul.bp-icon-selection {
-    max-height: 220px;
+    max-height: 310px;
     overflow: auto;
 }
 
@@ -28430,6 +28433,11 @@ textarea[data-comment-style="1"] {
 }
 
 .kpidv-data-filter-col .list-group-item.active {
+    color: #fff;
+    background-color: #2196f3;
+    border-color: #2196f3;
+}
+.kpidv-data-filter-col .mv-filter-item-click.active {
     color: #fff;
     background-color: #2196f3;
     border-color: #2196f3;
@@ -28605,8 +28613,14 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     display: flex;
 }
 /* Start - Metaverse header control style */
+.mv-rows-title {
+    font-weight: bold; 
+    margin: 15px 0 2px 0; 
+    text-align: left;
+}
 .mv-hdr-label-control {
     display: table;
+    table-layout: fixed;
     width: 100%;
     background-color: #fff;
     border: 1px solid gray;

@@ -27,15 +27,18 @@
             }
         };
 
-        var TIME_LIMIT = 180;
         let timePassed = 0;
+
+        var TIME_LIMIT = 180;
         let timeLeft = TIME_LIMIT;
         let timerInterval = null;
+        let timerIntervalProtocal = null;
+
         let remainingPathColor = COLOR_CODES.info.color;  
 
         $('.gov_issui_<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-169) + 'px !important; overflow-x: hidden; overflow-y: auto; border-radius: 10px;');
         $('.government_<?php echo $this->uniqId ?> .member-list-conference').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-18) + 'px !important; overflow-x: hidden; overflow-y: auto;');
-        $('#protocol-list-<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-257) + 'px !important; overflow-x: hidden;  margin-bottom: 0; overflow-y: auto; border-radius: 10px;');
+        $('#protocol-list-<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-357) + 'px !important; overflow-x: hidden;  margin-bottom: 0; overflow-y: auto; border-radius: 10px;');
         $('.mainmember<?php echo $this->uniqId ?>').attr('style', 'border-radius: 10px;');
         $('.othermember<?php echo $this->uniqId ?>').attr('style', 'border-radius: 10px;');
 
@@ -185,11 +188,13 @@
 
                     var $this = $(this);
                     var $list = $('#conferencing-protocol-list-<?php echo $this->uniqId ?>');
-
+                    var $datasubjectid = $this.attr('data-subject-id');
+                   
                     $.ajax({
                         type: 'post',
                         url: 'conference/saveConferencingProtocol', 
-                        data: {subjectId: $('#conferencing-issue-number').attr('data-issue-id'), note: $this.val()}, 
+                        // data: {subjectId: $('#conferencing-issue-number').attr('data-issue-id'), note: $this.val()}, 
+                        data: {subjectId: $datasubjectid, note: $this.val()}, 
                         dataType: 'json',
                         async: false, 
                         success: function (data) {
@@ -232,8 +237,10 @@
                                             if ($row.attr('data-ordernum') !== $this.attr('data-ordernum')) {
                                                 dieIssue<?php echo $this->uniqId ?>($row, $row.attr('data-id'));
                                                 $row.removeClass('issue-start');
+                                                $row.attr('style', 'background: ');
                                                 $row.find('.setProtocol').addClass('d-none');
                                                 $row.find('.finishFeedback').addClass('d-none');
+                                                $row.find('.p-1').empty().append('<p style="height:100%; border:3px solid #31BA96"></p>');
                                                 $row.addClass('issue-stop').append('<button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_<?php echo $this->uniqId; ?>(this, ' + conferencingIssueId +')"><i class="fa fa-gavel"></i></button>');
                                             }
                                         });
@@ -242,8 +249,10 @@
                                     $this.addClass('issue-start').siblings().removeClass('issue-start');
                                     $this.removeClass('active');
                                     $this.removeClass('cancel');
+                                    $this.attr('style', 'background: rgb(244, 250, 255);');
                                     $this.removeClass('issue-stop');
-                                    $this.find('.fissue').empty().append('<button type="button" class="btn font-weight-bold finishFeedback" data-row="'+ htmlentities(JSON.stringify($district), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocol(this, ' + conferencingIssueId +', '+ conferencingIssueMapid +', <?php echo $this->selectedRowid ?>)"><span>Санал өгөх</span></button><button type="button" class="btn font-weight-bold finishadd setProtocol" onclick="setProtocol_<?php echo $this->uniqId; ?>(this)"><i class="fa icon-quill4"></i></button>');
+                                    $this.find('.p-1').empty().append('<p style="height:100%; border:3px solid #FDC144"></p>');
+                                    $this.find('.fissue').empty().append('<button type="button" class="btn font-weight-bold finishFeedback" data-row="'+ htmlentities(JSON.stringify($district), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocol(this, ' + conferencingIssueId +', '+ conferencingIssueMapid +', <?php echo $this->selectedRowid ?>)"><span>Санал хураалт</span></button><button type="button" class="btn font-weight-bold finishadd setProtocol" onclick="setProtocol_<?php echo $this->uniqId; ?>(this)"><i class="fa icon-quill4"></i></button>');
                                     startIssue<?php echo $this->uniqId; ?>($this, conferencingIssueId);
                                 }
                             }
@@ -255,6 +264,7 @@
                                 var $this = options.$trigger.closest('.tiktok-<?php echo $this->uniqId; ?>'), conferencingIssueId = $this.data('id');
                                 if (!$this.hasClass('issue-stop')) {
                                     $this.addClass('issue-stop');
+                                    $this.attr('style', 'background: ');
                                     $this.removeClass('active');
                                     $this.removeClass('cancel');
                                     $this.removeClass('issue-start');
@@ -443,6 +453,7 @@
             $this.addClass('active').siblings().removeClass('active');
 
            $('.protocol-title span').html(' (Асуудал ' + $this.attr('data-ordernum') + ') ');
+           $('textarea[name="enter-protocol"]').empty().attr('data-subject-id', conferencingIssueId);
             <?php if (issetParamZero($this->memberRole['readonly']) != '1') { ?>
 
                 var $list = $('#conferencing-protocol-list-<?php echo $this->uniqId ?>');
@@ -1488,7 +1499,7 @@
         }
         
         function setConferencingIssueHeader(ordernum, id, name, starttime, endtime, said, position ,imgpath, mainBtn, hidden) {
-
+           
             if (typeof hidden === 'undefined') {
                 $('#selected-conference-<?php echo $this->uniqId ?>').removeAttr('style');
             }
@@ -2870,6 +2881,10 @@
                                                 '<span class="protocalTxt mb-5">Үг хэлэх хугацаа</span>' + 
                                                 $innerHTML +
                                             '</div>' + 
+                                            '<audio id="timer-beep">' +
+                                                '<source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/41203/beep.mp3"/>' +
+                                                '<source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/41203/beep.ogg" />' +
+                                            '</audio>' +
                                         "</div>" +
                                         '<div class="modal-footer d-block">' +
                                             '<button type="button" class="btn btn-sm btn-danger close-basket float-right" onclick="protocalTalkEnd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\')">Дуусгах</button>' +
@@ -2892,11 +2907,14 @@
                             handle: ".modal-header, .modal-footer",
                         });
                         $dialog.on("shown.bs.modal", function () {
+                            $parent.append('<div class="modal-backdrop fade show"></div>');
+                            senderWebsocket({type: 'refresh_protocalTalk', id: id, subjectId: subjectId, dataid: dataid , uniqId: <?php echo $this->uniqId ?> });
                         });
                         $dialog.on("hidden.bs.modal", function () {
+                            $parent.find(".modal-backdrop:eq(0)").remove();
                             $dialog.remove();
+                            senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>,time:data.Html['starttime']});
                         });
-
                         $dialog.modal("show");
                     }
                 },
@@ -2949,6 +2967,7 @@
         function setRemainingPathColor(timeLeft) {
             var { alert, warning, info } = COLOR_CODES;
             if (timeLeft <= alert.threshold) {
+                document.getElementById( 'timer-beep' ).play();
                 document
                 .getElementById("base-timer-path-remaining")
                 .classList.remove(warning.color);
@@ -2980,6 +2999,8 @@
         }
 
         function protocalTalkAdd<?php echo $this->uniqId ?>(id, subjectid, dataid, time) {
+            senderWebsocket({type: 'refresh_protocalTalkAgain'});
+
             TIME_LIMIT = 60;
             timePassed = 0;
             $('#base-timer-path-remaining').removeClass('red');
@@ -3470,7 +3491,7 @@
                                                         + conferenceData['starttime'] + ' - ' + conferenceData['endtime'] + ' <span class="icon-p"  data-toggle="tooltip" data-placement="bottom" title="Цагт засвар хийх" onclick="changeConferenceTimer_<?php echo $this->uniqId ?>(this)"> <i class="icon-alarm"></i></span></p>'
                                                     + '<div class="w-100 participants align-self-center d-flex mt-1">'
                                                         + '<span>Ажлын хэсэг: '+ ((conferenceData['subjectparticipantcount']) ? conferenceData['subjectparticipantcount'] : '') +'</span>'
-                                                        + '<button type="button" class="btn ml-auto p-0" onclick="totalSum('+ conferenceData['id'] +')"><span class="huraldaan-total">'+ conferenceData['total'] +'</span></button>'
+                                                        + '<button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,'+ conferenceData['id'] +')"><span class="huraldaan-total">'+ conferenceData['total'] +'</span></button>'
                                                     + '</div>'    
                                                 + '</div>'
                                                 + '<div class="fissue align-self-center ml-3"> <button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_<?php echo $this->uniqId; ?>(this)"><i class="fa fa-gavel"></i></button></div>';
@@ -3551,7 +3572,6 @@
                 ]
             });
             $dialog.dialog('open');
-
         }
 
         function changeIssue<?php echo $this->uniqId; ?>(data, $dialogName, $dialogConfirm, $element) {
@@ -4529,6 +4549,7 @@
                                 '<div class="modal-content">' +
                                     '<div class="modal-header">' +
                                         '<h5 class="modal-title">' +"Санал хураалтын дүн" +"</h5>" +
+                                        '<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>' +
                                     "</div>" +
                                     '<div class="modal-body" style="min-height: 350px;">' +data.Html +"</div>" +
                                     '<div class="modal-footer d-block">' +
@@ -4538,13 +4559,10 @@
                             "</div>" +
                         "</div>"
                     ).appendTo("body");
+                    
+                    senderWebsocket({type: 'refresh_conferenceTime', itemid:id, subjectId:$selectedId, mapid:mapid});
 
                     var $dialog = $("#" + $dialogName);
-                    $dialog.modal({
-                        show: false,
-                        keyboard: false,
-                        backdrop: "static",
-                    });
                     $(".modal-dialog").draggable({
                         handle: ".modal-header, .modal-footer",
                     });
@@ -4556,16 +4574,16 @@
                     $dialog.on("hidden.bs.modal", function () {
                         $dialog.remove();
                     });
-
                     $dialog.modal("show");
-                 
                     stopreviewTotalData_<?php echo $this->uniqId ?> = 'start';
                     totalProtocol_<?php echo $this->uniqId ?>(id, $selectedId, mapid,<?php echo $this->uniqId ?>);
                 },
             });
         };
 
-        function totalSum(id) {
+        function totalSum(element, id) {
+            var $this = $(element),
+                $parent = $this.closest(".modal-body");
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -4600,10 +4618,14 @@
                         handle: ".modal-header, .modal-footer",
                     });
                     $dialog.on("shown.bs.modal", function () {
+                        $parent.append('<div class="modal-backdrop fade show"></div>');
+                            senderWebsocket({type: 'refresh_conferenceTotalSum', id:id});
                         setTimeout(function () {
                         }, 10);
                     });
                     $dialog.on("hidden.bs.modal", function () {
+                        $parent.find(".modal-backdrop:eq(0)").remove();
+                            senderWebsocket({type: 'refresh_conferenceTotalSumHide', id:id});
                         $dialog.remove();
                     });
 
@@ -4615,8 +4637,8 @@
         function totalProtocol_<?php echo $this->uniqId ?>(id, selectedId, mapid, uniq) {
             var $this_id = "#dialog-popup-"+id;
             var $data_row = $($this_id).find('button');
-            
-                setInterval(function () {
+               
+                timerIntervalProtocal = setInterval(() => {
                     if (stopreviewTotalData_<?php echo $this->uniqId; ?> !== 'stop' ) {
                         $.ajax({
                             type: 'post',
@@ -4630,7 +4652,6 @@
                                 uniqid:uniq,
                             },
                             success: function (data) {
-
                                 let $approvedparticipant = data.data.attendance.approvedparticipant ? data.data.attendance.approvedparticipant : '0/0';
                                 let $approvedpercent = data.data.attendance.approvedpercent ? data.data.attendance.approvedpercent : '0%';
 
@@ -4640,22 +4661,17 @@
                                 let $manyTotal = data.data.attendance.attendance ? data.data.attendance.attendance : '00';
                                 let $total = data.data.attendance.total ? data.data.attendance.total : '00';
                                 let $finish = data.data.timer.endtime ? data.data.timer.endtime : '';
+                                let $time = data.time ? data.time : '';
+                                let $minute = data.minute ? data.minute : '';
+                                let $second = data.second ? data.second : '';
 
-                                let $time = data.time[0] ? data.time[0] : '00';
-                                let $time1 = data.time[1] ? data.time[1] : '00';
-                                let $time2 = data.time[2] ? data.time[2] : '00';
-
-                                if ($finish) {
-                                    dieIssueEnd<?php echo $this->uniqId; ?>($data_row, id, selectedId);
-                                    stopreviewTotalData_<?php echo $this->uniqId ?> = 'stop';
-                                    $($this_id).modal("hide");
-                                }
                                 var $html = "";
                                 var $btml = "";
                                 var $dhtml = "";
                                 var $rhtml = "";
                                 var $thtml = "";
-
+                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewMinit"]').text($minute);
+                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewSeconds"]').text($second);
                                 $dhtml +='<span class="p-1 mr-2" style="font-size: 14px; color:#034591;">' + $approvedparticipant + ' ' + $approvedpercent +' </span>';
                                 $rhtml +='<span class="p-1 mr-2" style="font-size: 14px; color:#034591;">' + $declinedparticipant + ' ' + $declinedpercent +' </span>';
                                 $thtml +='<span class="px-2 py-1">' + $manyTotal + '</span> / <span class="px-2 py-1">' + $total + '</span>';
@@ -4683,8 +4699,6 @@
                                 $('.reviewTotal').empty().append($thtml).promise().done(function () {
                                 });
                     
-                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewMinit"]').text($time1);
-                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewSeconds"]').text($time2);
                             }
                         }); 
                     }
@@ -4695,7 +4709,7 @@
         function totalProtocolEnd<?php echo $this->uniqId ?>(elem, subjectid, mapid, meetingBookid) {
             var $this = $(elem), 
                 $dataRow = JSON.parse($this.attr('data-row'));
-            
+               
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -4807,6 +4821,7 @@
         }
 
         function protocalTalkEnd<?php echo $this->uniqId ?>(id, subjectid, dataid, time) {
+            senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>, time:time });
             var time1 = $('#firstTime'+ <?php echo $this->uniqId ?>).text(); 
             var time2 = $('#secondTime'+ <?php echo $this->uniqId ?>).text(); 
             onTimesUp<?php echo $this->uniqId ?>();

@@ -4,50 +4,22 @@
             <ul class="mix-filter">
                 <?php 
                 $cloneMenuList = $this->menuList;
-                $cards = array();
+                $cards = [];
                 $firstModule = $firstModuleCode = '';
                 $i = 0;
                 $colorSet = explode(',', $this->colorSet);
                 
                 foreach ($cloneMenuList as $k => $groupRow) {
+                    
                     $firstIndex = true;
-                    $activeClass = '';
-
-//                    if ($k == 'яяяrow') {
-//                        $k = 'other';
-//                        $title = $this->lang->line('othermenu_title');
-//                    } else {
-//                        $title = $this->lang->line($groupRow['name']);
-//                    }
-                    $title = $this->lang->line($groupRow['name']);
+                    $activeClass = $subAppmenu = '';
+                    $title = $this->lang->line($groupRow['NAME']);
 
                     if ($i == 0) {
-                        $activeClass = ''; //' active';
+                        $activeClass = '';
                         $firstModule = $title;
                         $firstModuleCode = $k;
                     }
-
-                    $subAppmenu = '';
-//                        $subAppmenu = '<ul class="sub-mix-filter" style="display:none">';
-//                        if (!empty($groupRow['row']['tagcode'])) {
-//                            
-//                            foreach ($cloneMenuList as $ck => $childRow) { 
-//
-//                                if ($groupRow['row']['tagcode'] == $childRow['row']['ptagcode']) {    
-//                                    
-//                                    $ctitle = $this->lang->line($childRow['row']['tagname']);
-//
-//                                    $subAppmenu .= '<li class="filter sub-filter" data-filter="' . $ck . '">';
-//                                    $subAppmenu .= '<span class="title">' . Str::firstUpper(Str::lower($ctitle)) . '</span>';
-//                                    $subAppmenu .= '</li>';
-//                                    $firstIndex = false;
-//                                    
-//                                    unset($cloneMenuList[$ck]);
-//                                }
-//                            }
-//                        }
-//                        
-//                        $subAppmenu .= '</ul>';
 
                     echo '<li class="filter' . $activeClass . '" data-filter="' . $k . '">';
                     echo !$firstIndex ? '<span class="title arrow">' . Str::firstUpper(Str::lower($title)) . '</span>' . $subAppmenu : '<span class="title">' . Str::firstUpper(Str::lower($title)) . '</span>';                    
@@ -56,10 +28,10 @@
                     $i++;
 
                     foreach ($this->moduleList as $row) {
-                        
-                        if ($groupRow['id'] != $row['categoryid']) {
+                        if ($groupRow['ID'] != $row['CATEGORY_ID']) {
                             continue;
                         }
+                        
                         $colorSetIndex = array_rand($colorSet);
                         
                         $row['menucolor'] = '';
@@ -99,43 +71,19 @@
                             $linkTarget = $row['urltrg'];
                             $linkOnClick = '';
                             
-                        } elseif (!empty($row['menuindicatorid'])) {
+                        } elseif (!empty($row['MENU_INDICATOR_ID'])) {
                             
-                            $linkHref = 'appmenu/module/'.$row['menuindicatorid'].'?kmid='.$row['menuindicatorid'];
+                            $linkHref = 'appmenu/module/'.$row['MENU_INDICATOR_ID'].'?kmid='.$row['MENU_INDICATOR_ID'];
                             $linkTarget = '_self';
                             $linkOnClick = '';                            
-
-//                            if ($row['actionmetatypeid'] == Mdmetadata::$contentMetaTypeId) {
-//                                $linkHref = 'appmenu/module/' . $row['metadataid'] . '/' . $row['actionmetadataid'] . '?mmid=' . $row['metadataid'];
-//                                $linkTarget = '_self';
-//                                $linkOnClick = '';
-//                            } else {
-//                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['metadataid'], $row['metadataid']);
-//                                $linkHref = $linkMeta['linkHref'];
-//                                $linkTarget = $linkMeta['linkTarget'];
-//                                $linkOnClick = $linkMeta['linkOnClick'];
-//                            }
-                        }
-
-                        if (isset($row['licensestatus'])) {
-
-                            if ($row['licensestatus'] == '2') {
-                                $linkOnClick = "appLicenseExpireBefore(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
-                                $linkHref = 'javascript:;';
-                                $linkTarget = '_self';
-                            } elseif ($row['licensestatus'] == '3') {
-                                $linkOnClick = "appLicenseExpireWait(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
-                                $linkHref = 'javascript:;';
-                                $linkTarget = '_self';
-                            } elseif ($row['licensestatus'] == '4') {
-                                $linkHref = 'javascript:;';
-                                $linkTarget = '_self';
-                                $linkOnClick = "appLicenseExpired(this, '" . $row['licenseenddate'] . "');";
-                                $class = ' disabled';
-                            }
+                            
+                        } else {
+                            $indicatorId = $row['ID'];
+                            $linkHref = 'javascript:;';
+                            $linkOnClick = 'mvProductRenderInit(this, \''.$linkHref.'\', \''.$indicatorId.'\');';
                         }
                         
-                        if ($row['metadataid'] == '1668505983686113') {
+                        if ($row['META_DATA_ID'] == '1668505983686113') {
                             $linkOnClick = 'mvFlowChartExecuteInit(this, \''.$linkHref.'\', \'166848750564710\', true);';
                             $linkHref = 'javascript:;';
                         }
@@ -156,7 +104,7 @@
                             $appInfoTextStyle = 'text-shadow: 2px 2px 2px rgba(0,0,0,0.6);';
                         }
 
-                        $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['name']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['metadataid'] . '" data-pfgotometa="1">';
+                        $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['NAME']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['META_DATA_ID'] . '" data-pfgotometa="1">';
                             $cards[] = '<div class="d-flex align-items-center">';
                                 $cards[] = '<div class="vr-menu-cell">';
                                       if (!$this->isAppmenuNewDesign) {
@@ -169,7 +117,7 @@
                                 $cards[] = '</div>';
                                 $cards[] = '<div class="vr-menu-title">';
                                     $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
-                                        $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['name']) . '</div>';
+                                        $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['NAME']) . '</div>';
                                         if (issetParam($row['menucode'])) {
                                             $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true">' . issetParam($row['menucode']) . '</div>';
                                         }   
@@ -177,18 +125,9 @@
                                 $cards[] = '</div>';
                             $cards[] = '</div>';
                         $cards[] = '</a>';
-                    }
-                    
-//                    if (Config::getFromCache('is_dev')) {
-//                        $cards[] = '<a href="javascript:;" onclick="moduleMetaAddByUser(this);" data-code="' . $k . '" class="vr-menu-tile mix ' . $k . '" style="background-color: rgb(255, 152, 110);">';
-//                            $cards[] = '<div class="d-flex align-items-center">';
-//                                $cards[] = '<div class="vr-menu-cell">';
-//                                    $cards[] = '<div class="vr-menu-img"><i style="font-size: 18px;" class="fa fa-plus"></i></div>';
-//                                $cards[] = '</div>';
-//                            $cards[] = '</div>';
-//                        $cards[] = '</a>';
-//                    }                                  
+                    }                                 
                 }
+                
                 foreach ($this->moduleList as $row) {
 
                     if (!empty($row['categoryid'])) {
@@ -234,43 +173,34 @@
                         $linkTarget = $row['urltrg'];
                         $linkOnClick = '';
 
-                    } elseif (!empty($row['menuindicatorid'])) {
+                    } elseif (!empty($row['MENU_INDICATOR_ID'])) {
 
-                        $linkHref = 'appmenu/module/'.$row['menuindicatorid'].'?kmid='.$row['menuindicatorid'];
+                        $linkHref = 'appmenu/module/'.$row['MENU_INDICATOR_ID'].'?kmid='.$row['MENU_INDICATOR_ID'];
                         $linkTarget = '_self';
-                        $linkOnClick = '';                            
-
-//                            if ($row['actionmetatypeid'] == Mdmetadata::$contentMetaTypeId) {
-//                                $linkHref = 'appmenu/module/' . $row['metadataid'] . '/' . $row['actionmetadataid'] . '?mmid=' . $row['metadataid'];
-//                                $linkTarget = '_self';
-//                                $linkOnClick = '';
-//                            } else {
-//                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['metadataid'], $row['metadataid']);
-//                                $linkHref = $linkMeta['linkHref'];
-//                                $linkTarget = $linkMeta['linkTarget'];
-//                                $linkOnClick = $linkMeta['linkOnClick'];
-//                            }
-                    }
-
-                    if (isset($row['licensestatus'])) {
-
-                        if ($row['licensestatus'] == '2') {
-                            $linkOnClick = "appLicenseExpireBefore(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
-                            $linkHref = 'javascript:;';
+                        $linkOnClick = '';
+                        
+                    } elseif (!empty($row['META_DATA_ID'])) {
+                        
+                        if (!$row['ACTION_META_TYPE_ID']) {
+                            $linkHref = 'appmenu/module/'.$row['META_DATA_ID'].'?mmid='.$row['META_DATA_ID'].'&mid='.$row['META_DATA_ID'];
                             $linkTarget = '_self';
-                        } elseif ($row['licensestatus'] == '3') {
-                            $linkOnClick = "appLicenseExpireWait(this, '" . $row['licenseenddate'] . "', '" . $row['licenseremainingdays'] . "', '$linkHref');";
-                            $linkHref = 'javascript:;';
-                            $linkTarget = '_self';
-                        } elseif ($row['licensestatus'] == '4') {
-                            $linkHref = 'javascript:;';
-                            $linkTarget = '_self';
-                            $linkOnClick = "appLicenseExpired(this, '" . $row['licenseenddate'] . "');";
-                            $class = ' disabled';
+                            $linkOnClick = '';
+                        } else {
+                            
+                            $row['metadataid'] = $row['META_DATA_ID'];
+                            $row['actionmetadataid'] = $row['ACTION_META_DATA_ID'];
+                            $row['weburl'] = null;
+                            $row['actionmetatypeid'] = $row['ACTION_META_TYPE_ID'];
+                            $row['grouptype'] = 'dataview';
+                            
+                            $linkMeta = Mdmeta::menuServiceAnchor($row, $row['META_DATA_ID'], $row['META_DATA_ID']);
+                            $linkHref = $linkMeta['linkHref'];
+                            $linkTarget = $linkMeta['linkTarget'];
+                            $linkOnClick = $linkMeta['linkOnClick'];
                         }
                     }
 
-                    if ($row['metadataid'] == '1668505983686113') {
+                    if ($row['META_DATA_ID'] == '1668505983686113') {
                         $linkOnClick = 'mvFlowChartExecuteInit(this, \''.$linkHref.'\', \'166848750564710\', true);';
                         $linkHref = 'javascript:;';
                     }
@@ -291,7 +221,7 @@
                         $appInfoTextStyle = 'text-shadow: 2px 2px 2px rgba(0,0,0,0.6);';
                     }
 
-                    $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['name']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['metadataid'] . '" data-pfgotometa="1">';
+                    $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['NAME']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['META_DATA_ID'] . '" data-pfgotometa="1">';
                         $cards[] = '<div class="d-flex align-items-center">';
                             $cards[] = '<div class="vr-menu-cell">';
                                   if (!$this->isAppmenuNewDesign) {
@@ -304,7 +234,7 @@
                             $cards[] = '</div>';
                             $cards[] = '<div class="vr-menu-title">';
                                 $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
-                                    $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['name']) . '</div>';
+                                    $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['NAME']) . '</div>';
                                     if (issetParam($row['menucode'])) {
                                         $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true">' . issetParam($row['menucode']) . '</div>';
                                     }   
@@ -320,7 +250,6 @@
             </ul>
         </div>
         <div id="mixgrid" class="appmenu-table-cell-right mix-grid">
-            <!--<div class="appmenuicon"><i class="icon-circle-down2"></i></div>-->
             <h2 class="ml-1">Цэс</h2>
             <p class="noresult mt30 hidden">Илэрц олдсонгүй</p>
             <?php echo implode('', $cards); ?>
@@ -398,7 +327,6 @@ if (Config::getFromCache('isAppmenuBigCard')) {
                 } else {
                     sidebarHeight = windowHeight ; 
                 }
-                // $('.appmenu-table-cell-left').attr('style', 'height: ' + sidebarHeight + 'px');
             }, 600);
 
             if ($this.find('.sub-mix-filter').length) {
@@ -488,25 +416,13 @@ if (Config::getFromCache('isAppmenuBigCard')) {
         } else {
             sidebarHeight = windowHeight;
         }
-        $('.appmenu-table-cell-left').attr('style', 'height: ' + (sidebarHeight - 127) + 'px');  
+        $('.appmenu-table-cell-left').attr('style', 'height: ' + (sidebarHeight + 200) + 'px');  
         
         function scrollToElement(scrollTo, speed) {
             $('html, body').animate({
                 scrollTop: scrollTo.offset().top - 150
             }, speed);
         }
-    
-    <?php if (isset($this->getStartupMeta['ACTION_META_DATA_ID']) && $this->getStartupMeta['ACTION_META_DATA_ID'] && Session::get(SESSION_PREFIX.'startupMeta') !== '1') { ?>
-        var fillDataParams = 'userKeyId=<?php echo Ue::sessionUserKeyId() ?>';    
-        var actionMetaDataId = '<?php echo $this->getStartupMeta['ACTION_META_DATA_ID'] ?>';
-            startupmeta(actionMetaDataId, fillDataParams, '0');    
-    <?php } ?>
-    
-    <?php if (!isset($this->getStartupMeta['ACTION_META_DATA_ID']) && isset($this->getStartupMeta2['ACTION_META_DATA_ID']) && $this->getStartupMeta2['ACTION_META_DATA_ID'] && Session::get(SESSION_PREFIX.'startupMeta') !== '1') { ?>
-        var fillDataParams = 'userKeyId=<?php echo Ue::sessionUserKeyId() ?>';    
-        var actionMetaDataId = '<?php echo $this->getStartupMeta2['ACTION_META_DATA_ID'] ?>';
-            startupmeta(actionMetaDataId, fillDataParams, '1');    
-    <?php } ?>
     
     <?php if ($this->getResetUser) { ?>
         var $dialogName = 'dialog-user-startup-resetpassword';
@@ -640,235 +556,5 @@ if (Config::getFromCache('isAppmenuBigCard')) {
         });        
     <?php } ?>
     });
-    
-    function startupmeta(actionMetaDataId, fillDataParams, isAllUser) {
-        var $dialogName = 'dialog-hrm-startup-bp';
-        if (!$('#' + $dialogName).length) {
-            $('<div id="' + $dialogName + '" class="display-none"></div>').appendTo('body');
-        }
-        var $dialog = $('#' + $dialogName);        
-        var actionMetaTypeId;
-        
-        $.ajax({
-            type: 'get',
-            url: 'mdmetadata/getMetaTypeById/'+actionMetaDataId,
-            async: false,
-            dataType: 'json',
-            beforeSend: function () {
-            },
-            success: function (data) {
-                actionMetaTypeId = data;
-            },
-            error: function () {
-                alert("Error");
-            }
-        });             
-        
-        if (actionMetaTypeId == '200101010000016') {
-            $.ajax({
-                type: 'post',
-                url: 'mdobject/dataview/' + actionMetaDataId,
-                data: {},
-                beforeSend: function() {
-                    Core.blockUI({animate: true});
-                },
-                success: function(data) {
-                    dialogWidth = 1200;
-                    dialogHeight = 'auto';
-
-                    $dialog.empty().append(data);
-                    $dialog.dialog({
-                        cache: false,
-                        resizable: true,
-                        bgiframe: true,
-                        autoOpen: false,
-                        title: data.Title,
-                        width: dialogWidth,
-                        height: dialogHeight,
-                        modal: true,
-                        closeOnEscape: (typeof isCloseOnEscape == 'undefined' ? true : isCloseOnEscape), 
-                        close: function () {
-                            $dialog.empty().dialog('destroy').remove();
-                        },
-                        buttons: [{text: plang.get('close_btn'), class: 'btn blue-madison btn-sm', click: function () {
-                            $dialog.dialog('close');
-                        }}]
-                    }).dialogExtend({
-                        "closable": true,
-                        "maximizable": true,
-                        "minimizable": true,
-                        "collapsable": true,
-                        "dblclick": "maximize",
-                        "minimizeLocation": "left",
-                        "icons": {
-                            "close": "ui-icon-circle-close",
-                            "maximize": "ui-icon-extlink",
-                            "minimize": "ui-icon-minus",
-                            "collapse": "ui-icon-triangle-1-s",
-                            "restore": "ui-icon-newwin"
-                        }
-                    });
-                    if (data.dialogSize === 'fullscreen') {
-                        $dialog.dialogExtend("maximize");
-                    }
-                    $dialog.dialog('open');                    
-                    Core.unblockUI();
-                },
-                error: function() {
-                    alert('Error');
-                    Core.unblockUI();
-                }
-            });
-        } else if (actionMetaTypeId == '200101010000011') {
-            $.ajax({
-                type: 'post',
-                url: 'mdwebservice/callMethodByMeta',
-                data: {
-                    metaDataId: actionMetaDataId, 
-                    isDialog: true, 
-                    isSystemMeta: false, 
-                    fillDataParams: fillDataParams
-                },
-                dataType: 'json',
-                beforeSend: function () {
-                    Core.blockUI({
-                        message: 'Loading...', 
-                        boxed: true
-                    });
-                },
-                success: function (data) {
-
-                    $dialog.empty().append(data.Html);
-
-                    var $processForm = $('#wsForm', '#' + $dialogName), 
-                        processUniqId = $processForm.parent().attr('data-bp-uniq-id');
-
-                    var buttons = [
-                        {text: data.run_btn, class: 'btn green-meadow btn-sm bp-btn-save', click: function (e) {
-                            if (window['processBeforeSave_'+processUniqId]($(e.target))) {     
-
-                                $processForm.validate({ 
-                                    ignore: '', 
-                                    highlight: function(element) {
-                                        $(element).addClass('error');
-                                        $(element).parent().addClass('error');
-                                        if ($processForm.find("div.tab-pane:hidden:has(.error)").length) {
-                                            $processForm.find("div.tab-pane:hidden:has(.error)").each(function(index, tab){
-                                                var tabId = $(tab).attr('id');
-                                                $processForm.find('a[href="#'+tabId+'"]').tab('show');
-                                            });
-                                        }
-                                    },
-                                    unhighlight: function(element) {
-                                        $(element).removeClass('error');
-                                        $(element).parent().removeClass('error');
-                                    },
-                                    errorPlacement: function(){} 
-                                });
-
-                                var isValidPattern = initBusinessProcessMaskEvent($processForm);
-
-                                if ($processForm.valid() && isValidPattern.length === 0) {
-                                    $processForm.ajaxSubmit({
-                                        type: 'post',
-                                        url: 'mdwebservice/runProcess',
-                                        dataType: 'json',
-                                        beforeSend: function () {
-                                            Core.blockUI({
-                                                boxed: true, 
-                                                message: 'Түр хүлээнэ үү'
-                                            });
-                                        },
-                                        success: function (responseData) {
-                                            PNotify.removeAll();
-                                            new PNotify({
-                                                title: responseData.status,
-                                                text: responseData.message,
-                                                type: responseData.status, 
-                                                sticker: false
-                                            });
-
-                                            if (responseData.status === 'success') {
-                                                $dialog.dialog('close');
-                                                if (isAllUser == '0') {
-                                                    <?php if (isset($this->getStartupMeta2['ACTION_META_DATA_ID']) && $this->getStartupMeta2['ACTION_META_DATA_ID']) { ?>
-                                                        var fillDataParams = '';
-                                                        fillDataParams = 'userKeyId=<?php echo Ue::sessionUserKeyId() ?>';    
-                                                        var actionMetaDataId = '<?php echo $this->getStartupMeta2['ACTION_META_DATA_ID'] ?>';
-                                                            startupmeta(actionMetaDataId, fillDataParams, '1');                                                                        
-                                                    <?php } ?>
-                                                }                                                
-                                            } 
-                                            Core.unblockUI();
-                                        },
-                                        error: function () {
-                                            alert("Error");
-                                        }
-                                    });
-                                }
-                            }    
-                        }},
-                        {text: data.close_btn, class: 'btn blue-madison btn-sm bp-btn-close', click: function () {
-                            $dialog.dialog('close');
-                            if (isAllUser == '0') {
-                                <?php if (isset($this->getStartupMeta2['ACTION_META_DATA_ID']) && $this->getStartupMeta2['ACTION_META_DATA_ID']) { ?>
-                                    var fillDataParams = '';
-                                    fillDataParams = 'userKeyId=<?php echo Ue::sessionUserKeyId() ?>';    
-                                    var actionMetaDataId = '<?php echo $this->getStartupMeta2['ACTION_META_DATA_ID'] ?>';
-                                        startupmeta(actionMetaDataId, fillDataParams, '1');                                                                        
-                                <?php } ?>
-                            }                             
-                        }}
-                    ];
-
-                    var dialogWidth = data.dialogWidth, dialogHeight = data.dialogHeight;
-
-                    if (data.isDialogSize === 'auto') {
-                        dialogWidth = 1200;
-                        dialogHeight = 'auto';
-                    }
-
-                    $dialog.dialog({
-                        cache: false,
-                        resizable: true,
-                        bgiframe: true,
-                        autoOpen: false,
-                        title: data.Title,
-                        width: dialogWidth,
-                        height: dialogHeight,
-                        modal: true,
-                        closeOnEscape: (typeof isCloseOnEscape == 'undefined' ? true : isCloseOnEscape), 
-                        close: function () {
-                            $dialog.empty().dialog('destroy').remove();
-                        },
-                        buttons: buttons
-                    }).dialogExtend({
-                        "closable": true,
-                        "maximizable": true,
-                        "minimizable": true,
-                        "collapsable": true,
-                        "dblclick": "maximize",
-                        "minimizeLocation": "left",
-                        "icons": {
-                            "close": "ui-icon-circle-close",
-                            "maximize": "ui-icon-extlink",
-                            "minimize": "ui-icon-minus",
-                            "collapse": "ui-icon-triangle-1-s",
-                            "restore": "ui-icon-newwin"
-                        }
-                    });
-                    if (data.dialogSize === 'fullscreen') {
-                        $dialog.dialogExtend("maximize");
-                    }
-                    $dialog.dialog('open');
-                },
-                error: function () {
-                    alert("Error");
-                }
-            }).done(function () {
-                Core.initBPAjax($dialog);
-                Core.unblockUI();
-            });        
-        }        
-    }
 </script>
+<?php echo (new Mduser())->startupMetaScriptFooter(); ?>

@@ -3568,6 +3568,11 @@ a.datagrid-filter-btn {
 .jeasyuiThemebusiness_collaterialView .datagrid-body td {
   border: none;
 }
+.jeasyuiThemebusiness_collaterialView .business-collaterial-card-collaterial_w {
+    box-shadow: none !important;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;    
+}
 .jeasyuiThemebusiness_collaterialView .card-collaterial-wrapper-eui {
   padding: 5px 10px 10px 10px;
   margin: 6px 0 6px 16px;
@@ -3597,6 +3602,12 @@ a.datagrid-filter-btn {
   margin-left: -10px;
   width: 210px;
   margin-top: -5px;
+}
+.jeasyuiThemebusiness_collaterialView
+  .business-collaterial-card-collaterial_w
+  .image-wrapper-eui {
+  width: 130px !important;
+  margin-top: -7px !important;
 }
 .jeasyuiThemebusiness_collaterialView .content-actions-wrapper-eui {
   margin-top: 5px;
@@ -3660,6 +3671,10 @@ a.datagrid-filter-btn {
   -webkit-box-shadow: 0 0px 15px #444;
   -moz-box-shadow: 0 0px 15px #444;
   box-shadow: 0 0px 15px #444;
+}
+.jeasyuiThemebusiness_collaterialView .business-collaterial-card-collaterial_w {
+  width: 130px !important;
+  height: 370px !important;
 }
 .jeasyuiThemebusiness_collaterialView
   .business-collaterial-card-collaterial-wrapper-eui {

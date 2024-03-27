@@ -94,7 +94,7 @@
                                 <h5 class="font-weight-bold mb-0"><?php echo isset($this->mainData['runtime']) ? $this->mainData['runtime'] : ''; ?></h5>
                             </div>
                         </div>
-                        <div class="<?php echo (in_array('TAGNAME_004', $this->tagArr)) ? '' : 'd-none' ?> tagname_004 ml-auto mr-3 d-flex flex-row align-items-center">
+                        <div class="<?php echo (in_array('TAGNAME_004', $this->tagArr)) ? 'd-none' : 'd-none' ?> tagname_004 ml-auto mr-3 d-flex flex-row align-items-center">
                             <h5 class="problem font-weight-bold">Хариуцсан сайд</h5>
                             <?php
                             $result['saidphoto'] = isset($this->mainData['saidphoto']) ?  explode(',', $this->mainData['saidphoto']) : array();
@@ -141,7 +141,7 @@
             </div>
             <div class="card <?php echo (in_array('TAGNAME_005', $this->tagArr)) ? '' : 'd-none' ?> tagname_005">
                 <div class="card-body">
-                    <h6 class="font-weight-bold text-uppercase font-size-14">Хавсралт файл <?php echo defined('ISCOVID') ? '' : '/Яамнаас ирүүлсэн/';  ?></h6>
+                    <h6 class="font-weight-bold text-uppercase font-size-14">Хавсралт файл <?php echo defined('ISCOVID') ? '' : '';  ?></h6>
                     <div class="row">
                         <?php
                         $i = 1;
@@ -476,7 +476,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card <?php echo (in_array('TAGNAME_014', $this->tagArr)) ? '' : 'd-none' ?> tagname_014">
+            <div class="card <?php echo (in_array('TAGNAME_014', $this->tagArr)) ? 'd-none' : 'd-none' ?> tagname_014">
                 <div class="card-body">
                     <h6 class="font-weight-bold text-uppercase font-size-14">Саналын товъёог</h6>
                     <ul class="nav nav-tabs nav-tabs-highlight">
@@ -715,7 +715,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card <?php echo (in_array('TAGNAME_016', $this->tagArr)) ? '' : 'd-none' ?> tagname_014">
+            <div class="card <?php echo (in_array('TAGNAME_016', $this->tagArr)) ? 'd-none' : 'd-none' ?> tagname_014">
                 <div class="card-body">
                     <h6 class="font-weight-bold text-uppercase font-size-14">Саналын товъёог</h6>
                     <ul class="nav nav-tabs nav-tabs-highlight">
@@ -1107,20 +1107,21 @@
                 <div class="card-body">
                     <h6 class="font-weight-bold text-uppercase font-size-14">Асуудлын шийдвэрлэлт</h6>
                     <?php if(isset($this->result7) && $this->result7) {
-                        foreach($this->result7 as $key => $result7) {
+                     
+                        foreach($this->result7['attachfile'] as $key => $result7) {
                         ?>
-                        <?php if(isset($result7['attachfile']) && $result7['attachfile']) { ?>
+                        <?php if(isset($result7) && $result7) { ?>
                             <h5><?php echo $result7['decisiontypename'] ?></h5>
-                            <div class="d-flex flex-row poll-info mt10 mb10">
+                            <!-- <div class="d-flex flex-row poll-info mt10 mb10">
                                 <h2 class="mr-3"><span>Дугаар:</span> <?php echo $result7['text_1'] ?></h2>
                                 <h2 class="mr-3"><span>Хуудасны тоо:</span> <?php echo $result7['text_3'] ?></h2>
-                            </div>
+                            </div> -->
                             <div class="card-body p-0 border-0">
                                 <ul class="list-inline mb-0">
-                                    <?php $fileExtArr = explode(' , ', $result7['attachfile']);
-                                            $str = trim($result7['attachfilename']);
+                                    <?php $fileExtArr = explode(' , ', $result7['physicalpath']);
+                                            $str = trim($result7['filename']);
                                             $strArray = explode(',', $str);
-                                            $str2 = trim($result7['attachfile']);
+                                            $str2 = trim($result7['physicalpath']);
                                             $strArray2 = explode(',', $str2);
                                             $index_ = 0;
                                             $n = 1;
@@ -1164,7 +1165,7 @@
                     <?php }} ?> 
                 </div>
             </div>
-            <div class="card ">
+            <div class="card d-none">
                 <div class="card-body">
                     <h6 class="font-weight-bold text-uppercase font-size-14">Асуудлын шийдвэрлэлт</h6>
                     <?php if(isset($this->subjectDecisionGet['subjectdecisiondtl']) && $this->subjectDecisionGet['subjectdecisiondtl']) { ?>
@@ -1252,7 +1253,7 @@
         </div>
         <div class="col-3 <?php echo (in_array('TAGNAME_012', $this->tagArr)) ? '' : 'd-none' ?> tagname_012">
             <div class="sidebar-content">
-                <div class="card <?php echo (in_array('TAGNAME_009', $this->tagArr)) ? '' : 'd-none' ?> tagname_009">
+                <div class="card <?php echo (in_array('TAGNAME_009', $this->tagArr)) ? 'd-none' : 'd-none' ?> tagname_009">
                     <div class="card-header bg-transparent header-elements-inline">
                         <span class="text-uppercase font-weight-bold">Чеклист</span>
                         <div class="header-elements">
@@ -1351,7 +1352,7 @@
                 </div>
                 <div class="card <?php echo (in_array('TAGNAME_011', $this->tagArr)) ? '' : 'd-none' ?> tagname_011">
                     <div class="card-header bg-transparent header-elements-inline">
-                        <span class="text-uppercase font-weight-bold">Ажлын хэсэг</span>
+                        <span class="text-uppercase font-weight-bold">Ажиглагч нар</span>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <a class="list-icons-item" data-action="collapse"></a>

@@ -2,14 +2,14 @@
 $role = $this->memberRole['readonly']; 
 // $role = '2';
 ?>
-    <div class="col-md-12 v1 government_<?php echo $this->uniqId ?> p-3" data-process-id="<?php echo $this->uniqId ?>" data-bp-uniq-id="<?php echo $this->uniqId ?>">
+    <div class="col-md-12 v1 government_<?php echo $this->uniqId ?> p-1" data-process-id="<?php echo $this->uniqId ?>" data-bp-uniq-id="<?php echo $this->uniqId ?>">
         <form action=""  method="post" id="gov_form_<?php echo $this->uniqId; ?>">
 
             <div class="d-flex align-items-start flex-column flex-md-row">
                 <div class="w-100 order-2 order-md-1">
                     <div class="card border-none">
                         <div class="page-header-content header-elements-md-inline px-0">
-                            <div class="page-title d-flex align-items-center p-3">
+                            <div class="page-title d-flex align-items-center p-2">
                                 <div class="badge general_number_conf badge-primary d-flex flex-column p-0">
                                     <img class="parliament_logo" src="<?php echo Config::getFromCache('conference_header_logo'); ?>" onerror="onUserImgError(this);">
                                 </div> 
@@ -39,23 +39,23 @@ $role = $this->memberRole['readonly'];
                                     <input type="hidden" name="breakTime" value=""/>
                                     <input type="hidden" name="percent" value=""/>
 
-                                    <div class="timer-window align-items-center text-left mr-3">
+                                    <div class="timer-window align-items-center text-left mr-2">
                                         <span class="timestart timer-start ">Эхэлсэн</span>
                                         <h5 class="line-height-normal text-blue_ huraldaan-color" id ="digital-clock"><?php echo (isset($this->selectedRow['starttime']) && $this->selectedRow['starttime']) ? $this->selectedRow['starttime'] : '00:00' ?></h5>
                                     </div>
-                                    <div class="timer-window  align-items-center text-left mr-3 endTime <?php echo ($role == '2') ? 'hidden  dblock' : ''; ?>">
+                                    <div class="timer-window  align-items-center text-left mr-2 endTime <?php echo ($role == '2') ? 'hidden  dblock' : ''; ?>">
                                         <span class="timestart timer-end ">Дууссан</span>
                                         <h5 class="line-height-normal text-red_ huraldaan-color endTime_<?php echo $this->uniqId; ?>"><?php echo (isset($this->selectedRow['endtime']) && $this->selectedRow['endtime']) ? $this->selectedRow['endtime'] : '00:00' ?></h5>
                                     </div>
-                                    <div class="timer-window  align-items-center text-left mr-3 durationTimer durationTimer_<?php echo $this->uniqId; ?> <?php echo ($role == '2') ? 'hidden  dblock' : ''; ?>">
+                                    <div class="timer-window  align-items-center text-left mr-2 durationTimer durationTimer_<?php echo $this->uniqId; ?> <?php echo ($role == '2') ? 'hidden  dblock' : ''; ?>">
                                         <span class="timestart">Үргэлжилсэн</span>
                                         <h5 class="line-height-normal text-green_ huraldaan-color"><?php echo (isset($this->selectedRow['duration']) && $this->selectedRow['duration']) ? $this->selectedRow['duration'] : '00:00:00' ?></h5>
                                     </div>
-                                    <div class="timer-window  align-items-center text-left mr-3 breakTimer breakTimer_<?php echo $this->uniqId; ?>">
+                                    <div class="timer-window  align-items-center text-left mr-2 breakTimer breakTimer_<?php echo $this->uniqId; ?>">
                                         <span class="timestart">Завсарласан</span>
                                         <h5 class="line-height-normal text-orange_ huraldaan-color huraldaan-color"><?php echo (isset($this->selectedRow['totalbreaktime']) && $this->selectedRow['totalbreaktime']) ? $this->selectedRow['totalbreaktime'] : '00:00:00' ?></h5>
                                     </div>
-                                    <div class="timer-window  align-items-center text-left mr-3">
+                                    <div class="timer-window  align-items-center text-left mr-2">
                                         <span class="timestart">Ирц</span>
                                         <h5 class="line-height-normal percentOfAttendance"> <?php echo (isset($this->selectedRow['percentofattendance']) && $this->selectedRow['percentofattendance']) ? $this->selectedRow['percentofattendance'] : '0%' ?></h5>
                                     </div>
@@ -85,11 +85,11 @@ $role = $this->memberRole['readonly'];
                         <?php 
                         $colclass = 'col ';
                         if($role == '1'){
-                            $colclass .= 'col-8';
+                            $colclass .= 'col-9';
                         }elseif($role == '2'){
                             $colclass .= 'col w-100';
                         }else{
-                            $colclass = 'col-7';
+                            $colclass = 'col-8';
                         }
                          ?>
                         <div class="<?php echo $colclass; ?> ">
@@ -180,12 +180,14 @@ $role = $this->memberRole['readonly'];
 
                                                     $tempRow = $issuelist;
                                                     $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
-                                                    
+                                                    $addBackground = ($class === 'issue-start') ? 'background: #F4FAFF;' : '';
+
                                                     $more =  ' onclick="gridDrillDownLink(this, \'CMS_HELELTSEH_LIST\', \'bookmark\', \'1\', \'cmsSubjectWeblink\', \'1564710579741\', \'subjectname\', \'1564385570445960\', \'id='. $issuelist['id'] .'\', true, true)"';
                                                 ?>
                                                 <li data-id="<?php echo $issuelist['id']; ?>" 
                                                     data-row ="<?php echo $tempRowJson; ?>"
                                                     id="subject_<?php echo $issuelist['id']; ?>" data-ordernum="<?php echo $issuelist['ordernum']; ?>"  
+                                                    style="<?php echo $addBackground; ?>"
                                                     class="c-issue-list media isitem d-flex justify-content-center align-items-center <?php echo ($role === '1' || $role === '0') ? 'tiktok-'.$this->uniqId . ' ' : ''; echo $class ?> media align-items-stretch">
                                                     <div class="p-1">
                                                         <p style="height:100%; border:3px solid <?php echo $issuelist['rowcolor']; ?>"></p>
@@ -217,7 +219,7 @@ $role = $this->memberRole['readonly'];
                                                         <div class="w-100 participants align-self-center d-flex mt-1">
                                                             <span> Ажлын хэсэг: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
                                                             <?php if ($isFinished) { ?>
-                                                                <button type="button" class="btn ml-auto p-0" onclick="totalSum(<?php echo $issuelist['id'] ?>)">
+                                                                <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
                                                                     <span class="huraldaan-total"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
                                                                 </button>
                                                             <?php } ?>
@@ -230,7 +232,7 @@ $role = $this->memberRole['readonly'];
                                                         <?php } elseif ($class === 'issue-start') { ?>
                                                             <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id'] ?>')"><i class="fa icon-quill4"></i></button>
                                                             <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
-                                                                <span>Санал өгөх</span>
+                                                                <span>Санал хураалт</span>
                                                             </button>
                                                         <?php } ?>
                                                     </div>
@@ -244,7 +246,7 @@ $role = $this->memberRole['readonly'];
                                         <a href="#highlighted-justified-tab2_<?php echo $this->uniqId; ?>"
                                             data-typeid="<?php echo $this->taniltsakhTypeId ?>"
                                             class="nav-link text-uppercase font-weight-bold" data-toggle="tab">
-                                            Танилцах
+                                            Тогтоол
                                         </a>
                                         <div id="highlighted-justified-tab2_<?php echo $this->uniqId; ?>">
 
@@ -260,12 +262,13 @@ $role = $this->memberRole['readonly'];
 
                                                     $tempRow = $issuelist;
                                                     $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
-
+                                                    $addBackground = ($class === 'issue-start') ? 'background: #F4FAFF;' : '';
                                                     $more =  ' onclick="gridDrillDownLink(this, \'CMS_HELELTSEH_LIST\', \'bookmark\', \'1\', \'cmsSubjectWeblink\', \'1564710579741\', \'subjectname\', \'1564385570445960\', \'id='. $issuelist['id'] .'\', true, true)"';
                                                 ?>
                                                 <li data-id="<?php echo $issuelist['id']; ?>" 
                                                     data-row ="<?php echo $tempRowJson; ?>"
                                                     id="subject_<?php echo $issuelist['id']; ?>" data-ordernum="<?php echo $issuelist['ordernum']; ?>"  
+                                                    style="<?php echo $addBackground; ?>"
                                                     class="c-issue-list media isitem d-flex justify-content-center align-items-center <?php echo ($role != '1') ? 'tiktok-'.$this->uniqId . ' ' : ''; echo $class ?>  media align-items-stretch">
                                                     <div class="p-1">
                                                         <p style="height:100%; border:3px solid <?php echo $issuelist['rowcolor']; ?>"></p>
@@ -296,7 +299,7 @@ $role = $this->memberRole['readonly'];
                                                         <div class="participants align-self-center d-flex mt-1">
                                                             <span> Ажлын хэсэг: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
                                                             <?php if ($isFinished) { ?>
-                                                                <button type="button" class="btn ml-auto p-0" onclick="totalSum(<?php echo $issuelist['id'] ?>)">
+                                                                <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
                                                                     <span class="huraldaan-total ml-auto"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
                                                                 </button>
                                                             <?php } ?>
@@ -309,7 +312,7 @@ $role = $this->memberRole['readonly'];
                                                         <?php } elseif ($class === 'issue-start') { ?>
                                                             <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id']; ?>')"><i class="fa icon-quill4"></i></button>
                                                             <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
-                                                                <span>Санал өгөх</span>
+                                                                <span>Санал хураалт</span>
                                                             </button>
                                                         <?php } ?>
                                                     </div>
@@ -325,10 +328,10 @@ $role = $this->memberRole['readonly'];
                             </div>
                             <!-- NOT TAB END -->
                         </div> 
-                        <div class="col-<?php echo ($role === '1') ? '4' : '5' ?> <?php echo ($role == '2') ? 'd-none' : ''; ?>">
+                        <div class="col-<?php echo ($role === '1') ? '3' : '4' ?> <?php echo ($role == '2') ? 'd-none' : ''; ?>">
                             <div class="card mb-3" id="protocol-list-<?php echo $this->uniqId ?>">
                                 <div class="card-header header-elements-inline">
-                                    <h6 class="card-title font-weight-bold text-uppercase protocol-title huraldaan-color">Ажлын хэсгийнхэн <span style="color:#A0A0A0"></span></h6>
+                                    <h6 class="card-title font-weight-bold text-uppercase protocol-title huraldaan-color">Ажиглагч нар<br><span style="color:#A0A0A0"></span></h6>
                                 </div>
                                 <div class="card-body">
                                     <div id="govaddmember<?php echo $this->uniqId ?>"></div>
@@ -343,7 +346,7 @@ $role = $this->memberRole['readonly'];
                                         <div id="issue<?php echo $this->uniqId ?>"></div>
                                     </div>
                                     <div class="card-body">
-                                        <textarea name="enter-protocol" class="form-control" placeholder="Тэмдэглэлээ бичээд ENTER дарна уу..." style="height: 50px">@</textarea>
+                                        <textarea name="enter-protocol" data-subject-id="" class="form-control" placeholder="Тэмдэглэлээ бичээд ENTER дарна уу..." style="height: 50px">@</textarea>
                                         <ul class="media-list media-chat-scrollable mt10 conferencing-protocol-list" id="conferencing-protocol-list-<?php echo $this->uniqId ?>"></ul>
                                     </div>
                                 </div>

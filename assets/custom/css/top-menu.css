@@ -4769,9 +4769,9 @@ ul.dv-explorer5 > li:hover .first-title {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-    max-height: 41px;
+    max-height: 60px;
     word-break: break-word;
-    line-height: 20px;
+    line-height: 19px;
 }
  .appmenu-table-cell-right .vr-menu-title .vr-menu-row-mcode .vr-menu-name {
     color: #555;

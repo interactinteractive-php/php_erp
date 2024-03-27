@@ -933,10 +933,11 @@ class Conference extends Controller {
                 $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
 
                 $more =  ' onclick="gridDrillDownLink(this, \'CMS_HELELTSEH_LIST\', \'bookmark\', \'1\', \'cmsSubjectWeblink\', \'1564710579741\', \'subjectname\', \'1564385570445960\', \'id='. $issuelist['id'] .'\', true, true)"';
-
+                $addBackground = ($class === 'issue-start') ? 'background: #F4FAFF;' : '';
                 $xHtml.= '<li data-id="'. $issuelist['id'] .'" '; 
                     $xHtml.= 'data-row ="'. $tempRowJson .'"';
                     $xHtml.= 'id="subject_'. $issuelist['id'] .'" data-ordernum="'. $issuelist['ordernum'] .'"';
+                    $xHtml.= 'style="'. $addBackground .'"';
                     $xHtml.= 'class="c-issue-list media isitem d-flex justify-content-center align-items-center '. (($postData['role'] != '1') ? 'tiktok-'.$postData['uniqId'] . ' ' : '') . $class .' media align-items-stretch">';
                     $xHtml.= '<div class="p-1">';
                         $xHtml.= '<p style="height:100%; border:3px solid '. $issuelist['rowcolor'] .'"></p>';
@@ -968,7 +969,9 @@ class Conference extends Controller {
                         $xHtml.= '<div class="w-100 participants align-self-center d-flex mt-1">';
                             $xHtml.= '<span>Ажлын хэсэг: '. ( ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0' ).'</span>';
                             if ($isFinished) { 
-                                $xHtml.= '<span class="huraldaan-total ml-auto">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                                $xHtml.= '<button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,\''. $issuelist['id'] .'\')">';
+                                    $xHtml.= '<span class="huraldaan-total">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                                $xHtml.= '</button>';
                             } 
                         $xHtml.= '</div>';
                     $xHtml.= '</div>';
@@ -981,7 +984,7 @@ class Conference extends Controller {
                             $xHtml.= ' <button type="button"';
                             $xHtml.= 'data-row ="'. $tempRowJson .'"';
                             $xHtml.= 'class="btn font-weight-bold finishFeedback" finishFeedback" onclick="totalProtocol(this, \''. $issuelist['id'] .'\', \''. $issuelist['mapid'] .'\', \''. $issuelist['meetingbookid'] .'\' )"">';
-                                $xHtml.= ' <span>Санал өгөх</span>';
+                                $xHtml.= ' <span>Санал хураалт</span>';
                             $xHtml.= ' </button>';
                         }
                     $xHtml.= '</div>';
@@ -999,7 +1002,7 @@ class Conference extends Controller {
 
                 $issuelist['starttime'] = $starttime = Date::formatter($issuelist['starttime'], 'H:i:s');
                 $issuelist['endtime'] = $endtime = Date::formatter($issuelist['endtime'], 'H:i:s'); 
-
+                $addBackground = ($class === 'issue-start') ? 'background: #F4FAFF;' : '';
                 $tempRow = $issuelist;
                 $tempRowJson = htmlentities(json_encode($tempRow), ENT_QUOTES, 'UTF-8');
 
@@ -1008,6 +1011,7 @@ class Conference extends Controller {
                 $tHtml.= '<li data-id="'. $issuelist['id'] .'" '; 
                     $tHtml.= 'data-row ="'. $tempRowJson .'"';
                     $tHtml.= 'id="subject_'. $issuelist['id'] .'" data-ordernum="'. $issuelist['ordernum'] .'"';
+                    $tHtml.= 'style="'. $addBackground .'"';
                     $tHtml.= 'class="c-issue-list media isitem d-flex justify-content-center align-items-center '. (($postData['role'] != '1') ? 'tiktok-'.$postData['uniqId'] . ' ' : '') . $class .' media align-items-stretch">';
                     $tHtml.= '<div class="p-1">';
                         $tHtml.= '<p style="height:100%; border:3px solid '. $issuelist['rowcolor']  .'"></p>';
@@ -1039,7 +1043,9 @@ class Conference extends Controller {
                         $tHtml.= '<div class="w-100 participants align-self-center d-flex mt-1">';
                             $tHtml.= '<span>Ажлын хэсэг: '. ( ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0' ).'</span>';
                             if ($isFinished) { 
-                                $tHtml.= '<span class="huraldaan-total ml-auto">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                                $tHtml.= '<button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,\''. $issuelist['id'] .'\')">';
+                                    $tHtml.= '<span class="huraldaan-total">'. ( ($issuelist['total']) ? $issuelist['total'] : '' ).'</span>';
+                                $tHtml.= '</button>';
                             } 
                         $tHtml.= '</div>';
                     $tHtml.= '</div>';
@@ -1052,7 +1058,7 @@ class Conference extends Controller {
                             $tHtml.= ' <button type="button"';
                             $tHtml.= 'data-row ="'. $tempRowJson .'"';
                             $tHtml.= 'class="btn font-weight-bold finishFeedback" onclick="totalProtocol(this, \''. $issuelist['id'] .'\', \''. $issuelist['mapid'] .'\', \''. $issuelist['meetingbookid'] .'\' )"">';
-                                $tHtml.= ' <span>Санал өгөх</span>';
+                                $tHtml.= ' <span>Санал хураалт</span>';
                             $tHtml.= ' </button>';
                         }
                     $tHtml.= '</div>';
@@ -1304,12 +1310,51 @@ class Conference extends Controller {
         $meetingConference_2 = $this->model->fncRunDataview("1564710579741", "meetingBookId", $this->view->id, "=", self::$taniltsahTypeId);
         $this->view->$meeting = array_merge($meetingConference_1, $meetingConference_2);
        
-        $this->view->gov_meeting = issetParamArray($data['result']);
+        $this->view->gov_meeting = $gov_meeting = issetParamArray($data['result']);
+        $this->view->gov_meeting['durationtime'] = $this->view->gov_meeting['duration'];
+        $this->view->gov_meeting['breaktime'] = $this->view->gov_meeting['totalbreaktime'];
+
+        if ($this->view->gov_meeting['action']) {
+            $this->view->selectedRow['startime'] = $this->view->gov_meeting['starttime'];
+            $this->view->selectedRow['endtime'] = $this->view->gov_meeting['endtime'];
+
+            $durationTimeInt = $this->view->gov_meeting['diffbreaksysdate'];
+            // $durationTimeInt = $this->view->gov_meeting['diffsysdate'];
+            $breakTimeInt = $this->view->gov_meeting['diffbreaksysdate'];
+
+            if ($this->view->gov_meeting['action'] == '2') {
+                $this->view->gov_meeting['breaktime'] = floor($breakTimeInt/3600) .':' . (floor(($breakTimeInt - $breakTimeInt/3600)/60)) . ':' . ($breakTimeInt - $breakTimeInt/3600)%60;
+                // $this->view->gov_meeting['totalbreaktime'] = floor($breakTimeInt/3600) .':' . (floor(($breakTimeInt - $breakTimeInt/3600)/60)) . ':' . ($breakTimeInt - $breakTimeInt/3600)%60;
+            } else {
+                $this->view->gov_meeting['breaktime'] = $this->view->gov_meeting['totalbreaktime'];
+                $this->view->gov_meeting['totalbreaktime'] = $this->view->gov_meeting['totalbreaktime'];
+                $this->view->gov_meeting['duration'] = $this->view->gov_meeting['duration'];
+            }
+            // $this->view->gov_meeting['duration'] = floor($durationTimeInt/3600) .':' . (floor(($durationTimeInt - $durationTimeInt/3600)/60)) . ':' . ($durationTimeInt - $durationTimeInt/3600)%60;
+        }
+
+        if ($this->view->gov_meeting['action'] === '3') {
+            $this->view->gov_meeting['duration'] = $this->view->gov_meeting['durationtime'];
+            $this->view->gov_meeting['totalbreaktime'] = $this->view->gov_meeting['breaktime'];
+        }
+
+        if ($this->view->gov_meeting['duration']) {
+            $explode1 = explode(':', $this->view->gov_meeting['duration']);
+            $this->view->gov_meeting['duration'] = $explode1[0] . ' цаг ' . $explode1[1] . ' минут ' . $explode1[2] . ' секунд ';
+        }
+
+        if ($this->view->gov_meeting['totalbreaktime']) {
+            $explode2 = explode(':', $this->view->gov_meeting['totalbreaktime']);
+            if ($explode2) {
+                $this->view->gov_meeting['totalbreaktime'] = $explode2[0] . ' цаг ' . $explode2[1] . ' минут ' . $explode2[2] . ' секунд ';
+            }
+        }
+
         $scheduledtime = $this->view->gov_meeting['scheduledtime'];
         $starttime = $this->view->gov_meeting['starttime'];
         $endtime = $this->view->gov_meeting['endtime'];
-        $totalbreaktime = explode(':', $this->view->gov_meeting['totalbreaktime']);
-        $duration = explode(':', $this->view->gov_meeting['duration']);
+        $totalbreaktime = $this->view->gov_meeting['totalbreaktime'];
+        $duration = $this->view->gov_meeting['duration'];
         $response = array(
             'scheduledtime' => $scheduledtime,
             'starttime' => $starttime,
@@ -1380,7 +1425,7 @@ class Conference extends Controller {
         includeLib('Utils/Functions');
         $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => issetParam($postData['id'])));
         $this->view->data = issetParamArray($data['result']);
-        $this->view->defaultCss = $this->view->renderPrint('defaultCss_1', 'views/government/bzd/');
+        $this->view->defaultCss = $this->view->renderPrint('defaultCssDistrict', 'views/government/bzd/');
         $this->view->isAjax = is_ajax_request();
         
         $response = array(
@@ -1455,7 +1500,8 @@ class Conference extends Controller {
         $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => $this->view->subjectId));
         $this->view->data = issetParamArray($data['result']);
         $this->view->uniqId = issetParam($postData['uniqid']);
-
+       
+        (array) $portMap = array();
         $params = array(
             'id' => $this->view->data['mapid'],
             'subjectId' => $this->view->data['id'],
@@ -1463,9 +1509,31 @@ class Conference extends Controller {
             'endtime' => Date::currentDate('H:i:s'),
         );
 
+        $this->view->participants = $this->model->fncRunDataview("1706938741331542", "id", issetParam($postData['subjectid']), "=");
+
+        if (issetParamArray($this->view->participants)) {
+            foreach ($this->view->participants as $key => $row) {
+                $temp = array(
+                    'id' => '',
+                    'subjectId' => $row['id'],
+                    'reviewTypeId' => '964',
+                    'reviewUserId' => $row['userid'],
+                );
+                array_push($portMap, $temp);
+            }
+        }
+
+        $paramDv = array(
+            'id' => issetParam($postData['subjectid']),
+            'declinedParticipants' => $portMap,
+        );
+
         $data = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_SUBJECT_MAP_END_002', $params);
+        $dataId = $this->ws->runArrayResponse(GF_SERVICE_ADDRESS, 'CMS_MEETING_DECLINED_PARTICIPANT_DV_002', $paramDv);
+
         $response = array(
             'data' =>  $data,
+            'dataId' =>  $dataId,
             'uniqId' => $this->view->uniqId,
         );
         echo json_encode($response);
@@ -1476,7 +1544,6 @@ class Conference extends Controller {
         $postData = Input::postData();
        
         $this->view->title = 'Санал хураалтын дүн';
-        $this->view->text = checkDefaultVal(issetParam($postData['text']),'');
         $this->load->model('contentui', 'projects/models/');
 
         includeLib('Utils/Functions');
@@ -1495,10 +1562,16 @@ class Conference extends Controller {
 
         $districtresult = $this->model->fncRunDataview("1564710579741", "id", issetParam($postData['id']), "=", $criteria);
         $this->view->mapDuration = $districtresult[0]['mapduration'];
-        $eneArr = explode(':', $this->view->mapDuration);
+        $explode1 = explode(':', $this->view->mapDuration);
+        $this->view->time = $explode1[0];
+        $this->view->minute = $explode1[1];
+        $this->view->second = $explode1[2];
+
         $response = array(
             'data' =>  $this->view->data,
-            'time' => $eneArr,
+            'time' =>$this->view->time,
+            'minute' =>$this->view->minute,
+            'second' =>$this->view->second,
         );
         
         echo json_encode($response);
@@ -1517,6 +1590,7 @@ class Conference extends Controller {
         includeLib('Utils/Functions');
 
         $data = Functions::runProcess('MMS_SUBJECT_REVIEW_GET_LIST_004', array('id' => $this->view->id));
+       
         $this->view->data = issetParamArray($data['result']);
         $this->view->mapid = $this->view->data['mapid'];
 
@@ -1531,8 +1605,8 @@ class Conference extends Controller {
 
         $districtresult = $this->model->fncRunDataview("1564710579741", "meetingBookId", issetParam($postData['subjectid']), "=", $criteria);
         $this->view->mapDurationIndex = $districtresult[0]['mapduration'];
-       
-        $this->view->defaultCss = $this->view->renderPrint('defaultCss_1', 'views/government/bzd/');
+     
+        $this->view->defaultCss = $this->view->renderPrint('defaultCssDistrict', 'views/government/bzd/');
         $this->view->isAjax = is_ajax_request();
         
         if ($this->view->isAjax) {
@@ -1541,7 +1615,6 @@ class Conference extends Controller {
             'Width' => '1200',
             'data' => $this->view->data,
             'id' => $this->view->id,
-            'time' => $this->view->mapDurationIndex,
             'uniqId' => $this->view->uniqId,
             'Html2' => $this->view->renderPrint('header', 'views/government/bzd/new/'),
             'Html3' => $this->view->renderPrint('index', 'views/government/bzd/new/'),
