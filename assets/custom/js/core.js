@@ -4308,6 +4308,10 @@ function appMultiTab(param, elem, callback) {
                     Core.unblockUI();
                 });
                 
+            } else if (param.kpitypeid == '16818054066154') { 
+                
+                mvProductRenderInit(this, null, metaDataId);
+                
             } else {
                 $.ajax({
                     type: 'post',
