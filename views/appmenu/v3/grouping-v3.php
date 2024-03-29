@@ -77,6 +77,26 @@
                             $linkTarget = '_self';
                             $linkOnClick = '';                            
                             
+                        } elseif (!empty($row['META_DATA_ID'])) {
+                        
+                            if (!$row['ACTION_META_TYPE_ID']) {
+                                $linkHref = 'appmenu/module/'.$row['META_DATA_ID'].'?mmid='.$row['META_DATA_ID'].'&mid='.$row['META_DATA_ID'];
+                                $linkTarget = '_self';
+                                $linkOnClick = '';
+                            } else {
+
+                                $row['metadataid'] = $row['META_DATA_ID'];
+                                $row['actionmetadataid'] = $row['ACTION_META_DATA_ID'];
+                                $row['weburl'] = null;
+                                $row['actionmetatypeid'] = $row['ACTION_META_TYPE_ID'];
+                                $row['grouptype'] = 'dataview';
+
+                                $linkMeta = Mdmeta::menuServiceAnchor($row, $row['META_DATA_ID'], $row['META_DATA_ID']);
+                                $linkHref = $linkMeta['linkHref'];
+                                $linkTarget = $linkMeta['linkTarget'];
+                                $linkOnClick = $linkMeta['linkOnClick'];
+                            }
+                            
                         } else {
                             $indicatorId = $row['ID'];
                             $linkHref = 'javascript:;';
