@@ -71,15 +71,21 @@ $(document).ready(function () {
     if (!isOpenMenuId) {
         
         var $pageContentWrapperText = $('.pf-header-main-content').clone().find('script').remove().end().text();
-    
+        
         if ($pageContentWrapperText.trim() == '') {
             var $sidebarMenu = $('.page-topbar > ul.navbar-nav > li:not(.not-module-menu):eq(0) > a[onclick*="\'layout\'"], .page-topbar > ul.navbar-nav > li:not(.not-module-menu):eq(0) > a[onclick*="\'dashboard\'"], .page-topbar > ul.navbar-nav > li:not(.not-module-menu):eq(0) > a[onclick*="\'kpi\'"], .page-topbar > ul.navbar-nav > li:not(.not-module-menu):eq(0) > a[onclick*="mdform/indicatorProcessWidget"]');
+
             if ($sidebarMenu.length) {
                 $sidebarMenu.click();
             } else {
                 $sidebarMenu = $('.page-topbar > ul.navbar-nav a[data-default-open="true"]:eq(0)');
                 if ($sidebarMenu.length) {
                     $sidebarMenu.click();
+                } else {
+                    $sidebarMenu = $('.page-topbar > ul.navbar-nav a[onclick]:eq(0)');
+                    if ($sidebarMenu.length) {
+                        $sidebarMenu.click();
+                    }
                 }
             }
         }
