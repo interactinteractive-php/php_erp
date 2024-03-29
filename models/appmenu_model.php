@@ -208,7 +208,14 @@ class Appmenu_Model extends Model {
                 'Онцлох' AS GROUP_NAME,
                 PP.MENU_INDICATOR_ID,
                 PP.LANDING_PAGE_INDICATOR_ID,
-                PP.ONBOARDING_CHECKLIST_INDICATOR_ID  
+                PP.ONBOARDING_CHECKLIST_INDICATOR_ID, 
+                (
+                    SELECT 
+                        COUNT(1) 
+                    FROM KPI_INDICATOR_INDICATOR_MAP 
+                    WHERE SRC_INDICATOR_ID = KI.ID 
+                        AND SEMANTIC_TYPE_ID IN (44, 79) 
+                ) AS IS_RELATION 
             FROM KPI_INDICATOR KI 
                 INNER JOIN PLM_PRODUCT PP ON PP.SRC_RECORD_ID = KI.ID 
                 LEFT JOIN KPI_INDICATOR_CATEGORY KC ON KC.INDICATOR_ID = KI.ID 
@@ -216,7 +223,6 @@ class Appmenu_Model extends Model {
                 LEFT JOIN META_DATA MD ON MD.META_DATA_ID = MM.ACTION_META_DATA_ID 
             WHERE KI.KPI_TYPE_ID = 16818054066154 
                 AND PP.BPA_NAME IS NOT NULL 
-                AND PP.MENU_INDICATOR_ID IS NOT NULL 
                 AND KI.ID IN (
                     SELECT 
                         ID

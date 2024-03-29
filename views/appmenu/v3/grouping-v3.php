@@ -71,7 +71,7 @@
                             $linkTarget = $row['urltrg'];
                             $linkOnClick = '';
                             
-                        } elseif (!empty($row['MENU_INDICATOR_ID'])) {
+                        } elseif (!empty($row['MENU_INDICATOR_ID']) && !$row['IS_RELATION']) {
                             
                             $linkHref = 'appmenu/module/'.$row['MENU_INDICATOR_ID'].'?kmid='.$row['MENU_INDICATOR_ID'];
                             $linkTarget = '_self';
@@ -173,7 +173,7 @@
                         $linkTarget = $row['urltrg'];
                         $linkOnClick = '';
 
-                    } elseif (!empty($row['MENU_INDICATOR_ID'])) {
+                    } elseif (!empty($row['MENU_INDICATOR_ID']) && !$row['IS_RELATION']) {
 
                         $linkHref = 'appmenu/module/'.$row['MENU_INDICATOR_ID'].'?kmid='.$row['MENU_INDICATOR_ID'];
                         $linkTarget = '_self';
