@@ -187,74 +187,83 @@ class Appmenu_Model extends Model {
         
         $data = $this->db->GetAll("
             SELECT 
-                KI.ID, 
-                PP.META_DATA_ID, 
-                MM.ACTION_META_DATA_ID, 
-                MD.META_TYPE_ID AS ACTION_META_TYPE_ID, 
-                PP.BPA_CODE AS CODE, 
-                PP.BPA_NAME AS NAME, 
-                PP.DESCRIPTION, 
-                PP.CREATED_DATE, 
-                PP.CREATED_USER_ID,
-                PP.PROFILE_PHOTO,
-                PP.WFM_STATUS_ID,
-                PP.WFM_DESCRIPTION,
-                PP.PRODUCT_TYPE_ID,
-                PP.PRODUCT_CATEGORY_ID,
-                PP.MANAGER_ID,
-                PP.DEVELOPER_TEAM_ID,
-                KC.CATEGORY_ID,
-                KI.NAME AS CATEGORY_NAME,
-                'Онцлох' AS GROUP_NAME,
-                PP.MENU_INDICATOR_ID,
-                PP.LANDING_PAGE_INDICATOR_ID,
-                PP.ONBOARDING_CHECKLIST_INDICATOR_ID, 
-                (
-                    SELECT 
-                        COUNT(1) 
-                    FROM KPI_INDICATOR_INDICATOR_MAP 
-                    WHERE SRC_INDICATOR_ID = KI.ID 
-                        AND SEMANTIC_TYPE_ID IN (44, 79) 
-                ) AS IS_RELATION 
-            FROM KPI_INDICATOR KI 
-                INNER JOIN PLM_PRODUCT PP ON PP.SRC_RECORD_ID = KI.ID 
-                LEFT JOIN KPI_INDICATOR_CATEGORY KC ON KC.INDICATOR_ID = KI.ID 
-                LEFT JOIN META_MENU_LINK MM ON MM.META_DATA_ID = PP.META_DATA_ID 
-                LEFT JOIN META_DATA MD ON MD.META_DATA_ID = MM.ACTION_META_DATA_ID 
-            WHERE KI.KPI_TYPE_ID = 16818054066154 
-                AND PP.BPA_NAME IS NOT NULL 
-                AND KI.ID IN (
-                    SELECT 
-                        ID
-                    FROM KPI_INDICATOR
-                    START WITH ID IN (
+                K.*  
+            FROM (
+                SELECT 
+                    KI.ID, 
+                    KI.ORDER_NUMBER, 
+                    PP.META_DATA_ID, 
+                    MM.ACTION_META_DATA_ID, 
+                    MD.META_TYPE_ID AS ACTION_META_TYPE_ID, 
+                    PP.BPA_CODE AS CODE, 
+                    PP.BPA_NAME AS NAME, 
+                    PP.DESCRIPTION, 
+                    PP.CREATED_DATE, 
+                    PP.CREATED_USER_ID,
+                    PP.PROFILE_PHOTO,
+                    PP.WFM_STATUS_ID,
+                    PP.WFM_DESCRIPTION,
+                    PP.PRODUCT_TYPE_ID,
+                    PP.PRODUCT_CATEGORY_ID,
+                    PP.MANAGER_ID,
+                    PP.DEVELOPER_TEAM_ID,
+                    KC.CATEGORY_ID,
+                    KCC.NAME AS CATEGORY_NAME, 
+                    'Онцлох' AS GROUP_NAME,
+                    PP.MENU_INDICATOR_ID,
+                    PP.LANDING_PAGE_INDICATOR_ID,
+                    PP.ONBOARDING_CHECKLIST_INDICATOR_ID, 
+                    (
                         SELECT 
-                            ID 
+                            COUNT(1) 
+                        FROM KPI_INDICATOR_INDICATOR_MAP 
+                        WHERE SRC_INDICATOR_ID = KI.ID 
+                            AND SEMANTIC_TYPE_ID IN (44, 79) 
+                    ) AS IS_RELATION 
+                FROM KPI_INDICATOR KI 
+                    INNER JOIN PLM_PRODUCT PP ON PP.SRC_RECORD_ID = KI.ID 
+                    LEFT JOIN KPI_INDICATOR_CATEGORY KC ON KC.INDICATOR_ID = KI.ID 
+                    LEFT JOIN KPI_INDICATOR KCC ON KCC.ID = KC.CATEGORY_ID 
+                    LEFT JOIN META_MENU_LINK MM ON MM.META_DATA_ID = PP.META_DATA_ID 
+                    LEFT JOIN META_DATA MD ON MD.META_DATA_ID = MM.ACTION_META_DATA_ID 
+                WHERE KI.KPI_TYPE_ID = 16818054066154 
+                    AND PP.BPA_NAME IS NOT NULL 
+                    AND KI.ID IN (
+                        SELECT 
+                            ID
                         FROM KPI_INDICATOR
-                        WHERE KPI_TYPE_ID = 16818054066154 
-                            AND 
-                            CASE WHEN $idPh = (SELECT USER_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh AND ROLE_ID = 1)
-                                THEN 1
-                            WHEN $idPh = 1
-                                THEN 1
-                            ELSE 0
-                            END = 1
+                        START WITH ID IN (
+                            SELECT 
+                                ID 
+                            FROM KPI_INDICATOR
+                            WHERE KPI_TYPE_ID = 16818054066154 
+                                AND 
+                                CASE WHEN $idPh = (SELECT USER_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh AND ROLE_ID = 1)
+                                    THEN 1
+                                WHEN $idPh = 1
+                                    THEN 1
+                                ELSE 0
+                                END = 1
 
-                        UNION 
+                            UNION 
 
-                        SELECT  
-                            INDICATOR_ID 
-                        FROM UM_PERMISSION_KEY 
-                        WHERE (
-                            USER_ID = $idPh
-                                OR
-                            ROLE_ID IN (SELECT ROLE_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh)
-                        ) 
-                        GROUP BY INDICATOR_ID     
-                    )
-                    CONNECT BY NOCYCLE PRIOR PARENT_ID = ID
-                ) 
-                ORDER BY KI.ORDER_NUMBER ASC", [$sessionUserKeyId]);
+                            SELECT  
+                                INDICATOR_ID 
+                            FROM UM_PERMISSION_KEY 
+                            WHERE (
+                                USER_ID = $idPh
+                                    OR
+                                ROLE_ID IN (SELECT ROLE_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh)
+                            ) 
+                            GROUP BY INDICATOR_ID     
+                        )
+                        CONNECT BY NOCYCLE PRIOR PARENT_ID = ID
+                    ) 
+            ) K 
+            WHERE K.MENU_INDICATOR_ID IS NOT NULL 
+                OR K.ACTION_META_DATA_ID IS NOT NULL 
+                OR K.IS_RELATION > 0 
+            ORDER BY K.ORDER_NUMBER ASC", [$sessionUserKeyId]);
         
         return $data;
     }     

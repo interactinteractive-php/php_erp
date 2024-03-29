@@ -72,10 +72,9 @@ class Appmenu extends Controller {
         $this->view->colorSet = '#FF7E79,#9370DB,#00B9F6,#00C9CC,#FF986E,#4169E1,#FFA07A,#98CF5D,#EC87C0,#EB735B,#A88BF1,#29C88F,#FDB600';
         $this->view->isAppmenuPage = true;
 
-        $this->view->menuList = $this->model->getMetaVerseCategoryListModel(16745325116973);
         $this->view->moduleList = $this->model->getMetaVerseModuleListModel();
         
-        if ($this->view->menuList) {
+        if ($this->view->moduleList) {
             
             $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
             $this->view->js = array_unique(array_merge(['custom/addon/plugins/jquery-mixitup/jquery.mixitup.min.js'], $this->view->js));

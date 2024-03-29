@@ -3,17 +3,17 @@
         <div class="appmenu-table-cell-left">
             <ul class="mix-filter">
                 <?php 
-                $cloneMenuList = $this->menuList;
+                $categoryList = Arr::groupByArray($this->moduleList, 'CATEGORY_ID');
                 $cards = [];
                 $firstModule = $firstModuleCode = '';
                 $i = 0;
                 $colorSet = explode(',', $this->colorSet);
                 
-                foreach ($cloneMenuList as $k => $groupRow) {
+                foreach ($categoryList as $k => $groupRow) {
                     
                     $firstIndex = true;
                     $activeClass = $subAppmenu = '';
-                    $title = $this->lang->line($groupRow['NAME']);
+                    $title = $this->lang->line($groupRow['row']['CATEGORY_NAME']);
 
                     if ($i == 0) {
                         $activeClass = '';
@@ -27,8 +27,8 @@
 
                     $i++;
 
-                    foreach ($this->moduleList as $row) {
-                        if ($groupRow['ID'] != $row['CATEGORY_ID']) {
+                    foreach ($groupRow['rows'] as $row) {
+                        if ($groupRow['row']['CATEGORY_ID'] != $row['CATEGORY_ID']) {
                             continue;
                         }
                         
@@ -127,122 +127,7 @@
                         $cards[] = '</a>';
                     }                                 
                 }
-                
-                foreach ($this->moduleList as $row) {
-
-                    if (!empty($row['categoryid'])) {
-                        continue;
-                    }
-                    $k = 999999;
-                    $colorSetIndex = array_rand($colorSet);
-
-                    $row['menucolor'] = '';
-                    $row['isshowcard'] = '';
-                    $row['weburl'] = '';
-                    $row['actionmetadataid'] = '';
-                    $row['actionmetatypeid'] = '';
-                    $row['photoname'] = '';
-
-                    $linkHref = 'javascript:;';
-                    $linkTarget = '_self';
-                    $linkOnClick = '';
-                    $class = ' random-border-radius'.mt_rand(1,3);
-                    $cartbgColor = '';
-
-                    if ($this->isAppmenuNewDesign) {
-                        if ($row['menucolor']) {
-                            $cartbgColor = 'background-color:'.$row['menucolor'].';';
-                        } else {
-                            $cartbgColor = 'background-color:'.$colorSet[$colorSetIndex].';';
-                        }
-                    }
-
-                    if ($row['isshowcard'] == 'true') {
-                        $linkHref = 'appmenu/sub/' . $row['code'];
-                        $linkTarget = '_self';
-                        $linkOnClick = '';
-
-                    } elseif (!empty($row['weburl'])) {
-
-                        if (strtolower(substr($row['weburl'], 0, 4)) == 'http' || $row['weburl'] == 'appmenu/kpi') {
-                            $linkHref = $row['weburl'];
-                        } else {
-                            $linkHref = $row['weburl'] . '&mmid=' . $row['metadataid'];
-                        }
-
-                        $linkTarget = $row['urltrg'];
-                        $linkOnClick = '';
-
-                    } elseif (!empty($row['MENU_INDICATOR_ID']) && !$row['IS_RELATION']) {
-
-                        $linkHref = 'appmenu/module/'.$row['MENU_INDICATOR_ID'].'?kmid='.$row['MENU_INDICATOR_ID'];
-                        $linkTarget = '_self';
-                        $linkOnClick = '';
-                        
-                    } elseif (!empty($row['META_DATA_ID'])) {
-                        
-                        if (!$row['ACTION_META_TYPE_ID']) {
-                            $linkHref = 'appmenu/module/'.$row['META_DATA_ID'].'?mmid='.$row['META_DATA_ID'].'&mid='.$row['META_DATA_ID'];
-                            $linkTarget = '_self';
-                            $linkOnClick = '';
-                        } else {
-                            
-                            $row['metadataid'] = $row['META_DATA_ID'];
-                            $row['actionmetadataid'] = $row['ACTION_META_DATA_ID'];
-                            $row['weburl'] = null;
-                            $row['actionmetatypeid'] = $row['ACTION_META_TYPE_ID'];
-                            $row['grouptype'] = 'dataview';
-                            
-                            $linkMeta = Mdmeta::menuServiceAnchor($row, $row['META_DATA_ID'], $row['META_DATA_ID']);
-                            $linkHref = $linkMeta['linkHref'];
-                            $linkTarget = $linkMeta['linkTarget'];
-                            $linkOnClick = $linkMeta['linkOnClick'];
-                        }
-                    }
-
-                    if ($row['META_DATA_ID'] == '1668505983686113') {
-                        $linkOnClick = 'mvFlowChartExecuteInit(this, \''.$linkHref.'\', \'166848750564710\', true);';
-                        $linkHref = 'javascript:;';
-                    }
-
-                    if ($row['photoname'] != '' && file_exists($row['photoname'])) {
-                        $imgSrc = $row['photoname'];
-                    } else {
-                        $imgSrc = 'assets/custom/img/appmenu.png';
-                    }
-
-                    $bgImageStyle = '';
-                    if (issetParam($row['bgphotoname']) != '' && file_exists($row['bgphotoname'])) {
-                        $bgImageStyle = 'background-image: url('.$row['bgphotoname'].');background-size: cover;';
-                    }                
-
-                    $appInfoTextStyle = '';
-                    if ($bgImageStyle) {
-                        $appInfoTextStyle = 'text-shadow: 2px 2px 2px rgba(0,0,0,0.6);';
-                    }
-
-                    $cards[] = '<a href="' . $linkHref . '" target="' . $linkTarget . '" style="'.$cartbgColor.$bgImageStyle.'" onclick="' . $linkOnClick . '" data-code="' . $k . '" data-modulename="' . $this->lang->line($row['NAME']) . '" class="vr-menu-tile mix ' . $k . $class . '" data-metadataid="' . $row['META_DATA_ID'] . '" data-pfgotometa="1">';
-                        $cards[] = '<div class="d-flex align-items-center">';
-                            $cards[] = '<div class="vr-menu-cell">';
-                                  if (!$this->isAppmenuNewDesign) {
-                                    if ($imgSrc == 'assets/custom/img/appmenu.png' && $row['icon']) {
-                                        $cards[] = '<div class="vr-menu-img"><i style="font-size: 18px;" class="fa '.$row['icon'].'"></i></div>';
-                                    } else {
-                                        $cards[] = '<div class="vr-menu-img"><img src="' . $imgSrc . '"></div>';
-                                    }                                          
-                                  }
-                            $cards[] = '</div>';
-                            $cards[] = '<div class="vr-menu-title">';
-                                $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
-                                    $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['NAME']) . '</div>';
-                                    if (issetParam($row['menucode'])) {
-                                        $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true">' . issetParam($row['menucode']) . '</div>';
-                                    }   
-                                $cards[] = '</div>';
-                            $cards[] = '</div>';
-                        $cards[] = '</div>';
-                    $cards[] = '</a>';
-                }                
+                           
                 echo '<li class="filter' . $activeClass . '" data-filter="' . 999999 . '">';
                 echo '<span class="title">Бусад</span>';                    
                 echo '</li>';                      
