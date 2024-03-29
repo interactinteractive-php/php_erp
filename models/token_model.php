@@ -26,6 +26,7 @@ class Token_Model extends Model {
         $result = $this->db->AutoExecute('UM_USER_MONPASS_MAP', $data);
 
         if ($result) {
+            Session::set(SESSION_PREFIX.'monpassGUID', Input::post('monpassUserId'));
             return true;
         }
         return false;

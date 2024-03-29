@@ -17665,7 +17665,6 @@ fieldset .radio-list .radio-inline .radio {
 ul.bp-icon-selection li {
     margin-right: 10px;
 }
-
 ul.bp-icon-selection li>.item-icon-selection {
     border: 1px solid #ececec;
     text-align: center;
@@ -17679,31 +17678,25 @@ ul.bp-icon-selection li>.item-icon-selection {
     cursor: pointer;
     transition: 0.3s;
 }
-
 ul.bp-icon-selection li>.item-icon-selection img {
     height: 40px;
     width: 40px;
 }
-
-ul.bp-icon-selection li.active>.item-icon-selection {
-    background: #1bbc9b;
-    position: relative;
-}
-
 ul.bp-icon-selection li>.item-icon-selection p {
     margin-top: 5px;
     margin-bottom: 0;
     font-size: 12px;
 }
-
-ul.bp-icon-selection li.active>.item-icon-selection p {
-    color: #fff;
+ul.bp-icon-selection li.active>.item-icon-selection {
+    background-color: #2196f3!important;
+    position: relative;
 }
-
+ul.bp-icon-selection li.active>.item-icon-selection p {
+    color: #fff!important;
+}
 ul.bp-icon-selection li.active>.item-icon-selection div i {
     color: #fff;
 }
-
 ul.bp-icon-selection li.active>.item-icon-selection:before {
     position: absolute;
     display: block;
@@ -17715,7 +17708,6 @@ ul.bp-icon-selection li.active>.item-icon-selection:before {
     font-size: 15px;
     z-index: 999;
 }
-
 ul.bp-icon-selection li>.item-icon-selection:hover {
     background-color: #1B84FF !important;
 }
