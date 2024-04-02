@@ -228,7 +228,10 @@ body  {
     display: block;
     width: 400px;
     position: relative;
-    margin-left: 70px;
+    margin-left: 85px;
+}
+.appmenu-newdesign-header-1 .appmenusearch {
+    margin-left: 285px;
 }
 .appmenu-newdesign-header-1 .appmenusearch input {
     background: #F3F4F6;

@@ -1,5 +1,5 @@
     <?php if ($this->modulId === "1") { ?>
-        <div class="col-lg-8 col-md-8 member m-auto governmentReviewData_<?php echo $this->uniqId ?>">
+        <div class="col-lg-8 col-md-8 member m-auto governmentReviewData_<?php echo $this->uniqId ?>_<?php echo $this->id ?>">
             <div class="ml0 memeber-list">
                 <h1 class="d-none districtreviewTitle<?php echo $this->uniqId ?>"><?php echo (isset($this->mapDuration) && $this->mapDuration) ? $this->mapDuration : '00:00:00' ?></h1>
                 <div class="row mx-auto my-0 justify-content-center">

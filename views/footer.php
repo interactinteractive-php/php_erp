@@ -82,9 +82,9 @@ $(document).ready(function () {
                 if ($sidebarMenu.length) {
                     $sidebarMenu.click();
                 } else {
-                    $sidebarMenu = $('.page-topbar > ul.navbar-nav a[onclick]:eq(0)');
-                    if ($sidebarMenu.length) {
-                        $sidebarMenu.click();
+                    $sidebarMenu = $('.page-topbar > ul.navbar-nav > li.nav-item');
+                    if ($sidebarMenu.length == 1) {
+                        $sidebarMenu.find('a[onclick]:eq(0)').click();
                     }
                 }
             }

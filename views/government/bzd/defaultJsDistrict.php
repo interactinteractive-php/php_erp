@@ -1,7 +1,21 @@
 <script type="text/javascript">
  
     var $government_<?php echo $this->uniqId ?> = $('.government_<?php echo $this->uniqId ?>');
-    
+
+    jQuery(document).ready(function () {
+        try {
+            rtc.on('api_send_all_user', function (data) {
+                switch (data.type) {
+                    case 'raise_hand':
+                        getraiseHand(data.data.subjectid);
+                        break;
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    });
+
     if ($government_<?php echo $this->uniqId ?>.length > 0) {
         
         var height_<?php echo $this->uniqId ?> = $(window).height();
@@ -29,9 +43,12 @@
 
         let timePassed = 0;
 
-        var TIME_LIMIT = 180;
+        var TIME_LIMIT = '';
         let timeLeft = TIME_LIMIT;
         let timerInterval = null;
+        let  TIME_LIMIT_time1 = '';
+        let  TIME_LIMIT_time2 = '';
+
         let timerIntervalProtocal = null;
 
         let remainingPathColor = COLOR_CODES.info.color;  
@@ -39,7 +56,7 @@
         $('.gov_issui_<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-169) + 'px !important; overflow-x: hidden; overflow-y: auto; border-radius: 10px;');
         $('.government_<?php echo $this->uniqId ?> .member-list-conference').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-18) + 'px !important; overflow-x: hidden; overflow-y: auto;');
         $('#protocol-list-<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-357) + 'px !important; overflow-x: hidden;  margin-bottom: 0; overflow-y: auto; border-radius: 10px;');
-        $('.mainmember<?php echo $this->uniqId ?>').attr('style', 'border-radius: 10px;');
+        $('.mainmember<?php echo $this->uniqId ?>').attr('style', 'height: '+(height_<?php echo $this->uniqId ?>-357) + 'px !important; overflow-x: hidden; overflow-y: auto; border-radius: 10px;');
         $('.othermember<?php echo $this->uniqId ?>').attr('style', 'border-radius: 10px;');
 
         $(function() {
@@ -252,7 +269,7 @@
                                     $this.attr('style', 'background: rgb(244, 250, 255);');
                                     $this.removeClass('issue-stop');
                                     $this.find('.p-1').empty().append('<p style="height:100%; border:3px solid #FDC144"></p>');
-                                    $this.find('.fissue').empty().append('<button type="button" class="btn font-weight-bold finishFeedback" data-row="'+ htmlentities(JSON.stringify($district), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocol(this, ' + conferencingIssueId +', '+ conferencingIssueMapid +', <?php echo $this->selectedRowid ?>)"><span>Санал хураалт</span></button><button type="button" class="btn font-weight-bold finishadd setProtocol" onclick="setProtocol_<?php echo $this->uniqId; ?>(this)"><i class="fa icon-quill4"></i></button>');
+                                    $this.find('.fissue').empty().append('<button type="button" class="btn font-weight-bold finishFeedback" data-row="'+ htmlentities(JSON.stringify($district), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocol<?php echo $this->uniqId; ?>(this, ' + conferencingIssueId +', '+ conferencingIssueMapid +', <?php echo $this->selectedRowid ?>)"><span>Санал хураалт</span></button><button type="button" class="btn font-weight-bold finishadd setProtocol" onclick="setProtocol_<?php echo $this->uniqId; ?>(this)"><i class="fa fa-microphone"></i></button>');
                                     startIssue<?php echo $this->uniqId; ?>($this, conferencingIssueId);
                                 }
                             }
@@ -508,9 +525,9 @@
                             for (var i = 0; i < data.length; i++) {
                                 var $isparticipated = data[i].isparticipated;
 
-                                $('#subject_'+ conferencingIssueId).find('.participants').empty().append('Ажлын хэсэг: '+data.length).promise().done(function () {
+                                $('#subject_'+ conferencingIssueId).find('.participants').empty().append('Ажиглагч нар: '+data.length).promise().done(function () {
                                     if (data.length == 1 && typeof data[0] !== 'undefined' && typeof data[0].firstname !== 'undefined' && data[0].firstname === 'Оролцох хүн бүртгээгүй байна') {
-                                        $('#subject_'+ conferencingIssueId).find('.participants').empty().append('Ажлын хэсэг: 0');
+                                        $('#subject_'+ conferencingIssueId).find('.participants').empty().append('Ажиглагч нар: 0');
                                     }
 
                                     $adduser = ($isparticipated === '1') ? 'Ирсэн' : '<i class="icon-checkmark4" style="color:#CD5C5C;"></i>';
@@ -643,7 +660,6 @@
                     });
                 },
                 success: function (data) {
-                    
                     Core.unblockUI('#' + $this.attr('id'));
                     senderWebsocket({type: 'refresh_conference', Html: '1', postId: '<?php echo $this->selectedRowid ?>'});
                     if (typeof data.status !== 'undefined' && data.status === 'warning') {
@@ -1026,7 +1042,7 @@
                             var $checkedstatus = ($statusId === $config['statusid']) ? 'checked="checked"' : '';
                             $checklistHtml +=  '<div class="form-check">' +
                                                     '<label class="form-check-label">' +
-                                                        '<input type="radio" class="form-check-input" name="member_status" data-processcode="'+ $processCodeArr[$index] +'" data-statusicn="'+ $changediconArr[$index] +'" value="'+ $statusId +'">' +
+                                                        '<input type="radio" class="form-check-input" name="member_status" data-processcode="'+ $processCodeArr[$index] +'" data-time="'+ $timeSeq[$index] +'"  data-statusicn="'+ $changediconArr[$index] +'" value="'+ $statusId +'">' +
                                                         '<span class="ml15">'+ $wfmstatusnameArr[$index] +'</span>' +
                                                     '</label>' +
                                                 '</div>';
@@ -1119,6 +1135,7 @@
                                         var $checkOption = $('input[name="member_status"]:checked');
                                         var $status = $checkOption.val();
                                         var $processcode = $checkOption.attr('data-processcode');
+                                        var $processTime = $checkOption.attr('data-time');
                                         var $icn = $checkOption.attr('data-statusicn');
                                         var $iscome = '0';
                                         if ($mainSelectorBoowox.find('input[temp-datapath="time_1"]').length > 0 && $mainSelectorBoowox.find('input[temp-datapath="time_1"]').val() !== $mainSelectorBoowox.find('input[datapath="time_1"]').val()) {
@@ -1141,7 +1158,8 @@
                                                 processcode: $processcode,
                                                 descrition: desc,
                                                 iscome: $iscome,
-                                                timeData: $('.processform-<?php echo $this->uniqId ?>').serialize()
+                                                // timeData: $('.processform-<?php echo $this->uniqId ?>').serialize()
+                                                timeData: $processTime
                                             },
                                             type: 'post',
                                             dataType: "json",
@@ -1153,12 +1171,22 @@
                                             },
                                             success: function (data) {
                                                 if (data.status === 'success') {
-                                                    $this.attr("data-status", $status);
+                                                    $this.attr("data-status", $status); 
+                                                    if ($status === '1560435540486' || $status === '1560435540488' || $status === '1562133250548') {
+                                                        $this.parent().parent().parent().attr("data-status", '1');
+                                                    }else{
+                                                        $this.parent().parent().parent().attr("data-status", '0');
+                                                    }
                                                     
                                                     if (typeof data.wfmdescription !== 'undefined' && data.wfmdescription) {
                                                         $this.closest('li').find('label[class="label'+ $id +'"]').empty().append('Тайлбар : '  + data.wfmdescription);
                                                     }
                                                     
+                                                    if (typeof data.dataPerc.result !== 'undefined' && data.dataPerc.result) {
+                                                        $('.government_<?php echo $this->uniqId ?>').find('.percentOfAttendance').empty().append(data.dataPerc.result.perc);
+                                                        $('.government_<?php echo $this->uniqId ?>').find('input[name="percent"]').val(data.dataPerc.result.perc);
+                                                    }
+
                                                     if (typeof data.config !== 'undefined') {
                                                         var $config = data.config;
                                                         
@@ -2595,7 +2623,7 @@
                     var $rowJson = $row.attr('data-row');
                     var $rowJsonOb = JSON.parse($rowJson);
 
-                    $mainHtml += '<li class="media" data-istalkin="0" data-id="'+ $mainRow['id'] +'" data-bookid="'+ $mainRow['meetingbookid'] +'" data-row="'+ htmlentities(JSON.stringify($rowJsonOb), 'ENT_QUOTES', 'UTF-8') +'" data-type="member">';
+                    $mainHtml += '<li class="media" data-istalkin="0" raiseduserid="'+ $rowJsonOb['userid'] +'" data-id="'+ $mainRow['id'] +'" data-bookid="'+ $mainRow['meetingbookid'] +'" data-row="'+ htmlentities(JSON.stringify($rowJsonOb), 'ENT_QUOTES', 'UTF-8') +'" data-type="member">';
                         $mainHtml += '<a href="javascript:;" class="mr-2 position-relative">';
                             $mainHtml += '<img src="'+ $rowJsonOb['picture'] +'" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">';
                         $mainHtml += '</a>';
@@ -2611,13 +2639,13 @@
                                 $mainHtml += '<img src="assets/custom/img/ico/mic.png" onerror="onUserImgError(this);" data-path="talk" style=" height: 24px !important; width: 24px !important; margin: 0;">';
                             $mainHtml += '</button>';
                         $mainHtml += '</div>';
-                        $mainHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                        $mainHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                             $mainHtml += '<button type="button" id="mem20072106" class="btn startbtn small" title="Микрофонгүй"  onclick="nonetalkProtocol<?php echo $this->uniqId ?>(this)" style="padding: 0!important;" data-num="0"  title="">';
                                 $mainHtml += '<img src="assets/custom/img/ico/ss_mic.png" onerror="onUserImgError(this);" data-path="talking_no" style=" height: 24px !important; width: 18px !important; margin: 0;  display: none;">';
                                 $mainHtml += '<img src="assets/custom/img/ico/audio_mic.png" onerror="onUserImgError(this);" data-path="talk_no" style=" height: 24px !important; width: 24px !important; margin: 0;">';
                             $mainHtml += '</button>';
                         $mainHtml += '</div>';
-                        $mainHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                        $mainHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                             $mainHtml += '<button type="button" class="btn startbtn btnstatus small"  title="Цуцлах"   onclick="cancelProtocol<?php echo $this->uniqId ?>(this)">';
                                 $mainHtml += '<img src="assets/custom/img/ico/mic_cancel.png" onerror="onUserImgError(this);" style="height: 21px !important;width: 20px !important;margin: 0;position: relative;right: 2px;">';
                             $mainHtml += '</button>';
@@ -2645,13 +2673,13 @@
                                 $otherHtml += '<img src="assets/custom/img/ico/mic.png" onerror="onUserImgError(this);" data-path="talk" style=" height: 24px !important; width: 24px !important; margin: 0;">';
                             $otherHtml += '</button>';
                         $otherHtml += '</div>';
-                        $otherHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                        $otherHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                             $otherHtml += '<button type="button" id="mem20072106" title="Микрофонгүй"  class="btn startbtn small" onclick="nonetalkProtocol<?php echo $this->uniqId ?>(this)" style="padding: 0!important;" data-num="0"  title="">';
                                 $otherHtml += '<img src="assets/custom/img/ico/ss_mic.png" onerror="onUserImgError(this);" data-path="talking_no" style=" height: 24px !important; width: 18px !important; margin: 0;  display: none;">';
                                 $otherHtml += '<img src="assets/custom/img/ico/audio_mic.png" onerror="onUserImgError(this);" data-path="talk_no" style=" height: 24px !important; width: 24px !important; margin: 0;">';
                             $otherHtml += '</button>';
                         $otherHtml += '</div>';
-                        $otherHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                        $otherHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                             $otherHtml += '<button type="button" class="btn startbtn btnstatus small" title="Цуцлах"   onclick="cancelProtocol<?php echo $this->uniqId ?>(this)">';
                                 $otherHtml += '<img src="assets/custom/img/ico/mic_cancel.png" onerror="onUserImgError(this);" style="height: 21px !important;width: 20px !important;margin: 0;position: relative;right: 2px;">';
                             $otherHtml += '</button>';
@@ -2679,13 +2707,13 @@
                                     $sectionHtml += '<img src="assets/custom/img/ico/mic.png" onerror="onUserImgError(this);" data-path="talk" style=" height: 24px !important; width: 24px !important; margin: 0;">';
                                 $sectionHtml += '</button>';
                             $sectionHtml += '</div>';
-                            $sectionHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                            $sectionHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                                 $sectionHtml += '<button type="button" id="mem20072106" class="btn startbtn small" title="Микрофонгүй" onclick="nonetalkProtocol<?php echo $this->uniqId ?>(this)" style="padding: 0!important;" data-num="0"  title="">';
                                     $sectionHtml += '<img src="assets/custom/img/ico/ss_mic.png" onerror="onUserImgError(this);" data-path="talking_no" style=" height: 24px !important; width: 18px !important; margin: 0;  display: none;">';
                                     $sectionHtml += '<img src="assets/custom/img/ico/audio_mic.png" onerror="onUserImgError(this);" data-path="talk_no"  style=" height: 24px !important; width: 24px !important; margin: 0;">';
                                 $sectionHtml += '</button>';
                             $sectionHtml += '</div>';
-                            $sectionHtml += '<div class="ml-1 align-self-center" style="margin-top: -3px;">';
+                            $sectionHtml += '<div class="ml-1 align-self-center d-none" style="margin-top: -3px;">';
                                 $sectionHtml += '<button type="button" class="btn startbtn btnstatus small" title="Цуцлах"  onclick="cancelProtocol<?php echo $this->uniqId ?>(this)">';
                                     $sectionHtml += '<img src="assets/custom/img/ico/mic_cancel.png" onerror="onUserImgError(this);" style="height: 21px !important;width: 20px !important;margin: 0;position: relative;right: 2px;">';
                                 $sectionHtml += '</button>';
@@ -2696,7 +2724,7 @@
 
                 var $dialogName = 'dialog-protocol-<?php echo $this->uniqId; ?>';
                 var $html = '';
-                $html += '<div class="government">';
+                $html += '<div class="government setProtocal'+ $mainRow['id'] +'">';
                     $html +='<div class=" member-list-conference sidebar-right2 wmin-350 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md">';
                         $html += '<div class="sidebar-content">';
                             $html += '<div class="org-choice w-100">'+ $mainRow['ordernum'] +'. '+ $mainRow['subjectname'] +'</div>';
@@ -2735,7 +2763,7 @@
                                 $html += '</div>';
                                 $html += '<div class="card mb-1">';
                                     $html += '<div class="card-header bg-transparent header-elements-inline">';
-                                        $html += '<span class="text-uppercase font-weight-bold">Ажлын хэсгийнхэн</span>';
+                                        $html += '<span class="text-uppercase font-weight-bold">АЖИГЛАГЧ НАР</span>';
                                     $html += '</div>';
                                     $html += '<div class="card-body pt-0">';
                                         $html += '<ul class="media-list">';
@@ -2778,6 +2806,7 @@
 
                 $dialog.on('shown.bs.modal', function () {
                     setTimeout(function() {
+                        getraiseHand($mainRow['id']);
                         Core.initAjax($dialog);
                         Core.unblockUI();
                     }, 10);    
@@ -2801,7 +2830,7 @@
                 $parent = $this.closest('li'),
                 $content = $this.closest('.sidebar-content');
             var $dataRow = $parent.attr('data-row');
-            
+
             if (typeof $dataRow !== 'object') {
                 $dataRow = JSON.parse($dataRow);
             }
@@ -2809,6 +2838,8 @@
             var subjectId = $parent.attr('data-id'),
                 bookId = $parent.attr('data-bookid');
                 id = $dataRow['id'];
+                systemUserId = $dataRow['userid'];
+                console.log("systemUserId",systemUserId);
 
             $.ajax({
                 type: "post",
@@ -2818,10 +2849,12 @@
                     id:id,
                     subjectid:subjectId,
                     dataid:dataid,
+                    userid:systemUserId,
                 },
                 beforeSend: function () {
                 },
                 success: function (data) {
+                    getraiseHand(subjectId);
                     if (data.Html['ischeck'] == '1') {
                         PNotify.removeAll();
                         new PNotify({
@@ -2831,7 +2864,16 @@
                             sticker: false
                         });
                     }else{
+                        rtc.apiSendOneUser(systemUserId, {type:'call_process', id: data.Html['subjectparticipantid'], subjectId: subjectId, dataId: dataid, processId:'cmsParticipantTimeMobileGetList_002', processParam: data.Html['subjectparticipantid']+'@id'});
                         TIME_LIMIT = data.Html['starttime'];
+                        if (data.Html['timecolumn'] == 'TIME1') {
+                            TIME_LIMIT_time1 = '0:00';
+                            TIME_LIMIT_time2 = '';
+
+                        }else{
+                            TIME_LIMIT_time1 = '0:00';
+                            TIME_LIMIT_time2 = '0:00';
+                        }
                         timePassed = 0;
                         $innerHTML = `<div class="base-timer mx-auto">
                                 <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -2861,7 +2903,6 @@
                                     '<div class="modal-content">' +
                                         '<div class="modal-header">' +
                                             '<h5 class="modal-title">' +"Санал хэлэх" +"</h5>" +
-                                            '<button type="button" class="bootbox-close-button close" data-dismiss="modal"  aria-hidden="true" onclick="protocalTalkEnd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\')">×</button>' +
                                         "</div>" +
                                         '<div class="modal-body" style="min-height: 350px;">' +
                                             '<input type="hidden" id="firstTime<?php echo $this->uniqId ?>"/>' +
@@ -2887,8 +2928,8 @@
                                             '</audio>' +
                                         "</div>" +
                                         '<div class="modal-footer d-block">' +
-                                            '<button type="button" class="btn btn-sm btn-danger close-basket float-right" onclick="protocalTalkEnd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\')">Дуусгах</button>' +
-                                            '<button type="button" id="participantTime<?php echo $this->uniqId ?>" class="btn close-basket float-right mx-2 d-none" onclick="protocalTalkAdd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\')">Сунгах</button>' +
+                                            '<button type="button" class="btn btn-sm btn-danger close-basket float-right" onclick="protocalTalkEnd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\', \'' + systemUserId +'\')">Дуусгах</button>' +
+                                            '<button type="button" id="participantTime<?php echo $this->uniqId ?>" class="btn close-basket float-right mx-2 d-none" onclick="protocalTalkAdd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectId +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\', \'' + systemUserId +'\')">Сунгах</button>' +
                                         "</div>" +
                                     "</div>" +
                                 "</div>" +
@@ -2926,6 +2967,10 @@
             clearInterval(timerInterval);
         }
 
+        function onPuul<?php echo $this->uniqId ?>() {
+            clearInterval(timerIntervalProtocal);
+        }
+
         function startTimer<?php echo $this->uniqId ?>(id) {
            
             timerInterval = setInterval(() => {
@@ -2945,7 +2990,11 @@
                 onTimesUp<?php echo $this->uniqId ?>();
                 alert("Үг хэлэх хугацаа дууслаа");
                     if (id == '1') {
-                        $('#participantTime'+<?php echo $this->uniqId ?>).removeClass("d-none");   
+                        if (TIME_LIMIT_time2) {
+                            console.log("sfd");
+                        }else{
+                            $('#participantTime'+<?php echo $this->uniqId ?>).removeClass("d-none");  
+                        }
                     }else{
                         $('#participantTime'+<?php echo $this->uniqId ?>).addClass("d-none");   
                     }
@@ -2996,19 +3045,6 @@
             document
                 .getElementById("base-timer-path-remaining")
                 .setAttribute("stroke-dasharray", circleDasharray);
-        }
-
-        function protocalTalkAdd<?php echo $this->uniqId ?>(id, subjectid, dataid, time) {
-            senderWebsocket({type: 'refresh_protocalTalkAgain'});
-
-            TIME_LIMIT = 60;
-            timePassed = 0;
-            $('#base-timer-path-remaining').removeClass('red');
-            $('#base-timer-path-remaining').addClass('green');
-
-            setTimeout(function() {
-                startTimer<?php echo $this->uniqId ?>("2");
-            }, 1);
         }
 
         function nonetalkProtocol<?php echo $this->uniqId ?> (element) {
@@ -3490,7 +3526,7 @@
                                                         + '<span class="timestart timer-start"> </span>'
                                                         + conferenceData['starttime'] + ' - ' + conferenceData['endtime'] + ' <span class="icon-p"  data-toggle="tooltip" data-placement="bottom" title="Цагт засвар хийх" onclick="changeConferenceTimer_<?php echo $this->uniqId ?>(this)"> <i class="icon-alarm"></i></span></p>'
                                                     + '<div class="w-100 participants align-self-center d-flex mt-1">'
-                                                        + '<span>Ажлын хэсэг: '+ ((conferenceData['subjectparticipantcount']) ? conferenceData['subjectparticipantcount'] : '') +'</span>'
+                                                        + '<span>Ажиглагч нар: '+ ((conferenceData['subjectparticipantcount']) ? conferenceData['subjectparticipantcount'] : '') +'</span>'
                                                         + '<button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,'+ conferenceData['id'] +')"><span class="huraldaan-total">'+ conferenceData['total'] +'</span></button>'
                                                     + '</div>'    
                                                 + '</div>'
@@ -4524,7 +4560,7 @@
             $('.workflow-buttons-<?php echo $this->id; ?>').hide();
         }
 
-        function totalProtocol(elem, id, mapid, meetingBookid) {
+        function totalProtocol<?php echo $this->uniqId; ?>(elem, id, mapid, meetingBookid) {
             var $this = $(elem), 
                 $dataRow = JSON.parse($this.attr('data-row'));
             var $selectedId = meetingBookid;
@@ -4532,52 +4568,130 @@
             $.ajax({
                 type: "post",
                 dataType: "json",
-                url: 'conference/reviewTotal', 
+                url: 'conference/puulreview', 
                 data:{
-                    id:id,
-                    selectedId:$selectedId,
-                    mapId:mapid,
-                    meetingBookid:meetingBookid,
-                    uniqid:<?php echo $this->uniqId ?>,
+                    id: id,
+                    meetingBookid: meetingBookid,
+                    mapId: mapid,
                 },
                 beforeSend: function () {
                 },
                 success: function (data) {
-                    var $dialogName = "dialog-popup-" + id;
+                   
+                    var $dialogName = "dialog-popup-Pool" + <?php echo $this->uniqId ?>;
                     $('<div class="modal fade" id="' +$dialogName +'"  tabindex="-1">' +
                             '<div class="modal-dialog modal-xl">' +
                                 '<div class="modal-content">' +
                                     '<div class="modal-header">' +
-                                        '<h5 class="modal-title">' +"Санал хураалтын дүн" +"</h5>" +
+                                        '<h5 class="modal-title"><?php echo Lang::lineCode('Pool_district_title', $this->langCode) ?></h5>' +
                                         '<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>' +
                                     "</div>" +
-                                    '<div class="modal-body" style="min-height: 350px;">' +data.Html +"</div>" +
+                                    '<div class="modal-body">' +data.Html +"</div>" +
                                     '<div class="modal-footer d-block">' +
-                                        '<button type="button" class="btn close-basket float-right" data-row="'+ htmlentities(JSON.stringify($dataRow), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocolEnd<?php echo $this->uniqId ?>(this, ' + id +', '+ mapid +', '+ $selectedId +')">' + data.save_btn  + "</button>" +
+                                        '<button type="button"  data-row="'+ htmlentities(JSON.stringify($dataRow), 'ENT_QUOTES', 'UTF-8') +'" class="btn close-basket float-right" onclick="puul_save<?php echo $this->uniqId ?>(this, ' + id +', '+ mapid +', '+ meetingBookid +')">' + data.save_btn  + '</button>' +
                                     "</div>" +
                                 "</div>" +
                             "</div>" +
                         "</div>"
                     ).appendTo("body");
                     
-                    senderWebsocket({type: 'refresh_conferenceTime', itemid:id, subjectId:$selectedId, mapid:mapid});
-
                     var $dialog = $("#" + $dialogName);
                     $(".modal-dialog").draggable({
                         handle: ".modal-header, .modal-footer",
                     });
                     $dialog.on("shown.bs.modal", function () {
-                        setTimeout(function () {
-                            startDistrictTime(id, mapid, meetingBookid);
-                        }, 10);
                     });
                     $dialog.on("hidden.bs.modal", function () {
                         $dialog.remove();
                     });
                     $dialog.modal("show");
-                    stopreviewTotalData_<?php echo $this->uniqId ?> = 'start';
-                    totalProtocol_<?php echo $this->uniqId ?>(id, $selectedId, mapid,<?php echo $this->uniqId ?>);
                 },
+            });
+        };
+
+        function puul_save<?php echo $this->uniqId ?>(elem, id, mapid, meetingBookid) {
+            var $this = $(elem);
+            var $id = $("#dialog-popup-Pool<?php echo $this->uniqId ?>").find('input[name="puul_id"]').val();
+                $mapid = $("#dialog-popup-Pool<?php echo $this->uniqId ?>").find('input[name="puul_mapid"]').val();
+                $meetingbookid = $("#dialog-popup-Pool<?php echo $this->uniqId ?>").find('input[name="puul_meetingbookid"]').val();
+                $name = $("#dialog-popup-Pool<?php echo $this->uniqId ?>").find('input[name="puul_name"]').val();
+                $dataRow = JSON.parse($this.attr('data-row'));
+            var $selectedId = meetingBookid;
+
+            $.ajax({
+                type: 'post',
+                url: 'conference/startDistrictTimePool', 
+                data: {
+                    id: $id,
+                    meetingBookid: $meetingbookid,
+                    mapId: $mapid,
+                    name: $name,
+                },
+                dataType: 'json',
+                async: false, 
+                beforeSend: function () {
+                
+                },
+                success: function (data) {
+                    $('#dialog-popup-Pool<?php echo $this->uniqId ?>').modal('hide');
+
+                    $.each(data.person, function (index, row) {
+                        rtc.apiSendOneUser(row.userid, {type:'call_process', id: id, bookId: meetingBookid, processId:'CMS_MOBILE_SUBJECT_DETAIL_LIST_003_LITE',processParam: id+'@id', isClose: '0'});
+                    });
+
+                    var $endpuul = data.reviewData.result;
+
+                    if (data.reviewData.status === 'success') {
+                        $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: 'conference/reviewTotal', 
+                            data:{
+                                id:id,
+                                selectedId:$selectedId,
+                                mapId:mapid,
+                                meetingBookid:meetingBookid,
+                                uniqid:<?php echo $this->uniqId ?>,
+                            },
+                            beforeSend: function () {
+                            },
+                            success: function (data) {
+                                var $dialogName = "dialog-popup-" + id;
+                                $('<div class="modal fade" id="' +$dialogName +'"  tabindex="-1">' +
+                                        '<div class="modal-dialog modal-xl">' +
+                                            '<div class="modal-content">' +
+                                                '<div class="modal-header">' +
+                                                    '<h5 class="modal-title">' +"Санал хураалтын дүн" +"</h5>" +
+                                                "</div>" +
+                                                '<div class="modal-body" style="min-height: 350px;">' +data.Html +"</div>" +
+                                                '<div class="modal-footer d-block">' +
+                                                    '<button type="button" class="btn close-basket float-right" end-data="'+ htmlentities(JSON.stringify($endpuul), 'ENT_QUOTES', 'UTF-8') +'" data-row="'+ htmlentities(JSON.stringify($dataRow), 'ENT_QUOTES', 'UTF-8') +'" onclick="totalProtocolEnd<?php echo $this->uniqId ?>(this, ' + id +', '+ mapid +', '+ $selectedId +',\''+$name+'\',)">' + data.save_btn  + "</button>" +
+                                                "</div>" +
+                                            "</div>" +
+                                        "</div>" +
+                                    "</div>"
+                                ).appendTo("body");
+                                
+                                senderWebsocket({type: 'refresh_conferenceTime', itemid:id, subjectId:$selectedId, mapid:mapid});
+
+                                var $dialog = $("#" + $dialogName);
+                                $(".modal-dialog").draggable({
+                                    handle: ".modal-header, .modal-footer",
+                                });
+                                $dialog.on("shown.bs.modal", function () {
+                                    setTimeout(function () {
+                                    }, 10);
+                                });
+                                $dialog.on("hidden.bs.modal", function () {
+                                    $dialog.remove();
+                                });
+                                $dialog.modal("show");
+                                stopreviewTotalData_<?php echo $this->uniqId ?> = 'start';
+                                totalProtocol_<?php echo $this->uniqId ?>(id, $selectedId, mapid, <?php echo $this->uniqId ?>);
+                            },
+                        });
+                    }
+                }
             });
         };
 
@@ -4670,8 +4784,8 @@
                                 var $dhtml = "";
                                 var $rhtml = "";
                                 var $thtml = "";
-                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewMinit"]').text($minute);
-                                $('.governmentReviewData_<?php echo $this->uniqId ?>').find('span[data-name="reviewSeconds"]').text($second);
+                                $('.governmentReviewData_<?php echo $this->uniqId ?>_'+id).find('span[data-name="reviewMinit"]').text($minute);
+                                $('.governmentReviewData_<?php echo $this->uniqId ?>_'+id).find('span[data-name="reviewSeconds"]').text($second);
                                 $dhtml +='<span class="p-1 mr-2" style="font-size: 14px; color:#034591;">' + $approvedparticipant + ' ' + $approvedpercent +' </span>';
                                 $rhtml +='<span class="p-1 mr-2" style="font-size: 14px; color:#034591;">' + $declinedparticipant + ' ' + $declinedpercent +' </span>';
                                 $thtml +='<span class="px-2 py-1">' + $manyTotal + '</span> / <span class="px-2 py-1">' + $total + '</span>';
@@ -4706,10 +4820,12 @@
                 }, 1000);
         }
 
-        function totalProtocolEnd<?php echo $this->uniqId ?>(elem, subjectid, mapid, meetingBookid) {
+        function totalProtocolEnd<?php echo $this->uniqId ?>(elem, subjectid, mapid, meetingBookid, name) {
             var $this = $(elem), 
                 $dataRow = JSON.parse($this.attr('data-row'));
-               
+                $endRow = JSON.parse($this.attr('end-data'));
+            var $selectedId = meetingBookid;
+            rtc.apiSendAllUser({type: 'hide_popup', subjectId: subjectid});
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -4718,37 +4834,19 @@
                     subjectid:subjectid,
                     mapid:mapid,
                     meetingBookid:meetingBookid,
+                    selectedId:$selectedId,
+                    name:name,
+                    endData:$endRow,
                     uniqid:<?php echo $this->uniqId ?>,
                 },
                 success: function (data) {
                     var $dialogName = "dialog-popup-" + subjectid;
                     $('#'+$dialogName).modal('hide');
+                    onPuul<?php echo $this->uniqId ?>();
                     stopreviewTotalData_<?php echo $this->uniqId ?> = 'stop';
-                    dieIssueEnd<?php echo $this->uniqId; ?>($this, subjectid, meetingBookid);
+                    reloadDistrict<?php echo $this->uniqId; ?>('reload', '', subjectid, meetingBookid);
                 }
             });
-        }
-
-        function dieIssueEnd<?php echo $this->uniqId; ?>($this, conferencingIssueId, meetingBookid) {
-            $.ajax({
-                type: 'post',
-                url: 'conference/getConferenceEndTime', 
-                data: {
-                    id: conferencingIssueId,
-                    dataRow: JSON.parse($this.attr('data-row'))
-                },
-                dataType: 'json',
-                async: false, 
-                beforeSend: function () {
-                    Core.blockUI({
-                        animate: true,
-                        target: '#' + $this.attr('id')
-                    });
-                },
-                success: function (data) {
-                    reloadDistrict<?php echo $this->uniqId; ?>('reload', '', conferencingIssueId, meetingBookid);
-                }
-            });    
         }
 
         function reloadDistrict<?php echo $this->uniqId ?>(dataType, $thisElement) {
@@ -4800,33 +4898,39 @@
             });
         }
 
-        function startDistrictTime(id, mapid, meetingBookid) {
-            $.ajax({
-                type: 'post',
-                url: 'conference/startDistrictTime', 
-                data: {
-                    id: id,
-                    meetingBookid: meetingBookid,
-                    mapId: mapid,
-                },
-                dataType: 'json',
-                async: false, 
-                beforeSend: function () {
-                
-                },
-                success: function (data) {
-                    console.log(data);
-                }
-            });    
+        function protocalTalkEnd<?php echo $this->uniqId ?>(id, subjectid, dataid, time,systemUserId,time1,time2) {
+            senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>, time:time, sessionId: <?php echo $this->sessionUserKeyId ?> });
+
+            rtc.apiSendOneUser(systemUserId, {type:'hide_popup', id: id, subjectId: subjectid, dataId: dataid, processId:'cmsParticipantTimeMobileGetList_002', processParam: id+'@id'});
+            onTimesUp<?php echo $this->uniqId ?>();
+            TIME_LIMIT = "";
+            timePassed = 0;
+            setTimeout(function(){
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: 'conference/protocalTalkEnd',
+                    data:{
+                        id:id,
+                        subjectid: subjectid,
+                        dataid: dataid,
+                        time1: TIME_LIMIT_time1,
+                        time2: TIME_LIMIT_time2,
+                    },
+                    success: function (data) {
+                        var $dialogName = "dialog-popupProtocal-" + <?php echo $this->uniqId ?>;
+                        $('#'+$dialogName).modal('hide');
+                        
+                    }
+                });
+            }, 1000);
+           
         }
 
-        function protocalTalkEnd<?php echo $this->uniqId ?>(id, subjectid, dataid, time) {
-            senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>, time:time });
-            var time1 = $('#firstTime'+ <?php echo $this->uniqId ?>).text(); 
-            var time2 = $('#secondTime'+ <?php echo $this->uniqId ?>).text(); 
-            onTimesUp<?php echo $this->uniqId ?>();
-            TIME_LIMIT = time;
-            timePassed = 0;
+        function protocalTalkAdd<?php echo $this->uniqId ?>(id, subjectid, dataid, time, systemUserId) {
+            senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>, time:time, sessionId: <?php echo $this->sessionUserKeyId ?> });
+            rtc.apiSendOneUser(systemUserId, {type:'hide_popup', id: id, subjectId: subjectid, dataId: dataid, processId:'cmsParticipantTimeMobileGetList_002', processParam: id+'@id'});
+           
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -4835,18 +4939,169 @@
                     id:id,
                     subjectid: subjectid,
                     dataid: dataid,
-                    time1: time1,
-                    time2: time2,
+                    time1: TIME_LIMIT_time1,
+                    time2: TIME_LIMIT_time2,
                 },
                 success: function (data) {
                     var $dialogName = "dialog-popupProtocal-" + <?php echo $this->uniqId ?>;
                     $('#'+$dialogName).modal('hide');
-                    
+
+                    setTimeout(function(){
+                        $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: 'conference/protocalTalk', 
+                            data:{
+                                id:id,
+                                subjectid:subjectid,
+                                dataid:dataid,
+                                userid:systemUserId,
+                            },
+                            beforeSend: function () {
+                            },
+                            success: function (data) {
+                                getraiseHand(subjectid);
+                                if (data.Html['ischeck'] == '1') {
+                                    PNotify.removeAll();
+                                    new PNotify({
+                                        title: '',
+                                        text: data.Html['checkmessage'],
+                                        type: 'warning',
+                                        sticker: false
+                                    });
+                                }else{
+                                    rtc.apiSendOneUser(systemUserId, {type:'call_process', id: data.Html['subjectparticipantid'], subjectId: subjectid, dataId: dataid, processId:'cmsParticipantTimeMobileGetList_002', processParam: data.Html['subjectparticipantid']+'@id'});
+                                    TIME_LIMIT = data.Html['starttime'];
+                                    if (data.Html['timecolumn'] == 'TIME1') {
+                                        TIME_LIMIT_time1 = '0:00';
+                                        TIME_LIMIT_time2 = '';
+
+                                    }else{
+                                        TIME_LIMIT_time1 = '0:00';
+                                        TIME_LIMIT_time2 = '0:00';
+                                    }
+                                    timePassed = 0;
+                                    $innerHTML = `<div class="base-timer mx-auto">
+                                            <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                                <g class="base-timer__circle">
+                                                <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                                                <path
+                                                    id="base-timer-path-remaining"
+                                                    stroke-dasharray="283"
+                                                    class="base-timer__path-remaining ${remainingPathColor}"
+                                                    d="
+                                                    M 50, 50
+                                                    m -45, 0
+                                                    a 45,45 0 1,0 90,0
+                                                    a 45,45 0 1,0 -90,0
+                                                    "
+                                                ></path>
+                                                </g>
+                                            </svg>
+                                            <span id="base-timer-label" class="base-timer__label">${formatTime(
+                                                timeLeft
+                                            )}</span>
+                                        </div>
+                                        `;
+                                    var $dialogName = "dialog-popupProtocal-" + <?php echo $this->uniqId ?>;
+                                    $('<div class="modal fade" id="' +$dialogName +'" tabindex="-1">' +
+                                            '<div class="modal-dialog modal-sm m-auto">' +
+                                                '<div class="modal-content">' +
+                                                    '<div class="modal-header">' +
+                                                        '<h5 class="modal-title">' +"Санал хэлэх" +"</h5>" +
+                                                    "</div>" +
+                                                    '<div class="modal-body" style="min-height: 350px;">' +
+                                                        '<input type="hidden" id="firstTime<?php echo $this->uniqId ?>"/>' +
+                                                        '<input type="hidden" id="secondTime<?php echo $this->uniqId ?>"/>' +
+                                                        '<div class="d-flex m-2">'+
+                                                            '<a href="javascript:;" class="mr-2 position-relative">' +
+                                                                '<img src="'+ data.Html['picture'] +'" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">' +
+                                                            '</a>' +
+                                                            '<div class="media-body flex-col">'+
+                                                                '<div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">'+
+                                                                    '<span>'+ data.Html['firstname'] +'</span>'+
+                                                                '</div>'+
+                                                                '<span class="memberposition">'+ data.Html['positionname'] +'</span>'+
+                                                            '</div>'+
+                                                        '</div>'+
+                                                        '<div class="flex-col text-center my-3">' +
+                                                            '<span class="protocalTxt mb-5">Үг хэлэх хугацаа</span>' + 
+                                                            $innerHTML +
+                                                        '</div>' + 
+                                                        '<audio id="timer-beep">' +
+                                                            '<source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/41203/beep.mp3"/>' +
+                                                            '<source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/41203/beep.ogg" />' +
+                                                        '</audio>' +
+                                                    "</div>" +
+                                                    '<div class="modal-footer d-block">' +
+                                                        '<button type="button" class="btn btn-sm btn-danger close-basket float-right" onclick="protocalTalkEnd<?php echo $this->uniqId ?>(\''+ id +'\', \''+ subjectid +'\', \'' + dataid +'\', \'' + data.Html['starttime'] +'\', \'' + systemUserId +'\')">Дуусгах</button>' +
+                                                    "</div>" +
+                                                "</div>" +
+                                            "</div>" +
+                                        "</div>"
+                                    ).appendTo("body");
+                                    startTimer<?php echo $this->uniqId ?>("1");
+                                    var $dialog = $("#" + $dialogName);
+                                    $dialog.modal({
+                                        show: false,
+                                        keyboard: false,
+                                        backdrop: "static",
+                                    });
+                                    $(".modal-dialog").draggable({
+                                        handle: ".modal-header, .modal-footer",
+                                    });
+                                    $dialog.on("shown.bs.modal", function () {
+                                        senderWebsocket({type: 'refresh_protocalTalk', id: id, subjectId: subjectid, dataid: dataid , uniqId: <?php echo $this->uniqId ?> });
+                                    });
+                                    $dialog.on("hidden.bs.modal", function () {
+                                        $dialog.remove();
+                                        senderWebsocket({type: 'refresh_protocalTalkEnd', uniqId: <?php echo $this->uniqId ?>,time:data.Html['starttime']});
+                                    });
+                                    $dialog.modal("show");
+                                }
+                            },
+                        });
+                    }, 1000);
+                }
+            });
+            
+        }
+        
+        function getraiseHand(id) {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: 'conference/getRiseHand',
+                data:{
+                    subjectid: id,
+                },
+                success: function (data) {
+                    let $data = data.data.dtl;
+                    if ($data) {
+                        $.each($data, function (index, row) {
+                            var $riseSubjectid = row.subjectid;
+                            var $riseUserid = row.raiseduserid;
+                            var $risewfm = row.wfmstatusid;
+
+                            var $setProtocalRise = $('.setProtocal'+$riseSubjectid).find('li.media');
+                            $.each($setProtocalRise, function ($index, row) {
+                                var $row = $(row);
+                                if ($row.attr('raiseduserid') == $riseUserid) {
+                                    if ($risewfm == "1710575243249059") {
+                                        $row.find('img[data-path="talking"]').show();
+                                        $row.find('img[data-path="talk"]').hide();
+                                    }else{
+                                        $row.find('img[data-path="talking"]').hide();
+                                        $row.find('img[data-path="talk"]').show();  
+                                    }
+                                }
+                            });
+                        });
+                    }
                 }
             });
         }
     }
-
     
 
 </script>

@@ -4,7 +4,6 @@ $role = $this->memberRole['readonly'];
 ?>
     <div class="col-md-12 v1 government_<?php echo $this->uniqId ?> p-1" data-process-id="<?php echo $this->uniqId ?>" data-bp-uniq-id="<?php echo $this->uniqId ?>">
         <form action=""  method="post" id="gov_form_<?php echo $this->uniqId; ?>">
-
             <div class="d-flex align-items-start flex-column flex-md-row">
                 <div class="w-100 order-2 order-md-1">
                     <div class="card border-none">
@@ -93,7 +92,7 @@ $role = $this->memberRole['readonly'];
                         }
                          ?>
                         <div class="<?php echo $colclass; ?> ">
-                            <div class="card "  style="display: none !important; ">
+                            <div class="card" style="display: none !important; ">
                                 <div class="page-header-content header-elements-md-inline px-0 border-none" style="min-height: 100px;  ">
                                     <div class="page-title d-flex align-items-center pt-3 pb-3" id="selected-conference-<?php echo $this->uniqId ?>" style="display: none !important">
                                         <div class="badge general_number badge-primary d-flex flex-column ph28">
@@ -159,7 +158,7 @@ $role = $this->memberRole['readonly'];
                                             </li>
                                         </ul>
                                         <a href="#highlighted-justified-tab1_<?php echo $this->uniqId; ?>"
-                                            class="nav-link active show text-uppercase font-weight-bold pt-0"
+                                            class="nav-link active show text-uppercase font-weight-bold pt-0 huraldaan-color"
                                             data-typeid="<?php echo $this->kheleltsekhTypeId ?>"
                                             data-toggle="tab">
                                             Хэлэлцэх
@@ -217,12 +216,10 @@ $role = $this->memberRole['readonly'];
                                                             </span>
                                                         </p>
                                                         <div class="w-100 participants align-self-center d-flex mt-1">
-                                                            <span> Ажлын хэсэг: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
-                                                            <?php if ($isFinished) { ?>
-                                                                <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
-                                                                    <span class="huraldaan-total"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
-                                                                </button>
-                                                            <?php } ?>
+                                                            <span> Ажиглагч нар: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
+                                                            <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
+                                                                <span class="huraldaan-total"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="fissue align-self-center ml-3">
@@ -230,8 +227,10 @@ $role = $this->memberRole['readonly'];
                                                             <span class="badge badge-success"><?php echo ($issuelist['count']) ? $issuelist['count'] : ''; ?></span>
                                                             <button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>')"><i class="fa fa-gavel"></i></button>
                                                         <?php } elseif ($class === 'issue-start') { ?>
-                                                            <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id'] ?>')"><i class="fa icon-quill4"></i></button>
-                                                            <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
+                                                            <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id'] ?>')">
+                                                                <i class="fa fa-microphone"></i>
+                                                            </button>
+                                                            <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
                                                                 <span>Санал хураалт</span>
                                                             </button>
                                                         <?php } ?>
@@ -245,7 +244,7 @@ $role = $this->memberRole['readonly'];
                                         </div>
                                         <a href="#highlighted-justified-tab2_<?php echo $this->uniqId; ?>"
                                             data-typeid="<?php echo $this->taniltsakhTypeId ?>"
-                                            class="nav-link text-uppercase font-weight-bold" data-toggle="tab">
+                                            class="nav-link text-uppercase font-weight-bold huraldaan-color" data-toggle="tab">
                                             Тогтоол
                                         </a>
                                         <div id="highlighted-justified-tab2_<?php echo $this->uniqId; ?>">
@@ -297,12 +296,10 @@ $role = $this->memberRole['readonly'];
                                                             </span>
                                                         </p>
                                                         <div class="participants align-self-center d-flex mt-1">
-                                                            <span> Ажлын хэсэг: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
-                                                            <?php if ($isFinished) { ?>
-                                                                <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
-                                                                    <span class="huraldaan-total ml-auto"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
-                                                                </button>
-                                                            <?php } ?>
+                                                            <span> Ажиглагч нар: <?php echo ($issuelist['subjectparticipantcount']) ? $issuelist['subjectparticipantcount'] : '0'; ?></span>
+                                                            <button type="button" class="btn btn-outline-primary border-none ml-auto px-1 py-0" onclick="totalSum(this,<?php echo $issuelist['id'] ?>)">
+                                                                <span class="huraldaan-total ml-auto"><?php echo ($issuelist['total']) ? $issuelist['total'] : ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="fissue align-self-center ml-3">
@@ -310,8 +307,10 @@ $role = $this->memberRole['readonly'];
                                                             <span class="badge badge-success"><?php echo ($issuelist['count']) ? $issuelist['count'] : ''; ?></span>
                                                             <button type="button" class="btn font-weight-bold finishadd" onclick="finishByDescription_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>')"><i class="fa fa-gavel"></i></button>
                                                         <?php } elseif ($class === 'issue-start') { ?>
-                                                            <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id']; ?>')"><i class="fa icon-quill4"></i></button>
-                                                            <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
+                                                            <button type="button" class="btn font-weight-bold finishadd" onclick="setProtocol_<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $this->selectedRow['id']; ?>')">
+                                                                <i class="fa fa-microphone"></i>
+                                                            </button>
+                                                            <button type="button" class="btn font-weight-bold finishFeedback" data-row ="<?php echo $tempRowJson; ?>" onclick="totalProtocol<?php echo $this->uniqId; ?>(this, '<?php echo $issuelist['id'] ?>', '<?php echo $issuelist['mapid']; ?>', '<?php echo $issuelist['meetingbookid']; ?>')">
                                                                 <span>Санал хураалт</span>
                                                             </button>
                                                         <?php } ?>
@@ -329,163 +328,166 @@ $role = $this->memberRole['readonly'];
                             <!-- NOT TAB END -->
                         </div> 
                         <div class="col-<?php echo ($role === '1') ? '3' : '4' ?> <?php echo ($role == '2') ? 'd-none' : ''; ?>">
-                            <div class="card mb-3" id="protocol-list-<?php echo $this->uniqId ?>">
-                                <div class="card-header header-elements-inline">
-                                    <h6 class="card-title font-weight-bold text-uppercase protocol-title huraldaan-color">Ажиглагч нар<br><span style="color:#A0A0A0"></span></h6>
-                                </div>
-                                <div class="card-body">
-                                    <div id="govaddmember<?php echo $this->uniqId ?>"></div>
-                                    <ul class="media-list other-member-list" id="other-member-list-<?php echo $this->uniqId ?>">
-                                    </ul>
-                                </div>
-                            </div> 
-                            <?php if ($role !== '1') { ?>
-                                <div class="card" id="protocol-list-<?php echo $this->uniqId ?>" style="border-radius: 10px;">
-                                    <div class="card-header header-elements-inline ">
-                                        <h6 class="card-title font-weight-bold text-uppercase protocol-title">Асуудлын тэмдэглэл <span style="color:#A0A0A0"></span></h6>
-                                        <div id="issue<?php echo $this->uniqId ?>"></div>
+                            <div class="member-list-conference">
+                                <div class="sidebar-content">
+                                    <div class="card mainmember<?php echo $this->uniqId ?>">
+                                        <div class="card-header bg-transparent header-elements-inline">
+                                            <span class="text-uppercase font-weight-bold">Хуралдаанд оролцогчид</span>
+                                            <div class="header-elements">
+                                                <div class="list-icons">
+                                                    <a class="list-icons-item" data-action="collapse"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body pt-0">
+                                            <ul class="media-list">
+                                                <?php
+                                                foreach($this->member as $row => $member) { 
+                                                    $rowJson = htmlentities(json_encode($member), ENT_QUOTES, 'UTF-8'); 
+                                                    ?>
+                                                <li class="media media_<?php echo $member['id']; ?>" data-status="<?php echo ($member['wfmstatusid'] === "1506391592724323" || $member['wfmstatusid'] === "1560435540488" || $member['wfmstatusid'] === "1506391623676392" || $member['wfmstatusid'] === "1560435540486"|| $member['wfmstatusid'] === "1562133250548") ? '1' : '0'; ?>" data-row="<?php echo $rowJson; ?>" id="media_<?php echo $member['id']; ?>">
+
+                                                    <input type="hidden" name="employeekeyid[]" value="<?php echo $member['employeekeyid']?>">
+                                                    <input type="hidden" name="wfmstatusid[]" value="<?php echo $member['wfmstatusid']?>">
+                                                    <input type="hidden" name="userid[]" value="<?php echo $member['id']?>">    
+                                                    
+                                                    <a href="javascript:;" class="mr-2 position-relative">
+                                                        <div class="data-tooltip">
+                                                            <img src="<?php echo $member['picture']; ?>" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">
+                                                            <div class="tooltipright">
+                                                                <h5><?php echo $member['positionname']; ?></h5>
+                                                                <label class="label<?php echo $member['id']; ?>"><?php echo (isset($member['wfmdescription']) && $member['wfmdescription']) ? 'Тайлбар : ' . $member['wfmdescription'] : ''; ?></label>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="media-body" style="width:30%">
+                                                        <div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">
+                                                            <span title="<?php echo $member['employeename']; ?>"><?php echo $member['employeename']; ?></span>
+                                                            <!--<span class="badgecus log<?php echo $member['id'];?>" onclick="memberLog(this, '<?php echo $member['id'];?>')"><i class="icon-pencil"></i></span>-->
+                                                        </div>
+                                                        <span class="memberposition"><?php echo $member['positionname']; ?></span>
+                                                    </div>
+
+                                                    <div class="ml-3 align-self-center" style="margin-top: -3px;">
+                                                        <a href="javascript:;" class="position-relative">
+                                                            <button
+                                                                    type="button"  
+                                                                    <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>  
+                                                                    id="mem<?php echo $member['id'];?>" 
+                                                                    class="btn startbtn small" 
+                                                                    data-num="<?php echo $member['isarrived'];?>"  
+                                                                    onclick="member_list_<?php echo $this->uniqId; ?>(this, '<?php echo $member['id']; ?>', '<?php echo $member['bookid']; ?>', '<?php echo $member['employeekeyid']; ?>', '<?php echo $member['isarrived'];?>')" 
+                                                                    data-status="<?php echo $member['wfmstatusid'];?>"
+                                                                    title="<?php // echo $member['time1']; ?>">
+                                                                <?php echo ($member['time1']) ? $member['time1'] : 'Ирсэн'; ?>
+                                                                <?php // echo ($member['isarrived'] == '1') ? "<i class='icon-pause memberactive".$member['id']."'></i>" : "<i class='btn-icon" . $member['id'] . " icon-play4'></i>"; ?>
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                    <div class="ml-1 align-self-center" style="margin-top: -3px;">
+                                                        <a href="javascript:void(0);" class="position-relative">
+                                                            <button 
+                                                                type="button" 
+                                                                <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>  
+                                                                class="btn startbtn btnstatus   small "
+                                                                id="btnstatus_<?php echo $member['id']; ?>" 
+                                                                onclick = "member_status_<?php echo $this->uniqId; ?>(this, '<?php echo $member['id']; ?>', '<?php echo $member['bookid']; ?>' , '<?php echo $member['employeekeyid']; ?>', '<?php echo $member['isarrived'];?>')" 
+                                                                data-status = "<?php echo $member['wfmstatusid'];?>">
+                                                                <i class='<?php echo $member['wfmicon'] ?>'></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <textarea name="enter-protocol" data-subject-id="" class="form-control" placeholder="Тэмдэглэлээ бичээд ENTER дарна уу..." style="height: 50px">@</textarea>
-                                        <ul class="media-list media-chat-scrollable mt10 conferencing-protocol-list" id="conferencing-protocol-list-<?php echo $this->uniqId ?>"></ul>
+                                    <div class="card othermember<?php echo $this->uniqId ?>">
+                                        <div class="card-header bg-transparent header-elements-inline">
+                                            <span class="text-uppercase font-weight-bold">Бусад оролцогчид</span>
+                                        </div>
+                                        <div class="card-body pt-0">
+                                            <ul class="media-list">
+                                                <?php foreach($this->othermember as $row => $othermember) { 
+                                                    $rowJson = htmlentities(json_encode($othermember), ENT_QUOTES, 'UTF-8');
+                                                    if ($othermember['id']) { ?>
+                                                    <li class="media media_<?php echo $othermember['id']; ?>" data-status="<?php echo ($othermember['time1']) ? '1' : '0'; ?>" data-row="<?php echo $rowJson; ?>" id="media_<?php echo $othermember['id']; ?>">
+                                                        <a href="javascript:;" class="mr-2 position-relative">
+                                                            <div class="data-tooltip">
+                                                                <img src="<?php echo $othermember['picture']; ?>" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">
+                                                                <div class="tooltipright">
+                                                                    <h5><?php echo $othermember['positionname']; ?></h5>
+                                                                    <label class="label<?php echo $othermember['id']; ?>"><?php echo (isset($othermember['wfmdescription']) && $othermember['wfmdescription']) ? 'Тайлбар : ' . $othermember['wfmdescription'] : ''; ?></label>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">
+                                                                <span><?php echo $othermember['employeename']; ?></span>
+                                                            </div>
+                                                            <span class="memberposition"><?php echo $othermember['positionname']; ?></span>
+                                                        </div>
+                                                        <div class="ml-3 align-self-center" style="margin-top: -3px;">
+                                                            <a href="javascript:;" class="position-relative">
+                                                                <button type="button" 
+                                                                    <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>
+                                                                    id="mem<?php echo $othermember['id'];?>" 
+                                                                    class="btn startbtn small" 
+                                                                    data-num="1<?php echo $othermember['isarrived'];?>"  
+                                                                    onclick="member_list_<?php echo $this->uniqId; ?>(this, '<?php echo $othermember['id']; ?>', '<?php echo $othermember['bookid']; ?>', '<?php echo $othermember['employeekeyid']; ?>', '<?php echo $othermember['isarrived'];?>')">
+                                                                    <?php echo ($othermember['time1']) ? $othermember['time1'] : 'Ирсэн'; ?>
+                                                                    <?php echo ''; //($othermember['isarrived'] == '1') ? "<i class='icon-pause memberactive".$othermember['id']."'></i>" : "<i class='btn-icon" . $othermember['id'] . " icon-play4'></i>"; ?>
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <div class="ml-1 align-self-center " style="margin-top: -3px;">
+                                                            <a href="javascript:void(0);" class="position-relative">
+                                                                <button 
+                                                                    type="button" 
+                                                                    <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?> 
+                                                                    class="btn startbtn btnstatus  small"  
+                                                                    id="btnstatus_<?php echo $othermember['id']; ?>" 
+                                                                    onclick="member_status_<?php echo $this->uniqId; ?>(this, '<?php echo $othermember['id']; ?>', '<?php echo $othermember['bookid']; ?>', '<?php echo $othermember['employeekeyid']; ?>', '<?php echo $othermember['isarrived'];?>')" 
+                                                                    data-status="<?php echo $othermember['wfmstatusid'];?>">
+                                                                    <i class='<?php echo $othermember['wfmicon'] ?>'></i>
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                <?php } }?>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="<?php echo ($role === '1') ? 'd-none' : (($role == '2') ? 'd-none' : '') ?> member-list-conference sidebar-right2 wmin-350 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md">
-                    <div class="sidebar-content">
-                        <div class="card mainmember<?php echo $this->uniqId ?>">
-                            <div class="card-header bg-transparent header-elements-inline">
-                                <span class="text-uppercase font-weight-bold">Хуралдаанд оролцогчид</span>
-                                <div class="header-elements">
-                                    <div class="list-icons">
-                                        <a class="list-icons-item" data-action="collapse"></a>
-                                    </div>
-                                </div>
+                <div class="<?php echo ($role === '1') ? 'd-none' : (($role == '2') ? 'd-none' : '') ?> sidebar-right2 wmin-250 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md"> 
+                    <?php if ($role !== '1') { ?>
+                        <div class="card mb-3" id="protocol-list-<?php echo $this->uniqId ?>" style="border-radius: 10px;">
+                            <div class="card-header header-elements-inline ">
+                                <h6 class="card-title font-weight-bold text-uppercase protocol-title">Асуудлын тэмдэглэл <span style="color:#A0A0A0"></span></h6>
+                                <div id="issue<?php echo $this->uniqId ?>"></div>
                             </div>
-
-                            <div class="card-body pt-0">
-                                <ul class="media-list">
-                                    <?php
-                                    foreach($this->member as $row => $member) { 
-                                        $rowJson = htmlentities(json_encode($member), ENT_QUOTES, 'UTF-8');
-                                        ?>
-                                    <li class="media media_<?php echo $member['id']; ?>" data-status="<?php echo ($member['time1']) ? '1' : '0'; ?>" data-row="<?php echo $rowJson; ?>" id="media_<?php echo $member['id']; ?>">
-
-                                        <input type="hidden" name="employeekeyid[]" value="<?php echo $member['employeekeyid']?>">
-                                        <input type="hidden" name="wfmstatusid[]" value="<?php echo $member['wfmstatusid']?>">
-                                        <input type="hidden" name="userid[]" value="<?php echo $member['id']?>">    
-                                        
-                                        <a href="javascript:;" class="mr-2 position-relative">
-                                            <div class="data-tooltip">
-                                                <img src="<?php echo $member['picture']; ?>" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">
-                                                <div class="tooltipright">
-                                                    <h5><?php echo $member['positionname']; ?></h5>
-                                                    <label class="label<?php echo $member['id']; ?>"><?php echo (isset($member['wfmdescription']) && $member['wfmdescription']) ? 'Тайлбар : ' . $member['wfmdescription'] : ''; ?></label>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="media-body">
-                                            <div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">
-                                                <span><?php echo $member['employeename']; ?></span>
-                                                <!--<span class="badgecus log<?php echo $member['id'];?>" onclick="memberLog(this, '<?php echo $member['id'];?>')"><i class="icon-pencil"></i></span>-->
-                                            </div>
-                                            <span class="memberposition"><?php echo $member['positionname']; ?></span>
-                                        </div>
-
-                                        <div class="ml-3 align-self-center" style="margin-top: -3px;">
-                                            <a href="javascript:;" class="position-relative">
-                                                <button
-                                                        type="button"  
-                                                        <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>  
-                                                        id="mem<?php echo $member['id'];?>" 
-                                                        class="btn startbtn small" 
-                                                        data-num="<?php echo $member['isarrived'];?>"  
-                                                        onclick="member_list_<?php echo $this->uniqId; ?>(this, '<?php echo $member['id']; ?>', '<?php echo $member['bookid']; ?>', '<?php echo $member['employeekeyid']; ?>', '<?php echo $member['isarrived'];?>')" 
-                                                        data-status="<?php echo $member['wfmstatusid'];?>"
-                                                        title="<?php // echo $member['time1']; ?>">
-                                                    <?php echo ($member['time1']) ? $member['time1'] : 'Ирсэн'; ?>
-                                                    <?php // echo ($member['isarrived'] == '1') ? "<i class='icon-pause memberactive".$member['id']."'></i>" : "<i class='btn-icon" . $member['id'] . " icon-play4'></i>"; ?>
-                                                </button>
-                                            </a>
-                                        </div>
-                                        <div class="ml-1 align-self-center" style="margin-top: -3px;">
-                                            <a href="javascript:void(0);" class="position-relative">
-                                                <button 
-                                                    type="button" 
-                                                    <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>  
-                                                    class="btn startbtn btnstatus   small "
-                                                    id="btnstatus_<?php echo $member['id']; ?>" 
-                                                    onclick = "member_status_<?php echo $this->uniqId; ?>(this, '<?php echo $member['id']; ?>', '<?php echo $member['bookid']; ?>' , '<?php echo $member['employeekeyid']; ?>', '<?php echo $member['isarrived'];?>')" 
-                                                    data-status = "<?php echo $member['wfmstatusid'];?>">
-                                                    <i class='<?php echo $member['wfmicon'] ?>'></i>
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <?php } ?>
-                                </ul>
+                            <div class="card-body">
+                                <textarea name="enter-protocol" data-subject-id="" class="form-control" placeholder="Тэмдэглэлээ бичээд ENTER дарна уу..." style="height: 50px">@</textarea>
+                                <ul class="media-list media-chat-scrollable mt10 conferencing-protocol-list" id="conferencing-protocol-list-<?php echo $this->uniqId ?>"></ul>
                             </div>
                         </div>
-                        <div class="card othermember<?php echo $this->uniqId ?>">
-                            <div class="card-header bg-transparent header-elements-inline">
-                                <span class="text-uppercase font-weight-bold">Бусад оролцогчид</span>
-                            </div>
-                            <div class="card-body pt-0">
-                                <ul class="media-list">
-                                    <?php foreach($this->othermember as $row => $othermember) { 
-                                        $rowJson = htmlentities(json_encode($othermember), ENT_QUOTES, 'UTF-8');
-                                        if ($othermember['id']) { ?>
-                                        <li class="media media_<?php echo $othermember['id']; ?>" data-status="<?php echo ($othermember['time1']) ? '1' : '0'; ?>" data-row="<?php echo $rowJson; ?>" id="media_<?php echo $othermember['id']; ?>">
-                                            <a href="javascript:;" class="mr-2 position-relative">
-                                                <div class="data-tooltip">
-                                                    <img src="<?php echo $othermember['picture']; ?>" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">
-                                                    <div class="tooltipright">
-                                                        <h5><?php echo $othermember['positionname']; ?></h5>
-                                                        <label class="label<?php echo $othermember['id']; ?>"><?php echo (isset($othermember['wfmdescription']) && $othermember['wfmdescription']) ? 'Тайлбар : ' . $othermember['wfmdescription'] : ''; ?></label>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">
-                                                    <span><?php echo $othermember['employeename']; ?></span>
-                                                </div>
-                                                <span class="memberposition"><?php echo $othermember['positionname']; ?></span>
-                                            </div>
-                                            <div class="ml-3 align-self-center" style="margin-top: -3px;">
-                                                <a href="javascript:;" class="position-relative">
-                                                    <button type="button" 
-                                                        <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?>
-                                                        id="mem<?php echo $othermember['id'];?>" 
-                                                        class="btn startbtn small" 
-                                                        data-num="1<?php echo $othermember['isarrived'];?>"  
-                                                        onclick="member_list_<?php echo $this->uniqId; ?>(this, '<?php echo $othermember['id']; ?>', '<?php echo $othermember['bookid']; ?>', '<?php echo $othermember['employeekeyid']; ?>', '<?php echo $othermember['isarrived'];?>')">
-                                                        <?php echo ($othermember['time1']) ? $othermember['time1'] : 'Ирсэн'; ?>
-                                                        <?php echo ''; //($othermember['isarrived'] == '1') ? "<i class='icon-pause memberactive".$othermember['id']."'></i>" : "<i class='btn-icon" . $othermember['id'] . " icon-play4'></i>"; ?>
-                                                    </button>
-                                                </a>
-                                            </div>
-                                            <div class="ml-1 align-self-center " style="margin-top: -3px;">
-                                                <a href="javascript:void(0);" class="position-relative">
-                                                    <button 
-                                                        type="button" 
-                                                        <?php echo ($role == '1') ? 'disabled="disabled"' : ""; ?> 
-                                                        class="btn startbtn btnstatus  small"  
-                                                        id="btnstatus_<?php echo $othermember['id']; ?>" 
-                                                        onclick="member_status_<?php echo $this->uniqId; ?>(this, '<?php echo $othermember['id']; ?>', '<?php echo $othermember['bookid']; ?>', '<?php echo $othermember['employeekeyid']; ?>', '<?php echo $othermember['isarrived'];?>')" 
-                                                        data-status="<?php echo $othermember['wfmstatusid'];?>">
-                                                        <i class='<?php echo $othermember['wfmicon'] ?>'></i>
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    <?php } }?>
-                                </ul>
-                            </div>
+                    <?php } ?>    
+
+                    <div class="card" id="protocol-list-<?php echo $this->uniqId ?>" style="border-radius: 10px;">
+                        <div class="card-header header-elements-inline">
+                            <h6 class="card-title font-weight-bold text-uppercase protocol-title huraldaan-color">Ажиглагч нар<br><span style="color:#A0A0A0"></span></h6>
                         </div>
-                    </div>
+                        <div class="card-body">
+                            <div id="govaddmember<?php echo $this->uniqId ?>"></div>
+                            <ul class="media-list other-member-list" id="other-member-list-<?php echo $this->uniqId ?>">
+                            </ul>
+                        </div>
+                    </div> 
                 </div>
             </div>
             <?php foreach($this->allmember as $row => $allmember) { ?>

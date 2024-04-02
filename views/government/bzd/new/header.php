@@ -7,7 +7,7 @@
                 <div class="row align-items-end justify-content-around p-2">
                     <div class="col-auto navbar-brand">
                         <a href="javascript:;" class="d-inline-block">
-                            <img src="<?php echo Config::getFromCache('conference_header_logo'); ?>" width="200" alt="logo" onerror="onUserImgError(this);" class="logo" style="background:#1551a7">
+                            <img src="<?php echo Config::getFromCache('conference_header_logo'); ?>" width="100" alt="logo" onerror="onUserImgError(this);" class="logo">
                         </a>
                     </div>
                     <div class="col-6">

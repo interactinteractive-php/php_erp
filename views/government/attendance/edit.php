@@ -3,6 +3,7 @@
         <input type="hidden" class="" name="name" value="<?php echo $this->data['name']; ?>">
         <input type="hidden" name="mainData" value="<?php echo $this->mainData; ?>">
         <input type="hidden" name="startTime" value="<?php echo $this->data['starttime']; ?>">
+        <input type="hidden" name="endTime" value="<?php echo $this->data['endtime']; ?>">
 
         <div class="top-background v2">
             <div class="row">
@@ -10,7 +11,7 @@
                     <span class="first text-uppercase">Эхэлсэн:</span> <span class="second"><input type="text" class="timeInit" id="startTime" value="<?php echo $this->data['starttime']; ?>"></span>
                     <span class="first text-uppercase">Завсарласан:</span> <span class="second"><input type="text" class="timeInits" name="totalBreakTime" value="<?php echo $this->data['totalbreaktime']; ?>"></span>
                     <span class="first text-uppercase">Үргэлжилсэн:</span> <span class="second"><input type="text" class="timeInits" id="duration" name="duration" value="<?php echo $this->data['duration']; ?>"></span>
-                    <span class="first text-uppercase">Дууссан:</span> <span class="second"><input type="text" class="timeInit" id="endTime" name="endTime" onchange="calculateTime();" value="<?php echo $this->data['endtime']; ?>"></span>
+                    <span class="first text-uppercase">Дууссан:</span> <span class="second"><input type="text" class="timeInit" id="endTime" onchange="calculateTime();" value="<?php echo $this->data['endtime']; ?>"></span>
                     <span class="first text-uppercase">Ирцийн хувь:</span> <span class="second"><input type="text" class="" name="percent" value="<?php echo $this->data['percentofattendance']; ?>"></span>
                 </div>
                 <div class="col-3 text-right">
@@ -37,7 +38,7 @@
                             <th>ИТХ-Н ТӨЛӨӨЛӨГЧ</th>
                             <th><span class="mr70">Ирсэн</span><span>Завсарлаад ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
-                            <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
+                            <th><span class="mr13">Орхин гарсан</span><span>Ирсэн</span></th>
                             <th>Тайлбар</th>
                             <th>Төлөв</th>
                         </tr>
@@ -105,7 +106,7 @@
                             <th>ИТХ-Н ТӨЛӨӨЛӨГЧ</th>
                             <th><span class="mr70">Ирсэн</span><span>Завсарлаад ирсэн</span></th>
                             <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
-                            <th><span class="mr13">Чөлөө авч явсан</span><span>Ирсэн</span></th>
+                            <th><span class="mr13">Орхин гарсан</span><span>Ирсэн</span></th>
                             <th>Тайлбар</th>
                             <th>Төлөв</th>
                         </tr>

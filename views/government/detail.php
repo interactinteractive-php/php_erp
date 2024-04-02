@@ -180,6 +180,11 @@
                                             <?php if ($file['fileextension'] == 'xlsx' || $file['fileextension'] == 'xls') { ?>
                                                 <!--<a href="javascript:void(0);" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;" data-toggle="modal" data-target="#modal_default<?php echo $i; ?>"><?php echo $file['filename']; ?></a>-->
                                                 <a href="javascript:void(0);" onclick="dataViewFileViewer('undefined', '1', '<?php echo $file['fileextension'] ?>', '<?php echo $file['physicalpath'] ?>', '<?php echo URL.$file['physicalpath']?>', 'undefined');" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;"><?php echo $file['filename']; ?></a>
+                                                <?php if ($file['count']) { ?>
+                                                    <div class="btn btn-outline-info btn-sm ml-2">
+                                                        <a href="javascript:void(0);" onclick="dataViewFileViewLog('<?php echo $file['contentid'] ?>');" class="d-flex align-items-center p-0"><i class="fa fa-eye mr-1"></i><?php echo $file['count']; ?></a>
+                                                    </div>
+                                                <?php } ?>
                                                 <div id="modal_default<?php echo $i; ?>" class="modal fade" tabindex="-1">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
@@ -200,6 +205,11 @@
                                                 </div>
                                             <?php } elseif ($file['fileextension'] == 'pptx' || $file['fileextension'] == 'ppt') { ?>
                                                 <a href="javascript:void(0);" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;" data-toggle="modal" data-target="#modal_default<?php echo $i; ?>"><?php echo $file['filename']; ?></a>
+                                                <?php if ($file['count']) { ?>
+                                                    <div class="btn btn-outline-info btn-sm ml-2">
+                                                        <a href="javascript:void(0);" onclick="dataViewFileViewLog('<?php echo $file['contentid'] ?>');" class="d-flex align-items-center p-0"><i class="fa fa-eye mr-1"></i><?php echo $file['count']; ?></a>
+                                                    </div>
+                                                <?php } ?>
                                                 <div id="modal_default<?php echo $i; ?>" class="modal fade" tabindex="-1">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
@@ -222,6 +232,11 @@
                                                 </div>    
                                             <?php } elseif ($file['fileextension'] == 'docx' || $file['fileextension'] == 'doc') { ?>
                                                 <a href="javascript:void(0);" onclick="dataViewFileViewer('undefined', '1', '<?php echo $file['fileextension'] ?>', '<?php echo $file['physicalpath'] ?>', '<?php echo URL.$file['physicalpath']?>', 'undefined');" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;"><?php echo $file['filename']; ?></a>
+                                                <?php if ($file['count']) { ?>
+                                                    <div class="btn btn-outline-info btn-sm ml-2">
+                                                        <a href="javascript:void(0);" onclick="dataViewFileViewLog('<?php echo $file['contentid'] ?>');" class="d-flex align-items-center p-0"><i class="fa fa-eye mr-1"></i><?php echo $file['count']; ?></a>
+                                                    </div>
+                                                <?php } ?>
                                                 <div id="modal_default<?php echo $i; ?>" class="modal fade" tabindex="-1">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
@@ -242,6 +257,11 @@
                                                 </div>
                                             <?php } elseif ($file['fileextension'] == 'pdf') { ?>
                                                 <a href="javascript:void(0);" onclick="dataViewFileViewer('undefined', '1', '<?php echo $file['fileextension'] ?>', '<?php echo $file['physicalpath'] ?>', '<?php echo URL.$file['physicalpath']?>', 'undefined');" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;"><?php echo $file['filename']; ?></a>
+                                                <?php if ($file['count']) { ?>
+                                                    <div class="btn btn-outline-info btn-sm ml-2">
+                                                        <a href="javascript:void(0);" onclick="dataViewFileViewLog('<?php echo $file['contentid'] ?>');" class="d-flex align-items-center p-0"><i class="fa fa-eye mr-1"></i><?php echo $file['count']; ?></a>
+                                                    </div>
+                                                <?php } ?>
                                                 <!--<a href="javascript:void(0);" class="text-default font-weight-bold media-title font-weight-semibold mb-0" style="line-height: normal;word-break: break-all;" data-toggle="modal" data-target="#modal_default<?php echo $i; ?>"><?php echo $file['filename']; ?></a>-->
                                                 <div id="modal_default<?php echo $i; ?>" class="modal fade" tabindex="-1">
                                                     <div class="modal-dialog modal-lg">
@@ -1907,6 +1927,66 @@
                 Core.initDVAjax($dialog);
             });
         }
+
+        function dataViewFileViewLog(id) {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: 'conference/fileViewLog', 
+                data:{
+                    id:id,
+                },
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    var $dialogName = "dialog-total-" + id;
+
+                    var additionHtml = "";
+                    $.each(data.data.viewedempployees, function (i, item) {
+                        additionHtml +='<div class="bs-callout-info callout-bordered mt-1 mb-2">';
+                            additionHtml += '<div class="media align-items-center">';
+                                additionHtml += '<div class="d-flex align-items-center p-2 mr-2">';
+                                    additionHtml += '<img src="'+ item.picture  +'" width="40" height="40" class="rounded-circle mr-1" alt="">';
+                                additionHtml += "</div>";
+                                additionHtml += '<div class="media-body">';
+                                    additionHtml += "<p>"+ item.name +"</p>";
+                                additionHtml += "</div>";
+                            additionHtml += "</div>";
+                        additionHtml += "</div>";
+                    })
+
+                    $('<div class="modal fade" id="' +$dialogName +'" tabindex="-1">' +
+                            '<div class="modal-dialog modal-sm">' +
+                                '<div class="modal-content border-info">' +
+                                    '<div class="modal-header">' +
+                                        '<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>' +
+                                    "</div>" +
+                                    '<div class="modal-body" style="max-height: 450px; overflow:auto">'+
+                                       additionHtml +
+                                    "</div>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>"
+                    ).appendTo("body");
+
+                    var $dialog = $("#" + $dialogName);
+                    $dialog.modal({
+                        show: false,
+                        keyboard: false,
+                        backdrop: "static",
+                    });
+                    $(".modal-dialog").draggable({
+                        handle: ".modal-header, .modal-footer",
+                    });
+                    $dialog.on("shown.bs.modal", function () {
+                    });
+                    $dialog.on("hidden.bs.modal", function () {
+                        $dialog.remove();
+                    });
+                    $dialog.modal("show");
+                },
+            });
+        };
 
     </script>
     

@@ -116,14 +116,14 @@
     }
 
     .government_<?php echo $this->uniqId ?> .sidebar-right2 {
-        width:30rem;
+        width:25rem;
         margin-left: 15px;
     }
     
     .participants {
         font-size: 12px;
         font-weight: 600;
-        color: #10266D;
+        color: var(--root-color1);
         position: relative;
         bottom: 0;
     }
@@ -271,7 +271,7 @@
     }
 
     .government_<?php echo $this->uniqId ?> .general_number_conf {
-        background: #034591;
+        background: none;
         width: auto;
         height: 60px;
         align-items: center;
@@ -331,7 +331,7 @@
 
     .government_<?php echo $this->uniqId ?> .btn.timer-start {
         /* background: #2196f3 !important; */
-        background: #10266D !important;
+        background: var(--root-color1) !important;
     }
 
     .government_<?php echo $this->uniqId ?> .btn.timer-start i {
@@ -344,7 +344,7 @@
         width: 110px;
         height: 64px;
         border-left: 1px solid #e0e0e0;
-        background: #10266D;
+        background: var(--root-color1);
         border-radius: 5px;
     }
 
@@ -784,9 +784,9 @@
     }
 
     .bg-huraldaan{
-        border-color: #10266D !important;
+        border-color: var(--root-color1) !important;
         background-image: none !important;
-        background-color: #10266D !important;
+        background-color: var(--root-color1) !important;
         color: #FFFFFF !important;
         font-size: 14px;
         font-style: normal;
@@ -799,7 +799,7 @@
         border-color: #FFFFFF !important;
         background-image: none !important;
         background-color: #FFFFFF !important;
-        color: #10266D !important;
+        color: var(--root-color1) !important;
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
@@ -808,14 +808,14 @@
     }
 
     .huraldaan-color{
-        color:#10266D !important;
+        color:var(--root-color1) !important;
     }
 
     .huraldaan-btn{
         color:#fff;
         width: 60px;
         height: 50px;
-        background: #10266D;
+        background: var(--root-color1);
         justify-content: center;
         align-items: center;
         padding: 0 !important;
@@ -825,7 +825,7 @@
     }
 
     .huraldaan-total{
-        color:#10266D !important;
+        color:var(--root-color1) !important;
         font-size:12px;
         font-weight:700;
     }
@@ -876,7 +876,7 @@
 
     .isitem .btn.finishadd {
         width: inherit;
-        background: #10266D !important;
+        background: var(--root-color1) !important;
         color: #fff;
         position: absolute;
         right: 10px;
@@ -888,7 +888,7 @@
 
     .isitem .btn.finishFeedback {
         width: inherit;
-        background: #10266D !important;
+        background: var(--root-color1) !important;
         color: #fff;
         position: absolute;
         right: 50px;
@@ -912,7 +912,7 @@
     }
 
     .protocalTxt {
-        color:#10266D;
+        color: var(--root-color1);
         font-size:16px;
         font-weight:700; 
     }
@@ -968,8 +968,10 @@
         align-items: center;
         justify-content: center;
         font-size: 32px;
-        color:#10266D;
+        color: var(--root-color1);
         font-weight:700; 
     }
 
+
+    
 </style>

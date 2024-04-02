@@ -2827,7 +2827,7 @@ div.vr-card-menu {
     font-weight: bold;
     text-transform: uppercase;
     overflow: hidden;
-    max-width: 100px;
+    max-width: 110px;
     max-height: 24px;
     line-height: 12px;
     text-overflow: ellipsis;

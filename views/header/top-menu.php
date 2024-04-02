@@ -319,87 +319,85 @@ $.extend($.fn.treegrid.defaults, {filterOnlyEnterKey: <?php echo Config::getFrom
                 <i class="icon-indent-decrease"></i>
             </button>
         </div>
-        <div class="d-flex">
-            <div class="appmenusearch mr-3">
-                <i class="icon-search4"></i><input id="appmenusearchinput" type="text" placeholder="<?php echo $this->lang->line('appmenu_search'); ?>..." data-ref="input-search">
+        <div class="appmenusearch">
+            <i class="icon-search4"></i><input id="appmenusearchinput" type="text" placeholder="<?php echo $this->lang->line('appmenu_search'); ?>..." data-ref="input-search">
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+            <div class="mr-md-auto"></div>
+            <ul class="navbar-nav topnav mobile-header-contents">
+
+                <?php 
+//                echo Mduser::systemModeActions();
+                echo Info::getDbName();
+                echo (new Mdmeta)->topMetaLimitMenuRenderByService(true, 'close_all'); 
+
+                if (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER) {
+                    echo Info::getSemisterAcademicPlan() . Info::fiscalPeriodNewV2();
+                } else {
+                    echo Info::fiscalPeriodNewV2();
+                }
+
+                echo Info::chooseEaScenario();
+                echo Lang::getActiveLanguage(); 
+                ?>
+            </ul>
+            <div class="mobile-header-menu">
+                <button type="button" class="btn-icon btn-icon-only btn btn-sm mobile-toggle-header-nav">
+                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                </button>
             </div>
-            <div class="collapse navbar-collapse" id="navbar-mobile">
-                <div class="mr-md-auto"></div>
-                <ul class="navbar-nav topnav mobile-header-contents">
+            <ul class="navbar-nav topnav">
+                <?php
+                echo (new Mdalert())->showAlertListForHdr();    
+                echo (new Mdnotification())->showNotificationListForHdrNew();
 
-                    <?php 
-    //                echo Mduser::systemModeActions();
-                    echo Info::getDbName();
-                    echo (new Mdmeta)->topMetaLimitMenuRenderByService(true, 'close_all'); 
+                $hdrDropDownMenu = '';
 
-                    if (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER) {
-                        echo Info::getSemisterAcademicPlan() . Info::fiscalPeriodNewV2();
-                    } else {
-                        echo Info::fiscalPeriodNewV2();
-                    }
+                if (Config::getFromCache('SCL_GROUP_USER')) {
+                    echo '<script src="'. autoVersion('assets/custom/gov/script.js') .'" type="text/javascript"></script>';
+                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="privateGroup(\''. Config::getFromCache('SCL_GROUP_USER') .'\')"><i class="icon-cog"></i> '.$this->lang->line('group_control').'</a>', Config::getFromCache('sclGroupControl'));
+                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/\', metaDataId: \'governmentdocumentation\', title: \'Гарын авлага\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-profile"></i> '. Lang::line('Гарын авлага').'</a>', true);
+                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/16608786459209\', metaDataId: \'16608786459209\', title: \''. Lang::line('HOLBOGDOH_HUULI_JURAM') .'\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-drawer3"></i> '.  Lang::line('HOLBOGDOH_HUULI_JURAM') .'</a>', true);
+                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/16608786461379\', metaDataId: \'16608786461379\', title: \''. Lang::line('HOLBOO_BARIH') .'\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-phone"></i> '.  Lang::line('HOLBOO_BARIH') .'</a>', true);
+                    $hdrDropDownMenu .= '<hr class="mt-1 mb-1">';
+                }
 
-                    echo Info::chooseEaScenario();
-                    echo Lang::getActiveLanguage(); 
-                    ?>
-                </ul>
-                <div class="mobile-header-menu">
-                    <button type="button" class="btn-icon btn-icon-only btn btn-sm mobile-toggle-header-nav">
-                        <i class="fa fa-ellipsis-v fa-w-6"></i>
-                    </button>
-                </div>
-                <ul class="navbar-nav topnav">
-                    <?php
-                    echo (new Mdalert())->showAlertListForHdr();    
-                    echo (new Mdnotification())->showNotificationListForHdrNew();
-
-                    $hdrDropDownMenu = '';
-
-                    if (Config::getFromCache('SCL_GROUP_USER')) {
-                        echo '<script src="'. autoVersion('assets/custom/gov/script.js') .'" type="text/javascript"></script>';
-                        $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="privateGroup(\''. Config::getFromCache('SCL_GROUP_USER') .'\')"><i class="icon-cog"></i> '.$this->lang->line('group_control').'</a>', Config::getFromCache('sclGroupControl'));
-                        $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/\', metaDataId: \'governmentdocumentation\', title: \'Гарын авлага\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-profile"></i> '. Lang::line('Гарын авлага').'</a>', true);
-                        $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/16608786459209\', metaDataId: \'16608786459209\', title: \''. Lang::line('HOLBOGDOH_HUULI_JURAM') .'\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-drawer3"></i> '.  Lang::line('HOLBOGDOH_HUULI_JURAM') .'</a>', true);
-                        $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="appMultiTab({weburl: \'government/documentation/16608786461379\', metaDataId: \'16608786461379\', title: \''. Lang::line('HOLBOO_BARIH') .'\', type: \'selfurl\', tabReload: true}, this);"><i class="icon-phone"></i> '.  Lang::line('HOLBOO_BARIH') .'</a>', true);
-                        $hdrDropDownMenu .= '<hr class="mt-1 mb-1">';
-                    }
-
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item touch-screen-switch-btn"><i class="icon-touch font-weight-bold"></i> '.$touchSwitchText.'</a>', ($isTouchMode ? true : false));
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="changePassword();"><i class="icon-pencil7"></i> '.$this->lang->line('change_password').'</a>', (Session::get(SESSION_PREFIX.'isldap') == 1 && !Config::getFromCache('isLdapModifyPassword')) ? false : (Config::getFromCache('is_hide_system_change_password') ? false : true));
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="changeUsername();"><i class="icon-user"></i> '.$this->lang->line('change_username').'</a>', Config::getFromCache('isChangeUserName') ? true : false);
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="dataAccessPassword();"><i class="icon-key"></i> Security password</a>', Config::getFromCache('isDataSecurityPassword') ? true : false);
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="ShowRegisterWin();"><i class="icon-key"></i> Токен бүртгүүлэх</a>', Config::getFromCache('CONFIG_USE_ETOKEN'));
-                    if (Config::getFromCache('IS_TESTCASE_MODE')) {
-                        $hdrDropDownMenu .= html_tag('li', '','<div class="form-check form-check-switchery form-check-inline form-check-right pl17 pt2">
-                            <label class="form-check-label">
-                                <i class="icon-check mr8 mt2 font-size-18"></i> Testcase mode:
-                                <input type="checkbox" class="form-check-input-switchery-warning notuniform" id="isHdrTestCaseMode"'.(Session::get(SESSION_PREFIX . 'testCaseMode') ? ' checked="checked"' : '').'>
-                            </label>
-                        </div>');
-                    }                   
-                    $hdrDropDownMenu .= html_tag('li', '', '<a href="logout" class="dropdown-item"><i class="icon-switch2"></i> '.$this->lang->line('logout_btn').'</a>');                            
-                    ?>
-                    <li class="dropdown dropdown-user dropdown-dark nav-item">
-                        <a href="javascript:;" class="dropdown-toggle user-profile navbar-nav-link pt-0 pb-0" data-toggle="dropdown" data-close-others="true" data-ssid="<?php echo Ue::appUserSessionId(); ?>">
-                            <span class="username username-hide-on-mobile text-a-right">
-                                <?php 
-                                $companyName = Ue::getSessionUserKeyName('CompanyName'); 
-                                $userKeyCount = Session::get(SESSION_PREFIX . 'userKeyCount');
-                                ?>
-                                <div class="lhnormal company">
-                                    <div class="font-size-11 companyname<?php echo ($userKeyCount > 1 ? ' change-user-key' : ''); ?>" title="<?php echo $companyName; ?>"><?php echo $companyName; ?></div> 
-                                    <div class="font-size-11">
-                                        <?php echo Ue::getSessionPersonWithLastName(); ?>
-                                    </div>
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item touch-screen-switch-btn"><i class="icon-touch font-weight-bold"></i> '.$touchSwitchText.'</a>', ($isTouchMode ? true : false));
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="changePassword();"><i class="icon-pencil7"></i> '.$this->lang->line('change_password').'</a>', (Session::get(SESSION_PREFIX.'isldap') == 1 && !Config::getFromCache('isLdapModifyPassword')) ? false : (Config::getFromCache('is_hide_system_change_password') ? false : true));
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="changeUsername();"><i class="icon-user"></i> '.$this->lang->line('change_username').'</a>', Config::getFromCache('isChangeUserName') ? true : false);
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="dataAccessPassword();"><i class="icon-key"></i> Security password</a>', Config::getFromCache('isDataSecurityPassword') ? true : false);
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="javascript:;" class="dropdown-item" onclick="ShowRegisterWin();"><i class="icon-key"></i> Токен бүртгүүлэх</a>', Config::getFromCache('CONFIG_USE_ETOKEN'));
+                if (Config::getFromCache('IS_TESTCASE_MODE')) {
+                    $hdrDropDownMenu .= html_tag('li', '','<div class="form-check form-check-switchery form-check-inline form-check-right pl17 pt2">
+                        <label class="form-check-label">
+                            <i class="icon-check mr8 mt2 font-size-18"></i> Testcase mode:
+                            <input type="checkbox" class="form-check-input-switchery-warning notuniform" id="isHdrTestCaseMode"'.(Session::get(SESSION_PREFIX . 'testCaseMode') ? ' checked="checked"' : '').'>
+                        </label>
+                    </div>');
+                }                   
+                $hdrDropDownMenu .= html_tag('li', '', '<a href="logout" class="dropdown-item"><i class="icon-switch2"></i> '.$this->lang->line('logout_btn').'</a>');                            
+                ?>
+                <li class="dropdown dropdown-user dropdown-dark nav-item">
+                    <a href="javascript:;" class="dropdown-toggle user-profile navbar-nav-link pt-0 pb-0" data-toggle="dropdown" data-close-others="true" data-ssid="<?php echo Ue::appUserSessionId(); ?>">
+                        <span class="username username-hide-on-mobile text-a-right">
+                            <?php 
+                            $companyName = Ue::getSessionUserKeyName('CompanyName'); 
+                            $userKeyCount = Session::get(SESSION_PREFIX . 'userKeyCount');
+                            ?>
+                            <div class="lhnormal company">
+                                <div class="font-size-11 companyname<?php echo ($userKeyCount > 1 ? ' change-user-key' : ''); ?>" title="<?php echo $companyName; ?>"><?php echo $companyName; ?></div> 
+                                <div class="font-size-11">
+                                    <?php echo Ue::getSessionPersonWithLastName(); ?>
                                 </div>
-                            </span>
-                            <?php echo Ue::getSessionPhoto('class="img-circle"'); ?>
-                        </a>
-                        <?php
-                        echo html_tag('ul', array('class' => 'dropdown-menu dropdown-menu-default dropdown-menu-right'), $hdrDropDownMenu, ($hdrDropDownMenu != '' ? true : false));
-                        ?>
-                    </li>
-                </ul>
-            </div>
+                            </div>
+                        </span>
+                        <?php echo Ue::getSessionPhoto('class="img-circle"'); ?>
+                    </a>
+                    <?php
+                    echo html_tag('ul', array('class' => 'dropdown-menu dropdown-menu-default dropdown-menu-right'), $hdrDropDownMenu, ($hdrDropDownMenu != '' ? true : false));
+                    ?>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="container-fluid top-menu-render">   
