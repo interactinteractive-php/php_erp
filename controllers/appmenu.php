@@ -388,7 +388,7 @@ class Appmenu extends Controller {
             
             $configUrl = Config::getFromCache('CONFIG_START_LINK');
             
-            if (!$configUrl) {
+            if ($configUrl) {
                 $redirectUrl = URL . $configUrl;
             } else {
                 $redirectUrl = URL . 'appmenu';
