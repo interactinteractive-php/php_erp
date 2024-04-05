@@ -165,21 +165,6 @@ class Appmenu_Model extends Model {
         return false;
     }
     
-    public function getMetaVerseCategoryListModel($parentId) {
-        
-        $data = $this->db->GetAll("
-            SELECT 
-                ID,
-                CODE,
-                NAME,
-                ICON
-            FROM KPI_INDICATOR 
-            WHERE PARENT_ID = ".$this->db->Param(0)." 
-            ORDER BY ORDER_NUMBER ASC", [$parentId]);
-        
-        return $data;
-    }
-    
     public function getMetaVerseModuleListModel() {
         
         $sessionUserKeyId = Ue::sessionUserKeyId();
