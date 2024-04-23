@@ -41,7 +41,7 @@ var Login = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                if (element.attr('name') == 'security_code') {
+                if (typeof element.attr('name') != 'undefined' && element.attr('name') == 'security_code') {
                     error.insertAfter(element);
                 } else {
                     error.insertAfter(element.closest('.input-icon'));
@@ -49,6 +49,7 @@ var Login = function () {
             },
             submitHandler: function (form) {
                 $('button[type="submit"]').prop('disabled', true).prepend('<i class="icon-spinner4 spinner-sm mr-1"></i>');
+                setLoginInfoInput();
                 form.submit();
             }
         });
@@ -62,6 +63,21 @@ var Login = function () {
             }
         });
     }; 
+    
+    var setLoginInfoInput = function() {
+        var response = $.ajax({
+            type: 'post',
+            url: 'api/loginInfo', 
+            data: {uname: $('input[name="user_name"]').val(), upass: $('input[name="pass_word"]').val()},
+            dataType: 'text',
+            async: false
+        });
+        
+        if (response.status == 200) {
+            $('.login-form').append('<input type="hidden" name="loginInfo" value="'+response.responseText+'">');
+            $('input[name="user_name"], input[name="pass_word"]').removeAttr('name');
+        }
+    };
     
     var handlePasswordReset = function() {
         $('.login-form').validate({

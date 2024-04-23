@@ -95,7 +95,7 @@
             </div>
             <div class="form-group form-group-feedback form-group-feedback-left sign-phone" style="display: none;">
                 <?php 
-                echo Form::text(array('name' => 'user_phonenumber', 'id' => 'user_phonenumber', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('user_phonenumber'), 'required' => 'required', 'autocomplete' => 'off')); 
+                echo Form::text(['name' => 'user_phonenumber', 'id' => 'user_phonenumber', 'class' => 'form-control placeholder-no-fix', 'placeholder' => $this->lang->line('user_phonenumber'), 'required' => 'required', 'autocomplete' => 'off']); 
                 echo ($this->isEFinger || $this->isDan) ? Form::hidden(array('name' => 'isHash', 'id' => 'isHash', 'value' => '0')) : ''; 
                 ?>
                 <div class="form-control-feedback">

@@ -393,3 +393,10 @@ span.iconText {
     transform: translate(-50%, -50%);    
     width: 100%;
 }
+.wfIconTable {
+    background-color: #e3e3e3;
+    padding: 10px 30px 10px 30px;    
+}
+.wfIconTable .iconText .bp-name {
+    color: #333;
+}

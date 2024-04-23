@@ -2731,6 +2731,20 @@
                             $html += '<div class="w-50 pull-left">';
                                 $html += '<div class="card">';
                                     $html += '<div class="card-header bg-transparent header-elements-inline">';
+                                        $html += '<span class="text-uppercase font-weight-bold"><?php echo Lang::lineCode('raise_hand_title', $this->langCode) ?></span>';
+                                        $html += '<div class="header-elements">';
+                                            $html += '<div class="list-icons">';
+                                                $html += '<a class="list-icons-item" data-action="collapse"></a>';
+                                            $html += '</div>';
+                                        $html += '</div>';
+                                    $html += '</div>';
+                                    $html += '<div class="card-body pt-0">';
+                                        $html += '<ul class="media-list" id="riseHand<?php echo $this->uniqId; ?>">';
+                                        $html += '</ul>';
+                                    $html += '</div>';
+                                $html += '</div>';
+                                $html += '<div class="card">';
+                                    $html += '<div class="card-header bg-transparent header-elements-inline">';
                                         $html += '<span class="text-uppercase font-weight-bold">Хуралдаанд оролцогчид</span>';
                                         $html += '<div class="header-elements">';
                                             $html += '<div class="list-icons">';
@@ -2839,7 +2853,6 @@
                 bookId = $parent.attr('data-bookid');
                 id = $dataRow['id'];
                 systemUserId = $dataRow['userid'];
-                console.log("systemUserId",systemUserId);
 
             $.ajax({
                 type: "post",
@@ -2869,10 +2882,9 @@
                         if (data.Html['timecolumn'] == 'TIME1') {
                             TIME_LIMIT_time1 = '0:00';
                             TIME_LIMIT_time2 = '';
-
                         }else{
-                            TIME_LIMIT_time1 = '0:00';
-                            TIME_LIMIT_time2 = '0:00';
+                            TIME_LIMIT_time1 = '';
+                            TIME_LIMIT_time2 = '';
                         }
                         timePassed = 0;
                         $innerHTML = `<div class="base-timer mx-auto">
@@ -5068,6 +5080,7 @@
         }
         
         function getraiseHand(id) {
+            $('#riseHand<?php echo $this->uniqId; ?>').empty();
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -5088,11 +5101,29 @@
                                 var $row = $(row);
                                 if ($row.attr('raiseduserid') == $riseUserid) {
                                     if ($risewfm == "1710575243249059") {
-                                        $row.find('img[data-path="talking"]').show();
-                                        $row.find('img[data-path="talk"]').hide();
+                                        var $dataRow = JSON.parse($row.attr('data-row'));
+                                        var $databookid = $row.attr('data-bookid');
+                                        $row.addClass("d-none")
+                                        var $riseHtml = "";
+                                        $riseHtml += '<li class="media" data-istalkin="0" raiseduserid="'+ $riseUserid +'" data-id="'+ $riseSubjectid +'" data-bookid="'+ $databookid +'" data-row="'+ htmlentities(JSON.stringify($dataRow), 'ENT_QUOTES', 'UTF-8') +'" data-type="member">';
+                                            $riseHtml += '<a href="javascript:;" class="mr-2 position-relative">';
+                                                $riseHtml += '<img src="'+ $dataRow['picture'] +'" class="rounded-circle" onerror="onUserImgError(this);" width="34" height="34">';
+                                            $riseHtml += '</a>';
+                                            $riseHtml += '<div class="media-body">';
+                                                $riseHtml += '<div class="membername font-weight-bold text-uppercase line-height-normal d-flex align-items-center">';
+                                                    $riseHtml += '<span>'+ $dataRow['employeename'] +'</span>';
+                                                $riseHtml += '</div>';
+                                                $riseHtml += '<span class="memberposition">'+ $dataRow['positionname'] +'</span>';
+                                            $riseHtml += '</div>';
+                                            $riseHtml += '<div class="ml-3 align-self-center" style="margin-top: -3px;">'; 
+                                                $riseHtml += '<button type="button" id="mem20072106" class="btn startbtn small" title="Микрофонтой" onclick="protocalTalk<?php echo $this->uniqId ?>(this,1)" style="padding: 0!important;" data-num="0"  title="">';
+                                                    $riseHtml += '<img src="assets/custom/img/ico/gif-with-audio-1.gif" onerror="onUserImgError(this);" data-path="talking" style=" height: 24px !important; width: 24px !important; margin: 0;">';
+                                                $riseHtml += '</button>';
+                                            $riseHtml += '</div>';
+                                        $riseHtml += '</li>';
+                                        $('.setProtocal'+$riseSubjectid).find('#riseHand<?php echo $this->uniqId; ?>').append($riseHtml);
                                     }else{
-                                        $row.find('img[data-path="talking"]').hide();
-                                        $row.find('img[data-path="talk"]').show();  
+                                        $row.removeClass("d-none") 
                                     }
                                 }
                             });

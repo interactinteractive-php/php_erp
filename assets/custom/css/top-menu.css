@@ -4769,7 +4769,7 @@ ul.dv-explorer5 > li:hover .first-title {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-    max-height: 60px;
+    max-height: 57px;
     word-break: break-word;
     line-height: 19px;
 }

@@ -312,6 +312,25 @@ class Ue extends Model {
 
         return null;
     }
+    
+    public static function sessionRoleCode() {
+        if ($userRoleId = Ue::sessionRoleId()) {
+
+            global $db;
+
+            $rCode = $db->GetOne("
+                SELECT 
+                    ROLE_CODE 
+                FROM UM_ROLE
+                WHERE ROLE_ID = " . $db->Param(0), array($userRoleId));
+
+            if ($rCode != '') {
+                return $rCode;
+            }
+        }
+
+        return '';        
+    }    
 
     public static function sessionStoreId() {
         if ($departmentId = Ue::sessionUserKeyDepartmentId()) {

@@ -11,10 +11,9 @@ class Login_Model extends Model {
     public function runModel($customLoginData = null) {
         
         if (is_null($customLoginData)) {
-            if (Input::isEmpty('csrf_token') == true) {
-                
+            
+            if (Input::isEmpty('csrf_token') == true) {    
                 $this->redirectLogin('Csrf Token is empty!');
-                
             } else {
                 
                 $sessionCsrfToken = Session::get(SESSION_PREFIX.'CsrfToken');
@@ -58,15 +57,39 @@ class Login_Model extends Model {
                 }
             }
         }
+        
+        $loginInfo = Input::post('loginInfo');
+        
+        if ($loginInfo) {
 
-        $param = array(
-            'username'     => Input::post('user_name'), 
+            $loginInfo = Hash::decryption($loginInfo);
+
+            if (!$loginInfo) {
+                $this->redirectLogin('Input is wrong!');
+            }
+
+            $loginInfoArr = explode('^~^', $loginInfo);
+
+            if (count($loginInfoArr) != 3) {
+                $this->redirectLogin('Input is wrong!');
+            }
+
+            $user_name = Input::param($loginInfoArr[0]);
+            $pass_word = Input::param($loginInfoArr[1]);
+            
+        } else {
+            $user_name = Input::post('user_name');
+            $pass_word = Input::post('pass_word');
+        }
+
+        $param = [
+            'username'     => $user_name, 
+            'password'     => $pass_word, 
             'externalhash' => Input::post('externalHash'), 
-            'password'     => Input::post('pass_word'), 
             'guid'         => Input::post('monpassUserId'), 
             'token'        => Input::post('token'), 
             'isHash'       => Input::post('isHash', '0')
-        );
+        ];
 
         if (Config::getFromCache('CONFIG_USE_LDAP') && Config::getFromCache('ldap_login') == '3') {
             
