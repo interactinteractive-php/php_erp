@@ -1769,7 +1769,7 @@ class Login_Model extends Model {
         }
     }
     
-    private static $mainCloudServiceAddress = 'https://vrcloud.veritech.mn:8181/erp-services/RestWS/runJson';
+    private static $mainCloudServiceAddress = 'https://172.169.88.84:8181/erp-services/RestWS/runJson';
     
     public function checkCloudUserLicenseKeyIdModel($licenseKeyId) {
         
