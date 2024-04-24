@@ -24,11 +24,13 @@
                     <span class="d-block text-muted"><?php echo Message::display(); ?></span>
                 </div>
                 
-                <?php echo $this->contentHtml; ?>
-                <div class="form-actions mt-4">
-                    <?php echo Form::button(['class' => 'btn btn-primary btn-block supplier-register-btn', 'value' => $this->lang->line('register_btn')]); ?>
-                    <a href="login" style="background:#555;" class="forget-password btn btn-primary btn-block"><?php echo $this->lang->line('login_title'); ?></a>
-                </div>
+                <form id="wsForm" autocomplete="off">
+                    <?php echo $this->contentHtml; ?>
+                    <div class="form-actions mt-4">
+                        <?php echo Form::button(['class' => 'btn btn-primary btn-block clouduser-signup-btn', 'value' => $this->lang->line('register_btn')]); ?>
+                        <a href="login" style="background:#555;" class="forget-password btn btn-primary btn-block"><?php echo $this->lang->line('login_title'); ?></a>
+                    </div>
+                </form>
                 
             </div>
             <?php echo (Config::getFromCache('isIgnorePoweredByTitle') != '1') ? '<div class="login-copyright">'. $this->loginFooterTitle .'</div>' : ''; ?>

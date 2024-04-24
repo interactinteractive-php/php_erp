@@ -1,12 +1,12 @@
 .rightside {
     padding-top: 15px;
 }
+.login-form img.logo {
+    margin-bottom: 20px;
+}
 .kpi-ind-tmplt-section > .row {
     margin-left: -15px;
     margin-right: -15px;
-}
-.login-form img.logo {
-    margin-bottom: 20px;
 }
 span.required {
     color: #e02222;

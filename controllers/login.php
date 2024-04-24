@@ -1584,4 +1584,111 @@ class Login extends Controller {
         convJson($response);
     }
     
+    public function cloud_user_signup() {
+        Auth::isLogin();
+        
+        $token = Input::get('token');
+        if (!$token) {
+            Message::add('d', 'Token parameter is required!', URL . 'login');
+        }
+        
+        $licenseKeyId = Hash::decryption($token);
+        if (!$licenseKeyId) {
+            Message::add('d', 'Token is wrong!', URL . 'login');
+        }
+        
+        $checkLicense = $this->model->checkCloudUserLicenseKeyIdModel($licenseKeyId);
+        if ($checkLicense['status'] != 'success') {
+            Message::add('d', $checkLicense['message'], URL . 'login');
+        }
+        
+        $this->view->processId = Config::getFromCacheDefault('PF_CLOUD_USER_SIGNUP_PROCESS_ID', null, '1713769133625164');
+        if (!$this->view->processId) {
+            Message::add('s', '', URL . 'login');
+        }
+        
+        $this->view->title = $this->lang->line('Хэрэглэгч бүртгүүлэх');
+        
+        $this->view->fullUrlCss = [
+            'assets/core/js/plugins/select2/select2.css', 
+            'assets/core/js/plugins/addon/uniform/css/uniform.default.css',
+            'assets/custom/css/login/process_render.css'
+        ];
+        
+        $this->view->fullUrlJs = [
+            'lang/mn/main_lang.js', 
+            'assets/core/js/plugins/addon/phpjs/phpjs.min.js', 
+            'assets/custom/js/plugins.min.js', 
+            'middleware/assets/js/mdmetadata.js', 
+            'middleware/assets/js/mdbp.js',
+            'middleware/assets/js/mdexpression.js'
+        ];
+        
+        loadPhpQuery();
+        
+        $configMainLogo   = Config::getFromCache('main_logo_path');
+        $configLogo       = Config::getFromCache('logo_path');
+        $configBackground = Config::getFromCache('login_background_image1');
+
+        if ($configMainLogo && file_exists($configMainLogo)) {
+            $this->view->mainLogo = $configMainLogo;  
+        } 
+        
+        if ($configLogo && file_exists($configLogo)) {
+            $this->view->logo = $configLogo;
+        } 
+        
+        $this->view->mainLoginTitle   = Config::getFromCacheDefault('login_main_title', null, 'Business in the Cloud');
+        $this->view->loginTitle       = Config::getFromCacheDefault('login_title', null, 'Орчин үеийн стратеги төлөвлөлт, удирдлагын онлайн ERP цогц шийдэл');
+        $this->view->loginFooterTitle = Config::getFromCacheDefault('loginFooterTitle', null, '<span>Powered by</span> <a href="http://veritech.mn/" target="_blank">Veritech ERP</a>');
+        $this->view->infoMessage      = Config::getFromCache('passwordResetInfoMessage');
+        
+        if ($configBackground && file_exists($configBackground)) {
+            $this->view->background = $configBackground;
+        } else {
+            $this->view->background = null;
+        }
+        
+        $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
+                    
+        if ($logged == false) {
+            Session::set(SESSION_PREFIX . 'LoggedIn', true);
+            Session::set(SESSION_PREFIX . 'lastTime', time());
+        }
+
+        $_POST['isSystemMeta'] = 'false';
+        $_POST['isDialog'] = false;
+        $_POST['nult'] = true;
+        
+        $bpContent = (new Mdwebservice())->callMethodByMeta($this->view->processId, null, true);
+
+        $bpContentHtml = phpQuery::newDocumentHTML($bpContent);
+        $bpContentHtml->find('.bp-btn-back, .bp-btn-saveadd, .bp-btn-saveedit, .bp-btn-save, .bp-btn-quickmenu, .bp-btn-fieldclean, .bp-btn-testcase, .dv-right-tools-btn, .meta-toolbar, #boot-fileinput-error-wrap')->remove();
+        
+        $captchaInput = '<tr>
+            <td colspan="2">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <img src="api/captcha?fDownload=1" id="captcha"><br />
+                        <a href="javascript:;" onclick="new_captcha();" class="captcha-refresh">'.$this->lang->line('captcha_new_code').'</a>
+                    </span>
+                    '.Form::text(['name' => 'security_code', 'id' => 'security_code', 'class' => 'form-control pl-2', 'placeholder' => $this->lang->line('captcha_typing_code'), 'required' => 'required', 'autocomplete' => 'off', 'tabindex' => 2]).'
+                </div>
+            </td>
+        </tr>';
+                    
+        $bpContentHtml->find('table.bp-header-param > tbody > tr:last')->after($captchaInput);
+        
+        $this->view->contentHtml = $bpContentHtml->html();
+        
+        $this->view->render('login/header');
+        $this->view->render('login/license/index');
+        $this->view->render('login/license/footer'); 
+    }
+    
+    public function cloudUserSignupSave() {
+        $response = $this->model->cloudUserSignupSaveModel();
+        convJson($response);
+    }
+    
 }

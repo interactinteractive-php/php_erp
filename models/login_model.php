@@ -1769,12 +1769,36 @@ class Login_Model extends Model {
         }
     }
     
-    public function supplierRegisterSaveModel() {
+    private static $mainCloudServiceAddress = 'https://vrcloud.veritech.mn:8181/erp-services/RestWS/runJson';
+    
+    public function checkCloudUserLicenseKeyIdModel($licenseKeyId) {
+        
+        $result = $this->ws->runRestJson(self::$mainCloudServiceAddress, 'checkCloudLicenseStatus_004', ['filterId' => $licenseKeyId]);
+        
+        if ($result['status'] == 'success' && isset($result['result'])) {
+            
+            if (array_key_exists('isvalid', $result['result'])) {
+                if ($result['result']['isvalid'] == '1') {
+                    $response = ['status' => 'success'];
+                } else {
+                    $response = ['status' => 'error', 'message' => 'Өмнө нь хэрэглэсэн token байна!'];
+                }
+            } else {
+                $response = ['status' => 'error', 'message' => 'Шалгах процессоос isValid талбар олдсонгүй!'];
+            }
+            
+        } else {
+            $response = ['status' => 'error', 'message' => $this->ws->getResponseMessage($result)];
+        }
+        
+        return $result;
+    }
+    
+    public function cloudUserSignupSaveModel() {
         
         try {
             
             $captcha = Input::post('security_code'); 
-        
             if (empty($captcha)) {
                 throw new Exception(Lang::line('msg_fill_required_fields'));
             }
@@ -1783,18 +1807,31 @@ class Login_Model extends Model {
                 throw new Exception(Lang::line('Зурган дээрх код буруу байна'));
             }
             
+            $token = Input::post('token'); 
+            if (empty($token)) {
+                throw new Exception('Token parameter is required!');
+            }
+            
+            $licenseKeyId = Hash::decryption($token);
+            if (!$licenseKeyId) {
+                throw new Exception('Token is wrong!');
+            }
+            
             $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
                     
             if ($logged == false) {
                 Session::set(SESSION_PREFIX . 'LoggedIn', true);
+                Session::set(SESSION_PREFIX . 'lastTime', time());
             }
 
             $_POST['nult'] = true;
-            
-            $response = (new Mdform())->saveKpiDynamicData();
+            $_POST['responseType'] = 'outputArray';
+            $_POST['param']['licenseKeyId'] = $licenseKeyId;
+
+            $response = (new Mdwebservice())->runProcess();
             
             if ($response['status'] == 'success') {
-                $response['message'] = 'Баталгаажуулалт хийгдэхээр и-мейл очих болно.';
+                $response['message'] = 'Бүртгэл амжилттай боллоо та нэвтрэх товчийг дарж нэвтэрнэ үү.';
             }
             
         } catch (Exception $ex) {

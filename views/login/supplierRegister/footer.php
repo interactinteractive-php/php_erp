@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
             $form = $('#supplier-register-form'), 
             uniqId = $form.find('[data-bp-uniq-id]').attr('data-bp-uniq-id');
         
-        $this.attr('disabled', 'disabled').prepend('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+        $this.prop('disabled', true).prepend('<i class="icon-spinner4 spinner-sm mr-1"></i>');
 
         if (bpFormValidate($form) && window['kpiIndicatorBeforeSave_' + uniqId]($this)) {
 
