@@ -19,7 +19,9 @@ jQuery(document).ready(function(){
                 url: 'login/cloudUserSignupSave',
                 dataType: 'json',
                 beforeSubmit: function(formData, jqForm, options) {
-                    formData.push({ name: 'token', value: Core.getURLParameter('token') });
+                    var urlToken = window.location.search.substring(1);
+                    urlToken = urlToken.replace('token=', '');
+                    formData.push({ name: 'token', value: urlToken });
                 }, 
                 beforeSend: function () {
                     Core.blockUI({message: 'Loading...', boxed: true});
