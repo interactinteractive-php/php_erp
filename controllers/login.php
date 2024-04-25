@@ -1603,10 +1603,6 @@ class Login extends Controller {
         }
         
         $this->view->processId = Config::getFromCacheDefault('PF_CLOUD_USER_SIGNUP_PROCESS_ID', null, '1713769133625164');
-        if (!$this->view->processId) {
-            Message::add('s', '', URL . 'login');
-        }
-        
         $this->view->title = $this->lang->line('Хэрэглэгч бүртгүүлэх');
         
         $this->view->fullUrlCss = [

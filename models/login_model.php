@@ -1547,6 +1547,7 @@ class Login_Model extends Model {
                 'departmentid' => issetParam($tempArr['departmentid']),
                 'sessionid' => issetParam($tempArr['sessionid']),
                 'pincode' => issetParam($tempArr['pincode']),
+                'crmuserid' => issetParam($tempArr['sessioncrmuserid']),
                 'customerid' => issetParam($tempArr['customerid']),
                 'customercode' => issetParam($tempArr['customercode']),
                 'customername' => checkDefaultVal($tempArr['customerfirstname'], issetParam($tempArr['customercode'])),
@@ -1647,9 +1648,10 @@ class Login_Model extends Model {
         $data['username'] = 'test123';
 
         includeLib('Utils/Functions');
-        if (issetParam($data['deparmentCode']) === '') {
+        if (issetParam($data['departmentCode']) === '') {
             $dResult = Functions::runProcess('SSO_GET_UNIQUE_DEPARTMENT_CODE_004', array('filterId' => '1'));
             $data['departmentCode'] = issetParam($dResult['result']['configvalue']);
+            $data['departmentCode'] = '19961001';
         }
 
         switch ($isCustomer) {
@@ -1748,7 +1750,10 @@ class Login_Model extends Model {
                 $_POST['param']['stateRegNumber'] = issetParam($data['registerNumber']);
                 $_POST['param']['departmentId'] = issetParam($data['departmentCode']);
                 
+                var_dump($_POST);
                 $result = (new Mdwebservice())->runProcess();
+                var_dump($result);
+                die;
                 if (issetParam($result['status']) === 'success') {
                     $result = Functions::runProcess('CHECK_UM_USER_004', array('filterusername' => $data['username']));
                     

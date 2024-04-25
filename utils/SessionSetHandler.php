@@ -145,6 +145,7 @@ class SessionSetHandler extends Controller {
         if (WebService::$isCustomer) {
             
             Session::set(SESSION_PREFIX . 'customerid', issetParam($response['customerid']));
+            Session::set(SESSION_PREFIX . 'crmuserid', issetParam($response['crmuserid']));
             Session::set(SESSION_PREFIX . 'customercode', issetParam($response['customercode']));
             Session::set(SESSION_PREFIX . 'customername', issetParam($response['customername']));
             Session::set(SESSION_PREFIX . 'picture', $response['emppicture']);
