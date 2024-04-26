@@ -1796,7 +1796,7 @@ class Login_Model extends Model {
             $response = ['status' => 'error', 'message' => $this->ws->getResponseMessage($result)];
         }
         
-        return $result;
+        return $response;
     }
     
     public function cloudUserSignupSaveModel() {
