@@ -1602,7 +1602,6 @@ class Login extends Controller {
             Message::add('d', $checkLicense['message'], URL . 'login');
         }
         
-        $this->view->processId = Config::getFromCacheDefault('PF_CLOUD_USER_SIGNUP_PROCESS_ID', null, '1713769133625164');
         $this->view->title = $this->lang->line('Хэрэглэгч бүртгүүлэх');
         
         $this->view->fullUrlCss = [
@@ -1619,6 +1618,9 @@ class Login extends Controller {
             'middleware/assets/js/mdbp.js',
             'middleware/assets/js/mdexpression.js'
         ];
+        
+        $this->view->processId = Config::getFromCacheDefault('PF_CLOUD_USER_SIGNUP_PROCESS_ID', null, '1713769133625164');
+        $this->view->email = $checkLicense['email'];
         
         loadPhpQuery();
         
@@ -1674,6 +1676,7 @@ class Login extends Controller {
         </tr>';
                     
         $bpContentHtml->find('table.bp-header-param > tbody > tr:last')->after($captchaInput);
+        $bpContentHtml->find('input[data-path="param[userName]"]')->val($this->view->email)->attr('readonly', 'readonly');
         
         $this->view->contentHtml = $bpContentHtml->html();
         

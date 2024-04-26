@@ -1784,7 +1784,7 @@ class Login_Model extends Model {
             
             if (array_key_exists('isvalid', $result['result'])) {
                 if ($result['result']['isvalid'] == '1') {
-                    $response = ['status' => 'success'];
+                    $response = ['status' => 'success', 'email' => issetParam($result['result']['email'])];
                 } else {
                     $response = ['status' => 'error', 'message' => 'Өмнө нь хэрэглэсэн token байна!'];
                 }
