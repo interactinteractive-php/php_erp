@@ -2617,11 +2617,15 @@ $(function() {
     });
 
     $(document.body).on('focus', 'input.dateminuteInit', function(e) {
-        $(this).inputmask({
-            mask: 'y-m-d h:s',
-            placeholder: '____-__-__ __:__',
-            alias: 'datetime',
-            hourFormat: '24'
+        var $this = $(this);
+        $this.inputmask('y-m-d h:s');
+        $this.datetimepicker({
+            autoclose: true,
+            todayBtn: true,
+            ignoreReadonly: true,
+            keyboardNavigation: false, 
+            format: "yyyy-mm-dd hh:ii", 
+            language: sysLangCode
         });
         return e.preventDefault();
     });
