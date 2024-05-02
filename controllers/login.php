@@ -1676,7 +1676,7 @@ class Login extends Controller {
         </tr>';
                     
         $bpContentHtml->find('table.bp-header-param > tbody > tr:last')->after($captchaInput);
-        $bpContentHtml->find('input[data-path="param[userName]"]')->val($this->view->email)->attr('readonly', 'readonly');
+        $bpContentHtml->find('input[data-path="userName"]')->val($this->view->email)->attr('readonly', 'readonly');
         
         $this->view->contentHtml = $bpContentHtml->html();
         

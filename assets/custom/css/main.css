@@ -92,7 +92,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .primary-top .tabbable-line>.nav-tabs>li a.active {
-    border-bottom: 2px solid var(--root-color1) !important;
+    border-bottom: 4px solid #2196f3 !important;
 }
 
 .primary-top .tabbable-line>.nav-tabs>li.open,
@@ -2379,7 +2379,7 @@ table.bprocess-theme1 thead tr th span {
 }
 
 .tabbable-line>.nav-tabs>li a.active {
-    border-bottom: 2px solid var(--root-color1) !important;
+    border-bottom: 4px solid #2196f3 !important;
     position: relative;
     color: #000;
 }
@@ -23623,6 +23623,7 @@ input.lookup-name-autocomplete.error:focus {
     float: none;
     text-align: right;
     padding-left: 0.4rem;
+    padding-bottom: 3px;
 }
 
 .ui-dialog .ui-dialog-buttonpane button {
@@ -25851,7 +25852,7 @@ body.sidebar-secondary-hidden .bp-settings .gutter.gutter-horizontal {
 
 .gutter.gutter-vertical {
     cursor: row-resize;
-    background-image: url('../../../assets/custom/img/split-dot.png');
+    background-image: url('../../../assets/custom/img/split-vertical-dot.png');
     background-color: #eee;
 }
 
@@ -26609,7 +26610,7 @@ i.fa-soyombo:before {
 }
 
 .ui-dialog .ui-dialog-buttonpane {
-    border-top: 1px solid #e0e0e0;
+    /*border-top: 1px solid #e0e0e0;*/
 }
 
 .ui-widget.ui-widget-content {
@@ -26618,7 +26619,9 @@ i.fa-soyombo:before {
 
 .ui-dialog .ui-dialog-title,
 .modal-dialog .modal-content .modal-header .modal-title {
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
 }
 
 .ui-resizable-handle.ui-icon {
@@ -26886,10 +26889,10 @@ label {
 .ui-dialog .ui-dialog-buttonset .btn.green-meadow.bp-btn-saveadd,
 .meta-toolbar .btn.btn-primary,
 .modal .modal-dialog .modal-footer .btn.btn-primary {
-    background-color: #FFF;
-    border: 1px solid #3597d4 !important;
+    background-color: #def3ff;
+    border: 1px solid #def3ff !important;
     border-radius: 100px !important;
-    color: #3597d4 !important;
+    color: #009ef7 !important;
 }
 
 .dv-process-buttons .btn.btn-primary:hover,
@@ -26908,8 +26911,8 @@ label {
 .meta-toolbar .btn.btn-primary:focus,
 .modal .modal-dialog .modal-footer .btn.btn-primary:hover,
 .dvecommerce .ecommerce-buttons .btn:hover {
-    background: #3597d4 !important;
-    border-color: #3597d4 !important;
+    background: #2196f3 !important;
+    border-color: #2196f3 !important;
     color: #FFF !important;
 }
 
@@ -27071,9 +27074,9 @@ label {
 .btn.bpMainSaveButton,
 #headerFilterParam .header-filter-param-btns .btn.green,
 .btn.bp-btn-print {
-    background-color: #FFF;
-    border-color: #1bbc9b;
-    color: #1bbc9b;
+    background-color: #def3ff;
+    border-color: #def3ff;
+    color: #009ef7;
     border-radius: 100px !important;
 }
 
@@ -27099,8 +27102,8 @@ label {
 .btn.bpMainSaveButton:hover,
 #headerFilterParam .header-filter-param-btns .btn.green:hover,
 .btn.bp-btn-print:hover {
-    background: #1bbc9b;
-    border-color: #1bbc9b;
+    background: #2196f3;
+    border-color: #2196f3;
     color: #FFF !important;
 }
 
@@ -28690,6 +28693,9 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    margin-top: 9px;
+    margin-left: 4%;
+    margin-right: 4%;    
 }
 .mv-hdr-label-control-row {
     display: table-row;
@@ -28710,15 +28716,13 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     vertical-align: inherit;
 }
 .mv-hdr-label-control-label {
-    /*max-width: 180px;
-    text-align: right;
-    background-color: #f5f5f5;*/
-    text-align: right;
-    -ms-flex: 0 0 20%;
-    flex: 0 0 20%;
-    max-width: 20%;
-    padding: 5px 7px 0 0;
-    line-height: normal;
+    width: 100% !important;
+    padding-bottom: 6px;
+    text-align: left;
+    font-weight: bold;        
+}
+.mv-hdr-label-control-label label {
+    color: #666 !important;
 }
 .mv-hdr-right-label-control .mv-hdr-label-control-label {
     text-align: left;
@@ -28729,9 +28733,18 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
 }
 .mv-hdr-label-control-input {
     padding: 0;
-    -ms-flex: 0 0 80%;
-    flex: 0 0 80%;
-    max-width: 80%;
+    width: 100%;
+}
+.mv-hdr-label-control-input .input-group-btn>.btn {
+    height: 32px !important;
+    min-height: 32px !important;    
+    border: none !important;    
+}
+.mv-hdr-label-control-input .form-control {
+    background-color: #F9F9F9;
+    height: 32px !important;
+    min-height: 32px !important;    
+    border-color: #F9F9F9;
 }
 /*.mv-hdr-label-control-input input[type="text"]:not(.select2-input) {
     border: 1px transparent solid;

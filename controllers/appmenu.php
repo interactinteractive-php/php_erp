@@ -294,7 +294,8 @@ class Appmenu extends Controller {
             }
 
         } elseif ($count == 1) {
-
+            
+            $default_redirect_url = $redirect_url;
             $redirect_url = URL.'appmenu/module/'.$appmenuRow['menuId'].'?mmid='.$appmenuRow['menuId'];
 			
             if (isset($appmenuRow['actionmetadataid']) && isset($appmenuRow['actionmetatypeid']) && $appmenuRow['actionmetadataid']) {
@@ -317,8 +318,12 @@ class Appmenu extends Controller {
                 }
 
             } elseif (!empty($appmenuRow['weburl'])) {
-
-                $redirect_url = URL.$appmenuRow['weburl'] . '&mmid=' . $appmenuRow['menuId'];
+                
+                if (strpos($appmenuRow['weburl'], 'mdform/indicatorProduct/') !== false) {
+                    $redirect_url = $default_redirect_url;
+                } else {
+                    $redirect_url = URL.$appmenuRow['weburl'] . '&mmid=' . $appmenuRow['menuId'];
+                }
             }
 
             if (is_array($appmenuRow['menuData']) && $appmenuRow['menuData'][0]['isshowcard'] == 'true') {

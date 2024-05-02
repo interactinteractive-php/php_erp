@@ -223,7 +223,7 @@ class Appmenu_Model extends Model {
                             FROM KPI_INDICATOR
                             WHERE KPI_TYPE_ID = 16818054066154 
                                 AND 
-                                CASE WHEN $idPh = (SELECT USER_ID FROM UM_USER_ROLE WHERE USER_ID = $idPh AND ROLE_ID = 1)
+                                CASE WHEN $idPh = (SELECT MAX(USER_ID) FROM UM_USER_ROLE WHERE USER_ID = $idPh AND ROLE_ID = 1)
                                     THEN 1
                                 WHEN $idPh = 1
                                     THEN 1
