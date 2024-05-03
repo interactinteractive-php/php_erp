@@ -22,6 +22,7 @@
 <link href="<?php echo autoVersion('assets/core/css/custom-helper.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo autoVersion('assets/custom/css/main.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo autoVersion('assets/custom/css/plugins.css'); ?>" rel="stylesheet"/> 
+<link href="<?php echo autoVersion('assets/custom/css/updateui.css'); ?>" rel="stylesheet"/>
 <?php
 if (isset($this->css)) {
     foreach ($this->css as $key => $css) {
