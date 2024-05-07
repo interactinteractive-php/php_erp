@@ -28694,8 +28694,8 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     flex-wrap: wrap;
     margin-bottom: 10px;
     margin-top: 9px;
-    margin-left: 35px;
-    margin-right: 35px;    
+    padding-left: 35px;
+    padding-right: 35px;    
 }
 .mv-hdr-label-control-row {
     display: table-row;
