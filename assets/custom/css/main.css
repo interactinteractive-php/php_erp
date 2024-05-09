@@ -12074,7 +12074,7 @@ a.apps h5 {
 }
 
 .uniform-uploader.disabled .filename {
-    background-color: #f9f9f9;
+    background-color: #f3f3f3;
 }
 
 .xs-form textarea.form-control {
@@ -28747,14 +28747,14 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     border: none !important;    
 }
 .mv-hdr-label-control-input .uniform-uploader .filename {
-    background-color: #F9F9F9;
-    border-color: #F9F9F9;
+    background-color: #f3f3f3;
+    border-color: #f3f3f3;
 }
 .mv-hdr-label-control-input .form-control {
-    background-color: #F9F9F9;
+    background-color: #f3f3f3;
     height: 32px !important;
     min-height: 32px !important;    
-    border-color: #F9F9F9;
+    border-color: #f3f3f3;
 }
 /*.mv-hdr-label-control-input input[type="text"]:not(.select2-input) {
     border: 1px transparent solid;

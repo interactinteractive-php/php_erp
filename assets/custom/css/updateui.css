@@ -80,7 +80,8 @@
     background-color: #fff;
 /*    border-top-left-radius: .75rem;
     border-top-right-radius: .75rem;        */
-    border-radius: .75rem;        
+    border-top-left-radius: .75rem;
+    border-top-right-radius: .75rem;
 }
 .mv-checklist-render:not(.bp-render-checklist) {
     /*margin: 5px !important;*/
@@ -154,8 +155,8 @@
 .mv-checklist2-render-parent .form-control {
 /*    height: 32px !important;
     min-height: 32px !important;*/
-    border: 1px #F9F9F9 solid;    
-    background-color: #F9F9F9 !important;
+    border: 1px #f3f3f3 solid;    
+    background-color: #f3f3f3 !important;
 }
 div[data-section-path="pfProcessFileWidget"] .bp-detail-title,
 div[data-section-path="pfProcessCommentWidget"] .bp-detail-title {
@@ -173,4 +174,24 @@ div[data-section-path="pfProcessCommentWidget"] {
 }
 div[data-section-path="pfProcessCommentWidget"] {
     margin-top: 18px;
+}
+.mv-checklist2-render-parent .bp-tabs {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: .75rem;    
+}
+.mv-checklist2-render-parent .meta-toolbar {
+    margin-right: -.625rem;
+    margin-left: -.625rem;
+    width: inherit;    
+}
+.mv-checklist2-render-parent .mv-datalist-show-filter .col.content-wrapper {
+    background-color: #fff;
+}
+.mv-checklist2-render-parent .indicatorView {
+    background-color: #fff;
+    padding: 15px;  
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #e1e1e1 !important;
 }
