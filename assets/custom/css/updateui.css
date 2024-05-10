@@ -228,3 +228,48 @@ div[data-section-path="pfProcessCommentWidget"] {
 .mv-checklist2-render-parent .bp-render-checklist .tab-content {
     padding-top: 0px;
 }
+.mv-checklist2-render-parent .table-scrollable.bp-header-param {
+    margin: 0px;
+}
+.mv-checklist2-render-parent .wizard.blue .table-scrollable.bp-header-param {
+    padding-bottom: 15px !important;
+}
+.mv-checklist2-render-parent .table-scrollable.bp-header-param td {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.mv-checklist2-render-parent button.bp-btn-save, 
+.mv-checklist2-render-parent button.bp-btn-saveadd {
+    margin-right: 15px !important;
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li>.item-icon-selection {
+    background-color: #f3f3f3 !important;
+    border: 1px solid #f3f3f3 !important;
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li.active>.item-icon-selection {
+    background-color: #f3f3f3 !important;
+    color: #737373 !important;
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li.active>.item-icon-selection:before {
+    content: "";
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li>.item-icon-selection p {
+    color: #737373 !important;
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li>.item-icon-selection:hover p {
+    color: #fff !important;
+}
+.mv-checklist2-render-parent ul.bp-icon-selection li>.item-icon-selection:hover {
+    background-color: #1B84FF !important;
+}
+.mv-checklist2-render-parent .wizard.blue .actions .btn {
+    border-radius: 100px !important;
+    margin-top: 10px;
+    background-color: #2196f3;
+    color: #fff;    
+}
+.mv-checklist2-render-parent .mv-checklist-main-render .kpi-ind-tmplt-section {
+    background-color: #fff !important;
+    margin-top: 15px;    
+    border-radius: .75rem; 
+}
