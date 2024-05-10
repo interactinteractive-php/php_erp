@@ -1636,7 +1636,7 @@ var Core = function() {
             
             var $sidebars = element.find('> form > .meta-toolbar:not(.is-bp-open-1, .not-sticky)');
             
-            if ($sidebars.length && ($sidebars.closest('.workspace-part').length == 0 
+            if ($sidebars.length && $sidebars.closest('.mv-checklist2-render-parent').length == 0 && ($sidebars.closest('.workspace-part').length == 0 
                 && $sidebars.closest('.package-meta').length == 0 
                 && $sidebars.closest('.not-sticky').length == 0)
                 ) {
