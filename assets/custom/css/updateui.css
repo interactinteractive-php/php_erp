@@ -214,6 +214,12 @@ div[data-section-path="pfProcessCommentWidget"] {
     margin-left: -.625rem;
     padding: 10px 15px 5px 15px;    
 }
+.mv-checklist2-render-parent .kpi-ind-tmplt-section td.stretchInput > div[data-section-path] {
+    background-color: transparent;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0;    
+}
 .mv-checklist-section-sidebar {
     flex: 0 0 250px;border-right: 1px solid #eee;background-color: #fff;margin-top: 15px;border-radius: .75rem;padding: 15px;margin-left: -.625rem;    
 }
