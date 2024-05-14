@@ -1605,6 +1605,8 @@ class Login extends Controller {
         $this->view->title = $this->lang->line('Хэрэглэгч бүртгүүлэх');
         
         $this->view->fullUrlCss = [
+            'assets/core/icon/fontawesome/all.min.css',
+            'assets/core/icon/fontawesome/v4-shims.min.css',
             'assets/core/js/plugins/select2/select2.css', 
             'assets/core/js/plugins/addon/uniform/css/uniform.default.css',
             'assets/custom/css/login/process_render.css'
