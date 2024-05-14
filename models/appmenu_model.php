@@ -197,7 +197,6 @@ class Appmenu_Model extends Model {
                     'Онцлох' AS GROUP_NAME,
                     PP.MENU_INDICATOR_ID,
                     PP.LANDING_PAGE_INDICATOR_ID,
-                    PP.ONBOARDING_CHECKLIST_INDICATOR_ID, 
                     (
                         SELECT 
                             COUNT(1) 

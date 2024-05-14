@@ -118,7 +118,7 @@
     padding-top: 15px;    
 }
 .sectiongidseperatorcontent-container {
-    background-color: #f1f1f1;
+    background-color: #f9f3ed;
 }
 .sectiongidseperatorcontent {
     background-color: #fff;
@@ -158,27 +158,36 @@
     border: 1px #f3f3f3 solid;    
     background-color: #f3f3f3 !important;
 }
-div[data-section-path="pfProcessFileWidget"] .bp-detail-title,
-div[data-section-path="pfProcessCommentWidget"] .bp-detail-title {
+.mv-checklist2-render-parent div[data-section-path="pfProcessFileWidget"] .bp-detail-title,
+.mv-checklist2-render-parent div[data-section-path="pfProcessCommentWidget"] .bp-detail-title {
     border-bottom: none !important;
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;    
     color: rgba(51, 51, 51, .8);
 }
-div[data-section-path="pfProcessFileWidget"],
-div[data-section-path="pfProcessCommentWidget"] {
+.mv-checklist2-render-parent div[data-section-path="pfProcessFileWidget"],
+.mv-checklist2-render-parent div[data-section-path="pfProcessCommentWidget"] {
     background-color: #fff;
+    margin-top: 10px;
     border-radius: .75rem;
     padding: 10px 36px 10px 36px;    
 }
-div[data-section-path="pfProcessCommentWidget"] {
-    margin-top: 18px;
+.mv-checklist2-render-parent .bp-tabs > .nav-tabs {
+    background-color: #fff !important;
+    padding: 10px !important;
+    margin-top: 10px !important;    
+    border-top-right-radius: .75rem !important;
+    border-top-left-radius: .75rem !important;
 }
-.mv-checklist2-render-parent .bp-tabs {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: .75rem;    
+.mv-checklist2-render-parent .bp-tabs > .tab-content {
+    background-color: #fff !important;
+    padding: 10px !important;
+    border-bottom-right-radius: .75rem !important;
+    border-top: none;
+    border-bottom-left-radius: .75rem !important;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;    
 }
 .mv-checklist2-render-parent .mv-checklist-render:not(.bp-render-checklist) .meta-toolbar {
     margin-right: -.625rem;
@@ -237,7 +246,7 @@ div[data-section-path="pfProcessCommentWidget"] {
 .mv-checklist2-render-parent .table-scrollable.bp-header-param {
     margin: 0px;
 }
-.mv-checklist2-render-parent .wizard.blue .table-scrollable.bp-header-param {
+.mv-checklist2-render-parent .table-scrollable.bp-header-param {
     padding-bottom: 15px !important;
 }
 .mv-checklist2-render-parent .table-scrollable.bp-header-param td {
@@ -278,4 +287,23 @@ div[data-section-path="pfProcessCommentWidget"] {
     background-color: #fff !important;
     margin-top: 15px;    
     border-radius: .75rem; 
+}
+.mv-checklist2-render-parent #tnaTimeEmployeePlanWindow {
+    background-color: #fff;
+    padding: 10px;
+    margin: 0px;
+    border-radius: .75rem; 
+}
+.mv-checklist2-render-parent #employeeTimeBalance {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: .75rem; 
+}
+.mv-checklist2-render-parent .main-dataview-container {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: .75rem; 
+}
+.mv-checklist2-render-parent #saveDepreciation-form {
+    background-color: #fff;
 }
