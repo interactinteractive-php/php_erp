@@ -148,7 +148,7 @@
                     }                                 
                 }
                            
-                echo '<li class="filter' . $activeClass . '" data-filter="' . 999999 . '">';
+                echo '<li class="hidden filter' . $activeClass . '" data-filter="' . 999999 . '">';
                 echo '<span class="title">Бусад</span>';                    
                 echo '</li>';                      
                 ?>

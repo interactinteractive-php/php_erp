@@ -177,6 +177,7 @@ class Appmenu_Model extends Model {
                 SELECT 
                     KI.ID, 
                     KI.ORDER_NUMBER, 
+                    KCC.ORDER_NUMBER AS CATEGORY_ORDER,
                     PP.META_DATA_ID, 
                     MM.ACTION_META_DATA_ID, 
                     MD.META_TYPE_ID AS ACTION_META_TYPE_ID, 
@@ -247,7 +248,7 @@ class Appmenu_Model extends Model {
             WHERE K.MENU_INDICATOR_ID IS NOT NULL 
                 OR K.ACTION_META_DATA_ID IS NOT NULL 
                 OR K.IS_RELATION > 0 
-            ORDER BY K.ORDER_NUMBER ASC", [$sessionUserKeyId]);
+            ORDER BY K.CATEGORY_ORDER, K.ORDER_NUMBER", [$sessionUserKeyId]);
         
         return $data;
     }     
