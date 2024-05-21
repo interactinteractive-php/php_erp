@@ -15,8 +15,22 @@ $method = Input::post('method');
 if ($method == 'what3words') {
     
     $coordinate = Input::post('coordinate');
-    $coordinateArr = explode('|', $coordinate);
-    $coords = $coordinateArr[1].','.$coordinateArr[0];
+    if (strpos($coordinate, '|') !== false) {
+        $seperatorChar = '|';
+    } else {
+        $seperatorChar = ',';
+    }    
+    $coordinateArr = explode($seperatorChar, $coordinate);
+    $latitude = trim($coordinateArr[0]);
+    $longitude = trim($coordinateArr[1]);
+    
+    if ((float) $latitude > (float) $longitude) {
+        $latitudeTmp = $latitude;
+        $latitude = $longitude;
+        $longitude = $latitudeTmp;
+    }
+            
+    $coords = $latitude.','.$longitude;    
     
     $curl = curl_init();
         

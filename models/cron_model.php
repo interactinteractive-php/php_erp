@@ -791,5 +791,87 @@ class Cron_Model extends Model {
         
         return $result;
     }
+    
+    public function jsonToProcessModel() {
+        
+        try {
+            
+            $data = $this->db->GetAll("
+                SELECT 
+                    T0.ID, 
+                    T0.META_PROCESS_ID, 
+                    T0.INDICATOR_ID, 
+                    T0.JSON_CONFIG, 
+                    T1.META_DATA_CODE 
+                FROM META_PROCESS_JSON T0 
+                    LEFT JOIN META_DATA T1 ON T1.META_DATA_ID = T0.META_PROCESS_ID 
+                    LEFT JOIN KPI_INDICATOR T2 ON T2.ID = T0.INDICATOR_ID 
+                WHERE (T0.STATUS IS NULL OR T0.STATUS = 'error')  
+                    AND T0.JSON_CONFIG IS NOT NULL 
+                    AND (T1.META_DATA_ID IS NOT NULL OR T2.ID IS NOT NULL) 
+                ORDER BY T0.CREATED_DATE ASC");
+            
+            if ($data) {
+                
+                $logged = Session::isCheck(SESSION_PREFIX.'LoggedIn');
+
+                if ($logged == false) {
+                    Session::set(SESSION_PREFIX . 'LoggedIn', true);
+                    Session::set(SESSION_PREFIX . 'lastTime', time());
+                }
+
+                $_POST['nult'] = true;
+
+                foreach ($data as $row) {
+                    
+                    $recordId    = $row['ID'];
+                    $processId   = $row['META_PROCESS_ID'];
+                    $indicatorId = $row['INDICATOR_ID'];
+                    $param       = json_decode(html_entity_decode($row['JSON_CONFIG'], ENT_QUOTES, 'UTF-8'), true);
+
+                    if ($processId != '') {
+                        
+                        $processResponse = $this->ws->runSerializeResponse(GF_SERVICE_ADDRESS, $row['META_DATA_CODE'], $param);
+                        
+                        if ($this->ws->isException()) {
+                            
+                            $updateData = ['STATUS' => 'error', 'ERROR_MESSAGE' => $this->ws->getErrorMessage()];
+                            
+                        } else {
+                            if (isset($processResponse['status'])) {
+                                if ($processResponse['status'] == 'success') {
+                                    $updateData = ['STATUS' => 'success', 'ERROR_MESSAGE' => null];
+                                } else {
+                                    $updateData = ['STATUS' => 'error', 'ERROR_MESSAGE' => $this->ws->getResponseMessage($processResponse)];
+                                }
+                            } else {
+                                $updateData = ['STATUS' => 'error', 'ERROR_MESSAGE' => WebService::$soapErrorNonNormal];
+                            }
+                        }
+                        
+                        $this->db->AutoExecute('META_PROCESS_JSON', $updateData, 'UPDATE', "ID = $recordId");
+                        
+                    } else {
+                        
+                        $_POST['kpiMainIndicatorId'] = $indicatorId;
+                        Mdform::$mvSaveParams = $param;
+                        
+                        $this->load->model('mdform', 'middleware/models/');
+                        $response = $this->model->saveMetaVerseDataModel();
+                    }
+                }
+                
+                $result = ['status' => 'success'];
+                
+            } else {
+                $result = ['status' => 'error', 'message' => 'meta_process_json empty!'];
+            }
+            
+        } catch (Exception $ex) {
+            $result = ['status' => 'error', 'message' => $ex->getMessage()];
+        }
+        
+        return $result;
+    }
 
 }

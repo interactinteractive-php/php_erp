@@ -207,4 +207,9 @@ class Cron extends Controller {
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
     
+    public function jsonToProcess() {
+        $response = $this->model->jsonToProcessModel();
+        convJson($response);
+    }
+    
 }

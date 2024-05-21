@@ -26,7 +26,7 @@ class Appmenu extends Controller {
 
         $this->view->menuList = $this->model->getMenuListModel($menuCode, true);
         
-        if ($this->view->menuList['status'] == 'success' && isset($this->view->menuList['menuData'])) {
+        if ($this->view->menuList['status'] == 'success' && isset($this->view->menuList['menuData']) && isset($this->view->menuList['menuData'][0])) {
             
             $this->view->getResetUser = Config::getFromCache('IsChangePassword') == '1' ? $this->model->getResetPasswordUser() : false;
             $appmenuGroupingCount = Config::getFromCacheDefault('appmenuGroupingCount', null, 10);
@@ -57,12 +57,6 @@ class Appmenu extends Controller {
     
     public function indexNew() 
     {   
-        $redirectUrl = $this->redirectModule();
-        
-        if ($redirectUrl) {
-            Message::add('s', '', $redirectUrl);
-        }
-        
         $this->view->title = 'APP MENU'; 
         
         $this->view->css = array_unique(array_merge(['custom/css/vr-card-menu.css'], AssetNew::metaCss()));
