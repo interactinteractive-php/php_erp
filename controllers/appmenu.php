@@ -241,6 +241,10 @@ class Appmenu extends Controller {
     
     public function redirectModule($redirect_url = null, $defaultModuleId = null, $clickMenuId = null)
     {       
+        if ($redirect_url == 'appmenu/indexnew') {
+            return $redirect_url;
+        }
+        
         $this->load->model('appmenu');
         $appmenuRow = $this->model->getMenuListModel(null, true);
 
