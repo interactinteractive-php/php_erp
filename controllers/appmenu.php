@@ -241,7 +241,7 @@ class Appmenu extends Controller {
     
     public function redirectModule($redirect_url = null, $defaultModuleId = null, $clickMenuId = null)
     {       
-        if ($redirect_url == 'appmenu/indexnew') {
+        if (strpos($redirect_url, 'appmenu/indexnew') !== false) {
             return $redirect_url;
         }
         
