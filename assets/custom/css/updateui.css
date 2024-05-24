@@ -166,13 +166,15 @@
     padding-bottom: 0;
 }
 
-.mv-checklist-render.bp-render-checklist .meta-toolbar {
+.mv-checklist-render.bp-render-checklist .meta-toolbar,
+.mv_checklist_render_all.bp-render-checklist .meta-toolbar {
     background-color: #fff !important;
     border-top-right-radius: .75rem;
     border-top-left-radius: .75rem;
 }
 
-.mv-checklist-render.bp-render-checklist .bp-header-param {
+.mv-checklist-render.bp-render-checklist .bp-header-param,
+.mv_checklist_render_all.bp-render-checklist .bp-header-param {
     background-color: #fff;
     border-bottom-right-radius: .75rem;
     border-bottom-left-radius: .75rem;

@@ -992,18 +992,22 @@ var Core = function() {
         },
         initDateMonth: function(element) {
             element = (typeof element === 'undefined') ? $(document.body) : element;
-            var $thisDate = $("input.monthInit", element);
-
-            $thisDate.inputmask("y-m");
-            $thisDate.datepicker({
-                format: 'yyyy-mm',
-                autoclose: true,
-                showOnFocus: false,
-                todayBtn: 'linked',
-                todayHighlight: true, 
-                language: sysLangCode, 
-                templates:{leftArrow:'<i class="far fa-angle-left"></i>',rightArrow:'<i class="far fa-angle-right"></i>'}
-            }).off('keyup focus');
+            var $thisDate = element.find('input.monthInit');
+            
+            if ($thisDate.length) {
+                $thisDate.inputmask('y-m');
+                $thisDate.datepicker({
+                    format: 'yyyy-mm',
+                    autoclose: true,
+                    showOnFocus: false,
+                    todayBtn: 'linked',
+                    startView: 'months', 
+                    minViewMode: 'months', 
+                    todayHighlight: true, 
+                    language: sysLangCode, 
+                    templates: {leftArrow:'<i class="far fa-angle-left"></i>',rightArrow:'<i class="far fa-angle-right"></i>'}
+                }).off('keyup focus');
+            }
         },
         initDateInputByElement: function(element) {
             element.inputmask("y-m-d");
@@ -1712,6 +1716,7 @@ var Core = function() {
             this.initDateTimeInput(element);
             this.initDateMaskInput(element);
             this.initDateTimeMaskInput(element);
+            this.initDateMonth(element);
             this.initNumberInput(element);
             this.initNotZeroIntInput(element);
             this.initLongInput(element);
@@ -2691,7 +2696,7 @@ $(function() {
     });
     $(document.body).on('click', '.dateElement > .input-group-btn', function(e) {
         if (e.hasOwnProperty('originalEvent') && e.timeStamp !== 0 && (typeof e.clientX !== 'undefined' && e.clientX !== 0)) {
-            $(this).closest(".dateElement").find(".dateInit:not([readonly],[disabled])").datepicker('show');
+            $(this).closest(".dateElement").find(".dateInit:not([readonly],[disabled]), .monthInit:not([readonly],[disabled])").datepicker('show');
         }
     });
     $(document.body).on('keydown', '.dateInit:not([readonly],[disabled])', function(e) {
@@ -3005,7 +3010,216 @@ $(function() {
 
         $this.datepicker('hide');
     });
-    $(document.body).on('change', '.dateInit:not([readonly],[disabled])', function(e, isTriggered) {
+    $(document.body).on('keydown', '.monthInit:not([readonly],[disabled])', function(e) {
+        var keyCode = (e.keyCode ? e.keyCode : e.which);
+        var $this = $(this);
+        var $val = $this.val();
+
+        if ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105)) {
+
+            var cursorStart = $this.caret().start;
+
+            if (cursorStart == '0' && $val.substring(0, 1) != '_') { /* Year-1 */
+                $this.caret({ start: 0, end: 1 });
+            } else if (cursorStart == '1' && $val.substring(1, 2) != '_') { /* Year-2 */
+                $this.caret({ start: 1, end: 2 });
+            } else if (cursorStart == '2' && $val.substring(2, 3) != '_') { /* Year-3 */
+                $this.caret({ start: 2, end: 3 });
+            } else if (cursorStart == '3' && $val.substring(3, 4) != '_') { /* Year-4 */
+                $this.caret({ start: 3, end: 4 });
+            } else if (cursorStart == '4') { /* Month-1 */
+
+                if (keyCode == 50 || keyCode == 98) {
+                    $this.val(substr_replace($val, '02', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 51 || keyCode == 99) {
+                    $this.val(substr_replace($val, '03', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 52 || keyCode == 100) {
+                    $this.val(substr_replace($val, '04', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 53 || keyCode == 101) {
+                    $this.val(substr_replace($val, '05', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 54 || keyCode == 102) {
+                    $this.val(substr_replace($val, '06', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 55 || keyCode == 103) {
+                    $this.val(substr_replace($val, '07', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 56 || keyCode == 104) {
+                    $this.val(substr_replace($val, '08', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 57 || keyCode == 105) {
+                    $this.val(substr_replace($val, '09', 5, 2));
+                    $this.setCursorPosition(8);
+                } else {
+                    $this.caret({ start: 5, end: 6 });
+                }
+
+            } else if (cursorStart == '5' && $val.substring(5, 6) == '_') { /* Month-1 */
+
+                if (keyCode == 50 || keyCode == 98) {
+                    $this.val(substr_replace($val, '02', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 51 || keyCode == 99) {
+                    $this.val(substr_replace($val, '03', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 52 || keyCode == 100) {
+                    $this.val(substr_replace($val, '04', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 53 || keyCode == 101) {
+                    $this.val(substr_replace($val, '05', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 54 || keyCode == 102) {
+                    $this.val(substr_replace($val, '06', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 55 || keyCode == 103) {
+                    $this.val(substr_replace($val, '07', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 56 || keyCode == 104) {
+                    $this.val(substr_replace($val, '08', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                } else if (keyCode == 57 || keyCode == 105) {
+                    $this.val(substr_replace($val, '09', 5, 2));
+                    $this.setCursorPosition(8);
+                    return false;
+                }
+
+            } else if (cursorStart == '5' && $val.substring(5, 6) != '_') { /* Month-1 */
+
+                if (keyCode == 48 || keyCode == 96) {
+
+                    var $monthSecondVal = $val.substring(6, 7);
+
+                    if ($monthSecondVal == '0') {
+                        $this.val(substr_replace($val, '01', 5, 2));
+                        $this.setCursorPosition(6);
+                    } else {
+                        $this.caret({ start: 5, end: 6 });
+                    }
+
+                } else if (keyCode == 49 || keyCode == 97) {
+
+                    var $monthSecondVal = $val.substring(6, 7);
+
+                    if ($monthSecondVal == '3' || $monthSecondVal == '4' || $monthSecondVal == '5' ||
+                        $monthSecondVal == '6' || $monthSecondVal == '7' || $monthSecondVal == '8' || $monthSecondVal == '9') {
+                        $this.val(substr_replace($val, '10', 5, 2));
+                        $this.setCursorPosition(6);
+                    } else {
+                        $this.caret({ start: 5, end: 6 });
+                    }
+
+                } else if (keyCode == 50 || keyCode == 98) {
+                    $this.val(substr_replace($val, '02', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 51 || keyCode == 99) {
+                    $this.val(substr_replace($val, '03', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 52 || keyCode == 100) {
+                    $this.val(substr_replace($val, '04', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 53 || keyCode == 101) {
+                    $this.val(substr_replace($val, '05', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 54 || keyCode == 102) {
+                    $this.val(substr_replace($val, '06', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 55 || keyCode == 103) {
+                    $this.val(substr_replace($val, '07', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 56 || keyCode == 104) {
+                    $this.val(substr_replace($val, '08', 5, 2));
+                    $this.setCursorPosition(8);
+                } else if (keyCode == 57 || keyCode == 105) {
+                    $this.val(substr_replace($val, '09', 5, 2));
+                    $this.setCursorPosition(8);
+                } else {
+                    $this.caret({ start: 5, end: 6 });
+                }
+
+            } else if (cursorStart == '6' && $val.substring(6, 7) != '_') { /* Month-2 */
+
+                $this.caret({ start: 6, end: 7 });
+            }
+
+            $this.attr('data-focusout-change', '1'); /*2019.06.19 added*/
+        }
+        
+        if (keyCode === 13 && $this.inputmask('isComplete')) {
+
+            $this.data({ date: $val });
+            $this.datepicker('update');
+            $this.attr('data-focusout-change', '1');
+
+        } else if (keyCode === 107 && $this.inputmask('isComplete')) {
+
+            var modifyDate = dateModify($val, '+1 day');
+            $this.data({ date: modifyDate });
+            $this.datepicker('update', date('Y-m', strtotime(modifyDate)));
+            $this.attr('data-focusout-change', '1');
+
+        } else if (keyCode === 109 && $this.inputmask('isComplete')) {
+
+            var modifyDate = dateModify($val, '-1 day');
+            $this.data({ date: modifyDate });
+            $this.datepicker('update', date('Y-m', strtotime(modifyDate)));
+            $this.attr('data-focusout-change', '1');
+
+        } else if (keyCode === 8 || keyCode === 46) {
+            $this.attr('data-focusout-change', '1');
+        }
+        
+        setTimeout(function() {
+            if ($this.inputmask('isComplete')) {
+                var lastDate = $this.val(), 
+                    year = lastDate.substring(0, 4), 
+                    month = lastDate.substring(5, 7), 
+                    day = lastDate.substring(8, 10), 
+                    lastDay = new Date(year, month, 0).getDate();
+                
+                if (parseFloat(day) > lastDay) {
+                    var gerCursorPos = e.target.selectionStart;       
+                    $this.val(year + '-' + month);             
+                    $this.setCursorPosition(gerCursorPos);
+                }
+                
+                if ($this.hasAttr('data-mindate') && $this.attr('data-mindate')) {
+                    
+                    var inputDate = new Date($this.val());
+                    var minDate = $this.attr('data-mindate');
+
+                    if (inputDate < new Date(minDate)) {
+                        $this.val(minDate);        
+                        $this.data({ date: minDate });
+                        $this.datepicker('update');
+                    }
+                }
+                
+                if ($this.hasAttr('data-maxdate') && $this.attr('data-maxdate')) {
+                    
+                    var inputDate = new Date($this.val());
+                    var maxDate = $this.attr('data-maxdate');
+
+                    if (inputDate > new Date(maxDate)) {
+                        $this.val(maxDate);        
+                        $this.data({ date: maxDate });
+                        $this.datepicker('update');
+                    }
+                }
+            }
+        }, 1);
+
+        $this.datepicker('hide');
+    });
+    $(document.body).on('change', '.dateInit:not([readonly],[disabled]), .monthInit:not([readonly],[disabled])', function(e, isTriggered) {
         var $this = $(this);
         if (!isTriggered && $this.inputmask('isComplete')) {
             $this.data({ date: $this.val() });
@@ -3019,7 +3233,13 @@ $(function() {
         $this.select();
         return e.preventDefault();
     });
-    $(document.body).on('focusout', '.dateInit[data-focusout-change="1"]:not([readonly],[disabled])', function(e) {
+    $(document.body).on('focus', '.monthInit:not([readonly],[disabled])', function(e) {
+        var $this = $(this);
+        $this.inputmask('y-m');
+        $this.select();
+        return e.preventDefault();
+    });
+    $(document.body).on('focusout', '.dateInit[data-focusout-change="1"]:not([readonly],[disabled]), .monthInit[data-focusout-change="1"]:not([readonly],[disabled])', function(e) {
         var $this = $(this);
         $this.removeAttr('data-focusout-change');
         $this.trigger('changeDate');

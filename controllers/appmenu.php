@@ -238,6 +238,30 @@ class Appmenu extends Controller {
         $this->view->render('appmenu/module');
         $this->view->render('footer');     
     }
+
+    public function mvmodule($id)
+    {
+        
+        $this->view->css = AssetNew::metaCss();
+        $this->view->js = AssetNew::metaOtherJs();
+        
+        $this->view->fullUrlJs = AssetNew::amChartJs();
+        $this->view->schoolModule = (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER && $menuMetaDataId === '1472020137986652') ? true : false;
+        
+        $_POST['indicatorId'] = $id;
+        ob_start();
+            (new Mdform)->mvProductRender();
+            $getResult = ob_get_contents();
+        ob_end_clean();               
+        $getResult = json_decode($getResult, true);
+        $this->view->contentHtml = $getResult['html'];
+        
+        header('Content-Type: text/html;charset=UTF-8');
+        
+        $this->view->render('header');
+        $this->view->render('appmenu/module');
+        $this->view->render('footer');     
+    }
     
     public function redirectModule($redirect_url = null, $defaultModuleId = null, $clickMenuId = null)
     {       
@@ -430,6 +454,14 @@ class Appmenu extends Controller {
 
         $this->view->render('header');
         $this->view->render('appmenu/landingpage/index');
+        $this->view->render('footer');
+    }
+
+    public function learnlandingpage() {
+        $this->load->model('mdwidget', 'middleware/models/');
+
+        $this->view->render('header');
+        $this->view->render('appmenu/landingpage/learn');
         $this->view->render('footer');
     }
     
