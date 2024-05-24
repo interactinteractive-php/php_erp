@@ -190,6 +190,7 @@
     min-height: 32px !important;*/
     border: 1px #f3f3f3 solid;
     background-color: #f3f3f3 !important;
+    font-weight: bold;
 }
 
 .mv-checklist2-render-parent div[data-section-path="pfProcessFileWidget"] .bp-detail-title,
@@ -254,6 +255,11 @@
 .mv-checklist2-render-parent .form-control .select2-choice,
 .mv-checklist2-render-parent .form-control .select2-choices {
     background-color: #f3f3f3 !important;
+    border-color: #f3f3f3;
+}
+
+.mv-checklist2-render-parent .select2-container .select2-choice .select2-arrow {
+    border-left: 1px solid #f3f3f3;
 }
 
 .mv-checklist2-render-parent .select2-container-disabled.select2-container .select2-choice .select2-arrow b {
@@ -418,6 +424,15 @@
     cursor: pointer;
     background-color: #eaeaea;
     border-radius: 4px;
+}
+
+.mv-checklist2-render-parent .bp-layout .card>.card-header:not(.invisible) {
+    border-bottom: none;
+}
+
+.mv-checklist2-render-parent .card .card-title:not(.text-white) {
+    font-weight: bold;
+    color: #6a6a6a !important;
 }
 
 .mv-checklist2-render-parent .fileinput-button .big {
