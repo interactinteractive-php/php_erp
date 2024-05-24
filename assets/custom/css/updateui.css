@@ -140,7 +140,7 @@
 }
 
 .sectiongidseperatorcontent-container {
-    background-color: #f9f3ed;
+    background-color: #f4f4f4;
 }
 
 .sectiongidseperatorcontent {
@@ -395,6 +395,15 @@
 
 .mv-checklist2-render-parent .center-sidebar.content {
     padding-left: 6px !important;
+}
+
+.mv-checklist2-render-parent .grid li figure {
+    width: 78px;
+}
+
+.mv-checklist2-render-parent .grid li .img-container,
+.mv-checklist2-render-parent .grid li .img-container img {
+    width: 78px;
 }
 
 .mv-checklist2-render-parent .grid li {
