@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+<div class="contentHtml_1488850816209282">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL ISNULL, NVL, IFNULL, COALESKE<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 142px;">
+<td style="width: 1px; height: 142px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 142px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 142px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Эдгээр нь хоосон буюу ямар ч утгагүй талбарын утгыг математик тооцоололд ашиглахаас сэргийлж шалгалт хийх SQL хэлний функцууд юм. <br /><br /><strong>Хэрэглээ</strong>: Тоон төрлийн утга агуулах талбарыг сонголтын буюу Null утга авахаар тохируулах тохиолдол гардаг. Харин тооцоолол хийж байхад Null утгатай талбар таарахад тооцооллын үр дүн Null болно.<br /><span style="color: blue;">&nbsp;&nbsp;</span>&nbsp;<em><span style="color: #30a2dd;"><br />Зураг 01 -с жишээнд ашиглах хүснэгтийг харна уу.<br /></span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 142px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 142px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 94px;">
+<td style="width: 1px; height: 94px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 94px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 94px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_TABLE/products.PNG" alt="" width="918" height="167" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 Null шалгах жишээнд ашиглах Products&nbsp;хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 94px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 94px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 59px;">
+<td style="width: 1px; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 59px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><br />Зурагт Products хүснэгтийн <strong>UnitsOnOrder&nbsp;</strong>багана нь сонголтын буюу хоосон утгатай байж болохоор байгаа нь харагдаж байна.<br /><br />Жишээ-1: Дээрх Products хүснэгтийн&nbsp;<strong>UnitsOnOrder&nbsp;</strong>баганыг дараах тооцоололд ашиглах шаардлага гарсан гэж үзье. Энд тухайн бүтээгдэхүү дэлгүүрт байгаа тоо болон захиалагдсан тоо хэмжээний нийлбэрийг нэгж үнээр үржүүлж тухайн бүтээгдэхүүний нийт мөнгөн дүнг харуулах гэж байна.<br /><br /><span style="color: blue;">SELECT <span style="color: #ff0000;">ProductName</span>, <span style="color: #ff0000;">UnitPrice</span><span style="color: #000000;">*(</span><span style="color: #ff0000;">UnitsInStock</span><span style="color: #000000;">+</span><span style="color: #ff0000;">UnitsOnOrder</span><span style="color: #000000;">)</span> FROM <span style="color: #ff0000;">Products<span style="color: #000000;">;</span></span></span><span style="color: blue;"><br /></span><br />Дээрх query -д <strong>UnitsInOrder&nbsp;</strong>баганыг&nbsp;Null утгатай байгаа эсэхийг шалгаагүй байгаа учир үр дүнд зарим талбарын утга NULL болж гарна. Хэрэв хоосон утгатай байгааг шалгаж тооцоололд ашиглавал дээрх асуудал шийдэгдэнэ. Энэ тохиолдолд бид Null утгын оронд 0 -г орлуулж тооцоолол хийнэ.<br />&nbsp;<br />Өгөгдлийн сан удирдах системүүдэд өөр өөр нэртэй функцуудыг ашигдадаг.<br /></span></span></span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong><br />MS Access-&gt;ISNULL()<br /></strong></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">ProductName</span>,&nbsp;<span style="color: #ff0000;">UnitPrice</span>*(<span style="color: #ff0000;">UnitsInStock</span>+<span style="color: #0000ff;">IIF</span>(<span style="color: #0000ff;">ISNULL</span>(<span style="color: #ff0000;">UnitsOnOrder</span>),&nbsp;<span style="color: #ff0000;">0</span>,&nbsp;<span style="color: #ff0000;">UnitsOnOrder</span>))&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Products;</span></span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>SQL Server-&gt;ISNULL()<br /></strong></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">ProductName</span>,&nbsp;<span style="color: #ff0000;">UnitPrice</span>*(<span style="color: #ff0000;">UnitsInStock</span>+<span style="color: #0000ff;">ISNULL</span>(<span style="color: #ff0000;">UnitsOnOrder</span>,&nbsp;<span style="color: #ff0000;">0</span>))&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Products;</span></span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Oracle-&gt;NVL()</strong></span></p>
+<div class="w3-code w3-border notranslate sqlHigh">
+<div><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">ProductName</span>,&nbsp;<span style="color: #ff0000;">UnitPrice</span>*(<span style="color: #ff0000;">UnitsInStock</span>+<span style="color: #0000ff;">NVL</span>(<span style="color: #ff0000;">UnitsOnOrder</span>, <span style="color: #ff0000;">0</span>))&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Products;</span></span></div>
+</div>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong><br />MySQL-&gt;IFNULL(), COALESKE()&nbsp;<br /><br /></strong></span><span style="font-family: 'comic sans ms', sans-serif;">IFNULL() ашиглах бол&nbsp;<br /></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">ProductName</span>,&nbsp;<span style="color: #ff0000;">UnitPrice</span>*(<span style="color: #ff0000;">UnitsInStock</span>+<span style="color: #0000ff;">IFNULL</span>(<span style="color: #ff0000;">UnitsOnOrder</span>,&nbsp;<span style="color: #ff0000;">0</span>))&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Products;</span></span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;">COALESCE() ашиглах бол<br /></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">ProductName</span>, <span style="color: #ff0000;">UnitPrice</span>*(<span style="color: #ff0000;">UnitsInStock</span>+<span style="color: #0000ff;">COALESCE</span>(<span style="color: #ff0000;">UnitsOnOrder</span>, <span style="color: #ff0000;">0</span>))&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Products;</span></span></p>
+<div class="w3-code w3-border notranslate sqlHigh">&nbsp;</div>
+<span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><br /><br /></span></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			.table_functions th, .table_functions td {
+				border: 1px solid black;
+			}
+			.table_functions td {
+				padding: 5px;
+			}
+			.table_functions th {
+				padding: 5px;
+			}
+		</style>
+	</head>
+	<body>
+<div class="contentHtml_1488850775142210">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 0.895765%; height: 110px;">&nbsp;</td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 65.3909%; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL DATE FUNCTIONS<br /></span></h1>
+</td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.977199%; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 0.895765%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 65.3909%; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;">SQL -д анхнаас суулгаж өгсөн цаг хугацаа төрлийн өгөгдөлд тооцоолол хийх зориулалттайгаар ашигладаг олон төрлийн функцууд байдаг. Дараах хүснэгтээс харна уу.<br /><br />MySQL -н Date функцууд<strong><br /></strong><br /></span></span></span>
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="height: 18px; text-align: center;">
+<th style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Функц</span></th>
+<th style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Тайлбар</span></th>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_now.asp">NOW()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="color: #000000; font-family: 'comic sans ms', sans-serif;">Тухайн өдрийн огноо болон цагийг хамтад нь буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_curdate.asp">CURDATE()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Тухайн өдрийн огноог буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_curtime.asp">CURTIME()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Тухайн өдрийн цагийг буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_date.asp">DATE()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Цаг хугацаа болон огноо төрлийн нийлмэл өгөгдлөөс зөвхөн огноо хэсгийг салгаж буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_extract.asp">EXTRACT()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Огноо эсвэл цаг хугацаа төрлийн өгөгдөөс нэгж хэсгийг нь салгаж буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_date_add.asp">DATE_ADD()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Тодорхой цаг хугацааны интервалын нийлбэрийг олж буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_date_sub.asp">DATE_SUB()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Тодорхой цаг хугацааны интервалын ялгаврыг олж буцаана</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_datediff_mysql.asp">DATEDIFF()</a></span></td>
+<td style="text-align: left; height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">2 цаг хугацаны зөрүүг буцаана</span></td>
+</tr>
+<tr style="height: 18px; text-align: left;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_date_format.asp">DATE_FORMAT()</a></span></td>
+<td style="height: 18px;"><span style="color: #000000; font-family: 'comic sans ms', sans-serif;">Цаг хугацаа төрлийн өгөгдлүүдийг олон өөр форматаар харуулдаг</span></td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: 'comic sans ms', sans-serif;"><br />SQL Server -н Date функцууд<strong><br /><br /></strong></span>
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<th style="text-align: left;">Функц</th>
+<th style="text-align: left;">Тайлбар</th>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_getdate.asp">GETDATE()</a></span></td>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">Тухайн өдрийн огноо болон цагийг хамтад нь буцаана</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_datepart.asp">DATEPART()</a></span></td>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">Огноо эсвэл цаг хугацаа төрлийн өгөгдөөс нэгж хэсгийг нь салгаж буцаана</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_dateadd.asp">DATEADD()</a></span></td>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">Тодорхой цаг хугацааны интервалын нийлбэр болон ялгаврыг олж буцаана</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_datediff.asp">DATEDIFF()</a></span></td>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">2 цаг хугацаны зөрүүг буцаана</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/func_convert.asp">CONVERT()</a></span></td>
+<td style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">Цаг хугацаа төрлийн өгөгдлүүдийг олон өөр форматаар харуулдаг</span></td>
+</tr>
+</tbody>
+</table>
+<br /><span style="font-family: 'comic sans ms', sans-serif;">SQL Date болон Time төрлийн хэлбэрүүд болон функцууд</span><br /><br />
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<th><span style="color: #000000;">Тайлбар</span></th>
+<th><span style="color: #000000;">Тайлбар</span></th>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/sql_func_format.asp">FORMAT()</a></span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif; color: #000000;">Талбар ямар форматаар дүрслэгдэхийг харуулна</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif; color: #000000;"><a style="color: #000000;" href="https://www.w3schools.com/sql/sql_func_now.asp">NOW()</a></span></td>
+<td><span style="color: #000000; font-family: 'comic sans ms', sans-serif;">Системийн тухайн цаг хугацаа, огноог буцаана</span></td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: 'comic sans ms', sans-serif;"><br />SQL Date Data Types буюу бичиглэл формат</span><br /><br />
+<p style="text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">MySQL&nbsp;дараах цог хугацаа, огноог илэрхийлэх өгөгдлийн төрлүүдтэй бөгөөд өгөгдлийн санд бичигдэх форматын дагуу хадгалагддаг.</span></p>
+<ul style="text-align: center;">
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">DATE - format YYYY-MM-DD</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">DATETIME - format: YYYY-MM-DD HH:MI:SS</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">TIMESTAMP - format: YYYY-MM-DD HH:MI:SS</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">YEAR - format: YYYY or YY</span></li>
+</ul>
+<p style="text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">SQL Server дараах цог хугацаа, огноог илэрхийлэх өгөгдлийн төрлүүдтэй бөгөөд өгөгдлийн санд бичигдэх форматын дагуу хадгалагддаг.</span></p>
+<ul style="text-align: center;">
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">DATE - format YYYY-MM-DD</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">DATETIME - format: YYYY-MM-DD HH:MI:SS</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">SMALLDATETIME - format: YYYY-MM-DD HH:MI:SS</span></li>
+<li style="text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;">TIMESTAMP - format: a unique number</span></li>
+</ul>
+<span style="font-family: 'comic sans ms', sans-serif;">Жишээ-1: Дараах query нь огноо төрлөөр шүүлт хийж байна. Энд огноо болон цаг хугацаа төрлийн өгөгдлийн харьцуулалт шүүж хийхдээ харгалзах утгыг дан эсвэл давхар хашилтанд хийж өгдөг.<br /></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">*</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Orders</span> <span style="color: #0000ff;">WHERE</span> <span style="color: #ff0000;">OrderDate</span>='<span style="color: #ff0000;">2008-11-11</span>';<br /><br />Дээрх select query нь Orders хүснэгтээс OrderDate буюу захиалгын огноо талбар нь 2008-11-11 ны өдөр хийгдсэн бүх захиалгуудыг харуулах юм.</span><br /><br /></td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 271px;">&nbsp;</td>
+<td style="width: 0.977199%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 0.895765%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 65.3909%; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.977199%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

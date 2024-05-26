@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1488850700716337">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL COMMENTS<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь SQL илэрхийлэллийг хэсэгчлэн тайлбарлаж бичих боломж олгодог арга хэрэгсэл юм. Comment болгосон хэсгийн бичиглэл нь ажиллагаанд нөлөөлдөггүй.<br /><br /><strong>Хэрэглээ</strong>: Бүхий програмын кодчилолд тайлбарыг ашигладаг. Учир нь тухай бичиж буй кодын хэсгийг өөр хүн эсвэл удаан хугацааны дараа эргэн хараад ойлгоход хүндрэлтэй байдаг. Хэрэв өөрөө бичиж хадгалаагүй л бол ойлгоход хэцүү. Тиймээс тайлбар төдий чинээ бичнэ ойлгомжтой байдал нэмэгдэж кодчилох техник сайжирна гэдэг бичигдээгүй хууль бий. Үүнтэй ижил томоохон query бичиж байгаа үед comment ашиглан sql илэрхийлэлээ хэсэгчлэн тайлбарлаж явах нь үр дүнтэй юм.&nbsp;<br /><br /><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br /></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;">Single line comment<br /><span style="color: #008000;"><strong>--</strong>Select all</span><br /><br />MultiLine comment<br /><span style="color: #008000;"><strong>/*</strong> Select all the columns</span><br /><span style="color: #008000;">of all the records</span><br /><span style="color: #008000;">in the Customers table: */</span><br /><br />Жишээ-1:&nbsp;Single line comment -г sql илэрхийллийн эхлэл болон төгсгөл хэсэгт дараах байдлаар ашигладаг.&nbsp;<br /><span style="color: #ff0000;"><span style="color: #008000;">--Customers хүснэгтийн бүх бичлэгийг харуулж байна</span><br /><span style="color: blue;">SELECT </span>*&nbsp;<span style="color: #0000ff;">FROM </span>Customers;<br /></span></span></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #ff0000;"><br /><span style="color: #0000ff;">SELECT</span> * <span style="color: #0000ff;">FROM</span> Customers <span style="color: #008000;">-- WHERE City='Berlin';<br /></span><br /></span>Жишээ-2: MultiLine comment хийх аргачлалыг sql илэрхийллийн аль ч хэсэгт ашиглаж болох давуу талтай болохыг дараах бичиглэлүүдээс харна уу.<br /><br /><span style="color: #0000ff;">SELECT</span><span style="color: #ff0000;"> CustomerName,</span> <span style="color: #008080;">/*City,*/</span> <span style="color: #ff0000;">Country</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers</span>;<br /><br /><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">*</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers</span> <span style="color: #0000ff;">WHERE (</span><span style="color: #ff0000;">CustomerName </span><span style="color: #0000ff;">LIKE</span> <span style="color: #ff0000;">'L%'</span><br /><span style="color: #0000ff;">OR</span> <span style="color: #ff0000;">CustomerName</span> <span style="color: #0000ff;">LIKE</span> <span style="color: #ff0000;">'R%'</span> <span style="color: #008080;">/*OR CustomerName LIKE 'S%'</span><br /><span style="color: #008080;">OR CustomerName LIKE 'T%'*/</span> <span style="color: #0000ff;">OR</span> <span style="color: #ff0000;">CustomerName</span> <span style="color: #0000ff;">LIKE</span> <span style="color: #ff0000;">'W%'</span><span style="color: #0000ff;">)</span><br /><span style="color: #0000ff;">AND</span> <span style="color: #ff0000;">Country</span><span style="color: #0000ff;">=</span><span style="color: #ff0000;">'USA'</span><br /><span style="color: #0000ff;">ORDER BY</span> <span style="color: #ff0000;">CustomerName</span>;</span><br /><span style="font-family: 'comic sans ms', sans-serif;"><br />Ингэж бичих нь sql query илэрхийллүүдээ&nbsp;ахин дахин бичиж ажиллуулахаас сэргийлдэг.&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

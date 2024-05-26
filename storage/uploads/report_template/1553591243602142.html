@@ -1,0 +1,68 @@
+<br><br><br>
+<table style="width: 97%; margin-left: 3%;">
+<tbody>
+<tr>
+<td style="width: 35%; margin-left: auto; margin-right: auto;" rowspan="5">&nbsp;&nbsp;&nbsp;<img id="CmCaReT" src="storage/uploads/files/pcmall.PNG" alt="" width="249" height="61"></td>
+<th>&nbsp;<strong><span style="font-size: 16px;">ПИ СИ Молл ХХК<span style="font-size: 14px;"><br></span></span></strong></th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;<span style="font-size: 13px;">ТТД :2789655</span></td>
+</tr>
+<tr>
+<td><span style="font-size: 13px;">&nbsp;Утас :7007-3535</span></td>
+</tr>
+<tr>
+<td>&nbsp;Веб : www.summit.mn&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table style="width: 97%; margin-left: 3%;">
+<tbody>
+<tr>
+<td style="width: 50%;"><span style="font-size: 14px;">&nbsp;Касс :&nbsp;#cashiername#</span></td>
+<td>&nbsp;<span style="font-size: 14px;">ПОС :&nbsp;#cashregistername#</span></td>
+</tr>
+<tr>
+<td><span style="font-size: 14px;">&nbsp;Огноо:&nbsp;#invoicedate#</span></td>
+<td><span style="font-size: 14px;">&nbsp;Цаг :&nbsp;#invoicehour#</span></td>
+</tr>
+<tr>
+<td><span style="font-size: 14px;">&nbsp;Билл :&nbsp;#invoicenumber#</span></td>
+<td><span style="font-size: 14px;">&nbsp;Код :&nbsp;#refnumber#</span></td>
+</tr>
+<tr>
+<td><span style="font-size: 14px;">&nbsp;Худалдааны зөвлөх :&nbsp;#salespersonname#</span></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<br> <br>
+<table id="printsolditemsbarcodesalesinvoicedtl" style="width: 97%; border-color: #000000; margin-left: 1%;" border="1">
+<thead>
+<tr style="border-color: #000000; height: 45px;">
+<td style="width: 5%; text-align: center;"><span style="font-size: 14px;"><strong>№</strong></span>&nbsp;</td>
+<td style="width: 50%; text-align: center;"><span style="font-size: 14px;">&nbsp;<strong>Барааны нэр</strong></span></td>
+<td style="width: 20%; text-align: center;">&nbsp;<span style="font-size: 14px;"><strong>Нэгж үнэ</strong></span></td>
+<td style="width: 5%; text-align: center;"><span style="font-size: 14px;"><strong>&nbsp;Тоо</strong></span></td>
+<td style="width: 20%; text-align: center;">&nbsp;<span style="font-size: 14px;"><strong>Нийт үнэ</strong></span></td>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td style="text-align: right; height: 25px;" colspan="6"><span style="font-size: 14px;"><strong>Нийт үнэ :sum(#printsolditemsbarcodesalesinvoicedtl.linetotalamount#)&nbsp;</strong></span></td>
+</tr>
+</tfoot>
+<tbody>
+<tr>
+<td>&nbsp;#rownum#</td>
+<td><br>#printsolditemsbarcodesalesinvoicedtl.itemname#<br><br><br>barcode(#printsolditemsbarcodesalesinvoicedtl.l0barcode#, width: 100%; height: 44px)<br><br><br><br><br>#printsolditemsbarcodesalesinvoicedtl.l0barcode#<br><br><br></td>
+<td style="text-align: right;">&nbsp;<span style="line-height: 3;">#printsolditemsbarcodesalesinvoicedtl.unitamount#</span></td>
+<td style="text-align: center;">&nbsp;#printsolditemsbarcodesalesinvoicedtl.invoiceqty#</td>
+<td style="text-align: right;">&nbsp;#printsolditemsbarcodesalesinvoicedtl.linetotalamount#</td>
+</tr>
+</tbody>
+</table>

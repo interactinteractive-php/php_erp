@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1488850089503312">
+<div class="">
+<div class="row">
+<div class="contentHtml_1488850089503312"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL RIGHT JOIN<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 268px;">
+<td style="width: 1px; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 268px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь JOIN хийх төрлүүдийн нэг бөгөөд SQL хэлний түлхүүр үг юм. Гол зарчим нь баруун талд байрлах (table2)&nbsp;хүснэгтийн бүх бичлэгүүдийг зүүн талын хүснэгтийн тохирох бичлэгүүдийн хамт харуулдаг. &nbsp;Хэрэв тохирохгүй бичлэг таарвал зүгээр л null буюу хоосон утгатай харуулдаг. Өөрөөр хэлбэл Left Join -ны эсрэг чиглэлд ажилладаг юм.<br /><br /></span></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><strong>Хэрэглээ</strong>: Right&nbsp;Join -г холбоотой хүснэгтүүдээс аль нэгийх нь бүх талбарыг шаардлагатай талбаруудын хамт нэг илэрцээр харах&nbsp;шаардлага гарсан үед ашиглана. Өөрөөр хэлбэл зөвхөн баруун&nbsp;талд буй хүснэгтийг чухалчлан авч үзэх бөгөөд зүүн&nbsp;талд буй хүснэгтийг тооцоолол хийхдээ ашиглаж шаардлагатай талбаруудыг &nbsp;авах замаар олон төрлийн үр дүнг гаргах боломжтой.&nbsp;<br /><img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_RIGHT_JOIN/img_rightjoin.png" alt="" width="200" height="145" /><br /><br /><br /></span></span><span style="font-family: 'comic sans ms', sans-serif;"><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;"><em>column_name(s)</em>&nbsp;</span>FROM <span style="color: #ff0000;">table1 <span style="color: #0000ff;">RIGHT JOIN</span> <em>table2 </em><span style="color: #0000ff;">ON</span> <em>table1.column_name </em>=<em> table2.column_name</em><span style="color: #0000ff;">;</span></span></span><span style="font-family: 'comic sans ms', sans-serif;"><br /> <em><span style="color: #30a2dd;"><br />Зураг 01 -с жишээнд ашиглагдах Employees хүснэгтийг харна уу.<br /></span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_RIGHT_JOIN/emp.PNG" alt="" width="1059" height="245" /><br /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 Employees хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 54px;">
+<td style="width: 1px; height: 54px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 54px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 54px; width: 400px; text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">Зураг 02 -с жишээнд ашиглагдах Orders хүснэгтийг харна уу.</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 54px;">&nbsp;</td>
+<td style="width: 1px; height: 54px;">&nbsp;</td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_RIGHT_JOIN/order.PNG" alt="" width="1059" height="207" /><br />Зураг 02 Orders хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+</tr>
+<tr style="height: 107px;">
+<td style="width: 1px; height: 107px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 107px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 107px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Жишээ-1: Нэг ч захиалга бүртгэж аваагүй ажилтаныг нэрийг харах шаардлагатай болсон гэж үзье. Энд нэг ажилтан&nbsp;нь олон захиалга бүртгэж болох бөгөөд Right Join зарчим ёсоор <strong>Employees&nbsp;</strong>хүснэгтийн бүх талбарыг <strong>Orders </strong>хүснэгтийн тохирох талбаруудын хамт харагдах ёстой. Хэрэв Orders хүснэгтээс тухайн ажилтанд тохирох утга олдохгүй бол null утгатай харагдах бөгөөд захиалга бүртгээгүй ажилтан&nbsp;болох юм.&nbsp;<br /><br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;"><span style="color: #ff0000;"><span style="color: #0000ff;">SELECT</span>&nbsp;Orders.OrderID, Employees.LastName, Employees.FirstName&nbsp;<span style="color: #0000ff;">FROM</span> Orders <span style="color: #0000ff;">RIGHT JOIN</span> Employees <span style="color: #0000ff;">ON</span> Orders.EmployeeID = Employees.EmployeeID <span style="color: #0000ff;">ORDER BY</span> Orders.OrderID;<br /><br /><span style="color: #30a2dd;">Зураг 03 -с дээрх SELECT query хэрхэн ажилласан байгааг харна уу.<br /></span><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 107px;">&nbsp;</td>
+<td style="width: 1px; height: 107px;">&nbsp;</td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_RIGHT_JOIN/join.PNG" alt="" width="1059" height="247" /><br /><em><span style="color: #30a2dd;">Зураг 03 Employees болон Orders хүснэгтүүдийг RIGHT&nbsp;JOIN хийж байна.</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+</tr>
+<tr style="height: 46px;">
+<td style="width: 1px; height: 46px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 46px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 46px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт <strong>Orders</strong>&nbsp;хүснэгтийн <strong>Employee</strong><strong>ID&nbsp;</strong>талбарын утга <strong>Employee</strong><strong>s</strong> хүснэгтийн <strong>Employee</strong><strong>ID</strong>&nbsp;-тай тэнцүү байх үеийн Employees хүснэгтийн <strong>LastName, FirstName&nbsp;</strong>багануудын бүх бичлэгүүдийг Orders хүснэгтийн <strong>OrderID</strong> баганы тохирох бичлэгүүдийн хамт select хийж харуулсан байна. NULL эсвэл Хоосон утгатай харагдаж байгаа талбарууд бол зүүн талын хүснэгтэд тохирох утга байгаагүйн илрэл буюу манай тохиолдолд захиалга бүртгээгүй&nbsp;ажилтаныг илэрхийлсэн байна.<br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 46px;">&nbsp;</td>
+<td style="width: 1px; height: 46px;">&nbsp;</td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

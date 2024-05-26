@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+<div class="contentHtml_1488850561065629">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL&nbsp;ALTER TABLE<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь өгөгдлийн сангийн хүснэгт засахад ашиглагддаг SQL хэлний statement буюу команд юм.&nbsp;</span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><strong>Хэрэглээ</strong>: Өгөгдлийн сангийн хүснэгтэд багана нэмэх, устгах, засварлах үед ашиглана. Дараах жагсаалтаас Alter Table командын хэрэглээг харна уу.&nbsp;<br /></span></span>
+<ul>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ALTER TABLE -&gt; ADD COLUMN - хүснэгтэд багана нэмэх&nbsp;</span></li>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ALTER TABLE -&gt; DROP COLUMN - хүснэгтээс багана устгах</span></li>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ALTER TABLE -&gt; ALTER/MODIFY COLUMN - хүснэгтийн баганы өгөгдлийн төрлийг өөрчилөх</span></li>
+</ul>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:</span><br /><span style="font-family: 'comic sans ms', sans-serif;">ADD COLUMN<br /><span style="color: #ff0000;"><span style="color: #0000ff;">ALTER TABLE</span> <em>table_name&nbsp;</em><span style="color: #0000ff;">ADD</span> <em>column_name <span style="color: #0000ff;">datatype</span></em>;<br /></span><br />DROP COLUMN<br /><span style="color: #0000ff;">ALTER TABLE</span> <em><span style="color: #ff0000;">table_name</span>&nbsp;</em><span style="color: #0000ff;">DROP</span> <span style="color: #0000ff;">COLUMN</span> <span style="color: #ff0000;"><em>column_name</em></span>; </span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><br />ALTER/MODIFY COLUMN<br /></span></span>
+<ul>
+<li><span style="font-family: 'comic sans ms', sans-serif;">SQL SERVER / MS ACCESS -&nbsp;<span style="color: #0000ff;">ALTER TABLE</span> <em><span style="color: #ff0000;">table_name</span>&nbsp;</em><span style="color: #0000ff;">ALTER COLUMN</span> <em><span style="color: #ff0000;">column_name</span> <span style="color: #0000ff;">datatype</span></em>;</span></li>
+<li><span style="font-family: 'comic sans ms', sans-serif;">MYSQL / ORACLE 10G өмнөх -&nbsp;<span style="color: #0000ff;">ALTER TABLE</span> <em><span style="color: #ff0000;">table_name</span>&nbsp;</em><span style="color: #0000ff;">MODIFY COLUMN</span> <em><span style="color: #ff0000;">column_name</span> <span style="color: #0000ff;">datatype</span></em>;</span></li>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ORACLE 10G дараах -<span style="color: #0000ff;">&nbsp;ALTER TABLE</span> <em><span style="color: #ff0000;">table_name</span>&nbsp;</em><span style="color: #0000ff;">MODIFY</span> <em><span style="color: #ff0000;">column_name</span> <span style="color: #0000ff;">datatype</span></em>;</span></li>
+</ul>
+<span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #30a2dd;">Зураг 01 -с жишээнд ашиглагдах Person хүснэгтийг харна уу.</span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 211px;">
+<td style="width: 1px; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 211px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;<img src="storage/uploads/files/SQL_TUTORIAL/SQL_TABLE/SQL_ALTER_TABLE/person.PNG" alt="" width="919" height="166" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 Person хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext">Жишээ-1: Дээрх Person хүснэгтэд төрсөн огноог авах шинэ багана нэмэх шаардлагатай болсон гэж үзье.<br /><br /></span><span style="color: #0000ff;">ALTER TABLE</span> <span style="color: #ff0000;">Persons</span> <span style="color: #0000ff;">ADD</span> <span style="color: #ff0000;">DateOfBirth</span> <span style="color: #0000ff;">date</span>;<br /><br /><em><span style="color: #30a2dd;">Зураг 02 -с дээрх ALTER query хэрхэн ажилласан байгааг харна уу.</span></em><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_TABLE/SQL_ALTER_TABLE/add column.PNG" alt="" width="916" height="165" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 02 Person хүснэгтэд DateOfBirth нэртэй багана нэмэгдсэн байдал</span></em></span></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт ALTER TABLE ADD Column командын үр дүнг харуулсан бөгөөд Person хүснэгтэд DATE төрөлтэй <strong>DateOfBirth</strong> нэртэй шинэ багана нэмэгдсэн байна.&nbsp;<br /><br />Жишээ-2: Person хүснэгтийн DateOfBirth баганы өгөгдлийн төрлийг өөрчлөх шаардлага гарсан гэж үзье. <br /><br /><span style="color: #0000ff;">ALTER TABLE</span> <span style="color: #ff0000;">Persons</span> <span style="color: #0000ff;">ALTER COLUMN</span> <span style="color: #ff0000;">DateOfBirth</span> <span style="color: #0000ff;">year</span>;<br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Дээрх query -д DateOfBirth баганы өгөгдлийн төрлийн YEAR болгон өөрчилж байна.<br /><br />Жишээ-3: Person хүснэгтээс DateOfBirth баганыг устгах шаардлага гарсан гэж үзье.<br /><br /><span style="color: #ff0000;"><span style="color: #0000ff;">ALTER TABLE</span> Persons <span style="color: #0000ff;">DROP COLUMN</span> DateOfBirth;<br /></span><br /><em><span style="color: #30a2dd;">Зураг 03 -с дээрх ALTER query хэрхэн ажилласан байгааг харна уу.</span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;"><br /><img src="storage/uploads/files/SQL_TUTORIAL/SQL_TABLE/SQL_ALTER_TABLE/person.PNG" alt="" width="919" height="166" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 03 Person хүснэгтээс DateOfBirth баганыг устгасан харагдац</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт ALTER TABLE DROP COLUMN &nbsp;командын ажилласан үр дүнг харуулсан бөгөөд Person хүснэгтээс DateOfBirth багана устсан байна.<br /><br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

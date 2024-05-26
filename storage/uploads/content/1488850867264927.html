@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			.table_functions th, .table_functions td {
+				border: 1px solid black;
+			}
+			.table_functions td {
+				padding: 5px;
+			}
+			.table_functions th {
+				padding: 5px;
+			}
+		</style>
+	</head>
+	<body>
+<div class="contentHtml_1488850867264927">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 0.895765%; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 65.3909%; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL DB DATATYPES<br /></span></h1>
+</td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.977199%; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 0.895765%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 65.3909%; text-align: justify;">
+<h4><span style="font-family: 'comic sans ms', sans-serif;"><strong>MySQL Data Types</strong></span></h4>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Текст тэмдэгт мөр төрлүүд:</span></h4>
+<div class="w3-responsive">
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="height: 18px;">
+<th style="height: 18px;">
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Өгөгдлийн төрөл</strong></span></h5>
+</th>
+<th style="height: 18px;">
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Тайлбар</strong></span></h5>
+</th>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">CHAR(size)</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a fixed length string (can contain letters, numbers, and special characters). The fixed size is specified in parenthesis. Can store up to 255 characters</span></td>
+</tr>
+<tr style="height: 52px;">
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">VARCHAR(size)</span></td>
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a variable length string (can contain letters, numbers, and special characters). The maximum size is specified in parenthesis. Can store up to 255 characters. <strong>Note:</strong> If you put a greater value than 255 it will be converted to a TEXT type</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">TINYTEXT</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a string with a maximum length of 255 characters</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">TEXT</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a string with a maximum length of 65,535 characters</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">BLOB</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">For BLOBs (Binary Large OBjects). Holds up to 65,535 bytes of data</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">MEDIUMTEXT</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a string with a maximum length of 16,777,215 characters</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">MEDIUMBLOB</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">For BLOBs (Binary Large OBjects). Holds up to 16,777,215 bytes of data</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">LONGTEXT</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">Holds a string with a maximum length of 4,294,967,295 characters</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">LONGBLOB</span></td>
+<td style="height: 18px;"><span style="font-family: 'comic sans ms', sans-serif;">For BLOBs (Binary Large OBjects). Holds up to 4,294,967,295 bytes of data</span></td>
+</tr>
+<tr style="height: 80px;">
+<td style="height: 80px;"><span style="font-family: 'comic sans ms', sans-serif;">ENUM(x,y,z,etc.)</span></td>
+<td style="height: 80px;"><span style="font-family: 'comic sans ms', sans-serif;">Let you enter a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted.</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> The values are sorted in the order you enter them.</span></p>
+<span style="font-family: 'comic sans ms', sans-serif;">You enter the possible values in this format: ENUM('X','Y','Z')</span></td>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">SET</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">Similar to ENUM except that SET may contain up to 64 list items and can store more than one choice</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4><span style="font-family: 'comic sans ms', sans-serif;"><br /><span style="font-size: 14px;">Тоон утга төрлүүд:</span></span></h4>
+<div class="w3-responsive">
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="height: 35px;">
+<th style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">Өгөгдлийн төрөл</span></th>
+<th style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">Тайлбар</span></th>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">TINYINT(size)</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">-128 to 127 normal. 0 to 255 UNSIGNED*. The maximum number of digits may be specified in parenthesis</span></td>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">SMALLINT(size)</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">-32768 to 32767 normal. 0 to 65535 UNSIGNED*. The maximum number of digits may be specified in parenthesis</span></td>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">MEDIUMINT(size)</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">-8388608 to 8388607 normal. 0 to 16777215 UNSIGNED*. The maximum number of digits may be specified in parenthesis</span></td>
+</tr>
+<tr style="height: 35px;">
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">INT(size)</span></td>
+<td style="height: 35px;"><span style="font-family: 'comic sans ms', sans-serif;">-2147483648 to 2147483647 normal. 0 to 4294967295 UNSIGNED*. The maximum number of digits may be specified in parenthesis</span></td>
+</tr>
+<tr style="height: 52px;">
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">BIGINT(size)</span></td>
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">-9223372036854775808 to 9223372036854775807 normal. 0 to 18446744073709551615 UNSIGNED*. The maximum number of digits may be specified in parenthesis</span></td>
+</tr>
+<tr style="height: 52px;">
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">FLOAT(size,d)</span></td>
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">A small number with a floating decimal point. The maximum number of digits may be specified in the size parameter. The maximum number of digits to the right of the decimal point is specified in the d parameter</span></td>
+</tr>
+<tr style="height: 52px;">
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">DOUBLE(size,d)</span></td>
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">A large number with a floating decimal point. The maximum number of digits may be specified in the size parameter. The maximum number of digits to the right of the decimal point is specified in the d parameter</span></td>
+</tr>
+<tr style="height: 52px;">
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">DECIMAL(size,d)</span></td>
+<td style="height: 52px;"><span style="font-family: 'comic sans ms', sans-serif;">A DOUBLE stored as a string , allowing for a fixed decimal point. The maximum number of digits may be specified in the size parameter. The maximum number of digits to the right of the decimal point is specified in the d parameter</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong><br /></strong></span>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Цаг хугацаа илэрхийлэх төрлүүд:</span></h4>
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<th>
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Өгөгдлийн төрөл</strong></span></h5>
+</th>
+<th>
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Тайлбар</strong></span></h5>
+</th>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">DATE()</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">A date. Format: YYYY-MM-DD</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> The supported range is from '1000-01-01' to '9999-12-31'</span></p>
+</td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">DATETIME()</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">*A date and time combination. Format: YYYY-MM-DD HH:MI:SS</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'</span></p>
+</td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">TIMESTAMP()</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">*A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD HH:MI:SS</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC</span></p>
+</td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">TIME()</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">A time. Format: HH:MI:SS</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> The supported range is from '-838:59:59' to '838:59:59'</span></p>
+</td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">YEAR()</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">A year in two-digit or four-digit format.</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;"><strong>Note:</strong> Values allowed in four-digit format: 1901 to 2155. Values allowed in two-digit format: 70 to 69, representing years from 1970 to 2069</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong><br /></strong></span>
+<h4><span style="font-family: 'comic sans ms', sans-serif;"><strong>SQL Server өгөгдлийн төрлүүд</strong></span></h4>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Тэмдэгт мөр төрлүүд:</span></h4>
+<div class="w3-responsive">
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<th>
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Өгөгдлийн төрөл</strong></span></h5>
+</th>
+<th>
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Тайлбар</strong></span></h5>
+</th>
+<th>
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Санах ойд эзлэх хэмжээ</strong></span></h5>
+</th>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">char(n)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Fixed width character string. Maximum 8,000 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Defined width</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">varchar(n)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width character string. Maximum 8,000 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">2 bytes + number of chars</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">varchar(max)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width character string. Maximum 1,073,741,824 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">2 bytes + number of chars</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">text</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width character string. Maximum 2GB of text data</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">4 bytes + number of chars</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">nchar</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Fixed width Unicode string. Maximum 4,000 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Defined width x 2</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">nvarchar</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width Unicode string. Maximum 4,000 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">nvarchar(max)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width Unicode string. Maximum 536,870,912 characters</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">ntext</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width Unicode string. Maximum 2GB of text data</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">bit</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Allows 0, 1, or NULL</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">binary(n)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Fixed width binary string. Maximum 8,000 bytes</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">varbinary</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width binary string. Maximum 8,000 bytes</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">varbinary(max)</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width binary string. Maximum 2GB</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">image</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Variable width binary string. Maximum 2GB</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Тоон төрлүүд:</span></h4>
+<div class="w3-responsive">
+<table class="table_functions" style="width: 621px;">
+<tbody>
+<tr>
+<th style="width: 75px;">
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Өгөгдлийн төрөл</strong></span></h5>
+</th>
+<th style="width: 466px;">
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Тайлбар</strong></span></h5>
+</th>
+<th style="width: 79px;">
+<h5><span style="font-family: 'comic sans ms', sans-serif;"><strong>Санах ойд эзлэх хэмжээ</strong></span></h5>
+</th>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">tinyint</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Allows whole numbers from 0 to 255</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">1 byte</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">smallint</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Allows whole numbers between -32,768 and 32,767</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">2 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">int</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Allows whole numbers between -2,147,483,648 and 2,147,483,647</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">4 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">bigint</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Allows whole numbers between -9,223,372,036,854,775,808 and 9,223,372,036,854,775,807</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">8 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">decimal(p,s)</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Fixed precision and scale numbers.</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;">Allows numbers from -10^38 +1 to 10^38 &ndash;1.</span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;">The p parameter indicates the maximum total number of digits that can be stored (both to the left and to the right of the decimal point). p must be a value from 1 to 38. Default is 18.</span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;">The s parameter indicates the maximum number of digits stored to the right of the decimal point. s must be a value from 0 to p. Default value is 0</span></p>
+</td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">5-17 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">numeric(p,s)</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Fixed precision and scale numbers.</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;">Allows numbers from -10^38 +1 to 10^38 &ndash;1.</span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;">The p parameter indicates the maximum total number of digits that can be stored (both to the left and to the right of the decimal point). p must be a value from 1 to 38. Default is 18.</span></p>
+<p><span style="font-family: 'comic sans ms', sans-serif;">The s parameter indicates the maximum number of digits stored to the right of the decimal point. s must be a value from 0 to p. Default value is 0</span></p>
+</td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">5-17 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">smallmoney</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Monetary data from -214,748.3648 to 214,748.3647</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">4 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">money</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Monetary data from -922,337,203,685,477.5808 to 922,337,203,685,477.5807</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">8 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">float(n)</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Floating precision number data from -1.79E + 308 to 1.79E + 308.</span>
+<p><span style="font-family: 'comic sans ms', sans-serif;">The n parameter indicates whether the field should hold 4 or 8 bytes. float(24) holds a 4-byte field and float(53) holds an 8-byte field. Default value of n is 53.</span></p>
+</td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">4 or 8 bytes</span></td>
+</tr>
+<tr>
+<td style="width: 75px;"><span style="font-family: 'comic sans ms', sans-serif;">real</span></td>
+<td style="width: 466px;"><span style="font-family: 'comic sans ms', sans-serif;">Floating precision number data from -3.40E + 38 to 3.40E + 38</span></td>
+<td style="width: 79px;"><span style="font-family: 'comic sans ms', sans-serif;">4 bytes</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Цаг хугацаа илэрхийлэх төрлүүд:</span></h4>
+<div class="w3-responsive">
+<table class="table_functions" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<th><span style="font-family: 'comic sans ms', sans-serif;">Өгөгдлийн төрөл</span></th>
+<th><span style="font-family: 'comic sans ms', sans-serif;">Тайлбар</span></th>
+<th><span style="font-family: 'comic sans ms', sans-serif;">Санах ойд эзлэх хэмжээ</span></th>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">datetime</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">From January 1, 1753 to December 31, 9999 with an accuracy of 3.33 milliseconds</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">8 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">datetime2</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">From January 1, 0001 to December 31, 9999 with an accuracy of 100 nanoseconds</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">6-8 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">smalldatetime</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">From January 1, 1900 to June 6, 2079 with an accuracy of 1 minute</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">4 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">date</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Store a date only. From January 1, 0001 to December 31, 9999</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">3 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">time</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Store a time only to an accuracy of 100 nanoseconds</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">3-5 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">datetimeoffset</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">The same as datetime2 with the addition of a time zone offset</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">8-10 bytes</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">timestamp</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores a unique number that gets updated every time a row gets created or modified. The timestamp value is based upon an internal clock and does not correspond to real time. Each table may have only one timestamp variable</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4><span style="font-family: 'comic sans ms', sans-serif; font-size: 14px;">Бусад өгөгдлийн төрлүүд:</span></h4>
+<table class="table_functions">
+<tbody>
+<tr>
+<th><span style="font-family: 'comic sans ms', sans-serif;">Өгөгдлийн төрөл</span></th>
+<th><span style="font-family: 'comic sans ms', sans-serif;">Тайлбар</span></th>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">sql_variant</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores up to 8,000 bytes of data of various data types, except text, ntext, and timestamp</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">uniqueidentifier</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores a globally unique identifier (GUID)</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">xml</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores XML formatted data. Maximum 2GB</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">cursor</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores a reference to a cursor used for database operations</span></td>
+</tr>
+<tr>
+<td><span style="font-family: 'comic sans ms', sans-serif;">table</span></td>
+<td><span style="font-family: 'comic sans ms', sans-serif;">Stores a result-set for later processing</span></td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong><br /></strong></span>
+<p style="text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></p>
+</td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.977199%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 0.895765%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 16.2866%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 65.3909%; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 16.3681%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.977199%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

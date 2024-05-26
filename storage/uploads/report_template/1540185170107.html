@@ -1,0 +1,284 @@
+<table style="width: 100%; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;" colspan="3"><strong>САНАЛЫН&nbsp;ХУУДАС<br><br></strong></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="3"><strong>#companyname#<br><br></strong></td>
+</tr>
+<tr>
+<td style="text-align: center; line-height: 50px;" colspan="3">
+<table style="width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="text-align: left;" colspan="2"><strong>Гэрээний төрөл</strong></td>
+<td style="text-align: left;">&nbsp;#dim10#</td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="3"><strong>1. ХАРИЛЦАГЧИЙН МЭДЭЭЛЭЛ</strong></td>
+</tr>
+<tr>
+<td style="width: 4%;" rowspan="6">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="width: 30%; text-align: left;">Нэр:</td>
+<td style="text-align: left;">#customername#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Регистрийн дугаар:</td>
+<td>#registernumber#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Хаяг:</td>
+<td>#address#</td>
+</tr>
+<tr>
+<td style="text-align: left;">Утас:</td>
+<td style="text-align: left;">#phonenumber#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Харъяалагдах улс:</td>
+<td>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 70%;">#selectcountryname#</td>
+<td style="width: 30%;">#countrytype#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">Гуравдагч гэрээлэгч:</td>
+<td style="text-align: left;">
+<table id="crmcustomerdtl" style="width: 100%;" border="0">
+<thead>
+<tr style="background-color: #a8a8a8;">
+<td style="width: 30%; text-align: center;">Нэр</td>
+<td style="width: 20%; text-align: center;">Регистрийн дугаар</td>
+<td style="width: 40%; text-align: center;">Хаяг</td>
+<td style="width: 5%; text-align: center;">Утас</td>
+<td style="width: 5%; text-align: center;">Харъяалагдах улс</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 30%; text-align: center;">#crmcustomerdtl.customername#</td>
+<td style="width: 20%; text-align: center;">#crmcustomerdtl.registrationnumber#</td>
+<td style="width: 40%; text-align: left;">#crmcustomerdtl.address#</td>
+<td style="width: 5%; text-align: center;">#crmcustomerdtl.phonenumber#</td>
+<td style="width: 5%; text-align: center;">#crmcustomerdtl.countryname#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style="line-height: 20px; text-align: left;" colspan="3"><strong>2. ГЭРЭЭНИЙ ГОЛ НӨХЦӨЛ</strong></td>
+</tr>
+<tr style="text-align: left;">
+<td rowspan="4">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>Гэрээний нэр:</td>
+<td>#contractname#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Гэрээний зүйл:</td>
+<td>#contractinfo#</td>
+</tr>
+<tr>
+<td style="text-align: left;">Гэрээний хугацаа:</td>
+<td>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 25%;">Эхлэх огноо</td>
+<td style="width: 25%;">#startdate#</td>
+<td style="width: 25%;">Дуусах огноо</td>
+<td style="width: 25%;">#enddate#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">Автоматаар сунгагдах эсэх:</td>
+<td>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 33%; text-align: center;">#autocontinue#</td>
+<td style="width: 33%; text-align: center;">&nbsp;<em>Сануулга өгөх огноо:</em></td>
+<td style="width: 34%; text-align: center;">#continuealertdate#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="3"><strong>3. ТӨЛБӨРИЙН НӨХЦӨЛ</strong></td>
+</tr>
+<tr style="text-align: left;">
+<td rowspan="8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>Төлбөрийн давтамж:</td>
+<td>&nbsp;#paymenttypename#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Нийт төлбөр:</td>
+<td>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 30%;">#totalamount#</td>
+<td style="width: 70%;">#currencycode#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr style="text-align: left;">
+<td>Нэгж үнэ:</td>
+<td>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 30%;">#unitprice#</td>
+<td style="width: 70%;">#currencycode#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr style="text-align: left;">
+<td>Төлбөрийн хэлбэр</td>
+<td>#pricetypename#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Татварын мэдээлэл:</td>
+<td style="text-align: left;">#check3# #check4# #check5# #check6# #check7#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Төсвийн нэр</td>
+<td>#budgetname#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Төлбөр төлөх хуваарь:</td>
+<td>
+<table id="paymentdtl" style="width: 100%;" border="0">
+<thead>
+<tr style="background-color: #a8a8a8;">
+<td style="width: 40%; text-align: center;">Төрөл</td>
+<td style="width: 20%; text-align: center;">Хувь</td>
+<td style="width: 20%; text-align: center;">Дүн</td>
+<td style="width: 20%; text-align: center;">Валют</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 25%; text-align: center;">#paymentdtl.paymenttypename#</td>
+<td style="width: 25%; text-align: center;">#paymentdtl.percent#</td>
+<td style="width: 25%; text-align: center;">#paymentdtl.amount#</td>
+<td style="width: 25%; text-align: center;">#paymentdtl.currencycode#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr style="text-align: left;">
+<td>Алданги, торгууль:</td>
+<td>
+<table id="duelossdv" style="width: 100%;" border="0">
+<thead>
+<tr style="background-color: #a8a8a8;">
+<td style="width: 40%; text-align: center;">Алданги тооцоолох үндэслэл</td>
+<td style="width: 30%; text-align: center;">Алданги хувиар</td>
+<td style="width: 30%; text-align: center;">Алданги дүнгээр</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 40%; line-height: 20px; text-align: center;">#duelossdv.duelossname#</td>
+<td style="width: 30%; text-align: center;">#duelossdv.text1#</td>
+<td style="width: 30%; text-align: center;">#duelossdv.text2#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr style="text-align: left;">
+<td colspan="3"><strong>4. БУСАД</strong></td>
+</tr>
+<tr style="text-align: left;">
+<td rowspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>Гэрээ цуцлах нөхцөл:</td>
+<td>#declineinfo#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Хамааралтай гэрээ өмнө нь байгуулсан эсэх:</td>
+<td>#relatedcontractname#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Гэрээний сунгалт:</td>
+<td>#changename#</td>
+</tr>
+<tr style="text-align: left;">
+<td>Нэмэлт тайлбар:</td>
+<td>#description#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="3">
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 2%;">&nbsp;</td>
+<td style="width: 20%;">&nbsp;</td>
+<td style="width: 30%;">&nbsp;</td>
+<td style="width: 35%;">&nbsp;</td>
+<td style="width: 38%;">&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>БОЛОВСРУУЛСАН:</td>
+<td>&nbsp;</td>
+<td>#createdemployee#</td>
+<td>#createddate#</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>ХЯНАСАН:</td>
+<td><img src="#legalsignature#" width="100" height="30"></td>
+<td>&nbsp;#approvallegal#</td>
+<td>#legaldate#</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>ХЯНАСАН:</td>
+<td><img src="#managersignature#" width="100" height="30"></td>
+<td>&nbsp;#approvalmanager#</td>
+<td>#managerdate#</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>ХЯНАСАН:</td>
+<td><img src="#departmentsignature#" width="100" height="30"></td>
+<td>&nbsp;#approvaldepartment#</td>
+<td>#departmentdate#</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>ХЯНАСАН:</td>
+<td><img src="#cfosignature#" width="100" height="30"></td>
+<td>#approvalcfo#</td>
+<td>#departmentdate#</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>

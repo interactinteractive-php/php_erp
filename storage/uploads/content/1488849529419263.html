@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1488849529419263">
+<div class="contentHtml_1488849529419263">
+<div class="contentHtml_1488849529419263">
+<div class="contentHtml_1488849529419263">
+<div class="contentHtml_1488849422081312">
+<div class="contentHtml_1485788979391266">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL WHERE<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь өгөгдлийн сангийн хүснэгтүүдээс тодорхой нөхцөл, шалгуурын дагуу шүүлт хийхэд ашигладаг SQL хэлний Clause /гишүүн, бүлэг, заалт/&nbsp;юм. UPDATE, DELETE, SELECT зэрэг query - тэй зохицож ажилладаг бөгөөд шүүлт хийх нөхцөл өө тодорхойлох доо дараах төрлийн операторуудын тусламжтай бичнэ.<br /><br /></span></span>
+<table style="margin-left: auto; margin-right: auto; width: 745px; border: 1px solid #333333;">
+<tbody style="border: 1px solid #333;">
+<tr style="height: 27px; text-align: right; border: 1px solid #333333;">
+<td style="height: 27px; width: 75px; border: 1px solid #333333; text-align: center;"><strong>Оператор</strong></td>
+<td style="height: 27px; text-align: center; width: 671px; border: 1px solid #333333;"><strong>Тайлбар</strong></td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">=</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Тэнцүү буюу нөхцөл нь гарцаагүй таарч байх үед&nbsp;биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">&lt;&gt;</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Тэнцүү биш буюу ялгаатай утгатай байх үед биелнэ. Зарим SQL хувилбаруудад != байдалтай бичигдэнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">&gt;</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Нөхцөлд тодорхойлсон утга баганы утгаас их байх&nbsp;үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">&lt;</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Нөхцөлд тодорхойлсон утга баганы утгаас&nbsp;бага байх&nbsp;үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">&gt;=</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Нөхцөлд тодорхойлсон утга баганы утгаас их юмуу тэнцүү байх&nbsp;үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">&lt;=</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Нөхцөлд тодорхойлсон утга баганы утгаас бага юмуу тэнцүү байх&nbsp;үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">BETWEEN</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Баганы утга нь Нөхцөлд тодорхойлсон утгуудын хооронд байх үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">LIKE</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Нөхцөлд тодорхойлсон утга баганы утгатай төстэй байх үед биелнэ.</td>
+</tr>
+<tr style="height: 19px; border: 1px solid #333;">
+<td style="height: 19px; width: 75px; text-align: center; border: 1px solid #333333;">IN</td>
+<td style="height: 19px; width: 671px; border: 1px solid #333333; padding: 8px;">Шүүлт хийж буй баганы утга нөхцөлд тодорхойлсон утгуудын аль нэгэнтэй нь тэнцүү байх үед биелнэ.</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong><br />Хэрэглээ</strong>: Өгөгдлийн сангийн хүснэгтүүдтэй&nbsp;харьцан ажиллах үед өөрийн хүссэн үр дүнг шүүлт хийж харахаас гадна алдаатай бичлэгийг засах, устгах зэрэгт WHERE clause &nbsp;тодорхойлж ашиглана.<br /><strong><br />Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;">column_name1, column_name2 ... </span> FROM <span style="color: #ff0000;">table_name <span style="color: blue;">WHERE</span> condition;</span> </span><br /><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;<br />Жишээ-1: Ажилчдын мэдээллийн жагсаалтаас Margaret&nbsp;нэртэй ажилчины мэдээллийг харуулах шаардлагатай болсон гэж үзье.<br /><span style="color: #ff0000;"><br /><span style="color: blue;">SELECT </span>*&nbsp;<span style="color: #0000ff;">FROM </span>Employees; <br /></span><em><span style="color: #30a2dd;"><br />Зураг 01 -с дээрх SELECT query хэрхэн ажилласан байгааг харна уу.</span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 274px;">
+<td style="width: 1px; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 274px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;&nbsp;<img src="storage/uploads/files/p6.PNG" width="1069" height="444" /></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 ажилчдын жагсаалт</span></em></span><br /><br /></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext">Зурагт Employees хүснэгтийн мэдээллийг SELECT query ашиглан харуулсан байна. Энд * тэмдэгт нь тухайн хүснэгтийн бүх талбарын select хийж байгааг илэрхийлнэ.<br /><br /><span style="color: blue;">SELECT&nbsp;<span style="color: #ff0000;">*</span><span style="color: #ff0000;">&nbsp;</span>FROM <span style="color: #ff0000;">Employees&nbsp;<span style="color: blue;">WHERE</span>&nbsp;FirstName = 'Margeret';</span></span><br /><br /><em><span style="color: #30a2dd;">Зураг 02 -с дээрх WHERE clause -н хамт тодорхойлогдсон SELECT query хэрхэн ажилласан байгааг харна уу.</span></em><br /></span></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><img src="storage/uploads/files/p7.PNG" width="1062" height="112" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 02 Margeret нэртэй ажилчны мэдээлэл</span></em></span></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;">&nbsp;</td>
+<td style="width: 1px; height: 109px;">&nbsp;</td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт WHERE clause -н хэрэглээг харуулсан бөгөөд Employees хүснэгтээс '<strong>=</strong>' операторын тусламжтайгаар <strong>FirstName </strong>баганы утга 'Margaret' -тэй тэнцүү байх үейин бичлэгийг бүх талбараар select хийж харуулсан байна. Энд тэмдэгт мөр /varchar/ болон цаг хугацаа /DateTime/ төрлийн өгөгдлүүдийг нөхцөл болгон бичихдээ дан хашилтан дунд буюу <strong>'data'</strong> байдлаар бичнэ. Хэрэв int, float, double зэрэг&nbsp;тоон төрлийн утгаар нөхцөл бичих гэж байгаа бол дан хашилтгүй /<strong>EmployeeId = 4</strong>/ шууд бичнэ.&nbsp;<br /><br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
