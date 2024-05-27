@@ -1,7 +1,7 @@
 .mv-checklist2-render-parent .mv-checklist-render .quick-item-process.bp-add-ac-row .input-group-btn:last-child button {
-    color: #fff !important;
-    background-color: rgb(6, 214, 160) !important;
-    padding: 0px 8px 0px 8px !important;
+    color: #fff;
+    background-color: rgb(6, 214, 160);
+    padding: 0px 8px 0px 8px;
     border-radius: .1875rem !important;
 }
 
@@ -280,6 +280,11 @@
 .mv-checklist2-render-parent .form-control[readonly],
 .mv-checklist2-render-parent fieldset[disabled] .form-control {
     background-color: #e1e1e1 !important;
+    color: #8d8d8d !important;
+}
+
+.mv-checklist2-render-parent .select2-container.select2-container-disabled .select2-choice {
+    color: #8d8d8d !important;
 }
 
 .mv-checklist2-render-parent .kpi-ind-tmplt-section div[data-section-path] {
