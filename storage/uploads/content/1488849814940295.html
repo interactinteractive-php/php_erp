@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1488849814940295">
+<div class="contentHtml_1488849814940295">
+<div class="contentHtml_1488849814940295">
+<div class="contentHtml_1488849814940295">
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 0.417362%; height: 110px;">&nbsp;</td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 89.0651%; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL SELECT TOP, ROMNUM, LIMIT<br /></span></h1>
+</td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 0.417362%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 89.0651%; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь өгөгдлийн сангийн дэлгэцэнд дүрслэх бичлэгүүдийн тоог хязгаарлаж өгдөг clause буюу гишүүн юм.<br /><br /><strong>Хэрэглээ</strong>: Их хэмжээний бичлэгтэй хүснэгтэнд SELECT TOP -ийг ашиглахад тохиромжтой. Их хэмжээний бичлэг буцаах нь дүрслэх болон ажиллах хурданд нөлөөлдөг. Гэвч эдгээрийг бүх өгөгдлийн сан удирдах систем SELECT TOP clause -ийг дэмждэггүй. MySQL хэлэнд LIMIT clause ийг ашиглан хягааралдаг бол Oracle -д ROWNUM -г ашигладаг.<br /><br /><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br />SQL Server / MS Access Syntax:<strong><br /></strong><br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT TOP <span style="color: #ff0000;">number | </span><span style="color: #ff0000;">table_name&nbsp;</span>percent <span style="color: #ff0000;">column_name(s)</span><span style="color: #ff0000;">&nbsp;</span>FROM <span style="color: #ff0000;">table_name&nbsp;</span>WHERE&nbsp;<span style="color: #ff0000;">condition</span><span style="color: #ff0000;">;</span></span><br /><br />MySQL Syntax:<br /><span style="font-family: 'comic sans ms', sans-serif;"><br /><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;">column_name(s)&nbsp;</span> FROM <span style="color: #ff0000;">table_name&nbsp;</span>WHERE&nbsp;<span style="color: #ff0000;">condition</span> LIMIT&nbsp;<span style="color: #ff0000;">number;</span></span><br /><br />Oracle Syntax:<strong><br /><br /></strong><span style="color: #ff0000;"><span style="color: blue;">SELECT </span><em>column_name(s)&nbsp;</em><span style="color: #0000ff;">FROM </span>table_name <span style="color: blue;">WHERE&nbsp; </span>ROWNUM &lt;= <em>number</em>;</span><br /><br /><em><span style="color: #30a2dd;">Зураг 01 -с Дараах хүснэгтийг бид жишээнд ашиглана..<br /></span></em></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 274px;">
+<td style="width: 0.417362%; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 274px; width: 89.0651%; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;<img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_TOP_ROWNUM_LIMIT/SELECT TOP.png" alt="" width="1061" height="279" /></span><em><span style="color: #30a2dd;">&nbsp; Зураг 01 Poducts&nbsp;- Бүтээгдхүүний жагсаалт &nbsp;&nbsp;<br />&nbsp;&nbsp;</span></em></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 274px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 0.417362%; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 89.0651%; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext">Жишээ-1: Prdoduct хүснэгтээс эхний 3 бичлэгийг л авч дэлгэцэнд харуулах шаардлагтай боллоо гэж үзве. Дараах 3 хэдбэрээр ийж болно.<br /><br />&nbsp;1. SELECT TOP&nbsp;ашиглаж:<br /><span style="color: blue;">SELECT TOP <span style="color: #ff0000;">3 *</span> FROM <span style="color: #ff0000;">Products;</span></span> <br /><br />2. LIMIT clause ашиглаж:<br /><span style="color: blue;">SELECT<span style="color: #ff0000;">&nbsp;*</span> FROM <span style="color: #ff0000;">Products;</span> LIMIT<span style="color: #ff0000;"> 3;</span></span> <br /><br />3. ROWNUM ашиглаж<br /><span style="color: blue;">SELECT<span style="color: #ff0000;">&nbsp;*</span> FROM <span style="color: #ff0000;">Products;</span>&nbsp;WHERE ROWNUM<span style="color: #ff0000;">&nbsp;&lt;= 3;</span></span> <br /><br /><em><span style="color: #30a2dd;">Зураг 02 -с дээрх query хэрхэн ажилласан байгааг харна уу.</span></em></span></span></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 219px;">
+<td style="width: 0.417362%; height: 219px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 219px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 219px; width: 89.0651%; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;<img src="storage/uploads/files/SQL_TUTORIAL/SQL_TOP_ROWNUM_LIMIT/SELECT TOP2.png" alt="" width="1060" height="168" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 02&nbsp;Products хүснэгтээс эхний 3 бичлэг авсан байна. &nbsp;</span></em></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 219px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 219px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 89.0651%; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><strong>PERCENT<br /><br /></strong>Энэ нь&nbsp;SELECT TOP clause -тай цуг хэрэгллэгддэг бөгөөд хязгаарлалтын өөр нэг арга&nbsp;юм.&nbsp;PERCENT нь хүснэгтийн нийт бичлэгүүдийг хувиар илэрхийлж, харгалзах тооны бичлэгүүдийг буцаадаг.<br /><br />Жишээ-2: Одоо PERCENT ашиглаж Products хүснэгтээс нийт бичлэгийн 30% -тай тэнцэх тооны бичлэгийг дэлгэцэнд харуулж үзье.<br /><strong><br /></strong><span style="color: #ff0000;"><span style="color: blue;">SELECT TOP&nbsp;</span><em>30&nbsp;</em><span style="color: #0000ff;">PERCENT&nbsp;</span>*&nbsp;<span style="color: blue;">FROM &nbsp;</span>Products;</span><br /><br />.<em><span style="color: #30a2dd;">Зураг 03 -с дээрх query хэрхэн ажилласан байгааг харна уу.</span></em></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 194px;">
+<td style="width: 0.417362%; height: 194px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 194px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 194px; width: 89.0651%; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_TOP_ROWNUM_LIMIT/SELECT TOP3.png" alt="" width="1060" height="132" /><em><span style="color: #30a2dd;">Зураг 03 Products хүснэгтээс 30%&nbsp;бичлэгийг авсан байна.&nbsp;</span></em></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 194px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 194px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 89.0651%; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><strong>WHERE</strong> clause ашиглан хязгаарлалтаа илүү нарийн болгож болно.&nbsp;Мөн LIMIT, ROWNUM 2 дээр адилхан ашигдаж болно.<br /><br />Жишээ-3: Одоо WHERE clause&nbsp;ашиглаж CategoryID нь 2 той тэнцүү эхний 3 бичлэгийг авч үзье.&nbsp;<br /><br />1. SELECT TOP ашигласан:<strong><br /></strong><span style="color: #ff0000;"><span style="color: blue;">SELECT TOP&nbsp;</span><em>3 *&nbsp;</em><span style="color: #0000ff;">FROM </span>Products&nbsp;<span style="color: blue;">WHERE&nbsp;</span><em>CategoryID=2</em>;<br /><br /></span>2. LIMIT clause ашигласан:<br /><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT<span style="color: #ff0000;">&nbsp;*&nbsp;</span> FROM <span style="color: #ff0000;">Products&nbsp;</span>WHERE&nbsp;<span style="color: #ff0000;"><em>CategoryID=2</em></span> LIMIT <span style="color: #ff0000;">3;<br /></span></span><br />3. ROWNUM&nbsp;ашигласан:<br /><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT<span style="color: #ff0000;">&nbsp;*&nbsp;</span> FROM <span style="color: #ff0000;">Products&nbsp;</span>WHERE&nbsp;<span style="color: #ff0000;"><em>CategoryID=2</em></span>&nbsp;AND ROWNUM <span style="color: #ff0000;">&lt;=3;<br /><br /><em><span style="color: #30a2dd;">Зураг 04 -с дээрх query хэрхэн ажилласан байгааг харна уу.</span></em></span></span><br /></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 211px;">
+<td style="width: 0.417362%; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 211px; width: 89.0651%; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_TOP_ROWNUM_LIMIT/SELECT TOP4.png" alt="" width="1056" height="166" />&nbsp;<br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 04 Жишээ-3 аас гарсан үр дүн. &nbsp;</span></em></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 211px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 89.0651%; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Зурагт Products&nbsp;хүснэгтээс бүлгийн <strong>CategoryID -</strong>гаар нь нөхцөл шалган эхний 3 бичлэгийг харуулж байна.<br /><br /></span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 0.417362%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 4.8414%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 89.0651%; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 5.00835%; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 0.417362%; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

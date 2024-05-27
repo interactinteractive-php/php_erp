@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1488850204194912">
+<div class="contentHtml_1488850204194912">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL SELECT INTO<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь хүснэгтийн бичлэгүүдийг өөр нэг шинэ хүснэгтэд хуулах зориулалттай SQL хэлний команд юм.<br /><br /><strong>Хэрэглээ</strong>: Хүснэгтийг хуулж авах, backup үүсгэх. Мөн шинэчлэн оруулах, хүснэгт шинээр үүсгэх зэрэгт ашиглаж болно. Шинэчлэн оруулахдаа баганы нэрийг Alians ашиглан өөрчилж оруулж болно.<br /><br /><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br />Хүснэгтийн тодорхой баганы бичлэгийг хуулах бол дараах хэлбэрээр&nbsp;бичнэ.<br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;">column_name1, column_name2, column_name2...</span>&nbsp;INTO <span style="color: #ff0000;"><em>newtable</em> &nbsp;<span style="color: #0000ff;">[IN</span> <em>externaldb</em><span style="color: #0000ff;">]</span>&nbsp;</span> FROM <span style="color: #ff0000;"><em>oldtable&nbsp;</em><span style="color: #0000ff;">WHERE</span> <em>condition;</em>;</span> </span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">Хүснэгтийн бүх баганы бичлэгүүдийг &nbsp;хуулах бол дараах хэлбэрээр бичнэ.</span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: blue;">SELECT&nbsp;<span style="color: #ff0000;">*</span>&nbsp;</span><span style="color: #ff0000;"><span style="color: #0000ff;">INTO</span> <em>newtable</em> <span style="color: #0000ff;">[IN</span> <em>externaldb</em><span style="color: #0000ff;">]</span>&nbsp;</span><span style="color: #0000ff;">FROM <span style="color: #ff0000;"><em>oldtable&nbsp;<span style="color: #0000ff;">WHERE</span> condition;</em></span></span><br /><br />Жишээ-1: Дараах query нь&nbsp;Customers хүснэгтийн бүх бичлэгүүдийг CustomersBackup2017 хүснэгтэд хуулж байна.<br /><span style="color: #ff0000;"><br /><span style="color: blue;">SELECT </span>*&nbsp;<span style="color: #0000ff;">INTO</span> CustomersBackup2017&nbsp;<span style="color: #0000ff;">FROM </span>Customers;<br /></span></span></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #ff0000;"><br /></span>Жишээ-2: Дараах query нь Customers хүснэгтийн бүх бичлэгүүдийг IN оператор ашиглан Backup.mdb нэртэй өгөгдлийн сангийн CustomersBackup2017 хүснэгтэд хуулж байна.<br /></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">*</span> <span style="color: #0000ff;">INTO</span> <span style="color: #ff0000;">CustomersBackup2017</span> <span style="color: #0000ff;">IN</span> <span style="color: #ff0000;">'Backup.mdb'&nbsp;</span><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers;</span></span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">Жишээ-3:&nbsp;Дараах query нь Customers хүснэгтийн <strong>CustomerName</strong>, <strong>ContactName </strong>баганы&nbsp;бичлэгүүдийг CustomersBackup2017 хүснэгтэд хуулж байна.</span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">CustomerName, ContactName</span> <span style="color: #0000ff;">INTO</span> <span style="color: #ff0000;">CustomersBackup2017</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers;</span></span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">Жишээ-4:&nbsp;Дараах query нь Customers хүснэгтийн <strong>Country&nbsp;</strong>баганы утга 'Germany' байх үеийн бүх бичлэгүүдийг&nbsp;CustomersGermany хүснэгтэд хуулж байна.<br /><br /><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">*</span> <span style="color: #0000ff;">INTO</span> <span style="color: #ff0000;">CustomersGermany</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers</span> <span style="color: #0000ff;">WHERE</span> <span style="color: #ff0000;">Country</span> = <span style="color: #ff0000;">'Germany';</span></span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">Жишээ-5:&nbsp;Дараах query нь Customers болон Orders хүснэгтзүүдийн CustomerID талбараар нь LEFT JOIN хийж Хэрэглэгчийн нэр болон Захиалгын дугаар талбаруудын бичлэгүүдийг <span style="color: #000000;">CustomersOrderBackup2017&nbsp;</span>нэртэй хүснэгтэд хуулж байна.<br /></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span> <span style="color: #ff0000;">Customers.CustomerName, Orders.OrderID</span> <span style="color: #ff0000;"><span style="color: #0000ff;">INTO </span>CustomersOrderBackup2017</span> <span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;">Customers</span> </span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">LEFT JOIN</span> <span style="color: #ff0000;">Orders</span> <span style="color: #0000ff;">ON</span><span style="color: #ff0000;"> Customers.CustomerID</span> <span style="color: #0000ff;">=</span> <span style="color: #ff0000;">Orders.CustomerID;</span></span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">Жишээ-6:&nbsp;Дараах query нь хуучин хүснэгтийн бүтцээр шинэ хүснэгт үүсгэж байна. 1 = 0 нь ямар ч өгөгдөлгүй үүсгэнэ гэдгийг зааж өгч байгаа юм.<br /></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #0000ff;">SELECT</span><span style="color: #ff0000;"> *</span> <span style="color: #0000ff;">INTO</span> <span style="color: #ff0000;"><em>newtable&nbsp;</em></span><span style="color: #0000ff;">FROM</span> <span style="color: #ff0000;"><em>oldtable&nbsp;</em></span><span style="color: #0000ff;">WHERE</span> <span style="color: #ff0000;">1</span><span style="color: #0000ff;"> =</span><span style="color: #ff0000;"> 0;</span><br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

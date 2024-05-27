@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+<div class="contentHtml_1488849792810474">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL INJECTION<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 260px;">
+<td style="width: 1px; height: 260px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 260px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 260px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь өгөгдлийн санг устгах хийгээд бүтэц үйл ажиллагааг доголдуулах аюултай кодчилолын техникийн ойлголт юм. Өөрөөр хэлбэл хамгийн энгийн вэб хакердах арга техник бөгөөд SQL илэрхийллийг хор хөнөөлтэй бичил кодын хамт вэб сайтын оролт болгон оруулах замаар үйлддэг.</span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;"><strong>Хэрэглээ</strong>: Injection төрлийн халдлага нь ихэвчлэн хэрэглэгчээс Нэр, Дугаар гэх мэт оролтын утгуудыг авах үед тохиолддог. Хэрэглэгч нь нэр, дугаарын оронд танд SQL илэрхийлэл өгөх бөгөөд энэ нь таны өгөгдлийн сан дээгүүр мэдэгдэлгүйгээр ажиллах болно. Иймээс хэрэглэгчээс ямар нэг бүртгэлийн мэдээлэл авах шаардлагатай болсон үед контролуудад SQL илэрхийлэл орж ирж буй гэдгийг шалгах өгөгдлийн шалгалт баталгаажуулалт буюу validation тавьж өгөх эсвэл SQL PROTECTION техникийг хэрэглэх хэрэгтэй.</span><span style="font-family: 'comic sans ms', sans-serif;"><strong><br /></strong><br />Жишээ-1: Дараах жишээнд хэрэглэгчийн дугаар орж ирэх үед ажиллах кодын хэсгийг харуулсан бөгөөд дүн шинжилгээ хийж үзье. Энд SQL Injection <strong>1=1</strong> буюу үргэлж үнэн байх харгалзаад суурилж ажилладагийг санах хэрэгтэй.&nbsp;<br /><br /><!-- <span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> Customers;<br /></span> --><span style="color: green;">txtUserId</span> = getRequestString("UserId");<br /><span style="color: green;">txtSQL</span> = "<span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span> <span style="color: #ff0000;"> Users</span> <span style="color: blue;"> WHERE</span><span style="color: #ff0000;"> UserId = </span>" + <span style="color: green;">txtUserId;<br /><br /></span>Дээрх кодын хэсэгт <strong>txtUserId </strong>хувьсагчийн утга '<strong>UserId' </strong>нэр бүхий&nbsp;id -тай контролоос орж ирэх бөгөөд <strong>txtSQL</strong> хувьсагчид хэрэглэгчийн дугаараар шүүлт хийж, харгалзах мэдээллийг select хийж, буцаах query хэлбэрийн текстийг оноосон байна. Энд л гол алдаа оршиж байгаа юм. Өөрөөр хэлбэл <strong>txtUserId </strong>нь ямар нэг логик оператор ашигласан оролтын утга байх боломжтой нь харагдаж байна.<br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 260px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 260px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><br />UserId: <input name="UserId" type="text" value="105 OR 1=1" />&nbsp;<br /><br />Оролт дээрх байдлаар орж ирсэн гэж үзэхэд query дараах бичиглэлтэй үүснэ.<span style="color: blue;"><br /><br />SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span> <span style="color: #ff0000;">Users</span> <span style="color: blue;">WHERE</span><span style="color: #ff0000;"> UserId = 105</span><span style="color: blue;"> OR</span> <span style="color: #ff0000;"> 1=1;</span><br /><br />Дээрх SELECT query -ны үр дүн нь <strong>Users&nbsp;</strong>хүснэгтийн бүх бичлэгийг харуулах бөгөөд хэрэв тус хүснэгтэд хэрэглэгчийн нэр, нууц үг байсан бол ихээхэн хор хөнөөлтэй хэрэг үүсч болох юм. Мөн дараах байдлаар бичигдэж болно.<br /><br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> UserId, Name, Password&nbsp;</span><span style="color: blue;">FROM</span><span style="color: #ff0000;"> Users </span><span style="color: blue;">WHERE</span><span style="color: #ff0000;"> UserId =105 </span><span style="color: blue;">&nbsp;AND</span><span style="color: #ff0000;"> 1=1;</span>&nbsp;</span><br /><br />Жишээ-2: Дараах жишээнд SQL Injection нь <strong>'='&nbsp;</strong>оператор ашиглан хэрхэн халдлага үйлддэг болохыг харуулсан бөгөөд дүн шинжилгээ хийж үзье.<br /><br /><em><span style="color: #30a2dd;">Зураг 01 -с нэвтрэх формын хэсэгт ямар оролт оруулсан байгааг&nbsp;харна уу.</span></em><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;"><br /><img src="storage/uploads/files/SQL_TUTORIAL/SQL_INJECTION/injection1.PNG" alt="" width="271" height="159" /><br /><br /><em><span style="color: #30a2dd;">Зураг 01 Харгалзах контрролуудад утга оруулах нэвтрэх хэсэг харуулж байна.</span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: green;"><br />uName</span> = getRequestString("username");</span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: green;">uPass</span> = getRequestString("userpassword");</span><br /><br /><span style="font-family: 'comic sans ms', sans-serif;">sql = '<span style="color: blue;">SELECT</span> <span style="color: #ff0000;"> * </span> <span style="color: blue;"> FROM</span> <span style="color: #ff0000;"> Users </span><span style="color: blue;"> WHERE</span> <span style="color: #ff0000;">Name ="'</span> + <span style="color: green;">uName</span> + <span style="color: #ff0000;">'"</span> <span style="color: blue;"> AND</span> <span style="color: #ff0000;">Pass ="'</span> + <span style="color: green;">uPass</span> + <span style="color: #ff0000;">'"';<br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Жишээ query -д хэрэглэгчийн нэр, нууц үгийг авч, SELECT query угсарч өгөгдлийн сангийн Users хүснэгтэд хандах гэж буй кодын хэсгийг оруулсан байна. Энд textbox контролуудаас орж ирсэн утга дараах байдлаар бичигдэнэ.<br /><br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> Users </span><span style="color: blue;">WHERE</span><span style="color: #ff0000;">&nbsp;Name =""&nbsp;</span><span style="color: #0000ff;">OR</span><span style="color: #ff0000;">&nbsp;""="" </span><span style="color: blue;">AND</span><span style="color: #ff0000;"> Pass ="" </span><span style="color: #0000ff;">OR</span><span style="color: #ff0000;">&nbsp;""="";<br /></span><br />Дээрх SELECT query -ны үр дүн нь <strong>Users&nbsp;</strong>хүснэгтийн бүх бичлэгийг харуулах бөгөөд хэрэв тус хүснэгтэд хэрэглэгчийн нэр, нууц үг байсан бол ихээхэн хор хөнөөлтэй хэрэг үүсч болох юм. Эндээс SQL Injection-д&nbsp;<strong>OR ""="" </strong>нь<strong>&nbsp;</strong>үргэлж үнэ утгатай байдаг болох нь мэдэгдэж байна.<br /><br />Жишээ-3: Ихэнх өгөгдлийн сангийн улирдах системд багц SQL илэрхийллийг ажиллахыг зөвшөөрдөг бөгөөд энэ нь SQL Injection төрлийн халдлагад өртөх магадлалыг ихэсгэдэг бөгөөд дараах байдлаар туршиж үзье.<br /><br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> Users;&nbsp;</span><span style="color: blue;">DROP</span>&nbsp;<span style="color: #0000ff;">TABLE</span><span style="color: #ff0000;"> Suppliers;<br /><br /></span>Дээрх query нь нэг доор бичигдсэн тохиолдолд дарааллынхаас дагуу ажиллана.<br /><br /><span style="color: green;">txtUserId</span> = getRequestString("UserId");<br /><span style="color: green;">txtSQL</span> = "<span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span> <span style="color: #ff0000;">Users</span> <span style="color: blue;">WHERE</span><span style="color: #ff0000;"> UserId = </span>" + <span style="color: green;">txtUserId;</span><br /><br />Дээрх кодын хэсэгт <strong>txtUserId</strong> хувьсагчийн утга '<strong>UserId' </strong>нэр бүхий&nbsp;id -тай контролоос орж ирэх бөгөөд <strong>txtSQL</strong> хувьсагчид хэрэглэгчийн дугаараар шүүлт хийж, харгалзах мэдээллийг select хийж, буцаах query хэлбэрийн текстийг оноосон байна.<br /><br />User id: <input name="UserId" type="text" value="105; DROP TABLE Suppliers" /><br /><br />Оролт нь дээрх байдлаар орж ирсэн гэж үзэхэд query дараах хэлбэрээр бичигдэнэ.<br /><br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> *</span><span style="color: blue;"> FROM</span> <span style="color: #ff0000;">Users</span> <span style="color: blue;">WHERE</span><span style="color: #ff0000;"> UserId = 105;&nbsp;</span><span style="color: #ff0000;"><span style="color: blue;">DROP</span>&nbsp;<span style="color: #0000ff;">TABLE</span> Suppliers;</span><br /><br />Хэрэв систем нь багц query зэрэгцэн ажиллах боломжоор хангагдсан бол дээр query ажиллаж өгөгдлийн санг бүрэн устгах боломжтой.<br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br /><strong>Хэрхэн хамгаалах вэ? <br /><br /></strong>Өөрийн&nbsp;вэб сайт хийгээд&nbsp;системийг SQL Injecton халдлагаас хамгаалахдаа SQL <strong>Parameters&nbsp;</strong>-ийг ашиглана. Энэ нь хяналт шалгалтын дор орж ирсэн утгыг SQL илэрхийлэл ажиллах үед нэмэх замаар ажилладаг.<br /><br />Жишээ-5: Доорх кодын хэсэгт хэрхэн SQL <strong>Parameters</strong> хэрэгжүүлэхийг харуулж байна.<br /><br /><span style="color: green;">txtNam </span>&nbsp;= getRequestString("CustomerName");<br /><span style="color: green;">txtAdd</span>&nbsp;= getRequestString("Address");<br /><span style="color: green;">txtSQL</span> = "<span style="color: blue;">INSERT INTO</span><span style="color: #ff0000;">&nbsp;Customers (CustomerName,Address) </span><span style="color: blue;">VALUES(@0, @1);</span><br />db.Execute(txtSQL,<span style="color: green;">txtNam </span>, <span style="color: green;">txtAdd</span>&nbsp;);<br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

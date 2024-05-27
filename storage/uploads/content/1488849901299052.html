@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+<div class="contentHtml_1488849901299052">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL IN<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 268px;">
+<td style="width: 1px; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 268px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;">Энэ нь өгөгдлийн сангийн хүснэгтүүдээс тодорхой нөхцөл, шалгуурын дагуу шүүлт хийхэд ашигладаг WHERE clause-тай зохицож ажилладаг SQL хэлний оператор юм. <strong>IN&nbsp;</strong>оператор нь олон утгуудыг тодорхойлж, шүүлт хийх боломж олгодог.&nbsp;<br /></span></span><span style="font-family: 'comic sans ms', sans-serif;"><span style="font-family: 'comic sans ms', sans-serif;"><strong><br />Хэрэглээ</strong>: Өгөгдлийн сангийн хүснэгтүүдээс олон нөхцөл шалгуураар шүүлт хийхдээ бид AND, OR зэрэг операторуудыг ашигладаг. Харин IN оператор нь олон удаа OR тодорхойлж бичсэний товч хэлбэр нь болж өгдөг. Түүнчлэн хамгийн том давуу тал нь тухайн SELECT query ажилласны үр дүнгээс давхар шүүлт хийх боломжийг олгодог юм.&nbsp;</span></span><span style="font-family: 'comic sans ms', sans-serif;"><br /></span><span style="font-family: 'comic sans ms', sans-serif;"><strong><br />Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:<br /></span><span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;"><em>column_name(s)</em>&nbsp;</span>FROM <span style="color: #ff0000;">table_name <span style="color: blue;">WHERE</span> column_name</span>&nbsp;IN <span style="color: #ff0000;">(<em>value1</em>,<em> value2</em>, ...);<br /><br /></span></span> <span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;"><em>column_name(s)</em>&nbsp;</span>FROM <span style="color: #ff0000;">table_name <span style="color: blue;">WHERE</span> column_name</span>&nbsp;IN <span style="color: #ff0000;">(<span style="color: blue;">SELECT&nbsp;</span><span style="color: #ff0000;">STATEMENT</span>);<br /></span></span> <span style="font-family: 'comic sans ms', sans-serif;"><br /> <em><span style="color: #30a2dd;"><br />Зураг 01 -с жишээнд ашиглагдах Customers хүснэгтийг харна уу.<br /></span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 268px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_IN/customer.PNG" alt="" width="1060" height="469" /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 Customers хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 111px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 107px;">
+<td style="width: 1px; height: 107px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 107px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 107px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Жишээ-1: Хэрэглэгчийн мэдээллийн жагсаалтаас Germany, France, UK улсын хэрэглэгчдийн мэдээллийг харах шаардлагатай болсон гэж үзье. IN операторыг ашиглан дараах байдлаар SELECT query бичнэ.&nbsp;</span><br /><br /> <span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;"><em> * </em>&nbsp;</span>FROM <span style="color: #ff0000;">Customers <span style="color: blue;">WHERE</span> Country</span>&nbsp;IN <span style="color: #ff0000;">('Germany', 'France', 'UK');<br /><br /><span style="color: #30a2dd;">Зураг 02&nbsp;-с дээрх SELECT query хэрхэн ажилласан байгааг харна уу.</span><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 107px;">&nbsp;</td>
+<td style="width: 1px; height: 107px;">&nbsp;</td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><span style="font-family: 'comic sans ms', sans-serif;"><br /><img src="storage/uploads/files/SQL_TUTORIAL/SQL_IN/in_ex.PNG" alt="" width="1060" height="279" /><br /><em><span style="color: #30a2dd;">Зураг 02 Germany, France, UK улсын хэрэглэгчдийн жагсаалт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+</tr>
+<tr style="height: 46px;">
+<td style="width: 1px; height: 46px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 46px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 46px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт <strong>IN</strong> операторыг хэрэглэсний дараах үр дүнг харуулсан&nbsp;бөгөөд Customers хүснэгтээс <strong>Country&nbsp;</strong>баганы утга Germany, France, UK зэрэг утгатай байгаа бүх бичлэгүүдийг select хийсэн байна. Энд <strong>IN</strong> оператор нь <strong>OR</strong> операторын зарчимаар ажилладаг нь харагдаж байна.<br /><br /><em><span style="color: #30a2dd;">Зураг 03&nbsp;-с жишээ хоёрт ашиглагдах Suppliers хүснэгтийг харна уу.</span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 46px;">&nbsp;</td>
+<td style="width: 1px; height: 46px;">&nbsp;</td>
+</tr>
+<tr style="height: 111px;">
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 111px; width: 400px; text-align: right;"><br /><img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_IN/suppliers.PNG" alt="" width="1056" height="123" /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">Зураг 03 Suppliers хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 111px;">&nbsp;</td>
+<td style="width: 1px; height: 111px;">&nbsp;</td>
+</tr>
+<tr style="height: 59px;">
+<td style="width: 1px; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 59px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext">Жишээ-2: Хэрэглэгчдийн мэдээллийн жагсаалтаас нийлүүлэгч орны хэрэглэгчид байгаа эсэхийг харах шаардлагатай болсон гэж үзье. Энэ тохиолдолд Suppliers хүснэгтийн <strong>Country </strong>талбарын утгуудыг хайлтын утга болгож дараах байдлаар SELECT query бичнэ.<br /><br /></span></span></span> <span style="color: blue; font-family: 'comic sans ms', sans-serif;">SELECT <span style="color: #ff0000;"><em>*</em>&nbsp;</span>FROM <span style="color: #ff0000;">Customers&nbsp;<span style="color: blue;">WHERE</span> Country</span>&nbsp;IN <span style="color: #ff0000;">(<span style="color: blue;">SELECT</span> Country <span style="color: blue;"> FROM </span> Suppliers);<br /><br /><em><span style="color: #30a2dd;">Зураг 04 -с дээрх SELECT query хэрхэн ажилласаныг харна уу.</span></em><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 59px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 59px;">
+<td style="width: 1px; height: 59px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 59px; width: 400px; text-align: right;">&nbsp;<img style="display: block; margin-left: auto; margin-right: auto;" src="storage/uploads/files/SQL_TUTORIAL/SQL_IN/select_statement_in.PNG" alt="" width="1057" height="127" /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">Зураг 04 UK болон USA улсын нийлүүлэгчидтэй ижил&nbsp;орны хэрэглэгчдийн мэдээлэл .</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;">&nbsp;</td>
+<td style="width: 1px; height: 59px;">&nbsp;</td>
+</tr>
+<tr style="height: 59px;">
+<td style="width: 1px; height: 59px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 59px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Зурагт SELECT query -с гарч ирсэн жагсаалтаас <strong>IN</strong> операторыг ашиглан хэрхэн шүүлт хийж болохыг харуулсан байна. Өөрөөр хэлбэл Customers хүснэгтийн <strong>Country&nbsp;</strong>талбарын утга&nbsp;Suppliers хүснэгтийн <strong>Country </strong> баганы утгуудтай тэнцэж байх үеийн бүх бичлэгийг select хийсэн &nbsp;байна.</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 59px;">&nbsp;</td>
+<td style="width: 1px; height: 59px;">&nbsp;</td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

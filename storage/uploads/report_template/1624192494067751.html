@@ -1,0 +1,102 @@
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="text-align: center; border-bottom: 1px dotted black;" rowspan="2">&nbsp;</td>
+<td style="text-align: left; border-bottom: 1px dotted black;"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px;"><strong><span style="font-size: 16px;">Авлагын бүртгэлийн баримт</span></strong></span><span style="font-family: arial, helvetica, sans-serif; font-size: 13px;"><strong><br></strong></span></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-bottom: 1px dotted black;">
+<tbody>
+<tr>
+<td colspan="3"><span style="font-family: arial, helvetica, sans-serif; font-size: 9px;"><span style="width: 50%;"><br><span style="line-height: 8px; font-size: 14px;">Ажилтаны нэр</span><strong><span style="line-height: 8px; font-size: 14px;">: #salespersonname#</span></strong></span><strong><span style="line-height: 8px; font-size: 14px;"><span style="width: 25%;">&nbsp;</span></span></strong></span></td>
+</tr>
+<tr>
+<td><span style="width: 25%; font-family: arial, helvetica, sans-serif; line-height: 8px; font-size: 9px;"><span style="font-size: 13px;">Огноо:<strong>&nbsp;#filterstartdate# -&nbsp;#filterenddate#</strong></span><br><br></span></td>
+</tr>
+</tbody>
+</table>
+<table id="sdm_receipt__document_report_dv" style="width: 100%; border-color: #7a7878;" border="1">
+<thead>
+<tr style="border-bottom: 1px dotted black; border-top: 1px dotted black;">
+<td style="width: 25%; background-color: #bdafaf; text-align: left;"><span style="font-size: 14px;">Бараа</span></td>
+<td style="width: 25%; background-color: #bdafaf; text-align: center;"><span style="font-size: 14px;">Татан авалт тоо</span></td>
+<td style="width: 25%; background-color: #bdafaf; text-align: center;"><span style="font-size: 14px;">Татан авалт дүн</span></td>
+<td style="width: 25%; background-color: #bdafaf; text-align: center;"><span style="font-size: 14px;">Эцсийн үлдэгдэл тоо</span></td>
+<td style="width: 25%; background-color: #bdafaf; text-align: center;">Эцсийн үлдэгдэл дүн</td>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px dotted black; border-top: 1px dotted black;">
+<td style="width: 25%; text-align: left;" colspan="4">#sdm_receipt__document_report_dv.itemname#</td>
+<td style="width: 25%; text-align: right;"><span style="font-size: 11px;">&nbsp;</span></td>
+</tr>
+<tr style="border-bottom: 1px dotted black; border-top: 1px dotted black;">
+<td style="width: 25%; text-align: left;"><span style="font-size: 11px;"><strong><span style="font-family: arial, helvetica, sans-serif;">&nbsp;</span></strong></span></td>
+<td style="width: 25%; text-align: right;">#sdm_receipt__document_report_dv.inqty#</td>
+<td style="width: 25%; text-align: right;">#sdm_receipt__document_report_dv.inamount#</td>
+<td style="width: 25%; text-align: right;">#sdm_receipt__document_report_dv.endqty#&nbsp;</td>
+<td style="width: 25%; text-align: right;">#sdm_receipt__document_report_dv.endamount#&nbsp;</td>
+</tr>
+</tbody>
+<tfoot>
+<tr style="border-bottom: 1px dotted black; border-top: 1px dotted black;">
+<td style="width: 25%; text-align: left;"><span style="font-size: 16px; line-height: 20px;">Нийт:</span></td>
+<td style="width: 25%; text-align: right;">sum(#sdm_receipt__document_report_dv.inqty#)</td>
+<td style="width: 25%; text-align: right;"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 11px;">sum(#sdm_receipt__document_report_dv.inamount#)&nbsp;</span></td>
+<td style="width: 25%; text-align: right;">sum(#sdm_receipt__document_report_dv.endqty#)</td>
+<td style="width: 25%; text-align: right;"><span style="font-size: 11px;">sum(#sdm_receipt__document_report_dv.endamount#)&nbsp;</span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Эхний үлдэгдэл:&nbsp;<strong>calExp[sum(#sdm_receipt__document_report_dv.itembeginamount#) + avg(#sdm_receipt__document_report_dv.arbeginamount#)]</strong></span></span><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;"><strong><br></strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Эхний үлдэгдэл/Авлага/: <strong>avg(#sdm_receipt__document_report_dv.arbeginamount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Эхний үлдэгдэл/Бэлэн мөнгө/: <strong>avg(#sdm_receipt__document_report_dv.arbeginamountcash#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Татан авалтын нийт дүн:&nbsp;<strong>sum(#sdm_receipt__document_report_dv.inamount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Борлуулалт /дансаар/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.lastpaidcreditcard#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Борлуулалт /зээлээр/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.lastpaidreceivable#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Борлуулалт&nbsp;/бэлнээр/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.lastpaidcash#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Урамшуулалын дүн:&nbsp;<strong>sum(#sdm_receipt__document_report_dv.lineTotalDiscount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; font-size: 14px;">Буцаалтын дүн:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.returnamount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Үнийн зөрүүний дүн:&nbsp;<strong>sum(#sdm_receipt__document_report_dv.outamount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Зарлагын дүн:&nbsp;<strong>sum(#sdm_receipt__document_report_dv.outamt#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Зээлийн эргэн төлөлт:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.pbtotalamount#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Тушаасан орлого/дансаар/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.gloamount2#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Тушаасан орлого/кассаар/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.gloamount1#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Эцсийн үлдэгдэл/Авлага/:&nbsp;<strong>avg(#sdm_receipt__document_report_dv.arendamountemp#)</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Тушаах нийт дүн/Бэлэн мөнгө/: <strong>calExp[avg(#sdm_receipt__document_report_dv.arbeginamountcash#) + avg(#sdm_receipt__document_report_dv.lastpaidcash#) + avg(#sdm_receipt__document_report_dv.pbtotalamount#)]</strong></span></td>
+</tr>
+<tr>
+<td style="text-align: left;" colspan="5"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;"><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;">Эцсийн үлдэгдэл: <strong>calExp[sum(#sdm_receipt__document_report_dv.itembeginamount#) + sum(#sdm_receipt__document_report_dv.inamount#) + sum(#sdm_receipt__document_report_dv.returnamount#) - avg(#sdm_receipt__document_report_dv.lastpaidcreditcard#) - avg(#sdm_receipt__document_report_dv.lastpaidreceivable#) - avg(#sdm_receipt__document_report_dv.lastpaidcash#) - sum(#sdm_receipt__document_report_dv.outamount#) - sum(#sdm_receipt__document_report_dv.outamt#) + avg(#sdm_receipt__document_report_dv.arendamountemp#)]</strong></span></span><span style="font-family: arial, helvetica, sans-serif; line-height: 20px; font-size: 14px;"><strong><br></strong></span></td>
+</tr>
+</tfoot>
+</table>

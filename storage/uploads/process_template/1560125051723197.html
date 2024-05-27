@@ -1,0 +1,509 @@
+<style><!--
+.dddd .btn-sm{
+		background:#95A5A6 !important;
+		color:#000;
+	}
+--></style>
+<table class="dddd" style="width: 800px; font-family: Calibri;" align="center">
+<tbody>
+<tr>
+<td><img style="display: left;" src="storage/uploads/files/inter.png" alt="" width="209" height="53" /><br /><br />
+<table style="width: 800px; border: 1px solid black;" align="center">
+<thead>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ПРОЦЕССЫН НЭР</strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp;&nbsp;&nbsp; <strong>#name#</strong></td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ПРОЦЕССЫН ДУГААР</strong></td>
+<td style="border: 1px solid black; width: 205px;">&nbsp; #code#</td>
+<td style="border: 1px solid black; width: 205px; background-color: #99ccff; text-align: left; padding-left: 10px;">&nbsp;<strong>ПРОЦЕССЫН ТӨРӨЛ</strong></td>
+<td style="border: 1px solid black; width: 205px;">&nbsp; #typename#</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ХАРЬЯАЛАГДАХ <br />ҮЙЛ АЖИЛГААНЫ СИСТЕМ</strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp;&nbsp;</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ХАРЬЯАЛАГДАХ ҮНДСЭН ДОМЭЙН</strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp;</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ХАРЬЯАЛАГДАХ ДЭД ДОМЭЙН</strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp; #domainname#</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong>ПРОКСИ ПРОЦЕССЫН НЭР</strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp; #proxyname#</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong><strong>ПРОЦЕССЫН ХУВИЛБАР</strong></strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp; #versionnumber#</td>
+</tr>
+<tr style="border: 1px solid black;">
+<td style="background-color: #99ccff; border: 1px solid black; width: 180px; height: 30px; text-align: left; padding-left: 10px;" align="center"><strong><strong>ПРОЦЕССЫН ТАЙЛБАР</strong></strong></td>
+<td style="border: 1px solid black;" colspan="3">&nbsp; #description#</td>
+</tr>
+</thead>
+</table>
+<br />
+<ul>
+<li style="color: #e36c0a;"><strong>ПРОЦЕССЫН ЗОРИЛГО</strong></li>
+</ul>
+<p style="padding-left: 40px; font-family: Times New Roman;"><em><span style="color: #999999;">Энэ хэсэгт тодорхойлж буй процессын гүйцэтгэх үүрэг, яагаад энэ үйл ажиллагаа, процесс хийгдэж байгаа, энэ процессын үр дүнд ямар үр дүнд хүрэх г.м тухайн процессын тухай тайлбар, мэдээллийг оруулна.<br /><br /></span></em><span style="color: #000000; font-size: 14px; font-family: Calibri, sans-serif;">#purpose#<br /></span></p>
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; border: none; width: 90%;"><strong>ОРОЛЦОГЧИД</strong></li>
+</ul>
+</td>
+<td style="text-align: right;" valign="top">&nbsp;#addButton1#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlStakeholder" style="width: 800px;" align="center">
+<thead>
+<tr style="border: 1px dotted black; width: 20%;">
+<td style="border: 1px dotted black; height: 20px; text-align: center; width: 5%;"><strong>No</strong></td>
+<td style="border: 1px dotted black; height: 20px; text-align: center;">&nbsp;<strong>Нэр</strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Үүрэг хариуцлага</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 40px; text-align: center;">&nbsp;#rownum#</td>
+<td style="border: 1px dotted black; height: 40px;">#viewHtmlStakeholder.stakeholderId#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlStakeholder.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td style="width: 90%;">
+<ul>
+<li style="color: #e36c0a;"><strong>ОРОЛТЫН ПАРАМЕТРҮҮД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Процессыг хэрэгжүүлэхийн тулд ямар ямар мэдээлэл оролтын параметр байдлаар оруулах шаардлагатайг жагсаалтаар, тайлбарын хамт тодорхойлно.</em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton2#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlInputParameter" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No </strong></td>
+<td style="border: 1px dotted black; width: 47.5%; text-align: center;">&nbsp;<strong>Параметрийн нэр</strong></td>
+<td style="border: 1px dotted black; width: 47.5%; text-align: center;">&nbsp;<strong>Тайлбар </strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 25px; text-align: center;">&nbsp;#rownum#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlInputParameter.name#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlInputParameter.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ГАРАЛТЫН ПАРАМЕТРҮҮД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Процесс хэрэгжсэний үр дүнд гарах өөрчлөлт, үр дүнг нэг бүрчлэн тодорхойлж бичнэ.<br /></em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton3#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlOutputParameterDV" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No </strong></td>
+<td style="border: 1px dotted black; width: 47.5%; text-align: center;">&nbsp;<strong>Параметрийн нэр</strong></td>
+<td style="border: 1px dotted black; width: 47.5%; text-align: center;">&nbsp;<strong>Тайлбар </strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 25px; text-align: center;">&nbsp;#rownum#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlOutputParameterDV.name#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlOutputParameterDV.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>УРЬДЧИЛСАН НӨХЦӨЛ</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Тухайн процессыг гүйцэтгэхийн тулд өмнө нь урьдчилан хангагдсан байх нөхцлүүдийг дурдана. Шаардлагатай тайлбарын хамт<br /></em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton4#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlOutputParameterDV" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No</strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Урьдчилан шалгах нөхцөл, шалгуур</strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Хэрэгжүүлэх Тайлбар </strong></td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: center;">&nbsp;</td>
+<td style="border: 1px dotted black;">&nbsp;</td>
+<td style="border: 1px dotted black;">&nbsp;</td>
+</tr>
+</thead>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ШАЛГАХ НӨХЦЛҮҮД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Процессыг хэрэгжүүлэхэд зайлшгүй шалгах шаардлагатай нөхцлүүдийг нарийвчлан тодорхойлж бичнэ. Нөхцлүүд нь процесс эхлэхийн өмнө, процессын явцад, процесс дууссаны дараа эсвэл байнга шалгаж байх хуулийн, стандартын, үйл аиллагааны г.м олон янз байж болно.</em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton5#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlValidationDV" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No</strong></td>
+<td style="border: 1px dotted black; text-align: center;"><strong>Шалгах нөхцөл, шалгуурууд</strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Хэрэгжүүлэх Тайлбар </strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: center;">&nbsp;#rownum#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlValidationDV.name#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlValidationDV.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ПРОЦЕССЫН ШААРДЛАГУУД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Тухайн процесстой холбоотой Тендерийн болон Захиалагчийн шаардлагуудыг түүвэрлэн цуглуулах бөгөөд анализын явцад илэрсэн шаардлагуудыг мөн бичнэ. Гэхдээ шинээр илэрсэн шаардлагуудыг төслийн цар хүрээнд байгаа эсэхэд хяналт тавина. Мөн тэдгээр шаардлагыг хэрхэн хангах төсөөлөл, арга замыг шаардлага тус бүрийн хувьд тодорхойлж бичнэ.<br /></em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton6#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlRequirement" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No</strong></td>
+<td style="border: 1px dotted black; text-align: center;"><strong>Шаардлага</strong></td>
+<td style="border: 1px dotted black; text-align: center;"><strong>Хэрхэн биелүүлэх</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: center;">&nbsp;#rownum#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlRequirement.name#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlRequirement.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ПРОКСИ ПРОЦЕССЫН ХОЛБОЛТ ДЭЛГЭРЭНГҮЙ</strong></li>
+</ul>
+</td>
+<td style="text-align: right;" valign="top">#addbutton7#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlRequirement" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;</td>
+</tr>
+</thead>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ТЕСТ КЕЙС</strong></li>
+</ul>
+</td>
+<td style="text-align: right;" valign="top">#addbutton8#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlTestCaseList" style="width: 800px; border: 1px dotted black;" align="center">
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 40px; height: 30px; text-align: center;">#rownum#</td>
+<td style="border: 1px dotted black; height: 30px; text-align: left;">#viewHtmlTestCaseList.name#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ГАРЧ БОЛЗОШГҮЙ ЭРСДЛҮҮД, АВАХ АРГА ХЭМЖЭЭ</strong></li>
+</ul>
+</td>
+<td style="text-align: right;" valign="top">#addbutton9#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlRiskandOvercome" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 5%; height: 30px; text-align: center;">&nbsp;<strong>No </strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Эрсдлийн агуулга</strong></td>
+<td style="border: 1px dotted black; text-align: center;">&nbsp;<strong>Эрсдлийг багасгах чиглэлээр системд<br />&nbsp; тусгах Захиалагчийн санал </strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: center;">#rownum#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlRiskandOvercome.riskName#</td>
+<td style="border: 1px dotted black;">#viewHtmlRiskandOvercome.overcomeDescription#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ХУУЛЬ, ЭРХ ЗҮЙ, СТАНДАРТЫН ЗААЛТУУД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em> Тухайн процесстой холбоотой хууль эрх зүй, дүрэм журам, стандартуудын заалтуудыг нэг бүрчлэн жагсааж, тэдгээрт заалтуудад системийг хэрхэн нийцүүлэхийг тодорхойлж бичнэ.</em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton10#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlLegalNotes" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; width: 33%; height: 30px; text-align: center;">&nbsp;<strong>Хууль, эрх зүйн акт, стандартын нэр </strong></td>
+<td style="border: 1px dotted black; width: 33%; text-align: center;">&nbsp;<strong>Холбогдох заалт</strong></td>
+<td style="border: 1px dotted black; width: 33%; text-align: center;">&nbsp;<strong>Хэрэгжүүлэх арга зам</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px;">#viewHtmlLegalNotes.name#</td>
+<td style="border: 1px dotted black;">#viewHtmlLegalNotes.description#</td>
+<td style="border: 1px dotted black;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>ХОЛБОГДОХ БУСАД ПРОЦЕССУУД</strong></li>
+</ul>
+<p style="color: #999999; padding-left: 40px; font-family: Times New Roman;"><em>Тухайн процесстой холбоотой, системийн тест хийх үед зайлшгүй шалгах болон Functional Spec бичихэд шалгах шаардлагатай процессуудыг энд заавал дурдана.</em></p>
+</td>
+<td style="text-align: right;" valign="top">#addbutton11#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlProxy" style="width: 800px; border: 1px dotted black;" align="center">
+<thead>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; width: 20%; text-align: center;">&nbsp;<strong>Процессын дугаар</strong></td>
+<td style="border: 1px dotted black; width: 40%; text-align: center;">&nbsp;<strong>Процессын нэр</strong></td>
+<td style="border: 1px dotted black; width: 40%; text-align: center;">&nbsp;<strong>Ямар хамааралтай тухай тайлбар</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px;">&nbsp;#viewHtmlProxy.code#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlProxy.processName#</td>
+<td style="border: 1px dotted black;">&nbsp;#viewHtmlProxy.description#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<ul>
+<li style="color: #e36c0a; width: 90%;"><strong>END TO END ПРОЦЕССЫН ХОЛБОГДОХ ДОМЭЙН</strong></li>
+</ul>
+</td>
+<td style="text-align: right;" valign="top">#addbutton12#</td>
+</tr>
+</tbody>
+</table>
+<table id="viewHtmlEndtoEnd" style="width: 800px; border: 1px dotted black;" align="center">
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px;">#viewHtmlEndtoEnd.domainName#</td>
+</tr>
+</tbody>
+</table>
+<br />
+<table style="width: 800px; border: 1px dotted black;" align="center">
+<tbody>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: left; padding-left: 30px;"><span style="color: #e36c0a;"><strong>ПРОЦЕССОД ЗАРЦУУЛДАГДАХ ЗАРДАЛ</strong></span></td>
+<td style="border: 1px dotted black; height: 30px; text-align: left; padding-left: 30px;"><span style="color: #e36c0a;"><strong>ПРОЦЕССОД ЗАРЦУУЛДАГ ХУГАЦАА</strong></span></td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;">&nbsp;#indicator1#</td>
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;">&nbsp;#indicator2#</td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;" colspan="2"><span style="color: #e36c0a;"><strong>ПРОЦЕССЫН ҮЙЛДЭХ ХООРОНДЫН ЗАЙ</strong></span></td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;" colspan="2">#indicator3#</td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; text-align: left; padding-left: 30px;"><span style="color: #e36c0a;"><strong>ХАВСРАЛТ ФАЙЛ</strong></span></td>
+<td style="border: 1px dotted black; height: 30px; text-align: left; padding-left: 30px;"><span style="color: #e36c0a;"><strong>MOCK-UP ЗАГВАР</strong></span></td>
+</tr>
+<tr style="border: 1px dotted black;">
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;">#indicator4#</td>
+<td style="border: 1px dotted black; height: 30px; padding-left: 30px;">#indicator5#</td>
+</tr>
+</tbody>
+</table>
+<br /><hr />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br /><br /><br />
+<table style="width: 800px;" align="center">
+<tbody>
+<tr>
+<td>
+<table style="width: 800px;" align="center">
+<thead>
+<tr>
+<td style="width: 50%;"><span style="font-size: 14px;">&nbsp;<strong>Гүйцэтгэгч байгуулга</strong></span></td>
+<td style="width: 50%;"><span style="font-size: 14px;">&nbsp;<strong>Харилцагч байгуулга</strong></span></td>
+</tr>
+</thead>
+</table>
+<br /><br />
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="text-align: left; width: 50%; padding-left: 10px;" colspan="3"><span style="font-size: 14px;">Батлав:</span></td>
+<td style="text-align: left; width: 50%; padding-left: 10px;" colspan="3"><span style="font-size: 14px;">Батлав:</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="font-size: 14px;">Ерөнхий захирал:&nbsp;&nbsp;</span></td>
+<td style="text-align: center;">&nbsp;.......................</td>
+<td style="text-align: center;"><span style="font-size: 14px;">/Б.Ууганбаяр/&nbsp;</span></td>
+<td style="text-align: center;">&nbsp;<span style="font-size: 14px;">Ерөнхий захирал:</span></td>
+<td style="text-align: center;">&nbsp;.......................</td>
+<td style="text-align: center;"><span style="font-size: 14px;">/&nbsp;......................./</span></td>
+</tr>
+</tbody>
+</table>
+<hr /><br /><br />
+<table style="width: 100%;">
+<thead>
+<tr>
+<td colspan="3"><strong>Бизнес процесс анализын тодорхойлолт гаргасан:&nbsp;</strong>&nbsp;&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding-left: 40px;">Төсөл хариуцсан аналист:</td>
+<td style="text-align: center; width: 20%;">&nbsp;.......................</td>
+<td style="text-align: center; width: 20%;">&nbsp;/#sessionPersonName#/</td>
+</tr>
+</tbody>
+</table>
+<br /><br />
+<table style="width: 100%;">
+<thead>
+<tr>
+<td>&nbsp;<strong>Хянасан:</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding-left: 40px;">Бизнес анализын хэлтсийн дарга:</td>
+<td style="text-align: center; width: 20%;">&nbsp;.......................</td>
+<td style="text-align: center; width: 20%;">/#config_1stName#/</td>
+</tr>
+</tbody>
+</table>
+<br /><br /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="contentHtml_1492660993709920">
+<div class="contentHtml_1492660993709920">
+<div class="row">
+<div class="contentHtml_1486098660425571"><br />
+<table width="100%">
+<tbody>
+<tr style="height: 110px;">
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 110px; width: 400px; text-align: center;">
+<h1 class="title"><span style="font-family: comic sans ms,sans-serif;">SQL ANY, ALL Operators<br /></span></h1>
+</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 110px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 271px;">
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 271px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;">Эдгээр нь SQL хэлний өгөгдлийн сангийн хүснэгтүүдээс тодорхой нөхцөл, шалгуурын дагуу шүүлт хийхэд ашиглагддаг WHERE мөн Having clause -тай хамт ажилладаг operator - ууд юм.&nbsp;<br /></span><br />
+<ul>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ANY оператор нь тодорхойлсон нөхцөл subquery -н үр дүнтэй буюу аль нэг утгатай таарч байх үед биелэнэ</span></li>
+<li><span style="font-family: 'comic sans ms', sans-serif;">ALL оператор нь тодорхойлсон нөхцөл subquery -н бүх үр дүнтэй буюу &nbsp;таарч байх үед биелэнэ.</span></li>
+</ul>
+<span style="font-family: 'comic sans ms', sans-serif;"><strong>Хэрэглээ</strong>: Өгөгдлийн сангийн хүснэгтүүдээс шүүлт хийж харахдаа subquery ажилласан үр дүнгээс хайлт хийж таарах утгуудыг буцаадаг онцлогтой операторууд юм. Any болон All нь бичигдэх хэлбэрийнхээ хувьд&nbsp;(=, &lt;&gt;, !=, &gt;, &gt;=, &lt;, or &lt;=) зэрэг харьцуулалтын операторуудаас авч хэрэглэгдэг.<br /><br /><strong>Бичигдэх хэлбэр /</strong>syntax<strong>/</strong>:</span><br /><span style="font-family: 'comic sans ms', sans-serif;">ANY<br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> c<em>olumn_name(s)</em>.</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> <em>table_name&nbsp;</em></span><span style="color: blue;">WHERE</span><span style="color: #ff0000;"> <em>column_name operator&nbsp;</em></span><span style="color: blue;">ANY</span><span style="color: #ff0000;"><span style="color: #0000ff;">&nbsp;(SELECT</span> <em>column_name </em><span style="color: #0000ff;">FROM</span> <em>table_name</em> <span style="color: #0000ff;">WHERE</span> <em>condition</em><span style="color: #0000ff;">);</span></span><br /><br />ALL<br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> c<em>olumn_name(s)</em>.</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> <em>table_name&nbsp;</em></span><span style="color: blue;">WHERE</span><span style="color: #ff0000;"> <em>column_name operator&nbsp;</em></span><span style="color: blue;">ALL</span><span style="color: blue;"><span style="color: #ff0000;"><span style="color: #0000ff;">&nbsp;(SELECT</span> <em>column_name </em><span style="color: #0000ff;">FROM</span> <em>table_name</em> <span style="color: #0000ff;">WHERE</span> <em>condition</em><span style="color: #0000ff;">);</span></span></span></span><br /><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #ff0000;"><br /></span><br /><span style="color: #30a2dd;">Зураг 01 -с жишээнд ашиглагдах Products хүснэгтийг харна уу.<br /><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 271px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 185px;">
+<td style="width: 1px; height: 185px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 185px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 185px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_ANY_ALL/pro.PNG" alt="" width="1039" height="365" />&nbsp;<br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 01 Products хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 185px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 185px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 34px;">
+<td style="width: 1px; height: 34px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 34px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 34px; width: 400px; text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;"><span style="color: #30a2dd;">Зураг 02&nbsp;-с жишээнд ашиглагдах OrderDetails&nbsp;хүснэгтийг харна уу.</span><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 34px;">&nbsp;</td>
+<td style="width: 1px; height: 34px;">&nbsp;</td>
+</tr>
+<tr style="height: 106px;">
+<td style="width: 1px; height: 106px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 106px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 106px; width: 400px; text-align: center;"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_ANY_ALL/order_detail.PNG" alt="" width="1040" height="367" /><br /><span style="font-family: 'comic sans ms', sans-serif;"><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Зураг 02 OrderDetails хүснэгт</span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 106px;">&nbsp;</td>
+<td style="width: 1px; height: 106px;">&nbsp;</td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: justify;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><br />Жишээ-1:&nbsp;ANY оператор ашигласан дараах query -г хэрхэн ажиллаж ямар үр дүн буцаахыг харцгаая. Гол зарчим нь subquery -р гарч ирэх үр дүнгийн жагсаалтын утгатай нөхцөл таарч байх үеийн бичлэгүүдийг буцаах ёстой юм.<br /><br /> <span style="color: blue;">SELECT</span><span style="color: #ff0000;"> ProductName</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> Products&nbsp;</span><span style="color: blue;">WHERE</span><span style="color: #ff0000;"> ProductID =&nbsp;</span><span style="color: blue;">ANY&nbsp;</span><span style="color: #ff0000;"><span style="color: #0000ff;"> (SELECT</span> ProductID <span style="color: #0000ff;">FROM</span> OrderDetails <span style="color: #0000ff;">WHERE</span> Quantity <span style="color: #0000ff;">=</span> 10<span style="color: #0000ff;">);</span></span></span><br /><br /><em><span style="color: #30a2dd;">Зураг 03 -с дээрх SELECT query хэрхэн ажилласан байгааг харна уу.<br /></span></em><br /></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 109px;">
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 109px; width: 400px; text-align: right;"><span style="font-family: comic sans ms,sans-serif;"><span class="footer_lg"><span class="simpletext"><img src="storage/uploads/files/SQL_TUTORIAL/SQL_ANY_ALL/ANY.PNG" alt="" width="1058" height="127" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 03 ANY оператор ашиглан Products хүснэгтээс шүүлт хийж байна</span></em></span></span></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 109px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: justify;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт ANY оператор ашиглан шүүлт хийж харуулсан бөгөөд OrderDetails&nbsp;хүснэгтээс Quantity<strong>&nbsp;</strong>баганы утга 10 -тай тэнцүү байх үеийн бүтээгдэхүүний дугаарын &nbsp;жагсаалттай Products &nbsp;хүснэгтийн ProductID баганы утгуудаас тохирч үед ProductName буюу бүтээгдэхүүний нэр талбарын утгуудыг жагсааж харуулсан байгаа юм.<br /><br />Жишээ-2: ALL оператор ашиглан дараах query -г хэрхэн ажиллаж ямар үр дүн буцаахыг харцгаая. Гол зарчим нь subquery -р гарч ирэх жагсаалтын харгалзах утгуудтай нөхцөлд шалгах баганы утга нэгэн зэрэг таарч байх ёстой юм.<br /><br /><span style="color: blue;">SELECT</span><span style="color: #ff0000;"> ProductName</span><span style="color: blue;"> FROM</span><span style="color: #ff0000;"> Products&nbsp;</span><span style="color: blue;">WHERE</span><span style="color: #ff0000;"> ProductID =&nbsp;</span><span style="color: blue;">ALL&nbsp;</span><span style="color: #ff0000;"><span style="color: #0000ff;">&nbsp;(SELECT</span> ProductID <span style="color: #0000ff;">FROM</span> OrderDetails <span style="color: #0000ff;">WHERE</span> Quantity <span style="color: #0000ff;">=</span> 10<span style="color: #0000ff;">);</span></span><br /><br /><em><span style="color: #30a2dd;">Зураг 04 -с дээрх SELECT query хэрхэн ажилласан байгааг харна уу.</span></em><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: center;"><span style="font-family: 'comic sans ms', sans-serif;"><br /><img src="storage/uploads/files/SQL_TUTORIAL/SQL_ANY_ALL/All.PNG" alt="" width="1060" height="79" /><br /><em><span style="color: #30a2dd;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Зураг 04 ALL оператор ашиглан Products хүснэгтээс шүүлт хийж байна.<br /></span></em></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 37px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+<tr style="height: 37px;">
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="background-color: #f6f9f9; height: 37px; width: 400px; text-align: left;"><span style="font-family: 'comic sans ms', sans-serif;"><br />Зурагт ALL оператор ашиглан шүүлт хийж харуулсан бөгөөд үр дүн олдоогүй байна. Энд нөхцөлд тодорхйосон багану утга subquery -р гарч ирэх жагсаалтын харгалзах утгуудтай нэгэн зэрэг тэнцүү байх ёстой байсан учир үр дүнд ямар ч бичлэг олдоогүй юм.<br /><br /></span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 37px;">&nbsp;</td>
+<td style="width: 1px; height: 37px;">&nbsp;</td>
+</tr>
+<tr style="height: 30px;">
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="background-color: #f6f9f9; height: 30px; width: 400px; text-align: center;"><span style="font-family: comic sans ms,sans-serif;"><strong><span id="Footertext.Ra1.C2" class="footer_lg"><span id="dispFooter4" class="simpletext">Танд санал хүсэлт байвал Интерактив компанийн 7777-8282 дугаарт хандана уу, эсвэл</span></span> <a href="#">энд</a> дарж и-мэйл илгээнэ үү!</strong> </span></td>
+<td style="width: 100px; background-color: #f6f9f9; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+<td style="width: 1px; height: 30px;"><span style="font-family: 'comic sans ms', sans-serif;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
