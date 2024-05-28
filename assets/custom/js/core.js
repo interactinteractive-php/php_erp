@@ -5772,6 +5772,23 @@ function qryStrToObj(str) {
         return null;
     }
 }
+function qryStrToObjUniqueKey(str) {
+    try {
+        var pairs = str.split('&');
+        var result = {};
+        pairs.forEach(function(pair) {
+            pair = pair.split('=');
+            var name = pair[0];
+            var value = pair[1];
+            if (name.length && result[name] === undefined) {
+                result[name] = value || '';
+            }
+        });
+        return (result);
+    } catch (e) {
+        return null;
+    }
+}
 function initfocusTextarea(elem) {
     var $this = $(elem);
     var $table = $this.closest('table');
