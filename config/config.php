@@ -6,7 +6,7 @@
  * @author  B.Och-Erdene
  */
 
-define('URL', getenv('URL_PROTOCOL').$_SERVER['SERVER_NAME'].'/');
+define('URL', getenv('FULL_URL'));
 define('AUTH_URL', URL);
 define('IS_AUTH_SERVER', true);
 
