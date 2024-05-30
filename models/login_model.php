@@ -426,6 +426,7 @@ class Login_Model extends Model {
         }
         
         $userRow = self::getUserRowByEmail($email);
+        pa($userRow);
         
         if ($userRow) {
             

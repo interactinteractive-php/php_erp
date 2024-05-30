@@ -28824,3 +28824,57 @@ div.texteditor_clicktoedit_tinymceInit[contenteditable]:focus {
     margin-top: 5px;
 }
 /* End - Metaverse header control style */
+
+/*start toggle button*/
+.bp-toggle-btn {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+.bp-toggle-btn input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.bp-toggle-btn-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #afafaf;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.bp-toggle-btn-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+input:checked + .bp-toggle-btn-slider {
+    background-color: rgb(100, 189, 99);
+}
+input:focus + .bp-toggle-btn-slider {
+    box-shadow: 0 0 1px rgb(100, 189, 99);
+}
+input:checked + .bp-toggle-btn-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+.bp-toggle-btn-slider.round {
+    border-radius: 26px;
+}
+.bp-toggle-btn-slider.round:before {
+    border-radius: 50%;
+}
+/*end toggle button*/
