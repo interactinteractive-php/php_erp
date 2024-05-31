@@ -424,9 +424,12 @@ class Login_Model extends Model {
         if (Session::get(SESSION_PREFIX.'security_code') != md5(sha1($captcha))) {
             $this->redirectLogin(Lang::line('Зурган дээрх код буруу байна'), $passwordResetUrl);
         }
-        
+
+        if (Input::numeric('isCustomer') == 1) {
+            WebService::$isCustomer = true;
+        }
+
         $userRow = self::getUserRowByEmail($email);
-        pa($userRow);
         
         if ($userRow) {
             
@@ -531,12 +534,17 @@ class Login_Model extends Model {
                     }
                     
                 } else {
-
+                    
                     $updateData = array(
-                        'PASSWORD_HASH' => Hash::create('sha256', $newPassword)
+                        'PASSWORD_HASH' => Hash::create('sha256', $newPassword),
                     );
 
-                    $updateResult = $this->db->AutoExecute('UM_SYSTEM_USER', $updateData, 'UPDATE', 'USER_ID = '.$systemUserId); 
+                    if (WebService::$isCustomer && issetParam($userRow['CUST_USER_ID'])) {
+                        $updateData['PASSWORD'] = Hash::create('sha256', $newPassword);
+                        $updateResult = $this->db->AutoExecute('CRM_USER', $updateData, 'UPDATE', 'CUST_USER_ID = '. $userRow['CUST_USER_ID']); 
+                    } else {
+                        $updateResult = $this->db->AutoExecute('UM_SYSTEM_USER', $updateData, 'UPDATE', 'USER_ID = '.$systemUserId); 
+                    }
 
                     if ($updateResult) {
 
@@ -630,11 +638,12 @@ class Login_Model extends Model {
         if ($getProcessCode) {
             
             $row = array();
-            $result = $this->ws->runResponse(GF_SERVICE_ADDRESS, $getProcessCode, array('email' => $email));
+            $result = $this->ws->runResponse(GF_SERVICE_ADDRESS, $getProcessCode, array('email' => $email, 'isCustomer' => WebService::$isCustomer ? '1' :'0'));
                     
             if (isset($result['result']['userid'])) {
                 $row = array(
                     'USER_ID' => $result['result']['userid'], 
+                    'CUST_USER_ID' => issetParam($result['result']['custuserid']), 
                     'USERNAME' => $result['result']['username'], 
                     'LDAP_LOGIN_NAME' => $result['result']['ldaploginname'], 
                     'LAST_NAME' => $result['result']['lastname'], 
@@ -650,6 +659,7 @@ class Login_Model extends Model {
             $row = $this->db->GetRow("
                 SELECT 
                     US.USER_ID, 
+                    '' AS CUST_USER_ID,
                     US.USERNAME, 
                     US.LDAP_LOGIN_NAME, 
                     BP.LAST_NAME, 

@@ -389,7 +389,7 @@ class Login extends Controller {
         $this->view->selectMultiDbControl = $this->model->selectMultiDbControl();
         
         if ($loginLayout && file_exists('views/login/layout/'.$loginLayout.'/password_reset.php')) {
-            
+            $this->view->selectLoginTypeControl = $this->model->selectLoginTypeControl();
             $this->view->background = $this->model->getBackgroundImagesModel();
             
             $this->view->render('login/layout/'.$loginLayout.'/header');

@@ -133,7 +133,7 @@
 }
 
 .mv-checklist2-render-parent .mv-checklist-render .meta-toolbar {
-    padding-left: 42px;
+    padding-left: 34px;
     margin-bottom: 0px !important;
     padding-bottom: 15px;
     padding-top: 15px;
@@ -141,6 +141,7 @@
 
 .sectiongidseperatorcontent-container {
     background-color: #f4f4f4;
+    margin-right: .625rem;
 }
 
 .sectiongidseperatorcontent {
@@ -176,8 +177,8 @@
 .mv-checklist-render.bp-render-checklist .bp-header-param,
 .mv_checklist_render_all.bp-render-checklist .bp-header-param {
     background-color: #fff;
-    border-bottom-right-radius: .75rem;
-    border-bottom-left-radius: .75rem;
+/*    border-bottom-right-radius: .75rem;
+    border-bottom-left-radius: .75rem;*/
 }
 
 .mv-checklist-render.bp-render-checklist .bp-header-param .input-group-btn>.btn {
@@ -290,18 +291,16 @@
 }
 
 .mv-checklist2-render-parent .kpi-ind-tmplt-section .sectiongidseperatorcontent-container div[data-section-path] {
-    margin-right: 0;
-    margin-left: 0;    
+/*    margin-right: 0;
+    margin-left: 0;    */
 }
 .mv-checklist2-render-parent .mv-checklist-main-render .kpi-ind-tmplt-section div[data-section-path] {
     margin-right: 0;
     margin-left: 0;    
 }
 .mv-checklist2-render-parent .kpi-ind-tmplt-section div[data-section-path] {
-    background-color: #fff;
-    padding: 10px 15px 5px 15px;
-    margin-right: -.625rem;
-    margin-left: -.625rem;
+/*    background-color: #fff;
+    padding: 10px 15px 5px 15px;*/
 }
 
 .mv-checklist2-render-parent .kpi-ind-tmplt-section td.stretchInput>div[data-section-path] {
@@ -318,7 +317,6 @@
     margin-top: 15px;
     border-radius: .75rem;
     padding: 15px;
-    margin-left: -.625rem;
 }
 
 .mv-checklist2-render-parent .viewer-container {
@@ -393,6 +391,7 @@
     border-bottom-left-radius: .75rem;
     border-bottom-right-radius: .75rem;
     padding-top: 20px !important;
+    overflow-x: hidden;
 }
 
 .mv-checklist2-render-parent #tnaTimeEmployeePlanWindow {
