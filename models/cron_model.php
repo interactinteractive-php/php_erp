@@ -849,15 +849,26 @@ class Cron_Model extends Model {
                             }
                         }
                         
-                        $this->db->AutoExecute('META_PROCESS_JSON', $updateData, 'UPDATE', "ID = $recordId");
-                        
-                    } else {
+                    } elseif ($indicatorId != '') {
                         
                         $_POST['kpiMainIndicatorId'] = $indicatorId;
-                        Mdform::$mvSaveParams = $param;
+                        Mdform::$mvSaveParams = Arr::changeKeyUpper($param);
                         
                         $this->load->model('mdform', 'middleware/models/');
                         $response = $this->model->saveMetaVerseDataModel();
+                        
+                        if (isset($response['status'])) {
+                            if ($response['status'] == 'success') {
+                                $updateData = ['STATUS' => 'success', 'ERROR_MESSAGE' => null];
+                            } else {
+                                $updateData = ['STATUS' => 'error', 'ERROR_MESSAGE' => $response['message']];
+                            }
+                        }
+                    }
+                    
+                    if (isset($updateData)) {
+                        
+                        $this->db->AutoExecute('META_PROCESS_JSON', $updateData, 'UPDATE', "ID = $recordId");
                     }
                 }
                 
