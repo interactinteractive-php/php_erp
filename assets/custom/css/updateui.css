@@ -142,6 +142,7 @@
 .sectiongidseperatorcontent-container {
     background-color: #f4f4f4;
     margin-right: .625rem;
+    margin-left: .625rem;
 }
 
 .sectiongidseperatorcontent {
@@ -311,12 +312,22 @@
 }
 
 .mv-checklist-section-sidebar {
-    flex: 0 0 250px;
+    flex: 0 0 280px;
     border-right: 1px solid #eee;
     background-color: #fff;
-    margin-top: 15px;
+    margin-top: 0px;
     border-radius: .75rem;
-    padding: 15px;
+    /*padding: 15px;*/
+    padding-top: 10px;
+}
+.mv-checklist-section-sidebar > div > div.active {
+    background-color: #1b84ff54;  
+}
+.mv-checklist-section-sidebar > div > div {
+    padding: 5px 15px 5px 15px;    
+}
+.mv-checklist-section-sidebar > div > div:not(.active):hover {
+    background-color: #f5f5f5;
 }
 
 .mv-checklist2-render-parent .viewer-container {
@@ -460,4 +471,10 @@
     line-height: 90px;
     text-align: center;
     color: #ddd;
+}
+
+.mv-checklist2-render-parent div[data-bp-detail-container] {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
 }

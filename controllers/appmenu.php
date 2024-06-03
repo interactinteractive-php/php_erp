@@ -190,8 +190,6 @@ class Appmenu extends Controller {
         $this->view->js = AssetNew::metaOtherJs();
         
         $this->view->fullUrlJs = AssetNew::amChartJs();
-        $this->view->schoolModule = (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER && $menuMetaDataId === '1472020137986652') ? true : false;
-        
         $this->view->contentHtml = null;
         
         if ($contentId != '') {
@@ -234,6 +232,10 @@ class Appmenu extends Controller {
             }
         }
         
+        if (Input::isEmptyGet('kmid') == false) {
+            $this->view->firstMenuOpen = Input::get('kmid');
+        }
+        
         $this->view->render('header');
         $this->view->render('appmenu/module');
         $this->view->render('footer');     
@@ -246,7 +248,6 @@ class Appmenu extends Controller {
         $this->view->js = AssetNew::metaOtherJs();
         
         $this->view->fullUrlJs = AssetNew::amChartJs();
-        $this->view->schoolModule = (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER && $menuMetaDataId === '1472020137986652') ? true : false;
         
         $_POST['indicatorId'] = $id;
         ob_start();
@@ -494,7 +495,10 @@ class Appmenu extends Controller {
         $this->view->js = AssetNew::metaOtherJs();
         
         $this->view->menuList = $this->model->getKpiIndicatorMenuModel();
-        
+
+        /* $this->view->css = AssetNew::metaCss(); */
+        $this->view->js = AssetNew::metaOtherJs();
+
         if ($this->view->menuList) {
             
             $this->load->model('appmenu');

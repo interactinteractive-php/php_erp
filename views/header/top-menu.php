@@ -331,13 +331,8 @@ $.extend($.fn.treegrid.defaults, {filterOnlyEnterKey: <?php echo Config::getFrom
 //                echo Mduser::systemModeActions();
                 echo Info::getDbName();
                 echo (new Mdmeta)->topMetaLimitMenuRenderByService(true, 'close_all'); 
-
-                if (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER) {
-                    echo Info::getSemisterAcademicPlan() . Info::fiscalPeriodNewV2();
-                } else {
-                    echo Info::fiscalPeriodNewV2();
-                }
-
+                
+                echo Info::fiscalPeriodNewV2();
                 echo Info::chooseEaScenario();
                 echo Lang::getActiveLanguage(); 
                 ?>

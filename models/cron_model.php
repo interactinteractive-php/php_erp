@@ -855,6 +855,42 @@ class Cron_Model extends Model {
                         Mdform::$mvSaveParams = Arr::changeKeyUpper($param);
                         
                         $this->load->model('mdform', 'middleware/models/');
+                        
+                        if (isset(Mdform::$mvSaveParams['SETROWWFMSTATUS'])) {
+                            
+                            $wfmStatusParams = Arr::changeKeyLower(Mdform::$mvSaveParams['SETROWWFMSTATUS']);
+                            
+                            if (isset($wfmStatusParams['systemmetagroupid']) && isset($wfmStatusParams['newwfmstatusid']) && isset($wfmStatusParams['wfmstatusid'])) {
+                                
+                                $currentStatusId = $wfmStatusParams['wfmstatusid'];
+                                $newWfmStatusId  = $wfmStatusParams['newwfmstatusid'];
+                                
+                                unset($wfmStatusParams['wfmstatusid']);
+                                unset($wfmStatusParams['newwfmstatusid']);
+                                
+                                $wfmStatusParams['wfmstatusid'] = $newWfmStatusId;
+                                $wfmStatusParams['currentwfmstatusid'] = $currentStatusId;
+                                
+                                if (isset($wfmStatusParams['iskpiindicator']) && $wfmStatusParams['iskpiindicator'] == '1') {
+                                    $wfmStatusParams['mainindicatorid'] = $wfmStatusParams['systemmetagroupid'];
+                                    unset($wfmStatusParams['systemmetagroupid']);
+                                }
+                                
+                                $wfmStatusParams['datarow'] = $wfmStatusParams;
+                                $wfmStatusParams['datarow']['wfmstatusid'] = $currentStatusId;
+                                
+                                unset($wfmStatusParams['datarow']['currentwfmstatusid']);
+                                unset($wfmStatusParams['datarow']['newwfmstatusid']);
+                                unset($wfmStatusParams['datarow']['mainindicatorid']);
+                                unset($wfmStatusParams['datarow']['systemmetagroupid']);
+                                unset($wfmStatusParams['datarow']['iskpiindicator']);
+                                
+                                $_POST['wfmStatusParams'] = json_encode($wfmStatusParams, JSON_UNESCAPED_UNICODE);
+                            }
+                            
+                            unset(Mdform::$mvSaveParams['SETROWWFMSTATUS']);
+                        }
+                        
                         $response = $this->model->saveMetaVerseDataModel();
                         
                         if (isset($response['status'])) {

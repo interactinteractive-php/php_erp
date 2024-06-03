@@ -158,19 +158,7 @@ if (Input::getCheck('mmid')) {
                 <ul class="nav navbar-nav d-flex align-items-center">
                     <?php
                     echo Info::getDbName();
-                    
-                    if (defined('CONFIG_SCHOOL_SEMISTER') && CONFIG_SCHOOL_SEMISTER) {
-                        $cache = phpFastCache();
-
-                        $appMenuCache = $cache->get('appmenu_' . Ue::sessionUserId());
-                        if ($appMenuCache['menuId'] == '1472020137986652' || (isset($this->schoolModule) && $this->schoolModule)) {
-                            echo Info::getSemisterAcademicPlan();
-                        } else {
-                            echo Info::fiscalPeriodNewV2();
-                        }
-                    } else {
-                        echo Info::fiscalPeriodNewV2();
-                    }
+                    echo Info::fiscalPeriodNewV2();
 
                     echo (new Mdalert())->showAlertListForHdr();
                     echo (new Mdnotification())->showNotificationListForHdrNew();

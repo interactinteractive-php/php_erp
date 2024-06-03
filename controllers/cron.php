@@ -204,7 +204,7 @@ class Cron extends Controller {
     
     public function clearKpiIndicatorCache($mode) {
         $response = $this->model->clearKpiIndicatorCacheModel($mode);
-        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        convJson($response);
     }
     
     public function jsonToProcess() {
