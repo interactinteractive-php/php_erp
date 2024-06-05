@@ -540,7 +540,7 @@ class Login_Model extends Model {
                     );
 
                     if (WebService::$isCustomer && issetParam($userRow['CUST_USER_ID'])) {
-                        $updateData['PASSWORD'] = Hash::create('sha256', $newPassword);
+                        $updateData['PASSWORD'] = $newPassword;
                         $updateResult = $this->db->AutoExecute('CRM_USER', $updateData, 'UPDATE', 'CUST_USER_ID = '. $userRow['CUST_USER_ID']); 
                     } else {
                         $updateResult = $this->db->AutoExecute('UM_SYSTEM_USER', $updateData, 'UPDATE', 'USER_ID = '.$systemUserId); 

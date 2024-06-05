@@ -156,57 +156,6 @@ class Profile extends Controller {
         Message::add('s', '', URL . 'profile/userKeyChoose');
     }
 
-    public function changeAcademicYear() {
-        
-        $yearId = Input::post('yearId');
-
-        $semisterAcademicList = Info::getSemisterSubjectPlan($yearId);
-
-        if ($semisterAcademicList) {
-            Session::init();
-            Session::set(SESSION_PREFIX . 'academicYearId', $yearId);
-
-            echo $semisterAcademicList;
-        }
-    }
-
-    public function changecheckSemisterYear() {
-
-        Session::init();
-
-        $userKeyId = Ue::sessionUserKeyId();
-        $childId = Input::post('childId');
-        
-        $userRow = $this->db->GetRow("
-            SELECT 
-                PU.ID AS PID,  
-                FP.SEMISTER_PLAN_ID
-            FROM CAM_SEMISTER_PLAN_USER PU 
-                INNER JOIN CAM_SEMISTER_PLAN FP ON FP.SEMISTER_PLAN_ID = PU.SEMISTER_PLAN_ID 
-            WHERE PU.USER_ID = $userKeyId  
-            ORDER BY PU.CREATED_DATE DESC");
-
-        if ($userRow) {
-            $data = array(
-                'SEMISTER_PLAN_ID' => $childId,
-                'CREATED_DATE' => Date::currentDate()
-            );
-            $this->db->AutoExecute("CAM_SEMISTER_PLAN_USER", $data, "UPDATE", "ID = " . $userRow['PID']);
-        } else {
-            $data = array(
-                'ID' => getUID(),
-                'SEMISTER_PLAN_ID' => $childId,
-                'USER_ID' => $userKeyId,
-                'CREATED_DATE' => Date::currentDate()
-            );
-            $this->db->AutoExecute("CAM_SEMISTER_PLAN_USER", $data);
-        }
-
-        Session::set(SESSION_PREFIX . 'semisterYear', $childId);
-
-        echo json_encode(array('semisterYear' => $childId));
-    }
-
     public function changeScenario() {
         $id = Input::numeric('id');
 

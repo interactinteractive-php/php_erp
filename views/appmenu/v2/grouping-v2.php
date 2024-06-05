@@ -170,11 +170,6 @@
                                 $cards[] = '</div>';
                                 $cards[] = '<div class="vr-menu-title">';
                                     $cards[] = '<div class="vr-menu-row'.(issetParam($row['menucode']) ? ' vr-menu-row-mcode' : '').'">';
-                                        if (issetParam($row['menucode'])) {
-                                            $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true">' . issetParam($row['menucode']) . '</div>';
-                                        } else {
-                                            $cards[] = '<div class="vr-menu-code mt6" style="'.$appInfoTextStyle.'" data-app-code="true"></div>';                                            
-                                        }   
                                         $cards[] = '<div class="vr-menu-name" data-app-name="true" style="'.$appInfoTextStyle.'">' . $this->lang->line($row['name']) . '</div>';
                                     $cards[] = '</div>';
                                 $cards[] = '</div>';

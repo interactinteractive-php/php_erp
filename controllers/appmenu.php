@@ -248,6 +248,7 @@ class Appmenu extends Controller {
         $this->view->js = AssetNew::metaOtherJs();
         
         $this->view->fullUrlJs = AssetNew::amChartJs();
+        $this->view->getResetUser = false;
         
         $_POST['indicatorId'] = $id;
         ob_start();

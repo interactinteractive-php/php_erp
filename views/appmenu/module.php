@@ -3,7 +3,7 @@
 <script type="text/javascript">
 $(function(){  
 
-    <?php if ($this->getResetUser) { ?>
+    <?php if (issetParam($this->getResetUser)) { ?>
         var $dialogName = 'dialog-user-startup-resetpassword';
         if (!$('#' + $dialogName).length) {
             $('<div id="' + $dialogName + '" class="display-none"></div>').appendTo('body');

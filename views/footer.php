@@ -10,8 +10,10 @@
         </div>
         <ul class="nav nav-sidebar"></ul>
     </div>
-    <?php $vappMenu =  (new Mdmeta)->sidebarMetaLimitMenuRenderByService(true, 'close_all'); ?>
-    <?php if ($vappMenu) { ?>
+    <?php 
+    $vappMenu = (new Mdmeta)->sidebarMetaLimitMenuRenderByService(true, 'close_all'); 
+    if ($vappMenu) { 
+    ?>
         <div class="veri-app-engage veri-app-engage-hide" id="kt_app_engage">  
             <a href="javascript:;" class="veri-app-engage-btn veri-app-engage-btn-toggle-off text-hover-primary p-0">			
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,10 +29,12 @@
             </a>        
             <?php echo $vappMenu; ?>
         </div>    
-    <?php } ?>
+    <?php 
+    } 
+    ?>
 </div>
 <?php
-if (Config::getFromCache('USE_CHAT') && Ue::isUseChat() && Config::getFromCache('isUseWebSocket')) {
+if (Config::getFromCache('USE_CHAT') && Config::getFromCache('isUseWebSocket') && Ue::isUseChat()) {
     require_once 'chat/client/main.php';
 } 
 ?>
