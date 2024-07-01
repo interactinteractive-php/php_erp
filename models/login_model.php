@@ -1980,13 +1980,14 @@ class Login_Model extends Model {
                 
                 $umUserData = [
                     'USER_ID'                  => $userId, 
-                    'SYSTEM_USER_ID'           => $systemUserId,
-                    'USERNAME'                 => $customerEmail,
+                    'SYSTEM_USER_ID'           => $systemUserId, 
+                    'USERNAME'                 => $customerEmail, 
                     'IS_MOBILE'                => 1, 
                     'IS_MOBILE_DEFAULT'        => 1, 
-                    'IS_USE_FOLDER_PERMISSION' => 1,
+                    'IS_USE_FOLDER_PERMISSION' => 1, 
                     'IS_ACTIVE'                => 1, 
                     'IS_MAIN'                  => 1, 
+                    'DEPARTMENT_ID'            => 1, 
                     'CREATED_USER_ID'          => 1, 
                     'CREATED_DATE'             => $currentDate
                 ];
@@ -1995,6 +1996,15 @@ class Login_Model extends Model {
                 
                 $this->db->AutoExecute('ORG_DEPARTMENT', ['DEPARTMENT_NAME' => $customerName, 'CLOUD_DEPARTMENT_ID' => $departmentId, 'CUSTOMER_ID' => $customerId], 'UPDATE', 'DEPARTMENT_ID = 1');
                 $this->db->AutoExecute('FIN_EXPENSE_CENTER', ['NAME' => $customerName], 'UPDATE', 'ID = 1');
+                
+                $orgDepartmentDtlData = [
+                    'DEPARTMENT_DTL_ID' => 1, 
+                    'DEPARTMENT_ID'     => 1, 
+                    'IS_COST_CENTER'    => 1, 
+                    'IS_EXPENSE_CENTER' => 1
+                ];
+                
+                $this->db->AutoExecute('ORG_DEPARTMENT_DTL', $orgDepartmentDtlData);
                 
                 $checkAlreadyLicenseKey = [];
                 
@@ -2078,11 +2088,7 @@ class Login_Model extends Model {
                 
                 $mdb->Close();
                 
-                $this->deleteSessionDatabaseConnection();
                 $this->db->CommitTrans();
-                
-                Session::set(SESSION_PREFIX.'isUseMultiDatabase', true);
-                $this->setSessionDatabaseConnection(null, $connectionId);
 
                 $this->load->model('mdlanguage', 'middleware/models/');
                 $this->model->generateLanguageFileModel();
@@ -2095,7 +2101,7 @@ class Login_Model extends Model {
                 $response = ['status' => 'success', 'message' => 'Бүртгэл амжилттай боллоо та нэвтрэх товчийг дарж нэвтэрнэ үү.'];
                 
             } else {
-                throw new Exception('Token is wrong!');
+                throw new Exception('Customer, role data is not found!');
             }
             
         } catch (Exception $ex) {

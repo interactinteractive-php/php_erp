@@ -958,13 +958,16 @@ class Cron_Model extends Model {
                 $currentDate        = Date::currentDate();
                 $customerGroupId    = 17141037295452;
                 $finInvoiceStatusId = 1711607981610470;
+                $finInvoiceStrId    = 1711607546700352;
                 $apiEnvironmentId   = 1711935661499533;
                 $ntfNotificationId  = 17116810804369;
                 $dbType             = 'postgre';
                 $dbPort             = '5432';
                 $dbServiceName      = 'cloud_platform_uat';
-                $dbUserName         = 'cloud_client';
-                $dbUserPass         = '2sfu{r21>EaTF%kU';
+                /*$dbUserName         = 'cloud_client';
+                $dbUserPass         = '2sfu{r21>EaTF%kU';*/
+                $dbUserName         = 'dummy';
+                $dbUserPass         = 'Test123';
                 
                 $idPh               = $this->db->Param(0);
                 $idTwoPh            = $this->db->Param(1);
@@ -1011,7 +1014,7 @@ class Cron_Model extends Model {
                     
                     $wfmLogData = [
                         'ID'               => getUIDAdd($b), 
-                        'REF_STRUCTURE_ID' => 1711607546700352, 
+                        'REF_STRUCTURE_ID' => $finInvoiceStrId, 
                         'RECORD_ID'        => $invoiceId, 
                         'WFM_STATUS_ID'    => $finInvoiceStatusId, 
                         'WFM_DESCRIPTION'  => 'Төлбөр баталгаажиж эрх нээгдэв.', 
@@ -1103,6 +1106,7 @@ class Cron_Model extends Model {
                             $licenseStartDate = $packageProductRow['START_DATE'];
                             $licenseEndDate   = $packageProductRow['END_DATE'];
                             $licenseDataCount = 1;
+                            $licenseNumber    = '';
                             
                             $licenseKeyData = [
                                 'LICENSE_KEY_ID'  => getUIDAdd(($b + 4).$p), 
@@ -1111,6 +1115,7 @@ class Cron_Model extends Model {
                                 'CONTRACT_ID'     => $contractId, 
                                 'LICENSE_TYPE_ID' => $licenseTypeId, 
                                 'LICENSE_QTY'     => $licenseQty, 
+                                'LICENSE_NUMBER'  => $licenseNumber, 
                                 'DATA_COUNT'      => $licenseDataCount, 
                                 'START_DATE'      => $licenseStartDate, 
                                 'END_DATE'        => $licenseEndDate, 
@@ -1219,7 +1224,7 @@ class Cron_Model extends Model {
                     
                     $this->db->CommitTrans();
                     
-                    sleep(50);
+                    sleep(60);
                     
                     $this->load->model('login');
                 
