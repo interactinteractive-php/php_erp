@@ -1209,7 +1209,7 @@ class Login_Model extends Model {
         }
     }
 
-    private function setSessionDatabaseConnection($redirectUrl = null, $connectionId = null) {
+    public function setSessionDatabaseConnection($redirectUrl = null, $connectionId = null) {
         
         if ($connectionId && is_numeric($connectionId)) { 
             $_POST['dbName'] = Crypt::encrypt($connectionId, 'db00x');
@@ -1948,10 +1948,12 @@ class Login_Model extends Model {
                 Session::set(SESSION_PREFIX.'isUseMultiDatabase', true);
                 $this->setSessionDatabaseConnection(null, $connectionId);
                 
+                $this->db->BeginTrans(); 
+                
                 $basePersonData = [
                     'PERSON_ID'    => $personId, 
                     'FIRST_NAME'   => $customerName,
-                    'LAST_NAME'    => null,
+                    'LAST_NAME'    => 'н',
                     'IS_ACTIVE'    => 1, 
                     'FIRST_EMAIL'  => $customerEmail, 
                     'FIRST_PHONE'  => $customerPhone, 
@@ -1985,12 +1987,13 @@ class Login_Model extends Model {
                     'IS_USE_FOLDER_PERMISSION' => 1,
                     'IS_ACTIVE'                => 1, 
                     'IS_MAIN'                  => 1, 
+                    'CREATED_USER_ID'          => 1, 
                     'CREATED_DATE'             => $currentDate
                 ];
                 
                 $this->db->AutoExecute('UM_USER', $umUserData);
                 
-                $this->db->AutoExecute('ORG_DEPARTMENT', ['DEPARTMENT_NAME' => $customerName, 'CLOUD_DEPARTMENT_ID' => $departmentId], 'UPDATE', 'DEPARTMENT_ID = 1');
+                $this->db->AutoExecute('ORG_DEPARTMENT', ['DEPARTMENT_NAME' => $customerName, 'CLOUD_DEPARTMENT_ID' => $departmentId, 'CUSTOMER_ID' => $customerId], 'UPDATE', 'DEPARTMENT_ID = 1');
                 $this->db->AutoExecute('FIN_EXPENSE_CENTER', ['NAME' => $customerName], 'UPDATE', 'ID = 1');
                 
                 $checkAlreadyLicenseKey = [];
@@ -2012,10 +2015,11 @@ class Login_Model extends Model {
                     if (!isset($checkAlreadyLicenseKey[$licenseKeyId])) {
                         
                         $sysLicenseUser = [
-                            'ID'             => getUIDAdd($c), 
-                            'LICENSE_KEY_ID' => $licenseKeyId, 
-                            'SYSTEM_USER_ID' => $systemUserId, 
-                            'CREATED_DATE'   => $currentDate
+                            'ID'              => getUIDAdd($c), 
+                            'LICENSE_KEY_ID'  => $licenseKeyId, 
+                            'SYSTEM_USER_ID'  => $systemUserId, 
+                            'CREATED_USER_ID' => 1, 
+                            'CREATED_DATE'    => $currentDate
                         ];
                         $this->db->AutoExecute('SYS_LICENSE_USER', $sysLicenseUser);
                         
@@ -2035,36 +2039,71 @@ class Login_Model extends Model {
 
                 $mdb->SetCharSet(DB_CHATSET);
                 
-                $mdb->AutoExecute('BASE_PERSON', $basePersonData);
-                $mdb->AutoExecute('UM_SYSTEM_USER', $umSystemUserData);
-                $mdb->AutoExecute('UM_USER', $umUserData);
+                try {
+                    
+                    $mdb->BeginTrans();
+                    
+                    $mdb->AutoExecute('BASE_PERSON', $basePersonData);
+                    $mdb->AutoExecute('UM_SYSTEM_USER', $umSystemUserData);
+                    $mdb->AutoExecute('UM_USER', $umUserData);
+
+                    $connectionUserMap = [
+                        'ID'             => getUID(), 
+                        'SYSTEM_USER_ID' => $systemUserId,
+                        'CONNECTION_ID'  => $connectionId,
+                        'IS_ACTIVE'      => 1, 
+                        'CREATED_DATE'   => $currentDate
+                    ];
+
+                    $mdb->AutoExecute('MDM_CONNECTIONS_USER_MAP', $connectionUserMap);
+
+                    foreach ($checkAlreadyLicenseKey as $checkAlreadyLicenseKeyRow) {
+                        $mdb->AutoExecute('SYS_LICENSE_USER', $checkAlreadyLicenseKeyRow);
+                    }
+
+                    $mdb->CommitTrans();
                 
-                $connectionUserMap = [
-                    'ID'             => getUID(), 
-                    'SYSTEM_USER_ID' => $systemUserId,
-                    'CONNECTION_ID'  => $connectionId,
-                    'IS_ACTIVE'      => 1, 
-                    'CREATED_DATE'   => $currentDate
-                ];
-                
-                $mdb->AutoExecute('MDM_CONNECTIONS_USER_MAP', $connectionUserMap);
-                
-                foreach ($checkAlreadyLicenseKey as $checkAlreadyLicenseKeyRow) {
-                    $mdb->AutoExecute('SYS_LICENSE_USER', $checkAlreadyLicenseKeyRow);
+                } catch (Exception $ex) {
+                    
+                    $exceptionMessage = $ex->getMessage();
+                    $this->deleteSessionDatabaseConnection();
+                    
+                    $this->db->RollbackTrans();
+                    
+                    $mdb->RollbackTrans();
+                    $mdb->Close();
+                    
+                    return ['status' => 'error', 'message' => 'master error - ' . $exceptionMessage];
                 }
                 
                 $mdb->Close();
                 
                 $this->deleteSessionDatabaseConnection();
-                $response['message'] = 'Бүртгэл амжилттай боллоо та нэвтрэх товчийг дарж нэвтэрнэ үү.';
+                $this->db->CommitTrans();
+                
+                Session::set(SESSION_PREFIX.'isUseMultiDatabase', true);
+                $this->setSessionDatabaseConnection(null, $connectionId);
+
+                $this->load->model('mdlanguage', 'middleware/models/');
+                $this->model->generateLanguageFileModel();
+                
+                $this->deleteSessionDatabaseConnection();
+                
+                $this->load->model('mdmeta', 'middleware/models/');
+                $this->model->serviceReloadConfigModel();
+                
+                $response = ['status' => 'success', 'message' => 'Бүртгэл амжилттай боллоо та нэвтрэх товчийг дарж нэвтэрнэ үү.'];
                 
             } else {
                 throw new Exception('Token is wrong!');
             }
             
         } catch (Exception $ex) {
+            
             $this->deleteSessionDatabaseConnection();
-            $response = ['status' => 'error', 'message' => $ex->getMessage()];
+            $this->db->RollbackTrans();
+            
+            $response = ['status' => 'error', 'message' => 'customer error - ' . $ex->getMessage()];
         }
         
         return $response;

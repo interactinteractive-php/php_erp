@@ -924,6 +924,8 @@ class Cron_Model extends Model {
     
     public function cloudDbPrepareModel() {
         
+        $logDtl = [];
+        
         try {
             
             $bankBillingData = $this->db->GetAll("
@@ -955,7 +957,7 @@ class Cron_Model extends Model {
                 
                 $currentDate        = Date::currentDate();
                 $customerGroupId    = 17141037295452;
-                $finInvoiceStatusId = 1712908080417136;
+                $finInvoiceStatusId = 1711607981610470;
                 $apiEnvironmentId   = 1711935661499533;
                 $ntfNotificationId  = 17116810804369;
                 $dbType             = 'postgre';
@@ -965,6 +967,7 @@ class Cron_Model extends Model {
                 $dbUserPass         = '2sfu{r21>EaTF%kU';
                 
                 $idPh               = $this->db->Param(0);
+                $idTwoPh            = $this->db->Param(1);
                 $emailTemplateRow   = self::getCloudPrepareEmailTemplate($idPh, $ntfNotificationId);
                 
                 if (!$emailTemplateRow) {
@@ -1005,6 +1008,18 @@ class Cron_Model extends Model {
                     ];
                     
                     $this->db->AutoExecute('FIN_INVOICE', $finInvoiceChangeStatusData, 'UPDATE', "INVOICE_ID = $invoiceId");
+                    
+                    $wfmLogData = [
+                        'ID'               => getUIDAdd($b), 
+                        'REF_STRUCTURE_ID' => 1711607546700352, 
+                        'RECORD_ID'        => $invoiceId, 
+                        'WFM_STATUS_ID'    => $finInvoiceStatusId, 
+                        'WFM_DESCRIPTION'  => 'Төлбөр баталгаажиж эрх нээгдэв.', 
+                        'CREATED_USER_ID'  => 1, 
+                        'CREATED_DATE'     => $currentDate
+                    ];
+                    
+                    $this->db->AutoExecute('META_WFM_LOG', $wfmLogData);
                     
                     $customerId = getUIDAdd($b + 1);
                     $customerData = [
@@ -1100,23 +1115,24 @@ class Cron_Model extends Model {
                                 'START_DATE'      => $licenseStartDate, 
                                 'END_DATE'        => $licenseEndDate, 
                                 'IS_ACTIVE'       => 1, 
+                                'CREATED_USER_ID' => 1, 
                                 'CREATED_DATE'    => $currentDate
                             ];
                             
                             $this->db->AutoExecute('SYS_LICENSE_KEY', $licenseKeyData);
                         }
                         
-                        $apiEnvironmentData = self::getApiEnvironment($idPh, $apiEnvironmentId); 
+                        $apiEnvironmentData = self::getApiEnvironment($idPh, $idTwoPh, $apiEnvironmentId, 'request'); 
                         
                         if ($apiEnvironmentData) {
                             
                             foreach ($apiEnvironmentData as $apiEnvironmentRow) {
                                 
+                                $apiDbRun    = true;
                                 $apiUrl      = $apiEnvironmentRow['URL'];
                                 $apiAuthType = $apiEnvironmentRow['AUTHORIZATION_TYPE'];
                                 $apiToken    = $apiEnvironmentRow['TOKEN'];
                                 $apiJson     = $apiEnvironmentRow['JSON_CONFIG'];
-                                $apiJson     = str_replace('\"', '"', $apiJson);
                                 $apiJson     = str_replace('{{DOMAIN}}', $domainName, $apiJson);
                                 
                                 $curl = curl_init();
@@ -1155,6 +1171,15 @@ class Cron_Model extends Model {
                                         $result = json_decode($response, true);
 
                                         if (isset($result['status']) && is_string($result['status']) && (stripos($result['status'], 'fail') !== false)) {
+                                            
+                                            $logDtl[] = [
+                                                'apiName'  => 'ssystems', 
+                                                'apiUrl'   => $apiUrl, 
+                                                'apiToken' => $apiAuthType.' '.$apiToken, 
+                                                'apiJson'  => $apiJson, 
+                                                'apiResponse' => $result['status']
+                                            ];
+                                            
                                             throw new Exception('api - '.$result['status']); 
                                         }
                                         
@@ -1178,6 +1203,7 @@ class Cron_Model extends Model {
                     $emailSubject      = html_entity_decode($emailSubject, ENT_QUOTES, 'UTF-8');
                     $emailTemplate     = $emailTemplateRow['MESSAGE'];
                     $emailTemplate     = html_entity_decode($emailTemplate, ENT_QUOTES, 'UTF-8');
+                    $emailTemplate     = str_replace('[domain]', 'cloud.veritech.mn', $emailTemplate);
                     $emailTemplate     = str_replace('[passcode]', $encryptCustomerId, $emailTemplate);
                     
                     $mailResult = Mail::sendPhpMailer([
@@ -1192,7 +1218,23 @@ class Cron_Model extends Model {
                     }
                     
                     $this->db->CommitTrans();
+                    
+                    sleep(50);
+                    
+                    $this->load->model('login');
+                
+                    Session::set(SESSION_PREFIX.'isUseMultiDatabase', true);
+                    $this->model->setSessionDatabaseConnection(null, $connectionId);
+
+                    $this->load->model('mdlanguage', 'middleware/models/');
+                    $this->model->generateLanguageFileModel();
                 }
+                
+                $this->load->model('login');
+                $this->model->deleteSessionDatabaseConnection();
+                
+                $this->load->model('mdmeta', 'middleware/models/');
+                $this->model->serviceReloadConfigModel();
                 
                 $result = ['status' => 'success'];
                 
@@ -1203,13 +1245,65 @@ class Cron_Model extends Model {
         } catch (Exception $ex) {
             
             $this->db->RollbackTrans();
-            $result = ['status' => 'error', 'message' => $ex->getMessage()];
+            $exceptionMessage = $ex->getMessage();
+            
+            if (isset($apiDbRun)) {
+                $apiEnvironmentData = self::getApiEnvironment($idPh, $idTwoPh, $apiEnvironmentId, 'rollback'); 
+                
+                if ($apiEnvironmentData) {
+                            
+                    foreach ($apiEnvironmentData as $apiEnvironmentRow) {
+
+                        $apiUrl      = $apiEnvironmentRow['URL'];
+                        $apiAuthType = $apiEnvironmentRow['AUTHORIZATION_TYPE'];
+                        $apiToken    = $apiEnvironmentRow['TOKEN'];
+                        $apiJson     = $apiEnvironmentRow['JSON_CONFIG'];
+                        $apiJson     = str_replace('{{DOMAIN}}', $domainName, $apiJson);
+
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, [
+                            CURLOPT_URL => $apiUrl,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 30,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_SSL_VERIFYHOST => false,
+                            CURLOPT_SSL_VERIFYPEER => false,
+                            CURLOPT_POST => true,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS => $apiJson,
+                            CURLOPT_HTTPHEADER => [
+                                'Content-Type: application/json;charset=UTF-8',
+                                'Authorization: '.$apiAuthType.' '.$apiToken
+                            ] 
+                        ]);
+
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+                    }
+                }
+            }
+            
+            if (!$logDtl) {
+                $logDtl[] = [
+                    'apiName'     => 'ssystems', 
+                    'apiUrl'      => 'PHP - cloudDbPrepare', 
+                    'apiToken'    => null, 
+                    'apiJson'     => null, 
+                    'apiResponse' => $exceptionMessage
+                ];
+            }
+            
+            self::createApiLog($logDtl);
+            
+            $result = ['status' => 'error', 'message' => $exceptionMessage];
         }
         
         return $result;
     }
     
-    public function getApiEnvironment($idPh, $id) {
+    public function getApiEnvironment($idPh, $idTwoPh, $id, $typeName) {
         
         $data = $this->db->GetAll("
             SELECT 
@@ -1224,7 +1318,8 @@ class Cron_Model extends Model {
                 T0.JSON_CONFIG 
             FROM API_DETAIL_INFO T0 
                 INNER JOIN API_ENVIRONMENT T1 ON T1.ID = T0.API_ENVIRONMENT_ID 
-            WHERE T0.API_ENVIRONMENT_ID = $idPh", [$id]
+            WHERE T0.API_ENVIRONMENT_ID = $idPh 
+                AND LOWER(T0.TYPE_NAME) = $idTwoPh", [$id, strtolower($typeName)]
         );
         
         return $data;
@@ -1244,6 +1339,28 @@ class Cron_Model extends Model {
         );
         
         return $row;
+    }
+    
+    public function createApiLog($logDtl) {
+        try {
+            
+            foreach ($logDtl as $l => $logRow) {
+                
+                $logData = [
+                    'ID'               => getUIDAdd($l), 
+                    'WEB_SERVICE_NAME' => $logRow['apiName'], 
+                    'WEB_SERVICE_URL'  => $logRow['apiUrl'], 
+                    'PARAMETER_DE'     => $logRow['apiToken'],
+                    'RESPONSE_STRING'  => $logRow['apiResponse'], 
+                    'CREATED_DATE'     => Date::currentDate()
+                ];
+                $this->db->AutoExecute('SYSINT_SERVICE_METHOD_LOG', $logData);
+                $this->db->UpdateClob('SYSINT_SERVICE_METHOD_LOG', 'REQUEST_STRING', issetParam($logRow['apiJson']), 'ID = '.$logData['ID']);
+            }
+            
+        } catch (Exception $ex) { }
+        
+        return true;
     }
 
 }
